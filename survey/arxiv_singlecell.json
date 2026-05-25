@@ -1,0 +1,440 @@
+[
+  {
+    "arxiv_id": "2506.13817",
+    "title": "DeepSeq: High-Throughput Single-Cell RNA Sequencing Data Labeling via Web Search-Augmented Agentic Generative AI Foundation Models",
+    "authors": "Saleem A. Al Dajani, Abel Sanchez, John R. Williams",
+    "year": 2025,
+    "published": "2025-06-14T23:30:22Z",
+    "abstract": "Generative AI foundation models offer transformative potential for processing structured biological data, particularly in single-cell RNA sequencing, where datasets are rapidly scaling toward billions of cells. We propose the use of agentic foundation models with real-time web search to automate the labeling of experimental data, achieving up to 82.5% accuracy. This addresses a key bottleneck in supervised learning for structured omics data by increasing annotation throughput without manual curation and human error. Our approach enables the development of virtual cell foundation models capable of downstream tasks such as cell-typing and perturbation prediction. As data volume grows, these models may surpass human performance in labeling, paving the way for reliable inference in large-scale perturbation screens. This application demonstrates domain-specific innovation in health monitoring and diagnostics, aligned with efforts like the Human Cell Atlas and Human Tumor Atlas Network.",
+    "categories": [
+      "q-bio.GN",
+      "cs.AI",
+      "cs.LG",
+      "cs.SE",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.13817v1",
+    "url": "http://arxiv.org/abs/2506.13817v1"
+  },
+  {
+    "arxiv_id": "2004.02069",
+    "title": "Single-cell protein analysis by mass-spectrometry",
+    "authors": "Nikolai Slavov",
+    "year": 2020,
+    "published": "2020-04-05T02:05:20Z",
+    "abstract": "Human physiology and pathology arise from the coordinated interactions of diverse single cells. However, analyzing single cells has been limited by the low sensitivity and throughput of analytical methods. DNA sequencing has recently made such analysis feasible for nucleic acids, but single-cell protein analysis remains limited. Mass-spectrometry is the most powerful method for protein analysis, but its application to single cells faces three major challenges: Efficiently delivering proteins/peptides to MS detectors, identifying their sequences, and scaling the analysis to many thousands of single cells. These challenges have motivated corresponding solutions, including SCoPE-design multiplexing and clean, automated, and miniaturized sample preparation. Synergistically applied, these solutions enable quantifying thousands of proteins across many single cells and establish a solid foundation for further advances. Building upon this foundation, the SCoPE concept will enable analyzing subcellular organelles and post-translational modifications while increases in multiplexing capabilities will increase the throughput and decrease cost.",
+    "categories": [
+      "q-bio.QM",
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2004.02069v3",
+    "url": "http://arxiv.org/abs/2004.02069v3"
+  },
+  {
+    "arxiv_id": "2311.04567",
+    "title": "CellPhoneDB v5: inferring cell-cell communication from single-cell multiomics data",
+    "authors": "Kevin Troulé, Robert Petryszak, Martin Prete et al.",
+    "year": 2023,
+    "published": "2023-11-08T09:59:03Z",
+    "abstract": "Cell-cell communication is essential for tissue development, regeneration and function, and its disruption can lead to diseases and developmental abnormalities. The revolution of single-cell genomics technologies offers unprecedented insights into cellular identities, opening new avenues to resolve the intricate cellular interactions present in tissue niches. CellPhoneDB is a bioinformatics toolkit designed to infer cell-cell communication by combining a curated repository of bona fide ligand-receptor interactions with a set of computational and statistical methods to integrate them with single-cell genomics data. Importantly, CellPhoneDB captures the multimeric nature of molecular complexes, thus representing cell-cell communication biology faithfully. Here we present CellPhoneDB v5, an updated version of the tool, which offers several new features. Firstly, the repository has been expanded by one-third with the addition of new interactions. These encompass interactions mediated by non-protein ligands such as endocrine hormones and GPCR ligands. Secondly, it includes a differentially expression-based methodology for more tailored interaction queries. Thirdly, it incorporates novel computational methods to prioritise specific cell-cell interactions, leveraging other single-cell modalities, such as spatial information or TF activities (i.e. CellSign module). Finally, we provide CellPhoneDBViz, a module to interactively visualise and share results amongst users. Altogether, CellPhoneDB v5 elevates the precision of cell-cell communication inference, ushering in new perspectives to comprehend tissue biology in both healthy and pathological states.",
+    "categories": [
+      "q-bio.CB",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2311.04567v2",
+    "url": "http://arxiv.org/abs/2311.04567v2"
+  },
+  {
+    "arxiv_id": "1512.06979",
+    "title": "Screening Genome Sequences for Known RNA Genes and Motifs",
+    "authors": "Daniel Gautheret",
+    "year": 2015,
+    "published": "2015-12-22T08:21:18Z",
+    "abstract": "This methods paper presents computational protocols for the identification of non-coding RNA genes or RNA motifs within genomic sequences. An application to bacterial small RNA is proposed.",
+    "categories": [
+      "q-bio.QM",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1512.06979v1",
+    "url": "http://arxiv.org/abs/1512.06979v1"
+  },
+  {
+    "arxiv_id": "2006.00248",
+    "title": "Modeling adult skeletal stem cell response to laser-machined topographies through deep learning",
+    "authors": "Benita S. Mackay, Matthew Praeger, James A. Grant-Jacob et al.",
+    "year": 2020,
+    "published": "2020-05-30T12:21:17Z",
+    "abstract": "The response of adult human bone marrow stromal stem cells to surface topographies generated through femtosecond laser machining can be predicted by a deep neural network. The network is capable of predicting cell response to a statistically significant level, including positioning predictions with a probability P < 0.001, and therefore can be used as a model to determine the minimum line separation required for cell alignment, with implications for tissue structure development and tissue engineering. The application of a deep neural network, as a model, reduces the amount of experimental cell culture required to develop an enhanced understanding of cell behavior to topographical cues and, critically, provides rapid prediction of the effects of novel surface structures on tissue fabrication and cell signaling.",
+    "categories": [
+      "eess.IV",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2006.00248v2",
+    "url": "http://arxiv.org/abs/2006.00248v2"
+  },
+  {
+    "arxiv_id": "2512.03307",
+    "title": "Robust Tabular Foundation Models",
+    "authors": "Matthew Peroni, Franck Le, Vadim Sheinin",
+    "year": 2025,
+    "published": "2025-12-02T23:40:39Z",
+    "abstract": "The development of tabular foundation models (TFMs) has accelerated in recent years, showing strong potential to outperform traditional ML methods for structured data. A key finding is that TFMs can be pretrained entirely on synthetic datasets, opening opportunities to design data generators that encourage desirable model properties. Prior work has mainly focused on crafting high-quality priors over generators to improve overall pretraining performance. Our insight is that parameterizing the generator distribution enables an adversarial robustness perspective: during training, we can adapt the generator to emphasize datasets that are particularly challenging for the model. We formalize this by introducing an optimality gap measure, given by the difference between TFM performance and the best achievable performance as estimated by strong baselines such as XGBoost, CatBoost, and Random Forests. Building on this idea, we propose Robust Tabular Foundation Models (RTFM), a model-agnostic adversarial training framework. Applied to the TabPFN V2 classifier, RTFM improves benchmark performance, with up to a 6% increase in mean normalized AUC over the original TabPFN and other baseline algorithms, while requiring less than 100k additional synthetic datasets. These results highlight a promising new direction for targeted adversarial training and fine-tuning of TFMs using synthetic data alone.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.03307v1",
+    "url": "http://arxiv.org/abs/2512.03307v1"
+  },
+  {
+    "arxiv_id": "2302.06120",
+    "title": "Knowledge from Large-Scale Protein Contact Prediction Models Can Be Transferred to the Data-Scarce RNA Contact Prediction Task",
+    "authors": "Yiren Jian, Chongyang Gao, Chen Zeng et al.",
+    "year": 2023,
+    "published": "2023-02-13T06:00:56Z",
+    "abstract": "RNA, whose functionality is largely determined by its structure, plays an important role in many biological activities. The prediction of pairwise structural proximity between each nucleotide of an RNA sequence can characterize the structural information of the RNA. Historically, this problem has been tackled by machine learning models using expert-engineered features and trained on scarce labeled datasets. Here, we find that the knowledge learned by a protein-coevolution Transformer-based deep neural network can be transferred to the RNA contact prediction task. As protein datasets are orders of magnitude larger than those for RNA contact prediction, our findings and the subsequent framework greatly reduce the data scarcity bottleneck. Experiments confirm that RNA contact prediction through transfer learning using a publicly available protein model is greatly improved. Our findings indicate that the learned structural patterns of proteins can be transferred to RNAs, opening up potential new avenues for research.",
+    "categories": [
+      "q-bio.QM",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2302.06120v3",
+    "url": "http://arxiv.org/abs/2302.06120v3"
+  },
+  {
+    "arxiv_id": "2210.12385",
+    "title": "Deep Learning in Single-Cell Analysis",
+    "authors": "Dylan Molho, Jiayuan Ding, Zhaoheng Li et al.",
+    "year": 2022,
+    "published": "2022-10-22T08:26:41Z",
+    "abstract": "Single-cell technologies are revolutionizing the entire field of biology. The large volumes of data generated by single-cell technologies are high-dimensional, sparse, heterogeneous, and have complicated dependency structures, making analyses using conventional machine learning approaches challenging and impractical. In tackling these challenges, deep learning often demonstrates superior performance compared to traditional machine learning methods. In this work, we give a comprehensive survey on deep learning in single-cell analysis. We first introduce background on single-cell technologies and their development, as well as fundamental concepts of deep learning including the most popular deep architectures. We present an overview of the single-cell analytic pipeline pursued in research applications while noting divergences due to data sources or specific applications. We then review seven popular tasks spanning through different stages of the single-cell analysis pipeline, including multimodal integration, imputation, clustering, spatial domain identification, cell-type deconvolution, cell segmentation, and cell-type annotation. Under each task, we describe the most recent developments in classical and deep learning methods and discuss their advantages and disadvantages. Deep learning tools and benchmark datasets are also summarized for each task. Finally, we discuss the future directions and the most recent challenges. This survey will serve as a reference for biologists and computer scientists, encouraging collaborations.",
+    "categories": [
+      "q-bio.QM",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2210.12385v2",
+    "url": "http://arxiv.org/abs/2210.12385v2"
+  },
+  {
+    "arxiv_id": "2510.25807",
+    "title": "Discovering Interpretable Biological Concepts in Single-cell RNA-seq Foundation Models",
+    "authors": "Charlotte Claye, Pierre Marschall, Wassila Ouerdane et al.",
+    "year": 2025,
+    "published": "2025-10-29T08:52:55Z",
+    "abstract": "Single-cell RNA-seq foundation models achieve strong performance on downstream tasks but remain black boxes, limiting their utility for biological discovery. Recent work has shown that sparse dictionary learning can extract concepts from deep learning models, with promising applications in biomedical imaging and protein models. However, interpreting biological concepts remains challenging, as biological sequences are not inherently human-interpretable. We introduce a novel concept-based interpretability framework for single-cell RNA-seq models with a focus on concept interpretation and evaluation. We propose an attribution method with counterfactual perturbations that identifies genes that influence concept activation, moving beyond correlational approaches like differential expression analysis. We then provide two complementary interpretation approaches: an expert-driven analysis facilitated by an interactive interface and an ontology-driven method with attribution-based biological pathway enrichment. Applying our framework to two well-known single-cell RNA-seq models from the literature, we interpret concepts extracted by Top-K Sparse Auto-Encoders trained on two immune cell datasets. With a domain expert in immunology, we show that concepts improve interpretability compared to individual neurons while preserving the richness and informativeness of the latent representations. This work provides a principled framework for interpreting what biological knowledge foundation models have encoded, paving the way for their use for hypothesis generation and discovery.",
+    "categories": [
+      "q-bio.GN",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2510.25807v1",
+    "url": "http://arxiv.org/abs/2510.25807v1"
+  },
+  {
+    "arxiv_id": "2411.06785",
+    "title": "White-Box Diffusion Transformer for single-cell RNA-seq generation",
+    "authors": "Zhuorui Cui, Shengze Dong, Ding Liu",
+    "year": 2024,
+    "published": "2024-11-11T08:24:59Z",
+    "abstract": "As a powerful tool for characterizing cellular subpopulations and cellular heterogeneity, single cell RNA sequencing (scRNA-seq) technology offers advantages of high throughput and multidimensional analysis. However, the process of data acquisition is often constrained by high cost and limited sample availability. To overcome these limitations, we propose a hybrid model based on Diffusion model and White-Box transformer that aims to generate synthetic and biologically plausible scRNA-seq data. Diffusion model progressively introduce noise into the data and then recover the original data through a denoising process, a forward and reverse process that is particularly suitable for generating complex data distributions. White-Box transformer is a deep learning architecture that emphasizes mathematical interpretability. By minimizing the encoding rate of the data and maximizing the sparsity of the representation, it not only reduces the computational burden, but also provides clear insight into underlying structure. Our White-Box Diffusion Transformer combines the generative capabilities of Diffusion model with the mathematical interpretability of White-Box transformer. Through experiments using six different single-cell RNA-Seq datasets, we visualize both generated and real data using t-SNE dimensionality reduction technique, as well as quantify similarity between generated and real data using various metrics to demonstrate comparable performance of White-Box Diffusion Transformer and Diffusion Transformer in generating scRNA-seq data alongside significant improvements in training efficiency and resource utilization. Our code is available at https://github.com/lingximamo/White-Box-Diffusion-Transformer",
+    "categories": [
+      "cs.LG",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2411.06785v2",
+    "url": "http://arxiv.org/abs/2411.06785v2"
+  },
+  {
+    "arxiv_id": "2310.02713",
+    "title": "scHyena: Foundation Model for Full-Length Single-Cell RNA-Seq Analysis in Brain",
+    "authors": "Gyutaek Oh, Baekgyu Choi, Inkyung Jung et al.",
+    "year": 2023,
+    "published": "2023-10-04T10:30:08Z",
+    "abstract": "Single-cell RNA sequencing (scRNA-seq) has made significant strides in unraveling the intricate cellular diversity within complex tissues. This is particularly critical in the brain, presenting a greater diversity of cell types than other tissue types, to gain a deeper understanding of brain function within various cellular contexts. However, analyzing scRNA-seq data remains a challenge due to inherent measurement noise stemming from dropout events and the limited utilization of extensive gene expression information. In this work, we introduce scHyena, a foundation model designed to address these challenges and enhance the accuracy of scRNA-seq analysis in the brain. Specifically, inspired by the recent Hyena operator, we design a novel Transformer architecture called singe-cell Hyena (scHyena) that is equipped with a linear adaptor layer, the positional encoding via gene-embedding, and a {bidirectional} Hyena operator. This enables us to process full-length scRNA-seq data without losing any information from the raw data. In particular, our model learns generalizable features of cells and genes through pre-training scHyena using the full length of scRNA-seq data. We demonstrate the superior performance of scHyena compared to other benchmark methods in downstream tasks, including cell type classification and scRNA-seq imputation.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "q-bio.GN",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2310.02713v1",
+    "url": "http://arxiv.org/abs/2310.02713v1"
+  },
+  {
+    "arxiv_id": "1206.4084",
+    "title": "An Introduction to RNA Databases",
+    "authors": "Marc P. Hoeppner, Lars E. Barquist, Paul P. Gardner",
+    "year": 2012,
+    "published": "2012-06-18T21:48:47Z",
+    "abstract": "We present an introduction to RNA databases. The history and technology behind RNA databases is briefly discussed. We examine differing methods of data collection and curation, and discuss their impact on both the scope and accuracy of the resulting databases. Finally, we demonstrate these principals through detailed examination of four leading RNA databases: Noncode, miRBase, Rfam, and SILVA.",
+    "categories": [
+      "q-bio.BM",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1206.4084v1",
+    "url": "http://arxiv.org/abs/1206.4084v1"
+  },
+  {
+    "arxiv_id": "1911.00356",
+    "title": "Kinetic foundation of the zero-inflated negative binomial model for single-cell RNA sequencing data",
+    "authors": "Chen Jia",
+    "year": 2019,
+    "published": "2019-11-01T13:06:55Z",
+    "abstract": "Single-cell RNA sequencing data have complex features such as dropout events, over-dispersion, and high-magnitude outliers, resulting in complicated probability distributions of mRNA abundances that are statistically characterized in terms of a zero-inflated negative binomial (ZINB) model. Here we provide a mesoscopic kinetic foundation of the widely used ZINB model based on the biochemical reaction kinetics underlying transcription. Using multiscale modeling and simplification techniques, we show that the ZINB distribution of mRNA abundance and the phenomenon of transcriptional bursting naturally emerge from a three-state stochastic transcription model. We further reveal a nontrivial quantitative relation between dropout events and transcriptional bursting, which provides novel insights into how and to what extent the burst size and burst frequency could reduce the dropout rate. Three different biophysical origins of over-dispersion are also clarified at the single-cell level.",
+    "categories": [
+      "q-bio.MN",
+      "physics.bio-ph",
+      "q-bio.QM",
+      "stat.AP"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1911.00356v1",
+    "url": "http://arxiv.org/abs/1911.00356v1"
+  },
+  {
+    "arxiv_id": "2605.12335",
+    "title": "EHR-RAGp: Retrieval-Augmented Prototype-Guided Foundation Model for Electronic Health Records",
+    "authors": "Saeed Shurrab, Mariam Al-Omari, Dana El Samad et al.",
+    "year": 2026,
+    "published": "2026-05-12T16:17:03Z",
+    "abstract": "Electronic Health Records (EHR) contain rich longitudinal patient information and are widely used in predictive modeling applications. However, effectively leveraging historical data remains challenging due to long trajectories, heterogeneous events, temporal irregularity, and the varying relevance of past clinical context. Existing approaches often rely on fixed windows or uniform aggregation, which can obscure clinically important signals. In this work, we introduce EHR-RAGp, a retrieval-augmented foundation model that dynamically integrates the most relevant patient history across diverse clinical event types. We propose a prototype-guided retrieval module that acts as an alignment mechanism and estimates the relevance of retrieved historical chunks with respect to a given prediction task, guiding the model towards the most informative context. Across multiple clinical prediction tasks, EHR-RAGp consistently outperforms state-of-the-art EHR foundation models and transformer-based baselines. Furthermore, integrating EHR-RAGp with existing clinical foundation models yields substantial performance gains. Overall, EHR-RAGp provides a scalable and efficient framework for leveraging long-range clinical context to improve downstream performance.",
+    "categories": [
+      "cs.IR",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2605.12335v1",
+    "url": "http://arxiv.org/abs/2605.12335v1"
+  },
+  {
+    "arxiv_id": "2602.16696",
+    "title": "Parameter-free representations outperform single-cell foundation models on downstream benchmarks",
+    "authors": "Huan Souza, Pankaj Mehta",
+    "year": 2026,
+    "published": "2026-02-18T18:42:29Z",
+    "abstract": "Single-cell RNA sequencing (scRNA-seq) data exhibit strong and reproducible statistical structure. This has motivated the development of large-scale foundation models, such as TranscriptFormer, that use transformer-based architectures to learn a generative model for gene expression by embedding genes into a latent vector space. These embeddings have been used to obtain state-of-the-art (SOTA) performance on downstream tasks such as cell-type classification, disease-state prediction, and cross-species learning. Here, we ask whether similar performance can be achieved without utilizing computationally intensive deep learning-based representations. Using simple, interpretable pipelines that rely on careful normalization and linear methods, we obtain SOTA or near SOTA performance across multiple benchmarks commonly used to evaluate single-cell foundation models, including outperforming foundation models on out-of-distribution tasks involving novel cell types and organisms absent from the training data. Our findings highlight the need for rigorous benchmarking and suggest that the biology of cell identity can be captured by simple linear representations of single cell gene expression data.",
+    "categories": [
+      "q-bio.GN",
+      "cs.LG",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2602.16696v1",
+    "url": "http://arxiv.org/abs/2602.16696v1"
+  },
+  {
+    "arxiv_id": "2108.05039",
+    "title": "Predicting Molecular Phenotypes with Single Cell RNA Sequencing Data: an Assessment of Unsupervised Machine Learning Models",
+    "authors": "Anastasia Dunca, Frederick R. Adler",
+    "year": 2021,
+    "published": "2021-08-11T05:30:37Z",
+    "abstract": "According to the National Cancer Institute, there were 9.5 million cancer-related deaths in 2018. A challenge in improving treatment is resistance in genetically unstable cells. The purpose of this study is to evaluate unsupervised machine learning on classifying treatment-resistant phenotypes in heterogeneous tumors through analysis of single cell RNA sequencing(scRNAseq) data with a pipeline and evaluation metrics. scRNAseq quantifies mRNA in cells and characterizes cell phenotypes. One scRNAseq dataset was analyzed (tumor/non-tumor cells of different molecular subtypes and patient identifications). The pipeline consisted of data filtering, dimensionality reduction with Principal Component Analysis, projection with Uniform Manifold Approximation and Projection, clustering with nine approaches (Ward, BIRCH, Gaussian Mixture Model, DBSCAN, Spectral, Affinity Propagation, Agglomerative Clustering, Mean Shift, and K-Means), and evaluation. Seven models divided tumor versus non-tumor cells and molecular subtype while six models classified different patient identification (13 of which were presented in the dataset); K-Means, Ward, and BIRCH often ranked highest with ~80% accuracy on the tumor versus non-tumor task and ~60% for molecular subtype and patient ID. An optimized classification pipeline using K-Means, Ward, and BIRCH models was evaluated to be most effective for further analysis. In clinical research where there is currently no standard protocol for scRNAseq analysis, clusters generated from this pipeline can be used to understand cancer cell behavior and malignant growth, directly affecting the success of treatment.",
+    "categories": [
+      "q-bio.GN",
+      "cs.LG",
+      "q-bio.CB",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2108.05039v1",
+    "url": "http://arxiv.org/abs/2108.05039v1"
+  },
+  {
+    "arxiv_id": "2403.12117",
+    "title": "Transfer Learning for T-Cell Response Prediction",
+    "authors": "Josua Stadelmaier, Brandon Malone, Ralf Eggeling",
+    "year": 2024,
+    "published": "2024-03-18T17:32:19Z",
+    "abstract": "We study the prediction of T-cell response for specific given peptides, which could, among other applications, be a crucial step towards the development of personalized cancer vaccines. It is a challenging task due to limited, heterogeneous training data featuring a multi-domain structure; such data entail the danger of shortcut learning, where models learn general characteristics of peptide sources, such as the source organism, rather than specific peptide characteristics associated with T-cell response. Using a transformer model for T-cell response prediction, we show that the danger of inflated predictive performance is not merely theoretical but occurs in practice. Consequently, we propose a domain-aware evaluation scheme. We then study different transfer learning techniques to deal with the multi-domain structure and shortcut learning. We demonstrate a per-source fine tuning approach to be effective across a wide range of peptide sources and further show that our final model is competitive with existing state-of-the-art approaches for predicting T-cell responses for human peptides.",
+    "categories": [
+      "q-bio.CB",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2403.12117v2",
+    "url": "http://arxiv.org/abs/2403.12117v2"
+  },
+  {
+    "arxiv_id": "2504.16956",
+    "title": "GeneMamba: An Efficient and Effective Foundation Model on Single Cell Data",
+    "authors": "Cong Qi, Hanzhang Fang, Siqi Jiang et al.",
+    "year": 2025,
+    "published": "2025-04-22T20:34:47Z",
+    "abstract": "Single-cell RNA sequencing (scRNA-seq) enables high-resolution analysis of cellular heterogeneity, but its complexity, which is marked by high dimensionality, sparsity, and batch effects, which poses major computational challenges. Transformer-based models have made significant advances in this domain but are often limited by their quadratic complexity and suboptimal handling of long-range dependencies. In this work, we introduce GeneMamba, a scalable and efficient foundation model for single-cell transcriptomics built on state space modeling. Leveraging the Bi-Mamba architecture, GeneMamba captures bidirectional gene context with linear-time complexity, offering substantial computational gains over transformer baselines. The model is pretrained on nearly 30 million cells and incorporates biologically informed objectives, including pathway-aware contrastive loss and rank-based gene encoding. We evaluate GeneMamba across diverse tasks, including multi-batch integration, cell type annotation, and gene-gene correlation, demonstrating strong performance, interpretability, and robustness. These results position GeneMamba as a practical and powerful alternative to transformer-based methods, advancing the development of biologically grounded, scalable tools for large-scale single-cell data analysis.",
+    "categories": [
+      "cs.CL",
+      "cs.LG",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2504.16956v4",
+    "url": "http://arxiv.org/abs/2504.16956v4"
+  },
+  {
+    "arxiv_id": "2305.14749",
+    "title": "gRNAde: Geometric Deep Learning for 3D RNA inverse design",
+    "authors": "Chaitanya K. Joshi, Arian R. Jamasb, Ramon Viñas et al.",
+    "year": 2023,
+    "published": "2023-05-24T05:46:56Z",
+    "abstract": "Computational RNA design tasks are often posed as inverse problems, where sequences are designed based on adopting a single desired secondary structure without considering 3D conformational diversity. We introduce gRNAde, a geometric RNA design pipeline operating on 3D RNA backbones to design sequences that explicitly account for structure and dynamics. gRNAde uses a multi-state Graph Neural Network and autoregressive decoding to generates candidate RNA sequences conditioned on one or more 3D backbone structures where the identities of the bases are unknown. On a single-state fixed backbone re-design benchmark of 14 RNA structures from the PDB identified by Das et al. (2010), gRNAde obtains higher native sequence recovery rates (56% on average) compared to Rosetta (45% on average), taking under a second to produce designs compared to the reported hours for Rosetta. We further demonstrate the utility of gRNAde on a new benchmark of multi-state design for structurally flexible RNAs, as well as zero-shot ranking of mutational fitness landscapes in a retrospective analysis of a recent ribozyme. Experimental wet lab validation on 10 different structured RNA backbones finds that gRNAde has a success rate of 50% at designing pseudoknotted RNA structures, a significant advance over 35% for Rosetta. Open source code and tutorials are available at: https://github.com/chaitjo/geometric-rna-design",
+    "categories": [
+      "cs.LG",
+      "q-bio.BM",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2305.14749v7",
+    "url": "http://arxiv.org/abs/2305.14749v7"
+  },
+  {
+    "arxiv_id": "2506.02911",
+    "title": "Cell-o1: Training LLMs to Solve Single-Cell Reasoning Puzzles with Reinforcement Learning",
+    "authors": "Yin Fang, Qiao Jin, Guangzhi Xiong et al.",
+    "year": 2025,
+    "published": "2025-06-03T14:16:53Z",
+    "abstract": "Cell type annotation is a key task in analyzing the heterogeneity of single-cell RNA sequencing data. Although recent foundation models automate this process, they typically annotate cells independently, without considering batch-level cellular context or providing explanatory reasoning. In contrast, human experts often annotate distinct cell types for different cell clusters based on their domain knowledge. To mimic this workflow, we introduce the CellPuzzles task, where the objective is to assign unique cell types to a batch of cells. This benchmark spans diverse tissues, diseases, and donor conditions, and requires reasoning across the batch-level cellular context to ensure label uniqueness. We find that off-the-shelf large language models (LLMs) struggle on CellPuzzles, with the best baseline (OpenAI's o1) achieving only 19.0% batch-level accuracy. To fill this gap, we propose Cell-o1, a 7B LLM trained via supervised fine-tuning on distilled reasoning traces, followed by reinforcement learning with batch-level rewards. Cell-o1 achieves state-of-the-art performance, outperforming o1 by over 73% and generalizing well across contexts. Further analysis of training dynamics and reasoning behaviors provides insights into batch-level annotation performance and emergent expert-like reasoning. Code and data are available at https://github.com/ncbi-nlp/cell-o1.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.CE",
+      "cs.HC",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.02911v1",
+    "url": "http://arxiv.org/abs/2506.02911v1"
+  },
+  {
+    "arxiv_id": "1812.07630",
+    "title": "Assessing the accuracy of direct-coupling analysis for RNA contact prediction",
+    "authors": "Francesca Cuturello, Guido Tiana, Giovanni Bussi",
+    "year": 2018,
+    "published": "2018-12-18T20:32:02Z",
+    "abstract": "Many non-coding RNAs are known to play a role in the cell directly linked to their structure. Structure prediction based on the sole sequence is however a challenging task. On the other hand, thanks to the low cost of sequencing technologies, a very large number of homologous sequences are becoming available for many RNA families. In the protein community, it has emerged in the last decade the idea of exploiting the covariance of mutations within a family to predict the protein structure using the direct-coupling-analysis (DCA) method. The application of DCA to RNA systems has been limited so far. We here perform an assessment of the DCA method on 17 riboswitch families, comparing it with the commonly used mutual information analysis and with state-of-the-art R-scape covariance method. We also compare different flavors of DCA, including mean-field, pseudo-likelihood, and a proposed stochastic procedure (Boltzmann learning) for solving exactly the DCA inverse problem. Boltzmann learning outperforms the other methods in predicting contacts observed in high resolution crystal structures.",
+    "categories": [
+      "q-bio.QM",
+      "cond-mat.stat-mech",
+      "physics.bio-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1812.07630v4",
+    "url": "http://arxiv.org/abs/1812.07630v4"
+  },
+  {
+    "arxiv_id": "2011.01002",
+    "title": "RRScell method for automated single-cell profiling of multiplexed immunofluorescence cancer tissue",
+    "authors": "Alvason Zhenhua Li, Karsten Eichholz, Anton Sholukh et al.",
+    "year": 2020,
+    "published": "2020-10-30T06:41:19Z",
+    "abstract": "Multiplexed immuno-fluorescence tissue imaging, allowing simultaneous detection of molecular properties of cells, is an essential tool for characterizing the complex cellular mechanisms in translational research and clinical practice. New image analysis approaches are needed because tissue section stained with a mixture of protein, DNA and RNA biomarkers are introducing various complexities, including spurious edges due to fluorescent staining artifacts between touching or overlapping cells. We have developed the RRScell method harnessing the stochastic random-reaction-seed (RRS) algorithm and deep neural learning U-net to extract single-cell resolution profiling-map of gene expression over a million cells tissue section accurately and automatically. Furthermore, with the use of manifold learning technique UMAP for cell phenotype cluster analysis, the AI-driven RRScell has equipped with a marker-based image cytometry analysis tool (markerUMAP) in quantifying spatial distribution of cell phenotypes from tissue images with a mixture of biomarkers. The results achieved in this study suggest that RRScell provides a robust enough way for extracting cytometric single cell morphology as well as biomarker content in various tissue types, while the build-in markerUMAP tool secures the efficiency of dimension reduction, making it viable as a general tool in the spatial analysis of high dimensional tissue image.",
+    "categories": [
+      "q-bio.QM",
+      "eess.IV",
+      "q-bio.TO",
+      "stat.AP"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2011.01002v2",
+    "url": "http://arxiv.org/abs/2011.01002v2"
+  },
+  {
+    "arxiv_id": "2503.03485",
+    "title": "TEDDY: A Family Of Foundation Models For Understanding Single Cell Biology",
+    "authors": "Alexis Chevalier, Soumya Ghosh, Urvi Awasthi et al.",
+    "year": 2025,
+    "published": "2025-03-05T13:24:57Z",
+    "abstract": "Understanding the biological mechanisms of disease is crucial for medicine, and in particular, for drug discovery. AI-powered analysis of genome-scale biological data holds great potential in this regard. The increasing availability of single-cell RNA sequencing data has enabled the development of large foundation models for disease biology. However, existing foundation models only modestly improve over task-specific models in downstream applications. Here, we explored two avenues for improving single-cell foundation models. First, we scaled the pre-training data to a diverse collection of 116 million cells, which is larger than those used by previous models. Second, we leveraged the availability of large-scale biological annotations as a form of supervision during pre-training. We trained the \\model family of models comprising six transformer-based state-of-the-art single-cell foundation models with 70 million, 160 million, and 400 million parameters. We vetted our models on several downstream evaluation tasks, including identifying the underlying disease state of held-out donors not seen during training, distinguishing between diseased and healthy cells for disease conditions and donors not seen during training, and probing the learned representations for known biology. Our models showed substantial improvement over existing works, and scaling experiments showed that performance improved predictably with both data volume and parameter count.",
+    "categories": [
+      "cs.LG",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2503.03485v2",
+    "url": "http://arxiv.org/abs/2503.03485v2"
+  },
+  {
+    "arxiv_id": "2204.00300",
+    "title": "Interpretable RNA Foundation Model from Unannotated Data for Highly Accurate RNA Structure and Function Predictions",
+    "authors": "Jiayang Chen, Zhihang Hu, Siqi Sun et al.",
+    "year": 2022,
+    "published": "2022-04-01T09:10:31Z",
+    "abstract": "Non-coding RNA structure and function are essential to understanding various biological processes, such as cell signaling, gene expression, and post-transcriptional regulations. These are all among the core problems in the RNA field. With the rapid growth of sequencing technology, we have accumulated a massive amount of unannotated RNA sequences. On the other hand, expensive experimental observatory results in only limited numbers of annotated data and 3D structures. Hence, it is still challenging to design computational methods for predicting their structures and functions. The lack of annotated data and systematic study causes inferior performance. To resolve the issue, we propose a novel RNA foundation model (RNA-FM) to take advantage of all the 23 million non-coding RNA sequences through self-supervised learning. Within this approach, we discover that the pre-trained RNA-FM could infer sequential and evolutionary information of non-coding RNAs without using any labels. Furthermore, we demonstrate RNA-FM's effectiveness by applying it to the downstream secondary/3D structure prediction, SARS-CoV-2 genome structure and evolution prediction, protein-RNA binding preference modeling, and gene expression regulation modeling. The comprehensive experiments show that the proposed method improves the RNA structural and functional modelling results significantly and consistently. Despite only being trained with unlabelled data, RNA-FM can serve as the foundational model for the field.",
+    "categories": [
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2204.00300v5",
+    "url": "http://arxiv.org/abs/2204.00300v5"
+  },
+  {
+    "arxiv_id": "2512.02180",
+    "title": "CLEF: Clinically-Guided Contrastive Learning for Electrocardiogram Foundation Models",
+    "authors": "Yuxuan Shu, Peter H. Charlton, Fahim Kawsar et al.",
+    "year": 2025,
+    "published": "2025-12-01T20:21:44Z",
+    "abstract": "The electrocardiogram (ECG) is a key diagnostic tool in cardiovascular health. Single-lead ECG recording is integrated into both clinical-grade and consumer wearables. While self-supervised pretraining of foundation models on unlabeled ECGs improves diagnostic performance, existing approaches do not incorporate domain knowledge from clinical metadata. We introduce a novel contrastive learning approach that utilizes an established clinical risk score to adaptively weight negative pairs: clinically-guided contrastive learning. It aligns the similarities of ECG embeddings with clinically meaningful differences between subjects, with an explicit mechanism to handle missing metadata. On 12-lead ECGs from 161K patients in the MIMIC-IV dataset, we pretrain single-lead ECG foundation models at three scales, collectively called CLEF, using only routinely collected metadata without requiring per-sample ECG annotations. We evaluate CLEF on 18 clinical classification and regression tasks across 7 held-out datasets, and benchmark against 5 foundation model baselines and 3 self-supervised algorithms. When pretrained on 12-lead ECG data and tested on lead-I data, CLEF outperforms self-supervised foundation model baselines: the medium-sized CLEF achieves average AUROC improvements of at least 2.6% in classification and average reductions in MAEs of at least 3.2% in regression. Comparing with existing self-supervised learning algorithms, CLEF improves the average AUROC by at least 1.8%. Moreover, when pretrained only on lead-I data for classification tasks, CLEF performs comparably to the state-of-the-art ECGFounder, which was trained in a supervised manner. Overall, CLEF enables more accurate and scalable single-lead ECG analysis, advancing remote health monitoring. Code and pretrained CLEF models are available at: github.com/Nokia-Bell-Labs/ecg-foundation-model.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.02180v1",
+    "url": "http://arxiv.org/abs/2512.02180v1"
+  },
+  {
+    "arxiv_id": "2209.13022",
+    "title": "Artificial Intelligence Models for Cell Type and Subtype Identification Based on Single-Cell RNA Sequencing Data in Vision Science",
+    "authors": "Yeganeh Madadi, Aboozar Monavarfeshani, Hao Chen et al.",
+    "year": 2022,
+    "published": "2022-09-26T20:48:41Z",
+    "abstract": "Single-cell RNA sequencing (scRNA-seq) provides a high throughput, quantitative and unbiased framework for scientists in many research fields to identify and characterize cell types within heterogeneous cell populations from various tissues. However, scRNA-seq based identification of discrete cell-types is still labor intensive and depends on prior molecular knowledge. Artificial intelligence has provided faster, more accurate, and user-friendly approaches for cell-type identification. In this review, we discuss recent advances in cell-type identification methods using artificial intelligence techniques based on single-cell and single-nucleus RNA sequencing data in vision science.",
+    "categories": [
+      "q-bio.QM",
+      "eess.IV",
+      "q-bio.BM",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2209.13022v1",
+    "url": "http://arxiv.org/abs/2209.13022v1"
+  },
+  {
+    "arxiv_id": "2309.13518",
+    "title": "Categorization and analysis of 14 computational methods for estimating cell potency from single-cell RNA-seq data",
+    "authors": "Qingyang Wang, Zhiqian Zhai, Qiuyu Lian et al.",
+    "year": 2023,
+    "published": "2023-09-24T01:00:37Z",
+    "abstract": "In single-cell RNA sequencing (scRNA-seq) analysis, a key challenge is inferring hidden cellular dynamics from static cell snapshots. Various computational methods have been developed to address this, focusing on perspectives like pseudotime trajectories, RNA velocities, and estimating the differentiation potential of cells, often referred to as \"cell potency.\" This review summarizes 14 methods for defining cell potency from scRNA-seq data, categorizing them into average-based, entropy-based, and correlation-based methods based on how they summarize gene expression levels into a potency measure. We highlight the key similarities and differences within and between these categories, offering a high-level intuition for each method. Additionally, we use unified mathematical notations to detail each method's methodology and summarize their usage complexities, including parameters, required inputs, and differences between published descriptions and software implementations. We conclude that cell potency estimation remains an open question without a consensus on the optimal approach, emphasizing the need for benchmark datasets and studies. This review aims to provide a foundation for future benchmark studies, while also addressing the broader challenge of comparing methods that infer cellular dynamics from scRNA-seq data through various perspectives, including pseudotime trajectories, RNA velocities, and cell potency.",
+    "categories": [
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2309.13518v2",
+    "url": "http://arxiv.org/abs/2309.13518v2"
+  },
+  {
+    "arxiv_id": "1704.01379",
+    "title": "Exponential scaling of single-cell RNA-seq in the last decade",
+    "authors": "Valentine Svensson, Roser Vento-Tormo, Sarah A Teichmann",
+    "year": 2017,
+    "published": "2017-04-05T12:18:29Z",
+    "abstract": "The ability to measure the transcriptomes of single cells has only been feasible for a few years, and is becoming an extremely popular assay. While many types of analysis and questions can be answered using single cell RNA-sequencing, a central focus is the ability to survey the diversity of cell types within a sample. Unbiased and reproducible cataloging of distinct cell types requires large numbers of cells. Technological developments and protocol improvements have fuelled a consistent exponential increase in the numbers of cells studied in single cell RNA-seq analyses. In this perspective, we will highlight the key technological developments which have enabled this growth in data.",
+    "categories": [
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1704.01379v2",
+    "url": "http://arxiv.org/abs/1704.01379v2"
+  },
+  {
+    "arxiv_id": "2407.04065",
+    "title": "On the Workflows and Smells of Leaderboard Operations (LBOps): An Exploratory Study of Foundation Model Leaderboards",
+    "authors": "Zhimin Zhao, Abdul Ali Bangash, Filipe Roseiro Côgo et al.",
+    "year": 2024,
+    "published": "2024-07-04T17:12:00Z",
+    "abstract": "Foundation models (FM), such as large language models (LLMs), which are large-scale machine learning (ML) models, have demonstrated remarkable adaptability in various downstream software engineering (SE) tasks, such as code completion, code understanding, and software development. As a result, FM leaderboards have become essential tools for SE teams to compare and select the best third-party FMs for their specific products and purposes. However, the lack of standardized guidelines for FM evaluation and comparison threatens the transparency of FM leaderboards and limits stakeholders' ability to perform effective FM selection. As a first step towards addressing this challenge, our research focuses on understanding how these FM leaderboards operate in real-world scenarios (\"leaderboard operations\") and identifying potential pitfalls and areas for improvement (\"leaderboard smells\"). In this regard, we collect up to 1,045 FM leaderboards from five different sources: GitHub, Hugging Face Spaces, Papers With Code, spreadsheet and independent platform, to examine their documentation and engage in direct communication with leaderboard operators to understand their workflows. Through card sorting and negotiated agreement, we identify five distinct workflow patterns and develop a domain model that captures the key components and their interactions within these workflows. We then identify eight unique types of leaderboard smells in LBOps. By mitigating these smells, SE teams can improve transparency, accountability, and collaboration in current LBOps practices, fostering a more robust and responsible ecosystem for FM comparison and selection.",
+    "categories": [
+      "cs.SE",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.04065v4",
+    "url": "http://arxiv.org/abs/2407.04065v4"
+  },
+  {
+    "arxiv_id": "2509.25884",
+    "title": "scUnified: An AI-Ready Standardized Resource for Single-Cell RNA Sequencing Analysis",
+    "authors": "Ping Xu, Zaitian Wang, Zhirui Wang et al.",
+    "year": 2025,
+    "published": "2025-09-30T07:23:01Z",
+    "abstract": "Single-cell RNA sequencing (scRNA-seq) technology enables systematic delineation of cellular states and interactions, providing crucial insights into cellular heterogeneity. Building on this potential, numerous computational methods have been developed for tasks such as cell clustering, cell type annotation, and marker gene identification. To fully assess and compare these methods, standardized, analysis-ready datasets are essential. However, such datasets remain scarce, and variations in data formats, preprocessing workflows, and annotation strategies hinder reproducibility and complicate systematic evaluation of existing methods. To address these challenges, we present scUnified, an AI-ready standardized resource for single-cell RNA sequencing data that consolidates 13 high-quality datasets spanning two species (human and mouse) and nine tissue types. All datasets undergo standardized quality control and preprocessing and are stored in a uniform format to enable direct application in diverse computational analyses without additional data cleaning. We further demonstrate the utility of scUnified through experimental analyses of representative biological tasks, providing a reproducible foundation for the standardized evaluation of computational methods on a unified dataset.",
+    "categories": [
+      "q-bio.GN",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2509.25884v2",
+    "url": "http://arxiv.org/abs/2509.25884v2"
+  }
+]

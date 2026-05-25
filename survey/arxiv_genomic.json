@@ -1,0 +1,426 @@
+[
+  {
+    "arxiv_id": "2402.06079",
+    "title": "DiscDiff: Latent Diffusion Model for DNA Sequence Generation",
+    "authors": "Zehui Li, Yuhao Ni, William A V Beardall et al.",
+    "year": 2024,
+    "published": "2024-02-08T22:06:55Z",
+    "abstract": "This paper introduces a novel framework for DNA sequence generation, comprising two key components: DiscDiff, a Latent Diffusion Model (LDM) tailored for generating discrete DNA sequences, and Absorb-Escape, a post-training algorithm designed to refine these sequences. Absorb-Escape enhances the realism of the generated sequences by correcting `round errors' inherent in the conversion process between latent and input spaces. Our approach not only sets new standards in DNA sequence generation but also demonstrates superior performance over existing diffusion models, in generating both short and long DNA sequences. Additionally, we introduce EPD-GenDNA, the first comprehensive, multi-species dataset for DNA generation, encompassing 160,000 unique sequences from 15 species. We hope this study will advance the generative modelling of DNA, with potential implications for gene therapy and protein production.",
+    "categories": [
+      "q-bio.GN",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2402.06079v2",
+    "url": "http://arxiv.org/abs/2402.06079v2"
+  },
+  {
+    "arxiv_id": "2308.16149",
+    "title": "Jais and Jais-chat: Arabic-Centric Foundation and Instruction-Tuned Open Generative Large Language Models",
+    "authors": "Neha Sengupta, Sunil Kumar Sahu, Bokang Jia et al.",
+    "year": 2023,
+    "published": "2023-08-30T17:07:17Z",
+    "abstract": "We introduce Jais and Jais-chat, new state-of-the-art Arabic-centric foundation and instruction-tuned open generative large language models (LLMs). The models are based on the GPT-3 decoder-only architecture and are pretrained on a mixture of Arabic and English texts, including source code in various programming languages. With 13 billion parameters, they demonstrate better knowledge and reasoning capabilities in Arabic than any existing open Arabic and multilingual models by a sizable margin, based on extensive evaluation. Moreover, the models are competitive in English compared to English-centric open models of similar size, despite being trained on much less English data. We provide a detailed description of the training, the tuning, the safety alignment, and the evaluation of the models. We release two open versions of the model -- the foundation Jais model, and an instruction-tuned Jais-chat variant -- with the aim of promoting research on Arabic LLMs. Available at https://huggingface.co/inception-mbzuai/jais-13b-chat",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2308.16149v2",
+    "url": "http://arxiv.org/abs/2308.16149v2"
+  },
+  {
+    "arxiv_id": "2603.15969",
+    "title": "Robust Language Identification for Romansh Varieties",
+    "authors": "Charlotte Model, Sina Ahmadi, Jannis Vamvas",
+    "year": 2026,
+    "published": "2026-03-16T22:42:10Z",
+    "abstract": "The Romansh language has several regional varieties, called idioms, which sometimes have limited mutual intelligibility. Despite this linguistic diversity, there has been a lack of documented efforts to build a language identification (LID) system that can distinguish between these idioms. Since Romansh LID should also be able to recognize Rumantsch Grischun, a supra-regional variety that combines elements of several idioms, this makes for a novel and interesting classification problem. In this paper, we present a LID system for Romansh idioms based on an SVM approach. We evaluate our model on a newly curated benchmark across two domains and find that it reaches an average in-domain accuracy of 97%, enabling applications such as idiom-aware spell checking or machine translation. Our classifier is publicly available.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.15969v2",
+    "url": "http://arxiv.org/abs/2603.15969v2"
+  },
+  {
+    "arxiv_id": "2603.06950",
+    "title": "How Private Are DNA Embeddings? Inverting Foundation Model Representations of Genomic Sequences",
+    "authors": "Sofiane Ouaari, Jules Kreuer, Nico Pfeifer",
+    "year": 2026,
+    "published": "2026-03-06T23:52:26Z",
+    "abstract": "DNA foundation models have become transformative tools in bioinformatics and healthcare applications. Trained on vast genomic datasets, these models can be used to generate sequence embeddings, dense vector representations that capture complex genomic information. These embeddings are increasingly being shared via Embeddings-as-a-Service (EaaS) frameworks to facilitate downstream tasks, while supposedly protecting the privacy of the underlying raw sequences. However, as this practice becomes more prevalent, the security of these representations is being called into question. This study evaluates the resilience of DNA foundation models to model inversion attacks, whereby adversaries attempt to reconstruct sensitive training data from model outputs. In our study, the model's output for reconstructing the DNA sequence is a zero-shot embedding, which is then fed to a decoder. We evaluated the privacy of three DNA foundation models: DNABERT-2, Evo 2, and Nucleotide Transformer v2 (NTv2). Our results show that per-token embeddings allow near-perfect sequence reconstruction across all models. For mean-pooled embeddings, reconstruction quality degrades as sequence length increases, though it remains substantially above random baselines. Evo 2 and NTv2 prove to be most vulnerable, especially for shorter sequences with reconstruction similarities > 90%, while DNABERT-2's BPE tokenization provides the greatest resilience. We found that the correlation between embedding similarity and sequence similarity was a key predictor of reconstruction success. Our findings emphasize the urgent need for privacy-aware design in genomic foundation models prior to their widespread deployment in EaaS settings. Training code, model weights and evaluation pipeline are released on: https://github.com/not-a-feature/DNA-Embedding-Inversion.",
+    "categories": [
+      "q-bio.GN",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.06950v1",
+    "url": "http://arxiv.org/abs/2603.06950v1"
+  },
+  {
+    "arxiv_id": "2402.13991",
+    "title": "Analysing The Impact of Sequence Composition on Language Model Pre-Training",
+    "authors": "Yu Zhao, Yuanbin Qu, Konrad Staniszewski et al.",
+    "year": 2024,
+    "published": "2024-02-21T18:23:16Z",
+    "abstract": "Most language model pre-training frameworks concatenate multiple documents into fixed-length sequences and use causal masking to compute the likelihood of each token given its context; this strategy is widely adopted due to its simplicity and efficiency. However, to this day, the influence of the pre-training sequence composition strategy on the generalisation properties of the model remains under-explored. In this work, we find that applying causal masking can lead to the inclusion of distracting information from previous documents during pre-training, which negatively impacts the performance of the models on language modelling and downstream tasks. In intra-document causal masking, the likelihood of each token is only conditioned on the previous tokens in the same document, eliminating potential distracting information from previous documents and significantly improving performance. Furthermore, we find that concatenating related documents can reduce some potential distractions during pre-training, and our proposed efficient retrieval-based sequence construction method, BM25Chunk, can improve in-context learning (+11.6\\%), knowledge memorisation (+9.8\\%), and context utilisation (+7.2\\%) abilities of language models without sacrificing efficiency.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2402.13991v1",
+    "url": "http://arxiv.org/abs/2402.13991v1"
+  },
+  {
+    "arxiv_id": "2603.27465",
+    "title": "Poisoning the Genome: Targeted Backdoor Attacks on DNA Foundation Models",
+    "authors": "Charalampos Koilakos, Ioannis Mouratidis, Ilias Georgakopoulos-Soares",
+    "year": 2026,
+    "published": "2026-03-29T00:59:10Z",
+    "abstract": "Genomic foundation models trained on DNA sequences have demonstrated remarkable capabilities across diverse biological tasks, from variant effect prediction to genome design. These models are typically trained on massive, publicly sourced genomic datasets comprising trillions of nucleotide tokens, which renders them intrinsically susceptible to errors, artifacts, and adversarial issues embedded in the training data. Unlike natural language, DNA sequences lack the semantic transparency that might allow model makers to filter out corrupted entries, making genomic training corpora particularly susceptible to undetected manipulation. While training data poisoning has been established as a credible threat to large language models, its implications for genomic foundation models remain unexplored. Here, we present the first systematic investigation of training data poisoning in genomic language models. We demonstrate two complementary attack vectors. First, we show that adversarially crafted sequences can selectively degrade generative behavior on targeted genomic contexts, with backdoor activation following a sigmoidal dose-response relationship and full implantation achieved at 1 percent cumulative poison exposure. Second, targeted label corruption of downstream training data can selectively compromise clinically relevant variant classification, demonstrated using BRCA1 variant effect prediction. Our results reveal that genomic foundation models are vulnerable to targeted data poisoning attacks, underscoring the need for data provenance tracking, integrity verification, and adversarial robustness evaluation in the genomic foundation model development pipeline.",
+    "categories": [
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.27465v1",
+    "url": "http://arxiv.org/abs/2603.27465v1"
+  },
+  {
+    "arxiv_id": "1605.01133",
+    "title": "Deep Motif: Visualizing Genomic Sequence Classifications",
+    "authors": "Jack Lanchantin, Ritambhara Singh, Zeming Lin et al.",
+    "year": 2016,
+    "published": "2016-05-04T03:33:48Z",
+    "abstract": "This paper applies a deep convolutional/highway MLP framework to classify genomic sequences on the transcription factor binding site task. To make the model understandable, we propose an optimization driven strategy to extract \"motifs\", or symbolic patterns which visualize the positive class learned by the network. We show that our system, Deep Motif (DeMo), extracts motifs that are similar to, and in some cases outperform the current well known motifs. In addition, we find that a deeper model consisting of multiple convolutional and highway layers can outperform a single convolutional and fully connected layer in the previous state-of-the-art.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1605.01133v2",
+    "url": "http://arxiv.org/abs/1605.01133v2"
+  },
+  {
+    "arxiv_id": "1305.3347",
+    "title": "featureCounts: An efficient general-purpose program for assigning sequence reads to genomic features",
+    "authors": "Yang Liao, Gordon K Smyth, Wei Shi",
+    "year": 2013,
+    "published": "2013-05-15T03:00:48Z",
+    "abstract": "Next-generation sequencing technologies generate millions of short sequence reads, which are usually aligned to a reference genome. In many applications, the key information required for downstream analysis is the number of reads mapping to each genomic feature, for example to each exon or each gene. The process of counting reads is called read summarization. Read summarization is required for a great variety of genomic analyses but has so far received relatively little attention in the literature. We present featureCounts, a read summarization program suitable for counting reads generated from either RNA or genomic DNA sequencing experiments. featureCounts implements highly efficient chromosome hashing and feature blocking techniques. It is considerably faster than existing methods (by an order of magnitude for gene-level summarization) and requires far less computer memory. It works with either single or paired-end reads and provides a wide range of options appropriate for different sequencing applications. featureCounts is available under GNU General Public License as part of the Subread (http://subread.sourceforge.net) or Rsubread (http://www.bioconductor.org) software packages.",
+    "categories": [
+      "q-bio.GN",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1305.3347v2",
+    "url": "http://arxiv.org/abs/1305.3347v2"
+  },
+  {
+    "arxiv_id": "2605.12335",
+    "title": "EHR-RAGp: Retrieval-Augmented Prototype-Guided Foundation Model for Electronic Health Records",
+    "authors": "Saeed Shurrab, Mariam Al-Omari, Dana El Samad et al.",
+    "year": 2026,
+    "published": "2026-05-12T16:17:03Z",
+    "abstract": "Electronic Health Records (EHR) contain rich longitudinal patient information and are widely used in predictive modeling applications. However, effectively leveraging historical data remains challenging due to long trajectories, heterogeneous events, temporal irregularity, and the varying relevance of past clinical context. Existing approaches often rely on fixed windows or uniform aggregation, which can obscure clinically important signals. In this work, we introduce EHR-RAGp, a retrieval-augmented foundation model that dynamically integrates the most relevant patient history across diverse clinical event types. We propose a prototype-guided retrieval module that acts as an alignment mechanism and estimates the relevance of retrieved historical chunks with respect to a given prediction task, guiding the model towards the most informative context. Across multiple clinical prediction tasks, EHR-RAGp consistently outperforms state-of-the-art EHR foundation models and transformer-based baselines. Furthermore, integrating EHR-RAGp with existing clinical foundation models yields substantial performance gains. Overall, EHR-RAGp provides a scalable and efficient framework for leveraging long-range clinical context to improve downstream performance.",
+    "categories": [
+      "cs.IR",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2605.12335v1",
+    "url": "http://arxiv.org/abs/2605.12335v1"
+  },
+  {
+    "arxiv_id": "2502.03499",
+    "title": "Omni-DNA: A Unified Genomic Foundation Model for Cross-Modal and Multi-Task Learning",
+    "authors": "Zehui Li, Vallijah Subasri, Yifei Shen et al.",
+    "year": 2025,
+    "published": "2025-02-05T09:20:52Z",
+    "abstract": "Large Language Models (LLMs) demonstrate remarkable generalizability across diverse tasks, yet genomic foundation models (GFMs) still require separate finetuning for each downstream application, creating significant overhead as model sizes grow. Moreover, existing GFMs are constrained by rigid output formats, limiting their applicability to various genomic tasks. In this work, we revisit the transformer-based auto-regressive models and introduce Omni-DNA, a family of cross-modal multi-task models ranging from 20 million to 1 billion parameters. Our approach consists of two stages: (i) pretraining on DNA sequences with next token prediction objective, and (ii) expanding the multi-modal task-specific tokens and finetuning for multiple downstream tasks simultaneously. When evaluated on the Nucleotide Transformer and GB benchmarks, Omni-DNA achieves state-of-the-art performance on 18 out of 26 tasks. Through multi-task finetuning, Omni-DNA addresses 10 acetylation and methylation tasks at once, surpassing models trained on each task individually. Finally, we design two complex genomic tasks, DNA2Function and Needle-in-DNA, which map DNA sequences to textual functional descriptions and images, respectively, indicating Omni-DNA's cross-modal capabilities to broaden the scope of genomic applications. All the models are available through https://huggingface.co/collections/zehui127",
+    "categories": [
+      "q-bio.GN",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2502.03499v1",
+    "url": "http://arxiv.org/abs/2502.03499v1"
+  },
+  {
+    "arxiv_id": "1403.1523",
+    "title": "A Novel Method for Comparative Analysis of DNA Sequences by Ramanujan-Fourier Transform",
+    "authors": "Changchuan Yin, Xuemeng E. Yin, Jiasong Wang",
+    "year": 2014,
+    "published": "2014-03-06T18:29:52Z",
+    "abstract": "Alignment-free sequence analysis approaches provide important alternatives over multiple sequence alignment (MSA) in biological sequence analysis because alignment-free approaches have low computation complexity and are not dependent on high level of sequence identity, however, most of the existing alignment-free methods do not employ true full information content of sequences and thus can not accurately reveal similarities and differences among DNA sequences. We present a novel alignment-free computational method for sequence analysis based on Ramanujan-Fourier transform (RFT), in which complete information of DNA sequences is retained. We represent DNA sequences as four binary indicator sequences and apply RFT on the indicator sequences to convert them into frequency domain. The Euclidean distance of the complete RFT coefficients of DNA sequences are used as similarity measure. To address the different lengths in Euclidean space of RFT coefficients, we pad zeros to short DNA binary sequences so that the binary sequences equal the longest length in the comparison sequence data. Thus, the DNA sequences are compared in the same dimensional frequency space without information loss. We demonstrate the usefulness of the proposed method by presenting experimental results on hierarchical clustering of genes and genomes. The proposed method opens a new channel to biological sequence analysis, classification, and structural module identification.",
+    "categories": [
+      "cs.CE",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1403.1523v2",
+    "url": "http://arxiv.org/abs/1403.1523v2"
+  },
+  {
+    "arxiv_id": "2407.04065",
+    "title": "On the Workflows and Smells of Leaderboard Operations (LBOps): An Exploratory Study of Foundation Model Leaderboards",
+    "authors": "Zhimin Zhao, Abdul Ali Bangash, Filipe Roseiro Côgo et al.",
+    "year": 2024,
+    "published": "2024-07-04T17:12:00Z",
+    "abstract": "Foundation models (FM), such as large language models (LLMs), which are large-scale machine learning (ML) models, have demonstrated remarkable adaptability in various downstream software engineering (SE) tasks, such as code completion, code understanding, and software development. As a result, FM leaderboards have become essential tools for SE teams to compare and select the best third-party FMs for their specific products and purposes. However, the lack of standardized guidelines for FM evaluation and comparison threatens the transparency of FM leaderboards and limits stakeholders' ability to perform effective FM selection. As a first step towards addressing this challenge, our research focuses on understanding how these FM leaderboards operate in real-world scenarios (\"leaderboard operations\") and identifying potential pitfalls and areas for improvement (\"leaderboard smells\"). In this regard, we collect up to 1,045 FM leaderboards from five different sources: GitHub, Hugging Face Spaces, Papers With Code, spreadsheet and independent platform, to examine their documentation and engage in direct communication with leaderboard operators to understand their workflows. Through card sorting and negotiated agreement, we identify five distinct workflow patterns and develop a domain model that captures the key components and their interactions within these workflows. We then identify eight unique types of leaderboard smells in LBOps. By mitigating these smells, SE teams can improve transparency, accountability, and collaboration in current LBOps practices, fostering a more robust and responsible ecosystem for FM comparison and selection.",
+    "categories": [
+      "cs.SE",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.04065v4",
+    "url": "http://arxiv.org/abs/2407.04065v4"
+  },
+  {
+    "arxiv_id": "2602.17162",
+    "title": "JEPA-DNA: Grounding Genomic Foundation Models through Joint-Embedding Predictive Architectures",
+    "authors": "Ariel Larey, Elay Dahan, Amit Bleiweiss et al.",
+    "year": 2026,
+    "published": "2026-02-19T08:20:51Z",
+    "abstract": "Genomic Foundation Models (GFMs) have largely relied on Masked Language Modeling (MLM) or Next Token Prediction (NTP) to learn the language of life. While these paradigms excel at capturing local genomic syntax and fine-grained motif patterns, they often fail to capture the broader functional context, resulting in representations that lack a global biological perspective. We introduce JEPA-DNA, a novel pre-training framework that integrates the Joint-Embedding Predictive Architecture (JEPA) with traditional generative objectives. JEPA-DNA introduces latent grounding by coupling token-level recovery with a predictive objective in the latent space by supervising a CLS token. This forces the model to predict the high-level functional embeddings of masked genomic segments rather than focusing solely on individual nucleotides. JEPA-DNA extends both NTP and MLM paradigms and can be deployed either as a standalone from-scratch objective or as a continual pre-training enhancement for existing GFMs. Our evaluations across a diverse suite of genomic benchmarks demonstrate that JEPA-DNA consistently yields superior performance in supervised and zero-shot tasks compared to generative-only baselines. By providing a more robust and biologically grounded representation, JEPA-DNA offers a scalable path toward foundation models that understand not only the genomic alphabet, but also the underlying functional logic of the sequence.",
+    "categories": [
+      "cs.AI",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2602.17162v1",
+    "url": "http://arxiv.org/abs/2602.17162v1"
+  },
+  {
+    "arxiv_id": "2506.10271",
+    "title": "Evaluating DNA function understanding in genomic language models using evolutionarily implausible sequences",
+    "authors": "Shiyu Jiang, Xuyin Liu, Zitong Jerry Wang",
+    "year": 2025,
+    "published": "2025-06-12T01:28:04Z",
+    "abstract": "Genomic language models (gLMs) hold promise for generating novel, functional DNA sequences for synthetic biology. However, realizing this potential requires models to go beyond evolutionary plausibility and understand how DNA sequence encodes gene expression and regulation. We introduce a benchmark called Nullsettes, which assesses how well models can predict in silico loss-of-function (LOF) mutations, in synthetic expression cassettes with little evolutionary precedent. Testing 12 state-of-the-art gLMs, we find that most fail to consistently detect these strong LOF mutations. All models show a sharp drop in predictive accuracy as the likelihood assigned to the original (nonmutant) sequence decreases, suggesting that gLMs rely heavily on pattern-matching to their evolutionary prior rather than on any mechanistic understanding of gene expression. Our findings highlight fundamental limitations in how gLMs generalize to engineered, non-natural sequences, and underscore the need for benchmarks and modeling strategies that prioritize functional understanding.",
+    "categories": [
+      "q-bio.QM",
+      "cs.LG",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.10271v3",
+    "url": "http://arxiv.org/abs/2506.10271v3"
+  },
+  {
+    "arxiv_id": "2507.19229",
+    "title": "TrinityDNA: A Bio-Inspired Foundational Model for Efficient Long-Sequence DNA Modeling",
+    "authors": "Qirong Yang, Yucheng Guo, Zicheng Liu et al.",
+    "year": 2025,
+    "published": "2025-07-25T12:55:30Z",
+    "abstract": "The modeling of genomic sequences presents unique challenges due to their length and structural complexity. Traditional sequence models struggle to capture long-range dependencies and biological features inherent in DNA. In this work, we propose TrinityDNA, a novel DNA foundational model designed to address these challenges. The model integrates biologically informed components, including Groove Fusion for capturing DNA's structural features and Gated Reverse Complement (GRC) to handle the inherent symmetry of DNA sequences. Additionally, we introduce a multi-scale attention mechanism that allows the model to attend to varying levels of sequence dependencies, and an evolutionary training strategy that progressively adapts the model to both prokaryotic and eukaryotic genomes. TrinityDNA provides a more accurate and efficient approach to genomic sequence modeling, offering significant improvements in gene function prediction, regulatory mechanism discovery, and other genomics applications. Our model bridges the gap between machine learning techniques and biological insights, paving the way for more effective analysis of genomic data. Additionally, we introduced a new DNA long-sequence CDS annotation benchmark to make evaluations more comprehensive and oriented toward practical applications.",
+    "categories": [
+      "cs.CE",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2507.19229v2",
+    "url": "http://arxiv.org/abs/2507.19229v2"
+  },
+  {
+    "arxiv_id": "2409.15697",
+    "title": "dnaGrinder: a lightweight and high-capacity genomic foundation model",
+    "authors": "Qihang Zhao, Chi Zhang, Weixiong Zhang",
+    "year": 2024,
+    "published": "2024-09-24T03:20:07Z",
+    "abstract": "The task of understanding and interpreting the complex information encoded within genomic sequences remains a grand challenge in biological research and clinical applications. In this context, recent advancements in large language model research have led to the development of both encoder-only and decoder-only foundation models designed to decode intricate information in DNA sequences. However, several issues persist, particularly regarding the efficient management of long-range dependencies inherent in genomic sequences, the effective representation of nucleotide variations, and the considerable computational costs associated with large model architectures and extensive pretraining datasets. Current genomic foundation models often face a critical tradeoff: smaller models with mediocre performance versus large models with improved performance. To address these challenges, we introduce dnaGrinder, a unique and efficient genomic foundation model. dnaGrinder excels at managing long-range dependencies within genomic sequences while minimizing computational costs without compromising performance. It achieves results that are not just comparable but often superior to leading DNA models such as Nucleotide Transformer and DNABERT-2. Furthermore, dnaGrinder is designed for easy fine-tuning on workstation-grade GPUs, accommodating input lengths exceeding 17,000 tokens. On a single high-performance GPU, it supports sequences longer than 140,000 tokens, making it a highly efficient and accessible tool for both basic biological research and clinical applications.",
+    "categories": [
+      "q-bio.GN",
+      "cs.AI",
+      "cs.CE",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2409.15697v1",
+    "url": "http://arxiv.org/abs/2409.15697v1"
+  },
+  {
+    "arxiv_id": "2506.01833",
+    "title": "SPACE: Your Genomic Profile Predictor is a Powerful DNA Foundation Model",
+    "authors": "Zhao Yang, Jiwei Zhu, Bing Su",
+    "year": 2025,
+    "published": "2025-06-02T16:23:05Z",
+    "abstract": "Inspired by the success of unsupervised pre-training paradigms, researchers have applied these approaches to DNA pre-training. However, we argue that these approaches alone yield suboptimal results because pure DNA sequences lack sufficient information, since their functions are regulated by genomic profiles like chromatin accessibility. Here, we demonstrate that supervised training for genomic profile prediction serves as a more effective alternative to pure sequence pre-training. Furthermore, considering the multi-species and multi-profile nature of genomic profile prediction, we introduce our $\\textbf{S}$pecies-$\\textbf{P}$rofile $\\textbf{A}$daptive $\\textbf{C}$ollaborative $\\textbf{E}$xperts (SPACE) that leverages Mixture of Experts (MoE) to better capture the relationships between DNA sequences across different species and genomic profiles, thereby learning more effective DNA representations. Through extensive experiments across various tasks, our model achieves state-of-the-art performance, establishing that DNA models trained with supervised genomic profiles serve as powerful DNA representation learners. The code is available at https://github.com/ZhuJiwei111/SPACE.",
+    "categories": [
+      "cs.LG",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.01833v1",
+    "url": "http://arxiv.org/abs/2506.01833v1"
+  },
+  {
+    "arxiv_id": "2512.03307",
+    "title": "Robust Tabular Foundation Models",
+    "authors": "Matthew Peroni, Franck Le, Vadim Sheinin",
+    "year": 2025,
+    "published": "2025-12-02T23:40:39Z",
+    "abstract": "The development of tabular foundation models (TFMs) has accelerated in recent years, showing strong potential to outperform traditional ML methods for structured data. A key finding is that TFMs can be pretrained entirely on synthetic datasets, opening opportunities to design data generators that encourage desirable model properties. Prior work has mainly focused on crafting high-quality priors over generators to improve overall pretraining performance. Our insight is that parameterizing the generator distribution enables an adversarial robustness perspective: during training, we can adapt the generator to emphasize datasets that are particularly challenging for the model. We formalize this by introducing an optimality gap measure, given by the difference between TFM performance and the best achievable performance as estimated by strong baselines such as XGBoost, CatBoost, and Random Forests. Building on this idea, we propose Robust Tabular Foundation Models (RTFM), a model-agnostic adversarial training framework. Applied to the TabPFN V2 classifier, RTFM improves benchmark performance, with up to a 6% increase in mean normalized AUC over the original TabPFN and other baseline algorithms, while requiring less than 100k additional synthetic datasets. These results highlight a promising new direction for targeted adversarial training and fine-tuning of TFMs using synthetic data alone.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.03307v1",
+    "url": "http://arxiv.org/abs/2512.03307v1"
+  },
+  {
+    "arxiv_id": "2312.10793",
+    "title": "Demystifying Instruction Mixing for Fine-tuning Large Language Models",
+    "authors": "Renxi Wang, Haonan Li, Minghao Wu et al.",
+    "year": 2023,
+    "published": "2023-12-17T18:44:26Z",
+    "abstract": "Instruction tuning significantly enhances the performance of large language models (LLMs) across various tasks. However, the procedure to optimizing the mixing of instruction datasets for LLM fine-tuning is still poorly understood. This study categorizes instructions into three primary types: NLP downstream tasks, coding, and general chat. We explore the effects of instruction tuning on different combinations of datasets on LLM performance, and find that certain instruction types are more advantageous for specific applications but can negatively impact other areas. This work provides insights into instruction mixtures, laying the foundations for future research.",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2312.10793v3",
+    "url": "http://arxiv.org/abs/2312.10793v3"
+  },
+  {
+    "arxiv_id": "2402.11651",
+    "title": "Learning From Failure: Integrating Negative Examples when Fine-tuning Large Language Models as Agents",
+    "authors": "Renxi Wang, Haonan Li, Xudong Han et al.",
+    "year": 2024,
+    "published": "2024-02-18T17:10:07Z",
+    "abstract": "Large language models (LLMs) have achieved success in acting as agents, which interact with environments through tools such as search engines. However, LLMs are optimized for language generation instead of tool use during training or alignment, limiting their effectiveness as agents. To resolve this problem, previous work has first collected interaction trajectories between LLMs and environments, using only trajectories that successfully finished the task to fine-tune smaller models, making fine-tuning data scarce and acquiring it both difficult and costly. Discarding failed trajectories also leads to significant wastage of data and resources and limits the possible optimization paths during fine-tuning. In this paper, we argue that unsuccessful trajectories offer valuable insights, and LLMs can learn from these trajectories through appropriate quality control and fine-tuning strategies. By simply adding a prefix or suffix that tells the model whether to generate a successful trajectory during training, we improve model performance by a large margin on mathematical reasoning, multi-hop question answering, and strategic question answering tasks. We further analyze the inference results and find that our method provides a better trade-off between valuable information and errors in unsuccessful trajectories. To our knowledge, we are the first to demonstrate the value of negative trajectories and their application in agent-tunning scenarios. Our findings offer guidance for developing better agent-tuning methods and low-resource data usage techniques.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2402.11651v2",
+    "url": "http://arxiv.org/abs/2402.11651v2"
+  },
+  {
+    "arxiv_id": "2604.04287",
+    "title": "Entropy, Disagreement, and the Limits of Foundation Models in Genomics",
+    "authors": "Maxime Rochkoulets, Lovro Vrček, Mile Šikić",
+    "year": 2026,
+    "published": "2026-04-05T22:04:01Z",
+    "abstract": "Foundation models in genomics have shown mixed success compared to their counterparts in natural language processing. Yet, the reasons for their limited effectiveness remain poorly understood. In this work, we investigate the role of entropy as a fundamental factor limiting the capacities of such models to learn from their training data and develop foundational capabilities. We train ensembles of models on text and DNA sequences and analyze their predictions, static embeddings, and empirical Fisher information flow. We show that the high entropy of genomic sequences -- from the point of view of unseen token prediction -- leads to near-uniform output distributions, disagreement across models, and unstable static embeddings, even for models that are matched in architecture, training and data. We then demonstrate that models trained on DNA concentrate Fisher information in embedding layers, seemingly failing to exploit inter-token relationships. Our results suggest that self-supervised training from sequences alone may not be applicable to genomic data, calling into question the assumptions underlying current methodologies for training genomic foundation models.",
+    "categories": [
+      "cs.LG",
+      "cs.CL",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2604.04287v1",
+    "url": "http://arxiv.org/abs/2604.04287v1"
+  },
+  {
+    "arxiv_id": "2602.09067",
+    "title": "AntigenLM: Structure-Aware DNA Language Modeling for Influenza",
+    "authors": "Yue Pei, Xuebin Chi, Yu Kang",
+    "year": 2026,
+    "published": "2026-02-09T08:52:04Z",
+    "abstract": "Language models have advanced sequence analysis, yet DNA foundation models often lag behind task-specific methods for unclear reasons. We present AntigenLM, a generative DNA language model pretrained on influenza genomes with intact, aligned functional units. This structure-aware pretraining enables AntigenLM to capture evolutionary constraints and generalize across tasks. Fine-tuned on time-series hemagglutinin (HA) and neuraminidase (NA) sequences, AntigenLM accurately forecasts future antigenic variants across regions and subtypes, including those unseen during training, outperforming phylogenetic and evolution-based models. It also achieves near-perfect subtype classification. Ablation studies show that disrupting genomic structure through fragmentation or shuffling severely degrades performance, revealing the importance of preserving functional-unit integrity in DNA language modeling. AntigenLM thus provides both a powerful framework for antigen evolution prediction and a general principle for building biologically grounded DNA foundation models.",
+    "categories": [
+      "q-bio.GN",
+      "cs.AI",
+      "cs.CE",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2602.09067v1",
+    "url": "http://arxiv.org/abs/2602.09067v1"
+  },
+  {
+    "arxiv_id": "2512.02180",
+    "title": "CLEF: Clinically-Guided Contrastive Learning for Electrocardiogram Foundation Models",
+    "authors": "Yuxuan Shu, Peter H. Charlton, Fahim Kawsar et al.",
+    "year": 2025,
+    "published": "2025-12-01T20:21:44Z",
+    "abstract": "The electrocardiogram (ECG) is a key diagnostic tool in cardiovascular health. Single-lead ECG recording is integrated into both clinical-grade and consumer wearables. While self-supervised pretraining of foundation models on unlabeled ECGs improves diagnostic performance, existing approaches do not incorporate domain knowledge from clinical metadata. We introduce a novel contrastive learning approach that utilizes an established clinical risk score to adaptively weight negative pairs: clinically-guided contrastive learning. It aligns the similarities of ECG embeddings with clinically meaningful differences between subjects, with an explicit mechanism to handle missing metadata. On 12-lead ECGs from 161K patients in the MIMIC-IV dataset, we pretrain single-lead ECG foundation models at three scales, collectively called CLEF, using only routinely collected metadata without requiring per-sample ECG annotations. We evaluate CLEF on 18 clinical classification and regression tasks across 7 held-out datasets, and benchmark against 5 foundation model baselines and 3 self-supervised algorithms. When pretrained on 12-lead ECG data and tested on lead-I data, CLEF outperforms self-supervised foundation model baselines: the medium-sized CLEF achieves average AUROC improvements of at least 2.6% in classification and average reductions in MAEs of at least 3.2% in regression. Comparing with existing self-supervised learning algorithms, CLEF improves the average AUROC by at least 1.8%. Moreover, when pretrained only on lead-I data for classification tasks, CLEF performs comparably to the state-of-the-art ECGFounder, which was trained in a supervised manner. Overall, CLEF enables more accurate and scalable single-lead ECG analysis, advancing remote health monitoring. Code and pretrained CLEF models are available at: github.com/Nokia-Bell-Labs/ecg-foundation-model.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.02180v1",
+    "url": "http://arxiv.org/abs/2512.02180v1"
+  },
+  {
+    "arxiv_id": "2503.21676",
+    "title": "How do language models learn facts? Dynamics, curricula and hallucinations",
+    "authors": "Nicolas Zucchet, Jörg Bornschein, Stephanie Chan et al.",
+    "year": 2025,
+    "published": "2025-03-27T16:43:45Z",
+    "abstract": "Large language models accumulate vast knowledge during pre-training, yet the dynamics governing this acquisition remain poorly understood. This work investigates the learning dynamics of language models on a synthetic factual recall task, uncovering three key findings: First, language models learn in three phases, exhibiting a performance plateau before acquiring precise factual knowledge. Mechanistically, this plateau coincides with the formation of attention-based circuits that support recall. Second, the training data distribution significantly impacts learning dynamics, as imbalanced distributions lead to shorter plateaus. Finally, hallucinations emerge simultaneously with knowledge, and integrating new knowledge into the model through fine-tuning is challenging, as it quickly corrupts its existing parametric memories. Our results emphasize the importance of data distribution in knowledge acquisition and suggest novel data scheduling strategies to accelerate neural network training.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2503.21676v2",
+    "url": "http://arxiv.org/abs/2503.21676v2"
+  },
+  {
+    "arxiv_id": "2502.07272",
+    "title": "GENERator: A Long-Context Generative Genomic Foundation Model",
+    "authors": "Wei Wu, Qiuyi Li, Yuanyuan Zhang et al.",
+    "year": 2025,
+    "published": "2025-02-11T05:39:49Z",
+    "abstract": "The rapid advancement of DNA sequencing has produced vast genomic datasets, yet interpreting and engineering genomic function remain fundamental challenges. Recent large language models have opened new avenues for genomic analysis, but existing approaches are often limited by restricted training scope, constrained generative capability, or prohibitive computational cost. We introduce GENErator, a generative genomic foundation model for long-context DNA modeling, with a context length of 98k nucleotides, pre-trained on 386 billion nucleotides of eukaryotic DNA. Without task-specific fine-tuning, GENERator exhibits strong intrinsic capabilities: unsupervised embedding analyses reveal phylogenetically coherent structure, and sequence recovery benchmarks demonstrate generative accuracy comparable to or exceeding state-of-the-art models with substantially improved computational efficiency. In a zero-shot setting, GENERator achieves competitive variant effect prediction performance relative to alignment-based methods, while remaining fully alignment-free and broadly applicable across species. With task-specific fine-tuning, the model attains leading performance on established genomic benchmarks. We further demonstrate practical generative applications. GENERator can generate protein-coding DNA sequences that translate into structurally plausible proteins and, through a prompt-guided design framework, design cis-regulatory elements with targeted activity profiles, including synthetic super-enhancers validated by high-throughput UMI-STARR-seq assays. Together, these results establish GENERator as an efficient and biologically grounded framework for genomic interpretation and programmable sequence design. Code and supplementary resources are available at https://github.com/GenerTeam/GENERator.",
+    "categories": [
+      "cs.CL",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2502.07272v5",
+    "url": "http://arxiv.org/abs/2502.07272v5"
+  },
+  {
+    "arxiv_id": "2410.16090",
+    "title": "Analysing the Residual Stream of Language Models Under Knowledge Conflicts",
+    "authors": "Yu Zhao, Xiaotang Du, Giwon Hong et al.",
+    "year": 2024,
+    "published": "2024-10-21T15:12:51Z",
+    "abstract": "Large language models (LLMs) can store a significant amount of factual knowledge in their parameters. However, their parametric knowledge may conflict with the information provided in the context. Such conflicts can lead to undesirable model behaviour, such as reliance on outdated or incorrect information. In this work, we investigate whether LLMs can identify knowledge conflicts and whether it is possible to know which source of knowledge the model will rely on by analysing the residual stream of the LLM. Through probing tasks, we find that LLMs can internally register the signal of knowledge conflict in the residual stream, which can be accurately detected by probing the intermediate model activations. This allows us to detect conflicts within the residual stream before generating the answers without modifying the input or model parameters. Moreover, we find that the residual stream shows significantly different patterns when the model relies on contextual knowledge versus parametric knowledge to resolve conflicts. This pattern can be employed to estimate the behaviour of LLMs when conflict happens and prevent unexpected answers before producing the answers. Our analysis offers insights into how LLMs internally manage knowledge conflicts and provides a foundation for developing methods to control the knowledge selection processes.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2410.16090v2",
+    "url": "http://arxiv.org/abs/2410.16090v2"
+  },
+  {
+    "arxiv_id": "2602.10603",
+    "title": "dnaHNet: A Scalable and Hierarchical Foundation Model for Genomic Sequence Learning",
+    "authors": "Arnav Shah, Junzhe Li, Parsa Idehpour et al.",
+    "year": 2026,
+    "published": "2026-02-11T07:48:21Z",
+    "abstract": "Genomic foundation models have the potential to decode DNA syntax, yet face a fundamental tradeoff in their input representation. Standard fixed-vocabulary tokenizers fragment biologically meaningful motifs such as codons and regulatory elements, while nucleotide-level models preserve biological coherence but incur prohibitive computational costs for long contexts. We introduce dnaHNet, a state-of-the-art tokenizer-free autoregressive model that segments and models genomic sequences end-to-end. Using a differentiable dynamic chunking mechanism, dnaHNet compresses raw nucleotides into latent tokens adaptively, balancing compression with predictive accuracy. Pretrained on prokaryotic genomes, dnaHNet outperforms leading architectures including StripedHyena2 in scaling and efficiency. This recursive chunking yields quadratic FLOP reductions, enabling $>3 \\times$ inference speedup over Transformers. On zero-shot tasks, dnaHNet achieves superior performance in predicting protein variant fitness and gene essentiality, while automatically discovering hierarchical biological structures without supervision. These results establish dnaHNet as a scalable, interpretable framework for next-generation genomic modeling.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2602.10603v3",
+    "url": "http://arxiv.org/abs/2602.10603v3"
+  },
+  {
+    "arxiv_id": "2304.12244",
+    "title": "WizardLM: Empowering large pre-trained language models to follow complex instructions",
+    "authors": "Can Xu, Qingfeng Sun, Kai Zheng et al.",
+    "year": 2023,
+    "published": "2023-04-24T16:31:06Z",
+    "abstract": "Training large language models (LLMs) with open-domain instruction following data brings colossal success. However, manually creating such instruction data is very time-consuming and labor-intensive. Moreover, humans may struggle to produce high-complexity instructions. In this paper, we show an avenue for creating large amounts of instruction data with varying levels of complexity using LLM instead of humans. Starting with an initial set of instructions, we use our proposed Evol-Instruct to rewrite them step by step into more complex instructions. Then, we mix all generated instruction data to fine-tune LLaMA. We call the resulting model WizardLM. Human evaluations on a complexity-balanced test bed and Vicuna's testset show that instructions from Evol-Instruct are superior to human-created ones. By analyzing the human evaluation results of the high complexity part, we demonstrate that outputs from our WizardLM are preferred to outputs from OpenAI ChatGPT. In GPT-4 automatic evaluation, WizardLM achieves more than 90\\% capacity of ChatGPT on 17 out of 29 skills. Even though WizardLM still lags behind ChatGPT in some aspects, our findings suggest that fine-tuning with AI-evolved instructions is a promising direction for enhancing LLMs. Our code and data are public at https://github.com/nlpxucan/WizardLM",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2304.12244v3",
+    "url": "http://arxiv.org/abs/2304.12244v3"
+  },
+  {
+    "arxiv_id": "2410.16917",
+    "title": "DNAHLM -- DNA sequence and Human Language mixed large language Model",
+    "authors": "Wang Liang",
+    "year": 2024,
+    "published": "2024-10-22T11:51:09Z",
+    "abstract": "There are already many DNA large language models, but most of them still follow traditional uses, such as extracting sequence features for classification tasks. More innovative applications of large language models, such as prompt engineering, RAG, and zero-shot or few-shot prediction, remain challenging for DNA-based models. The key issue lies in the fact that DNA models and human natural language models are entirely separate; however, techniques like prompt engineering require the use of natural language, thereby significantly limiting the application of DNA large language models. This paper introduces a pre-trained model trained on the GPT-2 network, combining DNA sequences and English text, and uses a unified BPE tokenization method. We then convert classification and other downstream tasks into Alpaca format instruction data, and perform instruction fine-tuning on this pre-trained model to create a fine-tuned model capable of handling multiple tasks. The model has demonstrated its effectiveness in DNA related zero-shot prediction and multitask application. This research provides a highly promising direction for building a unified DNA sequence task framework.",
+    "categories": [
+      "q-bio.GN",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2410.16917v2",
+    "url": "http://arxiv.org/abs/2410.16917v2"
+  },
+  {
+    "arxiv_id": "2604.05774",
+    "title": "GenomeQA: Benchmarking General Large Language Models for Genome Sequence Understanding",
+    "authors": "Weicai Long, Yusen Hou, Junning Feng et al.",
+    "year": 2026,
+    "published": "2026-04-07T12:14:20Z",
+    "abstract": "Large Language Models (LLMs) are increasingly adopted as conversational assistants in genomics, where they are mainly used to reason over biological knowledge, annotations, and analysis outputs through natural language interfaces. However, existing benchmarks either focus on specialized DNA models trained for sequence prediction or evaluate biological knowledge using text-only questions, leaving the behavior of general-purpose LLMs when directly exposed to raw genome sequences underexplored. We introduce GenomeQA, a benchmark designed to provide a controlled evaluation setting for general-purpose LLMs on sequence-based genome inference tasks. GenomeQA comprises 5,200 samples drawn from multiple biological databases, with sequence lengths ranging from 6 to 1,000 base pairs (bp), spanning six task families: Enhancer and Promoter Identification, Splice Site Identification, Taxonomic Classification, Histone Mark Prediction, Transcription Factor Binding Site Prediction, and TF Motif Prediction. Across six frontier LLMs, we find that models consistently outperform random baselines and can exploit local sequence signals such as GC content and short motifs, while performance degrades on tasks that require more indirect or multi-step inference over sequence patterns. GenomeQA establishes a diagnostic benchmark for studying and improving the use of general-purpose LLMs on raw genomic sequences.",
+    "categories": [
+      "q-bio.GN",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2604.05774v1",
+    "url": "http://arxiv.org/abs/2604.05774v1"
+  }
+]
