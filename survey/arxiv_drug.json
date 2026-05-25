@@ -1,1 +1,440 @@
-[]
+[
+  {
+    "arxiv_id": "2502.17506",
+    "title": "RAG-Enhanced Collaborative LLM Agents for Drug Discovery",
+    "authors": "Namkyeong Lee, Edward De Brouwer, Ehsan Hajiramezanali et al.",
+    "year": 2025,
+    "published": "2025-02-22T00:12:52Z",
+    "abstract": "Recent advances in large language models (LLMs) have shown great potential to accelerate drug discovery. However, the specialized nature of biochemical data often necessitates costly domain-specific fine-tuning, posing major challenges. First, it hinders the application of more flexible general-purpose LLMs for cutting-edge drug discovery tasks. More importantly, it limits the rapid integration of the vast amounts of scientific data continuously generated through experiments and research. Compounding these challenges is the fact that real-world scientific questions are typically complex and open-ended, requiring reasoning beyond pattern matching or static knowledge retrieval.To address these challenges, we propose CLADD, a retrieval-augmented generation (RAG)-empowered agentic system tailored to drug discovery tasks. Through the collaboration of multiple LLM agents, CLADD dynamically retrieves information from biomedical knowledge bases, contextualizes query molecules, and integrates relevant evidence to generate responses - all without the need for domain-specific fine-tuning. Crucially, we tackle key obstacles in applying RAG workflows to biochemical data, including data heterogeneity, ambiguity, and multi-source integration. We demonstrate the flexibility and effectiveness of this framework across a variety of drug discovery tasks, showing that it outperforms general-purpose and domain-specific LLMs as well as traditional deep learning approaches. Our code is publicly available at https://github.com/Genentech/CLADD.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2502.17506v3",
+    "url": "http://arxiv.org/abs/2502.17506v3"
+  },
+  {
+    "arxiv_id": "2510.09837",
+    "title": "Domain Knowledge Infused Conditional Generative Models for Accelerating Drug Discovery",
+    "authors": "Bing Hu, Jong-Hoon Park, Helen Chen et al.",
+    "year": 2025,
+    "published": "2025-10-10T20:13:00Z",
+    "abstract": "The role of Artificial Intelligence (AI) is growing in every stage of drug development. Nevertheless, a major challenge in drug discovery AI remains: Drug pharmacokinetic (PK) and Drug-Target Interaction (DTI) datasets collected in different studies often exhibit limited overlap, creating data overlap sparsity. Thus, data curation becomes difficult, negatively impacting downstream research investigations in high-throughput screening, polypharmacy, and drug combination. We propose xImagand-DKI, a novel SMILES/Protein-to-Pharmacokinetic/DTI (SP2PKDTI) diffusion model capable of generating an array of PK and DTI target properties conditioned on SMILES and protein inputs that exhibit data overlap sparsity. We infuse additional molecular and genomic domain knowledge from the Gene Ontology (GO) and molecular fingerprints to further improve our model performance. We show that xImagand-DKI-generated synthetic PK data closely resemble real data univariate and bivariate distributions, and can adequately fill in gaps among PK and DTI datasets. As such, xImagand-DKI is a promising solution for data overlap sparsity and may improve performance for downstream drug discovery research tasks. Code available at: https://github.com/GenerativeDrugDiscovery/xImagand-DKI",
+    "categories": [
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2510.09837v2",
+    "url": "http://arxiv.org/abs/2510.09837v2"
+  },
+  {
+    "arxiv_id": "2512.13930",
+    "title": "Hierarchical Multi-agent Large Language Model Reasoning for Autonomous Functional Materials Discovery",
+    "authors": "Samuel Rothfarb, Megan C. Davis, Ivana Matanovic et al.",
+    "year": 2025,
+    "published": "2025-12-15T22:08:18Z",
+    "abstract": "Artificial intelligence is reshaping scientific exploration, but most methods automate procedural tasks without engaging in scientific reasoning, limiting autonomy in discovery. We introduce Materials Agents for Simulation and Theory in Electronic-structure Reasoning (MASTER), an active learning framework where large language models autonomously design, execute, and interpret atomistic simulations. In MASTER, a multimodal system translates natural language into density functional theory workflows, while higher-level reasoning agents guide discovery through a hierarchy of strategies, including a single agent baseline and three multi-agent approaches: peer review, triage-ranking, and triage-forms. Across two chemical applications, CO adsorption on Cu-surface transition metal (M) adatoms and on M-N-C catalysts, reasoning-driven exploration reduces required atomistic simulations by up to 90% relative to trial-and-error selection. Reasoning trajectories reveal chemically grounded decisions that cannot be explained by stochastic sampling or semantic bias. Altogether, multi-agent collaboration accelerates materials discovery and marks a new paradigm for autonomous scientific exploration.",
+    "categories": [
+      "cond-mat.mtrl-sci",
+      "cs.AI",
+      "cs.CL",
+      "cs.LG",
+      "cs.MA"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.13930v1",
+    "url": "http://arxiv.org/abs/2512.13930v1"
+  },
+  {
+    "arxiv_id": "2309.16235",
+    "title": "Language models in molecular discovery",
+    "authors": "Nikita Janakarajan, Tim Erdmann, Sarath Swaminathan et al.",
+    "year": 2023,
+    "published": "2023-09-28T08:19:54Z",
+    "abstract": "The success of language models, especially transformer-based architectures, has trickled into other domains giving rise to \"scientific language models\" that operate on small molecules, proteins or polymers. In chemistry, language models contribute to accelerating the molecule discovery cycle as evidenced by promising recent findings in early-stage drug discovery. Here, we review the role of language models in molecular discovery, underlining their strength in de novo drug design, property prediction and reaction chemistry. We highlight valuable open-source software assets thus lowering the entry barrier to the field of scientific language modeling. Last, we sketch a vision for future molecular design that combines a chatbot interface with access to computational chemistry tools. Our contribution serves as a valuable resource for researchers, chemists, and AI enthusiasts interested in understanding how language models can and will be used to accelerate chemical discovery.",
+    "categories": [
+      "physics.chem-ph",
+      "cs.AI",
+      "cs.CL",
+      "cs.LG",
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2309.16235v1",
+    "url": "http://arxiv.org/abs/2309.16235v1"
+  },
+  {
+    "arxiv_id": "2501.05457",
+    "title": "How Evaluation Choices Distort the Outcome of Generative Drug Discovery",
+    "authors": "Rıza Özçelik, Francesca Grisoni",
+    "year": 2024,
+    "published": "2024-12-24T15:41:37Z",
+    "abstract": "\"How to evaluate the de novo designs proposed by a generative model?\" Despite the transformative potential of generative deep learning in drug discovery, this seemingly simple question has no clear answer. The absence of standardized guidelines challenges both the benchmarking of generative approaches and the selection of molecules for prospective studies. In this work, we take a fresh - critical and constructive - perspective on de novo design evaluation. By training chemical language models, we analyze approximately 1 billion molecule designs and discover principles consistent across different neural networks and datasets. We uncover a key confounder: the size of the generated molecular library significantly impacts evaluation outcomes, often leading to misleading model comparisons. We find increasing the number of designs as a remedy and propose new and compute-efficient metrics to compute at large-scale. We also identify critical pitfalls in commonly used metrics - such as uniqueness and distributional similarity - that can distort assessments of generative performance. To address these issues, we propose new and refined strategies for reliable model comparison and design evaluation. Furthermore, when examining molecule selection and sampling strategies, our findings reveal the constraints to diversify the generated libraries and draw new parallels and distinctions between deep learning and drug discovery. We anticipate our findings to help reshape evaluation pipelines in generative drug discovery, paving the way for more reliable and reproducible generative modeling approaches.",
+    "categories": [
+      "q-bio.BM",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2501.05457v2",
+    "url": "http://arxiv.org/abs/2501.05457v2"
+  },
+  {
+    "arxiv_id": "2312.10793",
+    "title": "Demystifying Instruction Mixing for Fine-tuning Large Language Models",
+    "authors": "Renxi Wang, Haonan Li, Minghao Wu et al.",
+    "year": 2023,
+    "published": "2023-12-17T18:44:26Z",
+    "abstract": "Instruction tuning significantly enhances the performance of large language models (LLMs) across various tasks. However, the procedure to optimizing the mixing of instruction datasets for LLM fine-tuning is still poorly understood. This study categorizes instructions into three primary types: NLP downstream tasks, coding, and general chat. We explore the effects of instruction tuning on different combinations of datasets on LLM performance, and find that certain instruction types are more advantageous for specific applications but can negatively impact other areas. This work provides insights into instruction mixtures, laying the foundations for future research.",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2312.10793v3",
+    "url": "http://arxiv.org/abs/2312.10793v3"
+  },
+  {
+    "arxiv_id": "2304.12244",
+    "title": "WizardLM: Empowering large pre-trained language models to follow complex instructions",
+    "authors": "Can Xu, Qingfeng Sun, Kai Zheng et al.",
+    "year": 2023,
+    "published": "2023-04-24T16:31:06Z",
+    "abstract": "Training large language models (LLMs) with open-domain instruction following data brings colossal success. However, manually creating such instruction data is very time-consuming and labor-intensive. Moreover, humans may struggle to produce high-complexity instructions. In this paper, we show an avenue for creating large amounts of instruction data with varying levels of complexity using LLM instead of humans. Starting with an initial set of instructions, we use our proposed Evol-Instruct to rewrite them step by step into more complex instructions. Then, we mix all generated instruction data to fine-tune LLaMA. We call the resulting model WizardLM. Human evaluations on a complexity-balanced test bed and Vicuna's testset show that instructions from Evol-Instruct are superior to human-created ones. By analyzing the human evaluation results of the high complexity part, we demonstrate that outputs from our WizardLM are preferred to outputs from OpenAI ChatGPT. In GPT-4 automatic evaluation, WizardLM achieves more than 90\\% capacity of ChatGPT on 17 out of 29 skills. Even though WizardLM still lags behind ChatGPT in some aspects, our findings suggest that fine-tuning with AI-evolved instructions is a promising direction for enhancing LLMs. Our code and data are public at https://github.com/nlpxucan/WizardLM",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2304.12244v3",
+    "url": "http://arxiv.org/abs/2304.12244v3"
+  },
+  {
+    "arxiv_id": "2306.08568",
+    "title": "WizardCoder: Empowering Code Large Language Models with Evol-Instruct",
+    "authors": "Ziyang Luo, Can Xu, Pu Zhao et al.",
+    "year": 2023,
+    "published": "2023-06-14T15:18:48Z",
+    "abstract": "Code Large Language Models (Code LLMs), such as StarCoder, have demonstrated exceptional performance in code-related tasks. However, most existing models are solely pre-trained on extensive raw code data without instruction fine-tuning. In this paper, we introduce WizardCoder, which empowers Code LLMs with complex instruction fine-tuning, by adapting the Evol-Instruct method to the domain of code. Through comprehensive experiments on four prominent code generation benchmarks, namely HumanEval, HumanEval+, MBPP, and DS-1000, we unveil the exceptional capabilities of our model. It surpasses all other open-source Code LLMs by a substantial margin. Moreover, our model even outperforms the largest closed LLMs, Anthropic's Claude and Google's Bard, on HumanEval and HumanEval+. Our code, model weights, and data are public at https://github.com/nlpxucan/WizardLM",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2306.08568v2",
+    "url": "http://arxiv.org/abs/2306.08568v2"
+  },
+  {
+    "arxiv_id": "2408.13479",
+    "title": "Quantum-machine-assisted Drug Discovery",
+    "authors": "Yidong Zhou, Jintai Chen, Jinglei Cheng et al.",
+    "year": 2024,
+    "published": "2024-08-24T05:38:31Z",
+    "abstract": "Drug discovery is lengthy and expensive, with traditional computer-aided design facing limits. This paper examines integrating quantum computing across the drug development cycle to accelerate and enhance workflows and rigorous decision-making. It highlights quantum approaches for molecular simulation, drug-target interaction prediction, and optimizing clinical trials. Leveraging quantum capabilities could accelerate timelines and costs for bringing therapies to market, improving efficiency and ultimately benefiting public health.",
+    "categories": [
+      "quant-ph",
+      "cs.LG",
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2408.13479v5",
+    "url": "http://arxiv.org/abs/2408.13479v5"
+  },
+  {
+    "arxiv_id": "2311.04589",
+    "title": "TEAL: Tokenize and Embed ALL for Multi-modal Large Language Models",
+    "authors": "Zhen Yang, Yingxue Zhang, Fandong Meng et al.",
+    "year": 2023,
+    "published": "2023-11-08T10:34:16Z",
+    "abstract": "Despite Multi-modal Large Language Models (MM-LLMs) have made exciting strides recently, they are still struggling to efficiently model the interactions among multi-modal inputs and the generation in non-textual modalities. In this work, we propose TEAL (Tokenize and Embed ALl)}, an approach to treat the input from any modality as a token sequence and learn a joint embedding space for all modalities. Specifically, for the input from any modality, TEAL first discretizes it into a token sequence with the off-the-shelf tokenizer and embeds the token sequence into a joint embedding space with a learnable embedding matrix. MM-LLMs just need to predict the multi-modal tokens autoregressively as the textual LLMs do. Finally, the corresponding de-tokenizer is applied to generate the output in each modality based on the predicted token sequence. With the joint embedding space, TEAL enables the frozen LLMs to perform both understanding and generation tasks involving non-textual modalities, such as image and audio. Thus, the textual LLM can just work as an interface and maintain its high performance in textual understanding and generation. Experiments show that TEAL achieves substantial improvements in multi-modal understanding, and implements a simple scheme for multi-modal generations.",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2311.04589v3",
+    "url": "http://arxiv.org/abs/2311.04589v3"
+  },
+  {
+    "arxiv_id": "2604.02346",
+    "title": "DrugPlayGround: Benchmarking Large Language Models and Embeddings for Drug Discovery",
+    "authors": "Tianyu Liu, Sihan Jiang, Fan Zhang et al.",
+    "year": 2026,
+    "published": "2026-02-11T19:16:33Z",
+    "abstract": "Large language models (LLMs) are in the ascendancy for research in drug discovery, offering unprecedented opportunities to reshape drug research by accelerating hypothesis generation, optimizing candidate prioritization, and enabling more scalable and cost-effective drug discovery pipelines. However there is currently a lack of objective assessments of LLM performance to ascertain their advantages and limitations over traditional drug discovery platforms. To tackle this emergent problem, we have developed DrugPlayGround, a framework to evaluate and benchmark LLM performance for generating meaningful text-based descriptions of physiochemical drug characteristics, drug synergism, drug-protein interactions, and the physiological response to perturbations introduced by drug molecules. Moreover, DrugPlayGround is designed to work with domain experts to provide detailed explanations for justifying the predictions of LLMs, thereby testing LLMs for chemical and biological reasoning capabilities to push their greater use at the frontier of drug discovery at all of its stages.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "cs.SE",
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2604.02346v1",
+    "url": "http://arxiv.org/abs/2604.02346v1"
+  },
+  {
+    "arxiv_id": "2503.16581",
+    "title": "Investigating Retrieval-Augmented Generation in Quranic Studies: A Study of 13 Open-Source Large Language Models",
+    "authors": "Zahra Khalila, Arbi Haza Nasution, Winda Monika et al.",
+    "year": 2025,
+    "published": "2025-03-20T13:26:30Z",
+    "abstract": "Accurate and contextually faithful responses are critical when applying large language models (LLMs) to sensitive and domain-specific tasks, such as answering queries related to quranic studies. General-purpose LLMs often struggle with hallucinations, where generated responses deviate from authoritative sources, raising concerns about their reliability in religious contexts. This challenge highlights the need for systems that can integrate domain-specific knowledge while maintaining response accuracy, relevance, and faithfulness. In this study, we investigate 13 open-source LLMs categorized into large (e.g., Llama3:70b, Gemma2:27b, QwQ:32b), medium (e.g., Gemma2:9b, Llama3:8b), and small (e.g., Llama3.2:3b, Phi3:3.8b). A Retrieval-Augmented Generation (RAG) is used to make up for the problems that come with using separate models. This research utilizes a descriptive dataset of Quranic surahs including the meanings, historical context, and qualities of the 114 surahs, allowing the model to gather relevant knowledge before responding. The models are evaluated using three key metrics set by human evaluators: context relevance, answer faithfulness, and answer relevance. The findings reveal that large models consistently outperform smaller models in capturing query semantics and producing accurate, contextually grounded responses. The Llama3.2:3b model, even though it is considered small, does very well on faithfulness (4.619) and relevance (4.857), showing the promise of smaller architectures that have been well optimized. This article examines the trade-offs between model size, computational efficiency, and response quality while using LLMs in domain-specific applications.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2503.16581v1",
+    "url": "http://arxiv.org/abs/2503.16581v1"
+  },
+  {
+    "arxiv_id": "2308.16149",
+    "title": "Jais and Jais-chat: Arabic-Centric Foundation and Instruction-Tuned Open Generative Large Language Models",
+    "authors": "Neha Sengupta, Sunil Kumar Sahu, Bokang Jia et al.",
+    "year": 2023,
+    "published": "2023-08-30T17:07:17Z",
+    "abstract": "We introduce Jais and Jais-chat, new state-of-the-art Arabic-centric foundation and instruction-tuned open generative large language models (LLMs). The models are based on the GPT-3 decoder-only architecture and are pretrained on a mixture of Arabic and English texts, including source code in various programming languages. With 13 billion parameters, they demonstrate better knowledge and reasoning capabilities in Arabic than any existing open Arabic and multilingual models by a sizable margin, based on extensive evaluation. Moreover, the models are competitive in English compared to English-centric open models of similar size, despite being trained on much less English data. We provide a detailed description of the training, the tuning, the safety alignment, and the evaluation of the models. We release two open versions of the model -- the foundation Jais model, and an instruction-tuned Jais-chat variant -- with the aim of promoting research on Arabic LLMs. Available at https://huggingface.co/inception-mbzuai/jais-13b-chat",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2308.16149v2",
+    "url": "http://arxiv.org/abs/2308.16149v2"
+  },
+  {
+    "arxiv_id": "2401.10034",
+    "title": "Evolutionary Computation in the Era of Large Language Model: Survey and Roadmap",
+    "authors": "Xingyu Wu, Sheng-hao Wu, Jibin Wu et al.",
+    "year": 2024,
+    "published": "2024-01-18T14:58:17Z",
+    "abstract": "Large language models (LLMs) have not only revolutionized natural language processing but also extended their prowess to various domains, marking a significant stride towards artificial general intelligence. The interplay between LLMs and evolutionary algorithms (EAs), despite differing in objectives and methodologies, share a common pursuit of applicability in complex problems. Meanwhile, EA can provide an optimization framework for LLM's further enhancement under black-box settings, empowering LLM with flexible global search capacities. On the other hand, the abundant domain knowledge inherent in LLMs could enable EA to conduct more intelligent searches. Furthermore, the text processing and generative capabilities of LLMs would aid in deploying EAs across a wide range of tasks. Based on these complementary advantages, this paper provides a thorough review and a forward-looking roadmap, categorizing the reciprocal inspiration into two main avenues: LLM-enhanced EA and EA-enhanced LLM. Some integrated synergy methods are further introduced to exemplify the complementarity between LLMs and EAs in diverse scenarios, including code generation, software engineering, neural architecture search, and various generation tasks. As the first comprehensive review focused on the EA research in the era of LLMs, this paper provides a foundational stepping stone for understanding the collaborative potential of LLMs and EAs. The identified challenges and future directions offer guidance for researchers and practitioners to unlock the full potential of this innovative collaboration in propelling advancements in optimization and artificial intelligence. We have created a GitHub repository to index the relevant papers: https://github.com/wuxingyu-ai/LLM4EC.",
+    "categories": [
+      "cs.NE",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2401.10034v3",
+    "url": "http://arxiv.org/abs/2401.10034v3"
+  },
+  {
+    "arxiv_id": "2310.00034",
+    "title": "PB-LLM: Partially Binarized Large Language Models",
+    "authors": "Yuzhang Shang, Zhihang Yuan, Qiang Wu et al.",
+    "year": 2023,
+    "published": "2023-09-29T14:35:27Z",
+    "abstract": "This paper explores network binarization, a radical form of quantization, compressing model weights to a single bit, specifically for Large Language Models (LLMs) compression. Due to previous binarization methods collapsing LLMs, we propose a novel approach, Partially-Binarized LLM (PB-LLM), which can achieve extreme low-bit quantization while maintaining the linguistic reasoning capacity of quantized LLMs. Specifically, our exploration first uncovers the ineffectiveness of naive applications of existing binarization algorithms and highlights the imperative role of salient weights in achieving low-bit quantization. Thus, PB-LLM filters a small ratio of salient weights during binarization, allocating them to higher-bit storage, i.e., partially-binarization. PB-LLM is extended to recover the capacities of quantized LMMs, by analyzing from the perspective of post-training quantization (PTQ) and quantization-aware training (QAT). Under PTQ, combining the concepts from GPTQ, we reconstruct the binarized weight matrix guided by the Hessian matrix and successfully recover the reasoning capacity of PB-LLM in low-bit. Under QAT, we freeze the salient weights during training, explore the derivation of optimal scaling factors crucial for minimizing the quantization error, and propose a scaling mechanism based on this derived scaling strategy for residual binarized weights. Those explorations and the developed methodologies significantly contribute to rejuvenating the performance of low-bit quantized LLMs and present substantial advancements in the field of network binarization for LLMs.The code is available at https://github.com/hahnyuan/BinaryLLM.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2310.00034v2",
+    "url": "http://arxiv.org/abs/2310.00034v2"
+  },
+  {
+    "arxiv_id": "2507.02925",
+    "title": "Large Language Model Agent for Modular Task Execution in Drug Discovery",
+    "authors": "Janghoon Ock, Radheesh Sharma Meda, Srivathsan Badrinarayanan et al.",
+    "year": 2025,
+    "published": "2025-06-26T00:19:01Z",
+    "abstract": "We present a modular framework powered by large language models (LLMs) that automates and streamlines key tasks across the early-stage computational drug discovery pipeline. By combining LLM reasoning with domain-specific tools, the framework performs biomedical data retrieval, literature-grounded question answering via retrieval-augmented generation, molecular generation, multi-property prediction, property-aware molecular refinement, and 3D protein-ligand structure generation. The agent autonomously retrieved relevant biomolecular information, including FASTA sequences, SMILES representations, and literature, and answered mechanistic questions with improved contextual accuracy compared to standard LLMs. It then generated chemically diverse seed molecules and predicted 75 properties, including ADMET-related and general physicochemical descriptors, which guided iterative molecular refinement. Across two refinement rounds, the number of molecules with QED > 0.6 increased from 34 to 55. The number of molecules satisfying empirical drug-likeness filters also rose; for example, compliance with the Ghose filter increased from 32 to 55 within a pool of 100 molecules. The framework also employed Boltz-2 to generate 3D protein-ligand complexes and provide rapid binding affinity estimates for candidate compounds. These results demonstrate that the approach effectively supports molecular screening, prioritization, and structure evaluation. Its modular design enables flexible integration of evolving tools and models, providing a scalable foundation for AI-assisted therapeutic discovery.",
+    "categories": [
+      "cs.LG",
+      "cs.CL",
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2507.02925v3",
+    "url": "http://arxiv.org/abs/2507.02925v3"
+  },
+  {
+    "arxiv_id": "2310.06083",
+    "title": "Transformers and Large Language Models for Chemistry and Drug Discovery",
+    "authors": "Andres M Bran, Philippe Schwaller",
+    "year": 2023,
+    "published": "2023-10-09T18:40:04Z",
+    "abstract": "Language modeling has seen impressive progress over the last years, mainly prompted by the invention of the Transformer architecture, sparking a revolution in many fields of machine learning, with breakthroughs in chemistry and biology. In this chapter, we explore how analogies between chemical and natural language have inspired the use of Transformers to tackle important bottlenecks in the drug discovery process, such as retrosynthetic planning and chemical space exploration. The revolution started with models able to perform particular tasks with a single type of data, like linearised molecular graphs, which then evolved to include other types of data, like spectra from analytical instruments, synthesis actions, and human language. A new trend leverages recent developments in large language models, giving rise to a wave of models capable of solving generic tasks in chemistry, all facilitated by the flexibility of natural language. As we continue to explore and harness these capabilities, we can look forward to a future where machine learning plays an even more integral role in accelerating scientific discovery.",
+    "categories": [
+      "cs.LG",
+      "physics.chem-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2310.06083v1",
+    "url": "http://arxiv.org/abs/2310.06083v1"
+  },
+  {
+    "arxiv_id": "2012.11175",
+    "title": "Learn molecular representations from large-scale unlabeled molecules for drug discovery",
+    "authors": "Pengyong Li, Jun Wang, Yixuan Qiao et al.",
+    "year": 2020,
+    "published": "2020-12-21T08:21:49Z",
+    "abstract": "How to produce expressive molecular representations is a fundamental challenge in AI-driven drug discovery. Graph neural network (GNN) has emerged as a powerful technique for modeling molecular data. However, previous supervised approaches usually suffer from the scarcity of labeled data and have poor generalization capability. Here, we proposed a novel Molecular Pre-training Graph-based deep learning framework, named MPG, that leans molecular representations from large-scale unlabeled molecules. In MPG, we proposed a powerful MolGNet model and an effective self-supervised strategy for pre-training the model at both the node and graph-level. After pre-training on 11 million unlabeled molecules, we revealed that MolGNet can capture valuable chemistry insights to produce interpretable representation. The pre-trained MolGNet can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of drug discovery tasks, including molecular properties prediction, drug-drug interaction, and drug-target interaction, involving 13 benchmark datasets. Our work demonstrates that MPG is promising to become a novel approach in the drug discovery pipeline.",
+    "categories": [
+      "cs.LG",
+      "q-bio.BM",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2012.11175v1",
+    "url": "http://arxiv.org/abs/2012.11175v1"
+  },
+  {
+    "arxiv_id": "2503.21676",
+    "title": "How do language models learn facts? Dynamics, curricula and hallucinations",
+    "authors": "Nicolas Zucchet, Jörg Bornschein, Stephanie Chan et al.",
+    "year": 2025,
+    "published": "2025-03-27T16:43:45Z",
+    "abstract": "Large language models accumulate vast knowledge during pre-training, yet the dynamics governing this acquisition remain poorly understood. This work investigates the learning dynamics of language models on a synthetic factual recall task, uncovering three key findings: First, language models learn in three phases, exhibiting a performance plateau before acquiring precise factual knowledge. Mechanistically, this plateau coincides with the formation of attention-based circuits that support recall. Second, the training data distribution significantly impacts learning dynamics, as imbalanced distributions lead to shorter plateaus. Finally, hallucinations emerge simultaneously with knowledge, and integrating new knowledge into the model through fine-tuning is challenging, as it quickly corrupts its existing parametric memories. Our results emphasize the importance of data distribution in knowledge acquisition and suggest novel data scheduling strategies to accelerate neural network training.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2503.21676v2",
+    "url": "http://arxiv.org/abs/2503.21676v2"
+  },
+  {
+    "arxiv_id": "2311.16208",
+    "title": "InstructMol: Multi-Modal Integration for Building a Versatile and Reliable Molecular Assistant in Drug Discovery",
+    "authors": "He Cao, Zijing Liu, Xingyu Lu et al.",
+    "year": 2023,
+    "published": "2023-11-27T16:47:51Z",
+    "abstract": "The rapid evolution of artificial intelligence in drug discovery encounters challenges with generalization and extensive training, yet Large Language Models (LLMs) offer promise in reshaping interactions with complex molecular data. Our novel contribution, InstructMol, a multi-modal LLM, effectively aligns molecular structures with natural language via an instruction-tuning approach, utilizing a two-stage training strategy that adeptly combines limited domain-specific data with molecular and textual information. InstructMol showcases substantial performance improvements in drug discovery-related molecular tasks, surpassing leading LLMs and significantly reducing the gap with specialized models, thereby establishing a robust foundation for a versatile and dependable drug discovery assistant.",
+    "categories": [
+      "q-bio.BM",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2311.16208v2",
+    "url": "http://arxiv.org/abs/2311.16208v2"
+  },
+  {
+    "arxiv_id": "2401.07657",
+    "title": "Empirical Evidence for the Fragment level Understanding on Drug Molecular Structure of LLMs",
+    "authors": "Xiuyuan Hu, Guoqing Liu, Yang Zhao et al.",
+    "year": 2024,
+    "published": "2024-01-15T12:53:58Z",
+    "abstract": "AI for drug discovery has been a research hotspot in recent years, and SMILES-based language models has been increasingly applied in drug molecular design. However, no work has explored whether and how language models understand the chemical spatial structure from 1D sequences. In this work, we pre-train a transformer model on chemical language and fine-tune it toward drug design objectives, and investigate the correspondence between high-frequency SMILES substrings and molecular fragments. The results indicate that language models can understand chemical structures from the perspective of molecular fragments, and the structural knowledge learned through fine-tuning is reflected in the high-frequency SMILES substrings generated by the model.",
+    "categories": [
+      "cs.LG",
+      "cs.CE",
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2401.07657v1",
+    "url": "http://arxiv.org/abs/2401.07657v1"
+  },
+  {
+    "arxiv_id": "2407.10452",
+    "title": "GraphPrint: Extracting Features from 3D Protein Structure for Drug Target Affinity Prediction",
+    "authors": "Amritpal Singh",
+    "year": 2024,
+    "published": "2024-07-15T05:45:09Z",
+    "abstract": "Accurate drug target affinity prediction can improve drug candidate selection, accelerate the drug discovery process, and reduce drug production costs. Previous work focused on traditional fingerprints or used features extracted based on the amino acid sequence in the protein, ignoring its 3D structure which affects its binding affinity. In this work, we propose GraphPrint: a framework for incorporating 3D protein structure features for drug target affinity prediction. We generate graph representations for protein 3D structures using amino acid residue location coordinates and combine them with drug graph representation and traditional features to jointly learn drug target affinity. Our model achieves a mean square error of 0.1378 and a concordance index of 0.8929 on the KIBA dataset and improves over using traditional protein features alone. Our ablation study shows that the 3D protein structure-based features provide information complementary to traditional features.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.10452v1",
+    "url": "http://arxiv.org/abs/2407.10452v1"
+  },
+  {
+    "arxiv_id": "2505.16094",
+    "title": "A Survey of Large Language Models for Text-Guided Molecular Discovery: from Molecule Generation to Optimization",
+    "authors": "Ziqing Wang, Kexin Zhang, Zihan Zhao et al.",
+    "year": 2025,
+    "published": "2025-05-22T00:26:27Z",
+    "abstract": "Large language models (LLMs) are introducing a paradigm shift in molecular discovery by enabling text-guided interaction with chemical spaces through natural language, symbolic notations, with emerging extensions to incorporate multi-modal inputs. To advance the new field of LLM for molecular discovery, this survey provides an up-to-date and forward-looking review of the emerging use of LLMs for two central tasks: molecule generation and molecule optimization. Based on our proposed taxonomy for both problems, we analyze representative techniques in each category, highlighting how LLM capabilities are leveraged across different learning settings. In addition, we include the commonly used datasets and evaluation protocols. We conclude by discussing key challenges and future directions, positioning this survey as a resource for researchers working at the intersection of LLMs and molecular science. A continuously updated reading list is available at https://github.com/REAL-Lab-NU/Awesome-LLM-Centric-Molecular-Discovery.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2505.16094v1",
+    "url": "http://arxiv.org/abs/2505.16094v1"
+  },
+  {
+    "arxiv_id": "2409.02228",
+    "title": "Unforgettable Generalization in Language Models",
+    "authors": "Eric Zhang, Leshem Chosen, Jacob Andreas",
+    "year": 2024,
+    "published": "2024-09-03T18:55:54Z",
+    "abstract": "When language models (LMs) are trained to forget (or \"unlearn'') a skill, how precisely does their behavior change? We study the behavior of transformer LMs in which tasks have been forgotten via fine-tuning on randomized labels. Such LMs learn to generate near-random predictions for individual examples in the \"training'' set used for forgetting. Across tasks, however, LMs exhibit extreme variability in whether LM predictions change on examples outside the training set. In some tasks (like entailment classification), forgetting generalizes robustly, and causes models to produce uninformative predictions on new task instances; in other tasks (like physical commonsense reasoning and scientific question answering) forgetting affects only the training examples, and models continue to perform the \"forgotten'' task accurately even for examples very similar to those that appeared in the training set. Dataset difficulty is not predictive of whether a behavior can be forgotten; instead, generalization in forgetting is (weakly) predicted by the confidence of LMs' initial task predictions and the variability of LM representations of training data, with low confidence and low variability both associated with greater generalization. Perhaps most surprisingly, random-label forgetting appears to be somewhat insensitive to the contents of the training set: for example, models trained on science questions with random labels continue to answer other science questions accurately, but begin to produce random labels on entailment classification tasks. Finally, we show that even generalizable forgetting is shallow: linear probes trained on LMs' representations can still perform tasks reliably after forgetting. Our results highlight the difficulty and unpredictability of performing targeted skill removal from models via fine-tuning.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2409.02228v1",
+    "url": "http://arxiv.org/abs/2409.02228v1"
+  },
+  {
+    "arxiv_id": "2206.05395",
+    "title": "Why is constrained neural language generation particularly challenging?",
+    "authors": "Cristina Garbacea, Qiaozhu Mei",
+    "year": 2022,
+    "published": "2022-06-11T02:07:33Z",
+    "abstract": "Recent advances in deep neural language models combined with the capacity of large scale datasets have accelerated the development of natural language generation systems that produce fluent and coherent texts (to various degrees of success) in a multitude of tasks and application contexts. However, controlling the output of these models for desired user and task needs is still an open challenge. This is crucial not only to customizing the content and style of the generated language, but also to their safe and reliable deployment in the real world. We present an extensive survey on the emerging topic of constrained neural language generation in which we formally define and categorize the problems of natural language generation by distinguishing between conditions and constraints (the latter being testable conditions on the output text instead of the input), present constrained text generation tasks, and review existing methods and evaluation metrics for constrained text generation. Our aim is to highlight recent progress and trends in this emerging field, informing on the most promising directions and limitations towards advancing the state-of-the-art of constrained neural language generation research.",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2206.05395v2",
+    "url": "http://arxiv.org/abs/2206.05395v2"
+  },
+  {
+    "arxiv_id": "2210.04186",
+    "title": "Analogy Generation by Prompting Large Language Models: A Case Study of InstructGPT",
+    "authors": "Bhavya Bhavya, Jinjun Xiong, Chengxiang Zhai",
+    "year": 2022,
+    "published": "2022-10-09T06:35:14Z",
+    "abstract": "We propose a novel application of prompting Pre-trained Language Models (PLMs) to generate analogies and study how to design effective prompts for two task settings: generating a source concept analogous to a given target concept (aka Analogous Concept Generation or ACG), and generating an explanation of the similarity between a given pair of target concept and source concept (aka Analogous Explanation Generation or AEG). We found that it is feasible to prompt InstructGPT to generate meaningful analogies and the best prompts tend to be precise imperative statements especially with a low temperature setting. We also systematically analyzed the sensitivity of the InstructGPT model to prompt design, temperature, and injected spelling errors, and found that the model is particularly sensitive to certain variations (e.g., questions vs. imperative statements). Further, we conducted human evaluation on 1.4k of the generated analogies and found that the quality of generations varies substantially by model size. The largest InstructGPT model can achieve human-level performance at generating meaningful analogies for a given target while there is still room for improvement on the AEG task.",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2210.04186v2",
+    "url": "http://arxiv.org/abs/2210.04186v2"
+  },
+  {
+    "arxiv_id": "2409.04481",
+    "title": "Large Language Models in Drug Discovery and Development: From Disease Mechanisms to Clinical Trials",
+    "authors": "Yizhen Zheng, Huan Yee Koh, Maddie Yang et al.",
+    "year": 2024,
+    "published": "2024-09-06T02:03:38Z",
+    "abstract": "The integration of Large Language Models (LLMs) into the drug discovery and development field marks a significant paradigm shift, offering novel methodologies for understanding disease mechanisms, facilitating drug discovery, and optimizing clinical trial processes. This review highlights the expanding role of LLMs in revolutionizing various stages of the drug development pipeline. We investigate how these advanced computational models can uncover target-disease linkage, interpret complex biomedical data, enhance drug molecule design, predict drug efficacy and safety profiles, and facilitate clinical trial processes. Our paper aims to provide a comprehensive overview for researchers and practitioners in computational biology, pharmacology, and AI4Science by offering insights into the potential transformative impact of LLMs on drug discovery and development.",
+    "categories": [
+      "q-bio.QM",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2409.04481v1",
+    "url": "http://arxiv.org/abs/2409.04481v1"
+  },
+  {
+    "arxiv_id": "2508.04848",
+    "title": "Large Language Models Reasoning Abilities Under Non-Ideal Conditions After RL-Fine-Tuning",
+    "authors": "Chang Tian, Matthew B. Blaschko, Mingzhe Xing et al.",
+    "year": 2025,
+    "published": "2025-08-06T19:51:29Z",
+    "abstract": "Reinforcement learning (RL) has become a key technique for enhancing the reasoning abilities of large language models (LLMs), with policy-gradient algorithms dominating the post-training stage because of their efficiency and effectiveness. However, most existing benchmarks evaluate large-language-model reasoning under idealized settings, overlooking performance in realistic, non-ideal scenarios. We identify three representative non-ideal scenarios with practical relevance: summary inference, fine-grained noise suppression, and contextual filtering. We introduce a new research direction guided by brain-science findings that human reasoning remains reliable under imperfect inputs. We formally define and evaluate these challenging scenarios. We fine-tune three LLMs and a state-of-the-art large vision-language model (LVLM) using RL with a representative policy-gradient algorithm and then test their performance on eight public datasets. Our results reveal that while RL fine-tuning improves baseline reasoning under idealized settings, performance declines significantly across all three non-ideal scenarios, exposing critical limitations in advanced reasoning capabilities. Although we propose a scenario-specific remediation method, our results suggest current methods leave these reasoning deficits largely unresolved. This work highlights that the reasoning abilities of large models are often overstated and underscores the importance of evaluating models under non-ideal scenarios. The code and data will be released at XXXX.",
+    "categories": [
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2508.04848v1",
+    "url": "http://arxiv.org/abs/2508.04848v1"
+  },
+  {
+    "arxiv_id": "2008.09000",
+    "title": "Generative chemistry: drug discovery with deep learning generative models",
+    "authors": "Yuemin Bian, Xiang-Qun Xie",
+    "year": 2020,
+    "published": "2020-08-20T14:38:21Z",
+    "abstract": "The de novo design of molecular structures using deep learning generative models introduces an encouraging solution to drug discovery in the face of the continuously increased cost of new drug development. From the generation of original texts, images, and videos, to the scratching of novel molecular structures, the incredible creativity of deep learning generative models surprised us about the height machine intelligence can achieve. The purpose of this paper is to review the latest advances in generative chemistry which relies on generative modeling to expedite the drug discovery process. This review starts with a brief history of artificial intelligence in drug discovery to outline this emerging paradigm. Commonly used chemical databases, molecular representations, and tools in cheminformatics and machine learning are covered as the infrastructure for the generative chemistry. The detailed discussions on utilizing cutting-edge generative architectures, including recurrent neural network, variational autoencoder, adversarial autoencoder, and generative adversarial network for compound generation are focused. Challenges and future perspectives follow.",
+    "categories": [
+      "q-bio.BM",
+      "cs.LG",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2008.09000v1",
+    "url": "http://arxiv.org/abs/2008.09000v1"
+  },
+  {
+    "arxiv_id": "2211.02657",
+    "title": "MolE: a molecular foundation model for drug discovery",
+    "authors": "Oscar Méndez-Lucio, Christos Nicolaou, Berton Earnshaw",
+    "year": 2022,
+    "published": "2022-11-03T21:22:05Z",
+    "abstract": "Models that accurately predict properties based on chemical structure are valuable tools in drug discovery. However, for many properties, public and private training sets are typically small, and it is difficult for the models to generalize well outside of the training data. Recently, large language models have addressed this problem by using self-supervised pretraining on large unlabeled datasets, followed by fine-tuning on smaller, labeled datasets. In this paper, we report MolE, a molecular foundation model that adapts the DeBERTa architecture to be used on molecular graphs together with a two-step pretraining strategy. The first step of pretraining is a self-supervised approach focused on learning chemical structures, and the second step is a massive multi-task approach to learn biological information. We show that fine-tuning pretrained MolE achieves state-of-the-art results on 9 of the 22 ADMET tasks included in the Therapeutic Data Commons.",
+    "categories": [
+      "q-bio.QM",
+      "cs.LG",
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2211.02657v1",
+    "url": "http://arxiv.org/abs/2211.02657v1"
+  }
+]

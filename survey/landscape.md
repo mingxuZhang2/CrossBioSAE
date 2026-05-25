@@ -1,7 +1,9 @@
 # LLM在生物信息学中的应用：全景综述
 
 > 调研时间：2026年5月
-> 覆盖文献范围：2023-2025年
+> 覆盖文献范围：2023-2026年
+> 数据来源：Semantic Scholar (~460 papers), arXiv (~210 papers), Nature journals (~193 papers)
+> 去重后总计：~893篇独立论文
 
 ---
 
@@ -294,7 +296,65 @@
 
 ---
 
-## 四、整体趋势总结
+## 四、变异效应预测 (Variant Effect Prediction)
+
+**独立子方向（跨蛋白质和基因组两个领域）**
+
+这是一个高影响力的交叉方向，利用蛋白质语言模型和基因组模型来预测基因变异的功能效应。
+
+**关键工作**：
+- **AlphaMissense**（DeepMind, Science 2023, 1557引用）：基于AlphaFold的fine-tune，对71M编码变异进行致病性分类
+- **ESM1b variant prediction**（Nature Genetics 2023, 326引用）：使用650M参数ESM1b进行全基因组致病性预测
+- **AlphaGenome**（DeepMind, Nature 2026, 79引用）：统一DNA序列模型用于调控变异效应预测
+- **Evo 2**：40B参数模型在变异效应预测上达到SOTA
+
+**为何对纯计算研究者极有吸引力**：
+- 丰富的公开ground truth数据（ClinVar, ProteinGym, gnomAD, GTEx eQTL）
+- AlphaMissense以纯计算验证发表在Science上
+- 不需要任何湿实验
+
+---
+
+## 五、空间转录组学与组织建模 (Spatial Transcriptomics & Tissue Modeling)
+
+**新兴快速增长子方向**
+
+- **STORM**：120万空间转录组谱+匹配组织学图像的多模态基础模型
+- **Nicheformer**（2024, 111引用）：单细胞+空间组学统一基础模型
+- **A visual-omics foundation model**（Nature Methods 2025, 81引用）：桥接组织病理学与空间转录组
+- **THItoGene**（Briefings Bioinform 2023, 121引用）：从组织学图像预测空间转录组
+- **spaLLM, QuST-LLM, TissueNarrator**：整合LLM的空间分析工具
+
+---
+
+## 六、2026年最新进展（Nature系列期刊）
+
+根据2026年Nature系列期刊的最新论文，该领域出现以下重要新方向：
+
+1. **通用生物AI (Generalist Biological AI)**
+   - "Generalist biological artificial intelligence in modeling the language of life"（Nature Biotechnology 2026）
+   - 目标：一个模型处理所有生物学语言（DNA、RNA、蛋白质）
+
+2. **Agentic AI in Biomedical Research**
+   - "Agentic AI and the rise of in silico team science in biomedical research"（Nature Biotechnology 2026）
+   - AI智能体取代湿实验团队，纯计算团队科学
+
+3. **RNA设计与工程**
+   - GRAPE-LM：核酸语言模型驱动的一轮RNA aptamer进化（Nature Biotechnology 2026）
+   - 可编程RNA翻译：通过深度学习的IRES发现和从头生成（Nature MI 2026）
+   - Orthrus：进化和功能性RNA基础模型（Nature Methods 2026）
+
+4. **蛋白质语言模型压缩与实用化**
+   - "Compressing the collective knowledge of ESM"（Nature Methods 2026）
+   - "Bridging the gap between hybrid and sequence-only PLMs"（Nature Methods 2026）
+   - eSIG-Net：蛋白质单突变交互语言模型（Nature Methods 2026）
+
+5. **Flow Matching成为主流生成方法**
+   - "Flow matching for generative modelling in bioinformatics"（Nature MI 2026，综述/展望）
+
+---
+
+## 七、整体趋势总结
 
 1. **规模化**：模型参数从百万级到百亿级（ESM-2 15B, Evo 2 40B），训练数据从百万到万亿token
 2. **架构多样化**：从纯Transformer到SSM/Mamba架构的探索，解决长序列建模瓶颈
@@ -302,3 +362,7 @@
 4. **智能体化**：从被动模型到主动智能体，自动化完整的分析流程
 5. **基准标准化**：大量新基准涌现（ProteinGym, BixBench, BioML-bench等），推动公平比较
 6. **虚拟细胞愿景**：从单一任务模型到整合多尺度的虚拟细胞系统
+7. **通用化**：从单模态专用模型走向多模态通用生物AI（GenBioAI, Evo 2）
+8. **实用化**：模型压缩、蒸馏（ESM压缩, Nature Methods 2026）使大模型可部署
+9. **生成范式转变**：Flow Matching/扩散模型取代传统自回归生成，在分子和蛋白质设计中成为主流
+10. **评估觉醒**：Genome Biology 2025零样本评估研究揭示单细胞基础模型的局限性，推动更严格的评估

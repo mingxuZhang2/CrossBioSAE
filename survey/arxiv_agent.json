@@ -1,0 +1,427 @@
+[
+  {
+    "arxiv_id": "2509.13978",
+    "title": "LLM Agents for Interactive Workflow Provenance: Reference Architecture and Evaluation Methodology",
+    "authors": "Renan Souza, Timothy Poteet, Brian Etz et al.",
+    "year": 2025,
+    "published": "2025-09-17T13:51:29Z",
+    "abstract": "Modern scientific discovery increasingly relies on workflows that process data across the Edge, Cloud, and High Performance Computing (HPC) continuum. Comprehensive and in-depth analyses of these data are critical for hypothesis validation, anomaly detection, reproducibility, and impactful findings. Although workflow provenance techniques support such analyses, at large scale, the provenance data become complex and difficult to analyze. Existing systems depend on custom scripts, structured queries, or static dashboards, limiting data interaction. In this work, we introduce an evaluation methodology, reference architecture, and open-source implementation that leverages interactive Large Language Model (LLM) agents for runtime data analysis. Our approach uses a lightweight, metadata-driven design that translates natural language into structured provenance queries. Evaluations across LLaMA, GPT, Gemini, and Claude, covering diverse query classes and a real-world chemistry workflow, show that modular design, prompt tuning, and Retrieval-Augmented Generation (RAG) enable accurate and insightful LLM agent responses beyond recorded provenance.",
+    "categories": [
+      "cs.DC",
+      "cs.AI",
+      "cs.DB"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2509.13978v2",
+    "url": "http://arxiv.org/abs/2509.13978v2"
+  },
+  {
+    "arxiv_id": "1603.06430",
+    "title": "Deep Learning in Bioinformatics",
+    "authors": "Seonwoo Min, Byunghan Lee, Sungroh Yoon",
+    "year": 2016,
+    "published": "2016-03-21T13:55:02Z",
+    "abstract": "In the era of big data, transformation of biomedical big data into valuable knowledge has been one of the most important challenges in bioinformatics. Deep learning has advanced rapidly since the early 2000s and now demonstrates state-of-the-art performance in various fields. Accordingly, application of deep learning in bioinformatics to gain insight from data has been emphasized in both academia and industry. Here, we review deep learning in bioinformatics, presenting examples of current research. To provide a useful and comprehensive perspective, we categorize research both by the bioinformatics domain (i.e., omics, biomedical imaging, biomedical signal processing) and deep learning architecture (i.e., deep neural networks, convolutional neural networks, recurrent neural networks, emergent architectures) and present brief descriptions of each study. Additionally, we discuss theoretical and practical issues of deep learning in bioinformatics and suggest future research directions. We believe that this review will provide valuable insights and serve as a starting point for researchers to apply deep learning approaches in their bioinformatics studies.",
+    "categories": [
+      "cs.LG",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1603.06430v5",
+    "url": "http://arxiv.org/abs/1603.06430v5"
+  },
+  {
+    "arxiv_id": "2508.08322",
+    "title": "Context Engineering for Multi-Agent LLM Code Assistants Using Elicit, NotebookLM, ChatGPT, and Claude Code",
+    "authors": "Muhammad Haseeb",
+    "year": 2025,
+    "published": "2025-08-09T14:45:53Z",
+    "abstract": "Large Language Models (LLMs) have shown promise in automating code generation and software engineering tasks, yet they often struggle with complex, multi-file projects due to context limitations and knowledge gaps. We propose a novel context engineering workflow that combines multiple AI components: an Intent Translator (GPT-5) for clarifying user requirements, an Elicit-powered semantic literature retrieval for injecting domain knowledge, NotebookLM-based document synthesis for contextual understanding, and a Claude Code multi-agent system for code generation and validation. Our integrated approach leverages intent clarification, retrieval-augmented generation, and specialized sub-agents orchestrated via Claude's agent framework. We demonstrate that this method significantly improves the accuracy and reliability of code assistants in real-world repositories, yielding higher single-shot success rates and better adherence to project context than baseline single-agent approaches. Qualitative results on a large Next.js codebase show the multi-agent system effectively plans, edits, and tests complex features with minimal human intervention. We compare our system with recent frameworks like CodePlan, MASAI, and HyperAgent, highlighting how targeted context injection and agent role decomposition lead to state-of-the-art performance. Finally, we discuss the implications for deploying LLM-based coding assistants in production, along with lessons learned on context management and future research directions.",
+    "categories": [
+      "cs.SE",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2508.08322v1",
+    "url": "http://arxiv.org/abs/2508.08322v1"
+  },
+  {
+    "arxiv_id": "2410.12532",
+    "title": "MedAide: Information Fusion and Anatomy of Medical Intents via LLM-based Agent Collaboration",
+    "authors": "Dingkang Yang, Jinjie Wei, Mingcheng Li et al.",
+    "year": 2024,
+    "published": "2024-10-16T13:10:27Z",
+    "abstract": "In healthcare intelligence, the ability to fuse heterogeneous, multi-intent information from diverse clinical sources is fundamental to building reliable decision-making systems. Large Language Model (LLM)-driven information interaction systems currently showing potential promise in the healthcare domain. Nevertheless, they often suffer from information redundancy and coupling when dealing with complex medical intents, leading to severe hallucinations and performance bottlenecks. To this end, we propose MedAide, an LLM-based medical multi-agent collaboration framework designed to enable intent-aware information fusion and coordinated reasoning across specialized healthcare domains. Specifically, we introduce a regularization-guided module that combines syntactic constraints with retrieval augmented generation to decompose complex queries into structured representations, facilitating fine-grained clinical information fusion and intent resolution. Additionally, a dynamic intent prototype matching module is proposed to utilize dynamic prototype representation with a semantic similarity matching mechanism to achieve adaptive recognition and updating of the agent's intent in multi-round healthcare dialogues. Ultimately, we design a rotation agent collaboration mechanism that introduces dynamic role rotation and decision-level information fusion across specialized medical agents. Extensive experiments are conducted on four medical benchmarks with composite intents. Experimental results from automated metrics and expert doctor evaluations show that MedAide outperforms current LLMs and improves their medical proficiency and strategic reasoning.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2410.12532v3",
+    "url": "http://arxiv.org/abs/2410.12532v3"
+  },
+  {
+    "arxiv_id": "2401.07324",
+    "title": "Small LLMs Are Weak Tool Learners: A Multi-LLM Agent",
+    "authors": "Weizhou Shen, Chenliang Li, Hongzhan Chen et al.",
+    "year": 2024,
+    "published": "2024-01-14T16:17:07Z",
+    "abstract": "Large Language Model (LLM) agents significantly extend the capabilities of standalone LLMs, empowering them to interact with external tools (e.g., APIs, functions) and complete various tasks in a self-directed fashion. The challenge of tool use demands that LLMs not only understand user queries and generate answers accurately but also excel in task planning, tool invocation, and result summarization. While traditional works focus on training a single LLM with all these capabilities, performance limitations become apparent, particularly with smaller models. To overcome these challenges, we propose a novel approach that decomposes the aforementioned capabilities into a planner, caller, and summarizer. Each component is implemented by a single LLM that focuses on a specific capability and collaborates with others to accomplish the task. This modular framework facilitates individual updates and the potential use of smaller LLMs for building each capability. To effectively train this framework, we introduce a two-stage training paradigm. First, we fine-tune a backbone LLM on the entire dataset without discriminating sub-tasks, providing the model with a comprehensive understanding of the task. Second, the fine-tuned LLM is used to instantiate the planner, caller, and summarizer respectively, which are continually fine-tuned on respective sub-tasks. Evaluation across various tool-use benchmarks illustrates that our proposed multi-LLM framework surpasses the traditional single-LLM approach, highlighting its efficacy and advantages in tool learning.",
+    "categories": [
+      "cs.AI",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2401.07324v3",
+    "url": "http://arxiv.org/abs/2401.07324v3"
+  },
+  {
+    "arxiv_id": "1305.3655",
+    "title": "Fighting against uncertainty: An essential issue in bioinformatics",
+    "authors": "Michiaki Hamada",
+    "year": 2013,
+    "published": "2013-05-15T23:49:59Z",
+    "abstract": "Many bioinformatics problems, such as sequence alignment, gene prediction, phylogenetic tree estimation and RNA secondary structure prediction, are often affected by the \"uncertainty\" of a solution; that is, the probability of the solution is extremely small. This situation arises for estimation problems on high-dimensional discrete spaces in which the number of possible discrete solutions is immense. In the analysis of biological data or the development of prediction algorithms, this uncertainty should be handled carefully and appropriately. In this review, I will explain several methods to combat this uncertainty, presenting a number of examples in bioinformatics. The methods include (i) avoiding point estimation, (ii) maximum expected accuracy (MEA) estimations, and (iii) several strategies to design a pipeline involving several prediction methods. I believe that the basic concepts and ideas described in this review will be generally useful for estimation problems in various areas of bioinformatics.",
+    "categories": [
+      "q-bio.QM",
+      "q-bio.BM",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1305.3655v1",
+    "url": "http://arxiv.org/abs/1305.3655v1"
+  },
+  {
+    "arxiv_id": "2510.04851",
+    "title": "LEGOMem: Modular Procedural Memory for Multi-agent LLM Systems for Workflow Automation",
+    "authors": "Dongge Han, Camille Couturier, Daniel Madrigal Diaz et al.",
+    "year": 2025,
+    "published": "2025-10-06T14:39:53Z",
+    "abstract": "We introduce LEGOMem, a modular procedural memory framework for multi-agent large language model (LLM) systems in workflow automation. LEGOMem decomposes past task trajectories into reusable memory units and flexibly allocates them across orchestrators and task agents to support planning and execution. To explore the design space of memory in multi-agent systems, we use LEGOMem as a lens and conduct a systematic study of procedural memory in multi-agent systems, examining where memory should be placed, how it should be retrieved, and which agents benefit most. Experiments on the OfficeBench benchmark show that orchestrator memory is critical for effective task decomposition and delegation, while fine-grained agent memory improves execution accuracy. We find that even teams composed of smaller language models can benefit substantially from procedural memory, narrowing the performance gap with stronger agents by leveraging prior execution traces for more accurate planning and tool use. These results position LEGOMem as both a practical framework for memory-augmented agent systems and a research tool for understanding memory design in multi-agent workflow automation.",
+    "categories": [
+      "cs.AI",
+      "cs.LG",
+      "cs.MA"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2510.04851v1",
+    "url": "http://arxiv.org/abs/2510.04851v1"
+  },
+  {
+    "arxiv_id": "1506.05101",
+    "title": "Big Data Analytics in Bioinformatics: A Machine Learning Perspective",
+    "authors": "Hirak Kashyap, Hasin Afzal Ahmed, Nazrul Hoque et al.",
+    "year": 2015,
+    "published": "2015-06-15T11:32:00Z",
+    "abstract": "Bioinformatics research is characterized by voluminous and incremental datasets and complex data analytics methods. The machine learning methods used in bioinformatics are iterative and parallel. These methods can be scaled to handle big data using the distributed and parallel computing technologies. Usually big data tools perform computation in batch-mode and are not optimized for iterative processing and high data dependency among operations. In the recent years, parallel, incremental, and multi-view machine learning algorithms have been proposed. Similarly, graph-based architectures and in-memory big data tools have been developed to minimize I/O cost and optimize iterative processing. However, there lack standard big data architectures and tools for many important bioinformatics problems, such as fast construction of co-expression and regulatory networks and salient module identification, detection of complexes over growing protein-protein interaction data, fast analysis of massive DNA, RNA, and protein sequence data, and fast querying on incremental and heterogeneous disease networks. This paper addresses the issues and challenges posed by several big data problems in bioinformatics, and gives an overview of the state of the art and the future research opportunities.",
+    "categories": [
+      "cs.CE",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1506.05101v1",
+    "url": "http://arxiv.org/abs/1506.05101v1"
+  },
+  {
+    "arxiv_id": "2402.11163",
+    "title": "KG-Agent: An Efficient Autonomous Agent Framework for Complex Reasoning over Knowledge Graph",
+    "authors": "Jinhao Jiang, Kun Zhou, Wayne Xin Zhao et al.",
+    "year": 2024,
+    "published": "2024-02-17T02:07:49Z",
+    "abstract": "In this paper, we aim to improve the reasoning ability of large language models (LLMs) over knowledge graphs (KGs) to answer complex questions. Inspired by existing methods that design the interaction strategy between LLMs and KG, we propose an autonomous LLM-based agent framework, called KG-Agent, which enables a small LLM to actively make decisions until finishing the reasoning process over KGs. In KG-Agent, we integrate the LLM, multifunctional toolbox, KG-based executor, and knowledge memory, and develop an iteration mechanism that autonomously selects the tool then updates the memory for reasoning over KG. To guarantee the effectiveness, we leverage program language to formulate the multi-hop reasoning process over the KG, and synthesize a code-based instruction dataset to fine-tune the base LLM. Extensive experiments demonstrate that only using 10K samples for tuning LLaMA-7B can outperform state-of-the-art methods using larger LLMs or more data, on both in-domain and out-domain datasets. Our code and data will be publicly released.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2402.11163v1",
+    "url": "http://arxiv.org/abs/2402.11163v1"
+  },
+  {
+    "arxiv_id": "2505.18646",
+    "title": "SEW: Self-Evolving Agentic Workflows for Automated Code Generation",
+    "authors": "Siwei Liu, Jinyuan Fang, Han Zhou et al.",
+    "year": 2025,
+    "published": "2025-05-24T11:12:14Z",
+    "abstract": "Large Language Models (LLMs) have demonstrated effectiveness in code generation tasks. To enable LLMs to address more complex coding challenges, existing research has focused on crafting multi-agent systems with agentic workflows, where complex coding tasks are decomposed into sub-tasks, assigned to specialized agents. Despite their effectiveness, current approaches heavily rely on hand-crafted agentic workflows, with both agent topologies and prompts manually designed, which limits their ability to automatically adapt to different types of coding problems. To address these limitations and enable automated workflow design, we propose \\textbf{S}elf-\\textbf{E}volving \\textbf{W}orkflow (\\textbf{SEW}), a novel self-evolving framework that automatically generates and optimises multi-agent workflows. Extensive experiments on three coding benchmark datasets, including the challenging LiveCodeBench, demonstrate that our SEW can automatically design agentic workflows and optimise them through self-evolution, bringing up to 12\\% improvement on LiveCodeBench compared to using the backbone LLM only. Furthermore, by investigating different representation schemes of workflow, we provide insights into the optimal way to encode workflow information with text.",
+    "categories": [
+      "cs.SE",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2505.18646v2",
+    "url": "http://arxiv.org/abs/2505.18646v2"
+  },
+  {
+    "arxiv_id": "2501.07834",
+    "title": "Flow: Modularized Agentic Workflow Automation",
+    "authors": "Boye Niu, Yiliao Song, Kai Lian et al.",
+    "year": 2025,
+    "published": "2025-01-14T04:35:37Z",
+    "abstract": "Multi-agent frameworks powered by large language models (LLMs) have demonstrated great success in automated planning and task execution. However, the effective adjustment of agentic workflows during execution has not been well studied. An effective workflow adjustment is crucial in real-world scenarios, as the initial plan must adjust to unforeseen challenges and changing conditions in real time to ensure the efficient execution of complex tasks. In this paper, we define workflows as an activity-on-vertex (AOV) graph, which allows continuous workflow refinement by LLM agents through dynamic subtask allocation adjustment based on historical performance and previous AOVs. To further enhance framework performance, we emphasize modularity in workflow design based on evaluating parallelism and dependency complexity. With this design, our proposed multi-agent framework achieves efficient concurrent execution of subtasks, effective goal achievement, and enhanced error tolerance. Empirical results across various practical tasks demonstrate significant improvements in the efficiency of multi-agent frameworks through dynamic workflow refinement and modularization. The code is available at: https://github.com/tmllab/2025_ICLR_FLOW.",
+    "categories": [
+      "cs.AI",
+      "cs.LG",
+      "cs.MA"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2501.07834v2",
+    "url": "http://arxiv.org/abs/2501.07834v2"
+  },
+  {
+    "arxiv_id": "2511.14460",
+    "title": "Agent-R1: Training Powerful LLM Agents with End-to-End Reinforcement Learning",
+    "authors": "Mingyue Cheng, Jie Ouyang, Shuo Yu et al.",
+    "year": 2025,
+    "published": "2025-11-18T13:03:15Z",
+    "abstract": "Large Language Models (LLMs) are increasingly being explored for building Agents capable of active environmental interaction (e.g., via tool use) to solve complex problems. Reinforcement Learning (RL) is considered a key technology with significant potential for training such Agents; however, the effective application of RL to LLM Agents is still in its nascent stages and faces considerable challenges. Currently, this emerging field lacks in-depth exploration into RL approaches specifically tailored for the LLM Agent context, alongside a scarcity of flexible and easily extensible training frameworks designed for this purpose. To help advance this area, this paper first revisits and clarifies Reinforcement Learning methodologies for LLM Agents by systematically extending the Markov Decision Process (MDP) framework to comprehensively define the key components of an LLM Agent. Secondly, we introduce Agent-R1, a modular, flexible, and user-friendly training framework for RL-based LLM Agents, designed for straightforward adaptation across diverse task scenarios and interactive environments. We conducted experiments on Multihop QA benchmark tasks, providing initial validation for the effectiveness of our proposed methods and framework.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2511.14460v1",
+    "url": "http://arxiv.org/abs/2511.14460v1"
+  },
+  {
+    "arxiv_id": "1502.02223",
+    "title": "Will solid-state drives accelerate your bioinformatics? In-depth profiling, performance analysis, and beyond",
+    "authors": "Sungmin Lee, Hyeyoung Min, Sungroh Yoon",
+    "year": 2015,
+    "published": "2015-02-08T07:32:21Z",
+    "abstract": "A wide variety of large-scale data has been produced in bioinformatics. In response, the need for efficient handling of biomedical big data has been partly met by parallel computing. However, the time demand of many bioinformatics programs still remains high for large-scale practical uses due to factors that hinder acceleration by parallelization. Recently, new generations of storage devices have emerged, such as NAND flash-based solid-state drives (SSDs), and with the renewed interest in near-data processing, they are increasingly becoming acceleration methods that can accompany parallel processing. In certain cases, a simple drop-in replacement of hard disk drives (HDDs) by SSDs results in dramatic speedup. Despite the various advantages and continuous cost reduction of SSDs, there has been little review of SSD-based profiling and performance exploration of important but time-consuming bioinformatics programs. For an informative review, we perform in-depth profiling and analysis of 23 key bioinformatics programs using multiple types of devices. Based on the insight we obtain from this research, we further discuss issues related to design and optimize bioinformatics algorithms and pipelines to fully exploit SSDs. The programs we profile cover traditional and emerging areas of importance, such as alignment, assembly, mapping, expression analysis, variant calling, and metagenomics. We explain how acceleration by parallelization can be combined with SSDs for improved performance and also how using SSDs can expedite important bioinformatics pipelines, such as variant calling by the Genome Analysis Toolkit (GATK) and transcriptome analysis using RNA sequencing (RNA-seq). We hope that this review can provide useful directions and tips to accompany future bioinformatics algorithm design procedures that properly consider new generations of powerful storage devices.",
+    "categories": [
+      "q-bio.GN",
+      "cs.CE",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1502.02223v2",
+    "url": "http://arxiv.org/abs/1502.02223v2"
+  },
+  {
+    "arxiv_id": "2502.09809",
+    "title": "AgentGuard: Repurposing Agentic Orchestrator for Safety Evaluation of Tool Orchestration",
+    "authors": "Jizhou Chen, Samuel Lee Cong",
+    "year": 2025,
+    "published": "2025-02-13T23:00:33Z",
+    "abstract": "The integration of tool use into large language models (LLMs) enables agentic systems with real-world impact. In the meantime, unlike standalone LLMs, compromised agents can execute malicious workflows with more consequential impact, signified by their tool-use capability. We propose AgentGuard, a framework to autonomously discover and validate unsafe tool-use workflows, followed by generating safety constraints to confine the behaviors of agents, achieving the baseline of safety guarantee at deployment. AgentGuard leverages the LLM orchestrator's innate capabilities - knowledge of tool functionalities, scalable and realistic workflow generation, and tool execution privileges - to act as its own safety evaluator. The framework operates through four phases: identifying unsafe workflows, validating them in real-world execution, generating safety constraints, and validating constraint efficacy. The output, an evaluation report with unsafe workflows, test cases, and validated constraints, enables multiple security applications. We empirically demonstrate AgentGuard's feasibility with experiments. With this exploratory work, we hope to inspire the establishment of standardized testing and hardening procedures for LLM agents to enhance their trustworthiness in real-world applications.",
+    "categories": [
+      "cs.CR",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2502.09809v1",
+    "url": "http://arxiv.org/abs/2502.09809v1"
+  },
+  {
+    "arxiv_id": "2510.05158",
+    "title": "Lang-PINN: From Language to Physics-Informed Neural Networks via a Multi-Agent Framework",
+    "authors": "Xin He, Liangliang You, Hongduan Tian et al.",
+    "year": 2025,
+    "published": "2025-10-03T08:20:02Z",
+    "abstract": "Physics-informed neural networks (PINNs) provide a powerful approach for solving partial differential equations (PDEs), but constructing a usable PINN remains labor-intensive and error-prone. Scientists must interpret problems as PDE formulations, design architectures and loss functions, and implement stable training pipelines. Existing large language model (LLM) based approaches address isolated steps such as code generation or architecture suggestion, but typically assume a formal PDE is already specified and therefore lack an end-to-end perspective. We present Lang-PINN, an LLM-driven multi-agent system that builds trainable PINNs directly from natural language task descriptions. Lang-PINN coordinates four complementary agents: a PDE Agent that parses task descriptions into symbolic PDEs, a PINN Agent that selects architectures, a Code Agent that generates modular implementations, and a Feedback Agent that executes and diagnoses errors for iterative refinement. This design transforms informal task statements into executable and verifiable PINN code. Experiments show that Lang-PINN achieves substantially lower errors and greater robustness than competitive baselines: mean squared error (MSE) is reduced by up to 3--5 orders of magnitude, end-to-end execution success improves by more than 50\\%, and reduces time overhead by up to 74\\%.",
+    "categories": [
+      "cs.AI",
+      "cs.CE",
+      "cs.LG",
+      "cs.MA"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2510.05158v1",
+    "url": "http://arxiv.org/abs/2510.05158v1"
+  },
+  {
+    "arxiv_id": "2203.08975",
+    "title": "A Survey of Multi-Agent Deep Reinforcement Learning with Communication",
+    "authors": "Changxi Zhu, Mehdi Dastani, Shihan Wang",
+    "year": 2022,
+    "published": "2022-03-16T22:39:46Z",
+    "abstract": "Communication is an effective mechanism for coordinating the behaviors of multiple agents, broadening their views of the environment, and to support their collaborations. In the field of multi-agent deep reinforcement learning (MADRL), agents can improve the overall learning performance and achieve their objectives by communication. Agents can communicate various types of messages, either to all agents or to specific agent groups, or conditioned on specific constraints. With the growing body of research work in MADRL with communication (Comm-MADRL), there is a lack of a systematic and structural approach to distinguish and classify existing Comm-MADRL approaches. In this paper, we survey recent works in the Comm-MADRL field and consider various aspects of communication that can play a role in designing and developing multi-agent reinforcement learning systems. With these aspects in mind, we propose 9 dimensions along which Comm-MADRL approaches can be analyzed, developed, and compared. By projecting existing works into the multi-dimensional space, we discover interesting trends. We also propose some novel directions for designing future Comm-MADRL systems through exploring possible combinations of the dimensions.",
+    "categories": [
+      "cs.MA",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2203.08975v2",
+    "url": "http://arxiv.org/abs/2203.08975v2"
+  },
+  {
+    "arxiv_id": "2410.10762",
+    "title": "AFlow: Automating Agentic Workflow Generation",
+    "authors": "Jiayi Zhang, Jinyu Xiang, Zhaoyang Yu et al.",
+    "year": 2024,
+    "published": "2024-10-14T17:40:40Z",
+    "abstract": "Large language models (LLMs) have demonstrated remarkable potential in solving complex tasks across diverse domains, typically by employing agentic workflows that follow detailed instructions and operational sequences. However, constructing these workflows requires significant human effort, limiting scalability and generalizability. Recent research has sought to automate the generation and optimization of these workflows, but existing methods still rely on initial manual setup and fall short of achieving fully automated and effective workflow generation. To address this challenge, we reformulate workflow optimization as a search problem over code-represented workflows, where LLM-invoking nodes are connected by edges. We introduce AFlow, an automated framework that efficiently explores this space using Monte Carlo Tree Search, iteratively refining workflows through code modification, tree-structured experience, and execution feedback. Empirical evaluations across six benchmark datasets demonstrate AFlow's efficacy, yielding a 5.7% average improvement over state-of-the-art baselines. Furthermore, AFlow enables smaller models to outperform GPT-4o on specific tasks at 4.55% of its inference cost in dollars. The code is available at https://github.com/FoundationAgents/AFlow.",
+    "categories": [
+      "cs.AI",
+      "cs.CL",
+      "cs.LG",
+      "cs.SE"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2410.10762v4",
+    "url": "http://arxiv.org/abs/2410.10762v4"
+  },
+  {
+    "arxiv_id": "2601.06776",
+    "title": "From Text to Simulation: A Multi-Agent LLM Workflow for Automated Chemical Process Design",
+    "authors": "Xufei Tian, Wenli Du, Shaoyi Yang et al.",
+    "year": 2026,
+    "published": "2026-01-11T04:41:57Z",
+    "abstract": "Process simulation is a critical cornerstone of chemical engineering design. Current automated chemical design methodologies focus mainly on various representations of process flow diagrams. However, transforming these diagrams into executable simulation flowsheets remains a time-consuming and labor-intensive endeavor, requiring extensive manual parameter configuration within simulation software. In this work, we propose a novel multi-agent workflow that leverages the semantic understanding capabilities of large language models(LLMs) and enables iterative interactions with chemical process simulation software, achieving end-to-end automated simulation from textual process specifications to computationally validated software configurations for design enhancement. Our approach integrates four specialized agents responsible for task understanding, topology generation, parameter configuration, and evaluation analysis, respectively, coupled with Enhanced Monte Carlo Tree Search to accurately interpret semantics and robustly generate configurations. Evaluated on Simona, a large-scale process description dataset, our method achieves a 31.1% improvement in the simulation convergence rate compared to state-of-the-art baselines and reduces the design time by 89. 0% compared to the expert manual design. This work demonstrates the potential of AI-assisted chemical process design, which bridges the gap between conceptual design and practical implementation. Our workflow is applicable to diverse process-oriented industries, including pharmaceuticals, petrochemicals, food processing, and manufacturing, offering a generalizable solution for automated process design.",
+    "categories": [
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2601.06776v1",
+    "url": "http://arxiv.org/abs/2601.06776v1"
+  },
+  {
+    "arxiv_id": "2603.23611",
+    "title": "LLMORPH: Automated Metamorphic Testing of Large Language Models",
+    "authors": "Steven Cho, Stefano Ruberto, Valerio Terragni",
+    "year": 2026,
+    "published": "2026-03-24T18:01:02Z",
+    "abstract": "Automated testing is essential for evaluating and improving the reliability of Large Language Models (LLMs), yet the lack of automated oracles for verifying output correctness remains a key challenge. We present LLMORPH, an automated testing tool specifically designed for LLMs performing NLP tasks, which leverages Metamorphic Testing (MT) to uncover faulty behaviors without relying on human-labeled data. MT uses Metamorphic Relations (MRs) to generate follow-up inputs from source test input, enabling detection of inconsistencies in model outputs without the need of expensive labelled data. LLMORPH is aimed at researchers and developers who want to evaluate the robustness of LLM-based NLP systems. In this paper, we detail the design, implementation, and practical usage of LLMORPH, demonstrating how it can be easily extended to any LLM, NLP task, and set of MRs. In our evaluation, we applied 36 MRs across four NLP benchmarks, testing three state-of-the-art LLMs: GPT-4, LLAMA3, and HERMES 2. This produced over 561,000 test executions. Results demonstrate LLMORPH's effectiveness in automatically exposing inconsistencies.",
+    "categories": [
+      "cs.SE",
+      "cs.AI",
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.23611v1",
+    "url": "http://arxiv.org/abs/2603.23611v1"
+  },
+  {
+    "arxiv_id": "2605.21404",
+    "title": "What Twelve LLM Agent Benchmark Papers Disclose About Themselves: A Pilot Audit and an Open Scoring Schema",
+    "authors": "Mahdi Naser Moghadasi, Faezeh Ghaderi",
+    "year": 2026,
+    "published": "2026-05-20T17:02:36Z",
+    "abstract": "We read twelve well-known LLM agent benchmark papers and recorded, dimension by dimension, what each paper actually says about how its evaluation was run. The motivation came from a familiar frustration: two papers will report results on the same benchmark with the same model name and disagree, and you cannot tell why -- the scaffold, the sampling settings, the subset, or the evaluator version. In many cases the published artifact does not let you answer. This paper is an implementation report on the attempt. We designed a small audit schema (five fields: benchmark identity, harness specification, inference settings, cost reporting, failure breakdown), wrote a scoring codebook with the boundary cases we hit during pilot scoring, applied it to twelve canonical papers (eight agent, four classical static), and recorded what we saw. We score the disclosure of an agent run, not its correctness, and make no claim that disclosure implies a trustworthy result. The mean audit score across the eight agent-benchmark papers is 0.38 (out of 1.0), and across the four classical static benchmarks 0.66; the largest gap is on cost (none of the eight agent benchmark papers disclose inference cost in any form) and on harness specification (none fully disclose a content-addressed container image of the evaluation environment). We release the schema as a JSON Schema file, the codebook as a Markdown document, and the raw scoring sheet as a CSV. The scoring was performed by a single auditor in one pass; a multi-rater audit is the natural next step, and we discuss what we think it would change.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2605.21404v1",
+    "url": "http://arxiv.org/abs/2605.21404v1"
+  },
+  {
+    "arxiv_id": "2410.02958",
+    "title": "AutoML-Agent: A Multi-Agent LLM Framework for Full-Pipeline AutoML",
+    "authors": "Patara Trirat, Wonyong Jeong, Sung Ju Hwang",
+    "year": 2024,
+    "published": "2024-10-03T20:01:09Z",
+    "abstract": "Automated machine learning (AutoML) accelerates AI development by automating tasks in the development pipeline, such as optimal model search and hyperparameter tuning. Existing AutoML systems often require technical expertise to set up complex tools, which is in general time-consuming and requires a large amount of human effort. Therefore, recent works have started exploiting large language models (LLM) to lessen such burden and increase the usability of AutoML frameworks via a natural language interface, allowing non-expert users to build their data-driven solutions. These methods, however, are usually designed only for a particular process in the AI development pipeline and do not efficiently use the inherent capacity of the LLMs. This paper proposes AutoML-Agent, a novel multi-agent framework tailored for full-pipeline AutoML, i.e., from data retrieval to model deployment. AutoML-Agent takes user's task descriptions, facilitates collaboration between specialized LLM agents, and delivers deployment-ready models. Unlike existing work, instead of devising a single plan, we introduce a retrieval-augmented planning strategy to enhance exploration to search for more optimal plans. We also decompose each plan into sub-tasks (e.g., data preprocessing and neural network design) each of which is solved by a specialized agent we build via prompting executing in parallel, making the search process more efficient. Moreover, we propose a multi-stage verification to verify executed results and guide the code generation LLM in implementing successful solutions. Extensive experiments on seven downstream tasks using fourteen datasets show that AutoML-Agent achieves a higher success rate in automating the full AutoML process, yielding systems with good performance throughout the diverse domains.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "cs.CL",
+      "cs.MA"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2410.02958v2",
+    "url": "http://arxiv.org/abs/2410.02958v2"
+  },
+  {
+    "arxiv_id": "2603.08195",
+    "title": "Supporting Workflow Reproducibility by Linking Bioinformatics Tools across Papers and Executable Code",
+    "authors": "Clémence Sebe, Olivier Ferret, Aurélie Névéol et al.",
+    "year": 2026,
+    "published": "2026-03-09T10:24:25Z",
+    "abstract": "Motivation: The rapid growth of biological data has intensified the need for transparent, reproducible, and well-documented computational workflows. The ability to clearly connect the steps of a workflow in the code with their description in a paper would improve workflow understanding, support reproducibility, and facilitate reuse. This task requires the linking of Bioinformatics tools in workflow code with their mentions in a published workflow description. Results: We present CoPaLink, an automated approach that integrates three components: Named Entity Recognition (NER) for identifying tool mentions in scientific text, NER for tool mentions in workflow code, and entity linking grounded on Bioinformatics knowledge bases. We propose approaches for all three steps achieving a high individual F1-measure (84 - 89) and a joint accuracy of 66 when evaluated on Nextflow workflows using Bioconda and Bioweb Knowledge bases. CoPaLink leverages corpora of scientific articles and workflow executable code with curated tool annotations to bridge the gap between narrative descriptions and workflow implementations. Availability: The code is available at https://gitlab.liris.cnrs.fr/sharefair/copalink-experiments and https://gitlab.liris.cnrs.fr/sharefair/copalink. The corpora are also available at https://doi.org/10.5281/zenodo.18526700, https://doi.org/10.5281/zenodo.18526760 and https://doi.org/10.5281/zenodo.18543814.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.08195v1",
+    "url": "http://arxiv.org/abs/2603.08195v1"
+  },
+  {
+    "arxiv_id": "2507.03616",
+    "title": "EvoAgentX: An Automated Framework for Evolving Agentic Workflows",
+    "authors": "Yingxu Wang, Siwei Liu, Jinyuan Fang et al.",
+    "year": 2025,
+    "published": "2025-07-04T14:43:10Z",
+    "abstract": "Multi-agent systems (MAS) have emerged as a powerful paradigm for orchestrating large language models (LLMs) and specialized tools to collaboratively address complex tasks. However, existing MAS frameworks often require manual workflow configuration and lack native support for dynamic evolution and performance optimization. In addition, many MAS optimization algorithms are not integrated into a unified framework. In this paper, we present EvoAgentX, an open-source platform that automates the generation, execution, and evolutionary optimization of multi-agent workflows. EvoAgentX employs a modular architecture consisting of five core layers: the basic components, agent, workflow, evolving, and evaluation layers. Specifically, within the evolving layer, EvoAgentX integrates three MAS optimization algorithms, TextGrad, AFlow, and MIPRO, to iteratively refine agent prompts, tool configurations, and workflow topologies. We evaluate EvoAgentX on HotPotQA, MBPP, and MATH for multi-hop reasoning, code generation, and mathematical problem solving, respectively, and further assess it on real-world tasks using GAIA. Experimental results show that EvoAgentX consistently achieves significant performance improvements, including a 7.44% increase in HotPotQA F1, a 10.00% improvement in MBPP pass@1, a 10.00% gain in MATH solve accuracy, and an overall accuracy improvement of up to 20.00% on GAIA. The source code is available at: https://github.com/EvoAgentX/EvoAgentX",
+    "categories": [
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2507.03616v2",
+    "url": "http://arxiv.org/abs/2507.03616v2"
+  },
+  {
+    "arxiv_id": "2507.19543",
+    "title": "Agent WARPP: Workflow Adherence via Runtime Parallel Personalization",
+    "authors": "Maria Emilia Mazzolenis, Ruirui Zhang",
+    "year": 2025,
+    "published": "2025-07-23T23:27:49Z",
+    "abstract": "Large language models (LLMs) are increasingly applied in task-oriented dialogue (TOD) systems but often struggle with long, conditional workflows that involve external tool calls and depend on user-specific information. We present Workflow Adherence via Runtime Parallel Personalization, or WARPP, a training-free, modular framework that combines multi-agent orchestration with runtime personalization to improve workflow adherence in LLM-based systems. By dynamically pruning conditional branches based on user attributes, the framework reduces reasoning overhead and narrows tool selection at runtime. WARPP deploys a parallelized architecture where a dedicated Personalizer agent operates alongside modular, domain-specific agents to dynamically tailor execution paths in real time. The framework is evaluated across five representative user intents of varying complexity within three domains: banking, flights, and healthcare. Our evaluation leverages synthetic datasets and LLM-powered simulated users to test scenarios with conditional dependencies. Our results demonstrate that WARPP outperforms both the non-personalized method and the ReAct baseline, achieving increasingly larger gains in parameter fidelity and tool accuracy as intent complexity grows, while also reducing average token usage, without any additional training.",
+    "categories": [
+      "cs.AI",
+      "cs.MA"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2507.19543v1",
+    "url": "http://arxiv.org/abs/2507.19543v1"
+  },
+  {
+    "arxiv_id": "2511.07568",
+    "title": "Procedural Knowledge Improves Agentic LLM Workflows",
+    "authors": "Vincent Hsiao, Mark Roberts, Leslie Smith",
+    "year": 2025,
+    "published": "2025-11-10T19:27:57Z",
+    "abstract": "Large language models (LLMs) often struggle when performing agentic tasks without substantial tool support, prom-pt engineering, or fine tuning. Despite research showing that domain-dependent, procedural knowledge can dramatically increase planning efficiency, little work evaluates its potential for improving LLM performance on agentic tasks that may require implicit planning. We formalize, implement, and evaluate an agentic LLM workflow that leverages procedural knowledge in the form of a hierarchical task network (HTN). Empirical results of our implementation show that hand-coded HTNs can dramatically improve LLM performance on agentic tasks, and using HTNs can boost a 20b or 70b parameter LLM to outperform a much larger 120b parameter LLM baseline. Furthermore, LLM-created HTNs improve overall performance, though less so. The results suggest that leveraging expertise--from humans, documents, or LLMs--to curate procedural knowledge will become another important tool for improving LLM workflows.",
+    "categories": [
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2511.07568v1",
+    "url": "http://arxiv.org/abs/2511.07568v1"
+  },
+  {
+    "arxiv_id": "2511.09710",
+    "title": "Echoing: Identity Failures when LLM Agents Talk to Each Other",
+    "authors": "Sarath Shekkizhar, Romain Cosentino, Adam Earle et al.",
+    "year": 2025,
+    "published": "2025-11-12T20:17:10Z",
+    "abstract": "As large language model (LLM) based agents interact autonomously with one another, a new class of failures emerges that cannot be predicted from single agent performance: behavioral drifts in agent-agent conversations (AxA). Unlike human-agent interactions, where humans ground and steer conversations, AxA lacks such stabilizing signals, making these failures unique. We investigate one such failure, echoing, where agents abandon their assigned roles and instead mirror their conversational partners, undermining their intended objectives. Through experiments across $66$ AxA configurations, $4$ domains (3 transactional, 1 advisory), and $2500+$ conversations (over $250000$ LLM inferences), we show that echoing occurs across major LLM providers, with echoing rates as high as $70\\%$ depending on the model and domain. Moreover, we find that echoing is persistent even in advanced reasoning models with substantial rates ($32.8\\%$) that are not reduced by reasoning efforts. We analyze prompt, conversation dynamics, showing that echoing arises as interaction grows longer ($7+$ agent turns) and is not merely an artifact of sub-optimal experiment design. Finally, we introduce a protocol-level mitigation where targeted use of structured response reduces echoing to $9\\%$.",
+    "categories": [
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2511.09710v3",
+    "url": "http://arxiv.org/abs/2511.09710v3"
+  },
+  {
+    "arxiv_id": "2601.21800",
+    "title": "BioAgent Bench: An AI Agent Evaluation Suite for Bioinformatics",
+    "authors": "Dionizije Fa, Marko Culjak, Bruno Pandza et al.",
+    "year": 2026,
+    "published": "2026-01-29T14:44:03Z",
+    "abstract": "This paper introduces BioAgent Bench, a benchmark dataset and an evaluation suite designed for measuring the performance and robustness of AI agents in common bioinformatics tasks. The benchmark contains curated end-to-end tasks (e.g., RNA-seq, variant calling, metagenomics) with prompts that specify concrete output artifacts to support automated assessment, including stress testing under controlled perturbations. We evaluate frontier closed-source and open-weight models across multiple agent harnesses, and use an LLM-based grader to score pipeline progress and outcome validity. We find that frontier agents can complete multi-step bioinformatics pipelines without elaborate custom scaffolding, often producing the requested final artifacts reliably. However, robustness tests reveal failure modes under controlled perturbations (corrupted inputs, decoy files, and prompt bloat), indicating that correct high-level pipeline construction does not guarantee reliable step-level reasoning. Finally, because bioinformatics workflows may involve sensitive patient data, proprietary references, or unpublished IP, closed-source models can be unsuitable under strict privacy constraints; in such settings, open-weight models may be preferable despite lower completion rates. We release the dataset and evaluation suite publicly.",
+    "categories": [
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2601.21800v3",
+    "url": "http://arxiv.org/abs/2601.21800v3"
+  },
+  {
+    "arxiv_id": "2603.00501",
+    "title": "WirelessAgent++: Automated Agentic Workflow Design and Benchmarking for Wireless Networks",
+    "authors": "Jingwen Tong, Zijian Li, Fang Liu et al.",
+    "year": 2026,
+    "published": "2026-02-28T06:52:52Z",
+    "abstract": "The integration of large language models (LLMs) into wireless networks has sparked growing interest in building autonomous AI agents for wireless tasks. However, existing approaches rely heavily on manually crafted prompts and static agentic workflows, a process that is labor-intensive, unscalable, and often suboptimal. In this paper, we propose WirelessAgent++, a framework that automates the design of agentic workflows for various wireless tasks. By treating each workflow as an executable code composed of modular operators, WirelessAgent++ casts agent design as a program search problem and solves it with a domain-adapted Monte Carlo Tree Search (MCTS) algorithm. Moreover, we establish WirelessBench, a standardized multi-dimensional benchmark suite comprising Wireless Communication Homework (WCHW), Network Slicing (WCNS), and Mobile Service Assurance (WCMSA), covering knowledge reasoning, code-augmented tool use, and multi-step decision-making. Experiments demonstrate that \\wap{} autonomously discovers superior workflows, achieving test scores of $78.37\\%$ (WCHW), $90.95\\%$ (WCNS), and $97.07\\%$ (WCMSA), with a total search cost below $\\$ 5$ per task. Notably, our approach outperforms state-of-the-art prompting baselines by up to $31\\%$ and general-purpose workflow optimizers by $11.1\\%$, validating its effectiveness in generating robust, self-evolving wireless agents. The code is available at https://github.com/jwentong/WirelessAgent-R2.",
+    "categories": [
+      "cs.NI",
+      "cs.AI",
+      "eess.SP"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.00501v1",
+    "url": "http://arxiv.org/abs/2603.00501v1"
+  },
+  {
+    "arxiv_id": "2603.16104",
+    "title": "Efficient LLM Serving for Agentic Workflows: A Data Systems Perspective",
+    "authors": "Noppanat Wadlom, Junyi Shen, Yao Lu",
+    "year": 2026,
+    "published": "2026-03-17T04:03:18Z",
+    "abstract": "Agentic workflows are composed of sequences of interdependent Large Language Model (LLM) calls, and they have become a dominant workload in modern AI systems. These workflows exhibit extensive redundancy from overlapping prompts and intermediate results due to speculative and parallel exploration. Existing LLM serving systems, such as vLLM, focus on optimizing individual inference calls and overlook cross-call dependencies, leading to significant inefficiencies. This paper rethinks LLM and agent serving from a data systems perspective and introduces Helium, a workflow-aware serving framework that models agentic workloads as query plans and treats LLM invocations as first-class operators. Helium integrates proactive caching and cache-aware scheduling to maximize reuse across prompts, KV states, and workflows. Through these techniques, Helium bridges classic query optimization principles with LLM serving, achieving up to 1.56x speedup over state-of-the-art agent serving systems on various workloads. Our results demonstrate that end-to-end optimization across workflows is essential for scalable and efficient LLM-based agents.",
+    "categories": [
+      "cs.MA",
+      "cs.AI",
+      "cs.DB"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.16104v1",
+    "url": "http://arxiv.org/abs/2603.16104v1"
+  },
+  {
+    "arxiv_id": "2603.15483",
+    "title": "Talk, Evaluate, Diagnose: User-aware Agent Evaluation with Automated Error Analysis",
+    "authors": "Penny Chong, Harshavardhan Abichandani, Jiyuan Shen et al.",
+    "year": 2026,
+    "published": "2026-03-16T16:14:28Z",
+    "abstract": "Agent applications are increasingly adopted to automate workflows across diverse tasks. However, due to the heterogeneous domains they operate in, it is challenging to create a scalable evaluation framework. Prior works each employ their own methods to determine task success, such as database lookups, regex match, etc., adding complexity to the development of a unified agent evaluation approach. Moreover, they do not systematically account for the user's role nor expertise in the interaction, providing incomplete insights into the agent's performance. We argue that effective agent evaluation goes beyond correctness alone, incorporating conversation quality, efficiency and systematic diagnosis of agent errors. To address this, we introduce the TED framework (Talk, Evaluate, Diagnose). (1) Talk: We leverage reusable, generic expert and non-expert user persona templates for user-agent interaction. (2) Evaluate: We adapt existing datasets by representing subgoals-such as tool signatures, and responses-as natural language grading notes, evaluated automatically with LLM-as-a-judge. We propose new metrics that capture both turn efficiency and intermediate progress of the agent complementing the user-aware setup. (3) Diagnose: We introduce an automated error analysis tool that analyzes the inconsistencies of the judge and agents, uncovering common errors, and providing actionable feedback for agent improvement. We show that our TED framework reveals new insights regarding agent performance across models and user expertise levels. We also demonstrate potential gains in agent performance with peaks of 8-10% on our proposed metrics after incorporating the identified error remedies into the agent's design.",
+    "categories": [
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.15483v1",
+    "url": "http://arxiv.org/abs/2603.15483v1"
+  }
+]

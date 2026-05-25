@@ -1,1 +1,429 @@
-[]
+[
+  {
+    "arxiv_id": "2512.03307",
+    "title": "Robust Tabular Foundation Models",
+    "authors": "Matthew Peroni, Franck Le, Vadim Sheinin",
+    "year": 2025,
+    "published": "2025-12-02T23:40:39Z",
+    "abstract": "The development of tabular foundation models (TFMs) has accelerated in recent years, showing strong potential to outperform traditional ML methods for structured data. A key finding is that TFMs can be pretrained entirely on synthetic datasets, opening opportunities to design data generators that encourage desirable model properties. Prior work has mainly focused on crafting high-quality priors over generators to improve overall pretraining performance. Our insight is that parameterizing the generator distribution enables an adversarial robustness perspective: during training, we can adapt the generator to emphasize datasets that are particularly challenging for the model. We formalize this by introducing an optimality gap measure, given by the difference between TFM performance and the best achievable performance as estimated by strong baselines such as XGBoost, CatBoost, and Random Forests. Building on this idea, we propose Robust Tabular Foundation Models (RTFM), a model-agnostic adversarial training framework. Applied to the TabPFN V2 classifier, RTFM improves benchmark performance, with up to a 6% increase in mean normalized AUC over the original TabPFN and other baseline algorithms, while requiring less than 100k additional synthetic datasets. These results highlight a promising new direction for targeted adversarial training and fine-tuning of TFMs using synthetic data alone.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.03307v1",
+    "url": "http://arxiv.org/abs/2512.03307v1"
+  },
+  {
+    "arxiv_id": "2405.08226",
+    "title": "Self-Normalizing Foundation Model for Enhanced Multi-Omics Data Analysis in Oncology",
+    "authors": "Asim Waqas, Aakash Tripathi, Sabeen Ahmed et al.",
+    "year": 2024,
+    "published": "2024-05-13T22:45:44Z",
+    "abstract": "Multi-omics research has enhanced our understanding of cancer heterogeneity and progression. Investigating molecular data through multi-omics approaches is crucial for unraveling the complex biological mechanisms underlying cancer, thereby enabling more effective diagnosis, treatment, and prevention strategies. However, predicting patient outcomes through the integration of all available multi-omics data is still an under-study research direction. Here, we present SeNMo, a foundation model that has been trained on multi-omics data across 33 cancer types. SeNMo is particularly efficient in handling multi-omics data characterized by high-width and low-length attributes. We trained SeNMo for the task of overall survival of patients using pan-cancer multi-omics data involving 33 cancer sites from the GDC. The training multi-omics data includes gene expression, DNA methylation, miRNA expression, DNA mutations, protein expression modalities, and clinical data. SeNMo was validated on two independent cohorts: Moffitt Cancer Center and CPTAC lung squamous cell carcinoma. We evaluated the model's performance in predicting patient's overall survival using the C-Index. SeNMo performed consistently well in the training regime, reflected by the validation C-Index of 0.76 on GDC's public data. In the testing regime, SeNMo performed with a C-Index of 0.758 on a held-out test set. The model showed an average accuracy of 99.8% on the task of classifying the primary cancer type on the pan-cancer test cohort. SeNMo demonstrated robust performance on the classification task of predicting the primary cancer type of patients. SeNMo further demonstrated significant performance in predicting tertiary lymph structures from multi-omics data, showing generalizability across cancer types, molecular data types, and clinical endpoints.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2405.08226v2",
+    "url": "http://arxiv.org/abs/2405.08226v2"
+  },
+  {
+    "arxiv_id": "2605.12335",
+    "title": "EHR-RAGp: Retrieval-Augmented Prototype-Guided Foundation Model for Electronic Health Records",
+    "authors": "Saeed Shurrab, Mariam Al-Omari, Dana El Samad et al.",
+    "year": 2026,
+    "published": "2026-05-12T16:17:03Z",
+    "abstract": "Electronic Health Records (EHR) contain rich longitudinal patient information and are widely used in predictive modeling applications. However, effectively leveraging historical data remains challenging due to long trajectories, heterogeneous events, temporal irregularity, and the varying relevance of past clinical context. Existing approaches often rely on fixed windows or uniform aggregation, which can obscure clinically important signals. In this work, we introduce EHR-RAGp, a retrieval-augmented foundation model that dynamically integrates the most relevant patient history across diverse clinical event types. We propose a prototype-guided retrieval module that acts as an alignment mechanism and estimates the relevance of retrieved historical chunks with respect to a given prediction task, guiding the model towards the most informative context. Across multiple clinical prediction tasks, EHR-RAGp consistently outperforms state-of-the-art EHR foundation models and transformer-based baselines. Furthermore, integrating EHR-RAGp with existing clinical foundation models yields substantial performance gains. Overall, EHR-RAGp provides a scalable and efficient framework for leveraging long-range clinical context to improve downstream performance.",
+    "categories": [
+      "cs.IR",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2605.12335v1",
+    "url": "http://arxiv.org/abs/2605.12335v1"
+  },
+  {
+    "arxiv_id": "2506.20697",
+    "title": "scMamba: A Scalable Foundation Model for Single-Cell Multi-Omics Integration Beyond Highly Variable Feature Selection",
+    "authors": "Zhen Yuan, Shaoqing Jiao, Yihang Xiao et al.",
+    "year": 2025,
+    "published": "2025-06-25T12:58:01Z",
+    "abstract": "The advent of single-cell multi-omics technologies has enabled the simultaneous profiling of diverse omics layers within individual cells. Integrating such multimodal data provides unprecedented insights into cellular identity, regulatory processes, and disease mechanisms. However, it remains challenging, as current methods often rely on selecting highly variable genes or peaks during preprocessing, which may inadvertently discard crucial biological information. Here, we present scMamba, a foundation model designed to integrate single-cell multi-omics data without the need for prior feature selection while preserving genomic positional information. scMamba introduces a patch-based cell tokenization strategy that treats genomics regions as words (tokens) and cells as sentences. Building upon the concept of state space duality, scMamba distills rich biological insights from high-dimensional, sparse single-cell multi-omics data. Additionally, our novel contrastive learning approach, enhanced with cosine similarity regularization, enables superior alignment across omics layers compared to traditional methods. Systematic benchmarking across multiple datasets demonstrates that scMamba significantly outperforms state-of-the-art methods in preserving biological variation, aligning omics layers, and enhancing key downstream tasks such as clustering, cell type annotation, and trajectory inference. Our findings position scMamba as a powerful tool for large-scale single-cell multi-omics integration, capable of handling large-scale atlases and advancing biological discovery.",
+    "categories": [
+      "q-bio.CB",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.20697v1",
+    "url": "http://arxiv.org/abs/2506.20697v1"
+  },
+  {
+    "arxiv_id": "2310.11082",
+    "title": "Multi-omics Sampling-based Graph Transformer for Synthetic Lethality Prediction",
+    "authors": "Xusheng Zhao, Hao Liu, Qiong Dai et al.",
+    "year": 2023,
+    "published": "2023-10-17T09:06:41Z",
+    "abstract": "Synthetic lethality (SL) prediction is used to identify if the co-mutation of two genes results in cell death. The prevalent strategy is to abstract SL prediction as an edge classification task on gene nodes within SL data and achieve it through graph neural networks (GNNs). However, GNNs suffer from limitations in their message passing mechanisms, including over-smoothing and over-squashing issues. Moreover, harnessing the information of non-SL gene relationships within large-scale multi-omics data to facilitate SL prediction poses a non-trivial challenge. To tackle these issues, we propose a new multi-omics sampling-based graph transformer for SL prediction (MSGT-SL). Concretely, we introduce a shallow multi-view GNN to acquire local structural patterns from both SL and multi-omics data. Further, we input gene features that encode multi-view information into the standard self-attention to capture long-range dependencies. Notably, starting with batch genes from SL data, we adopt parallel random walk sampling across multiple omics gene graphs encompassing them. Such sampling effectively and modestly incorporates genes from omics in a structure-aware manner before using self-attention. We showcase the effectiveness of MSGT-SL on real-world SL tasks, demonstrating the empirical benefits gained from the graph transformer and multi-omics data.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2310.11082v1",
+    "url": "http://arxiv.org/abs/2310.11082v1"
+  },
+  {
+    "arxiv_id": "2603.24265",
+    "title": "DeepDTF: Dual-Branch Transformer Fusion for Multi-Omics Anticancer Drug Response Prediction",
+    "authors": "Yuhan Zhao, Jacob Tennant, James Yang et al.",
+    "year": 2026,
+    "published": "2026-03-25T12:58:07Z",
+    "abstract": "Cancer drug response varies widely across tumors due to multi-layer molecular heterogeneity, motivating computational decision support for precision oncology. Despite recent progress in deep CDR models, robust alignment between high-dimensional multi-omics and chemically structured drugs remains challenging due to cross-modal misalignment and limited inductive bias. We present DeepDTF, an end-to-end dual-branch Transformer fusion framework for joint log(IC50) regression and drug sensitivity classification. The cell-line branch uses modality-specific encoders for multi-omics profiles with Transformer blocks to capture long-range dependencies, while the drug branch represents compounds as molecular graphs and encodes them with a GNN-Transformer to integrate local topology with global context. Omics and drug representations are fused by a Transformer-based module that models cross-modal interactions and mitigates feature misalignment. On public pharmacogenomic benchmarks under 5-fold cold-start cell-line evaluation, DeepDTF consistently outperforms strong baselines across omics settings, achieving up to RMSE=1.248, R^2=0.875, and AUC=0.987 with full multi-omics inputs, while reducing classification error (1-ACC) by 9.5%. Beyond accuracy, DeepDTF provides biologically grounded explanations via SHAP-based gene attributions and pathway enrichment with pre-ranked GSEA.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.24265v1",
+    "url": "http://arxiv.org/abs/2603.24265v1"
+  },
+  {
+    "arxiv_id": "2511.20382",
+    "title": "MoRE: Batch-Robust Multi-Omics Representations from Frozen Pre-trained Transformers",
+    "authors": "Audrey Pei-Hsuan Chen",
+    "year": 2025,
+    "published": "2025-11-25T15:04:06Z",
+    "abstract": "Representation learning on multi-omics data is challenging due to extreme dimensionality, modality heterogeneity, and cohort-specific batch effects. While pre-trained transformer backbones have shown broad generalization capabilities in biological sequence modeling, their application to multi-omics integration remains underexplored. We present MoRE (Multi-Omics Representation Embedding), a framework that repurposes frozen pre-trained transformers to align heterogeneous assays into a shared latent space. Unlike purely generative approaches, MoRE employs a parameter-efficient fine-tuning (PEFT) strategy, prioritizing cross-sample and cross-modality alignment over simple sequence reconstruction. Specifically, MoRE attaches lightweight, modality-specific adapters and a task-adaptive fusion layer to the frozen backbone. It optimizes a masked modeling objective jointly with supervised contrastive and batch-invariant alignment losses, yielding structure-preserving embeddings that generalize across unseen cell types and platforms. We benchmark MoRE against established baselines, including scGPT, scVI, and Harmony with Scrublet, evaluating integration fidelity, rare population detection, and modality transfer. Our results demonstrate that MoRE achieves competitive batch robustness and biological conservation while significantly reducing trainable parameters compared to fully fine-tuned models. This work positions MoRE as a practical step toward general-purpose omics foundation models.",
+    "categories": [
+      "cs.LG",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2511.20382v2",
+    "url": "http://arxiv.org/abs/2511.20382v2"
+  },
+  {
+    "arxiv_id": "2605.00930",
+    "title": "CellxPert: Inference-Time MCMC Steering of a Multi-Omics Single-Cell Foundation Model for In-Silico Perturbation",
+    "authors": "Andac Demir, Erik W. Anderson, Jeremy L. Jenkins et al.",
+    "year": 2026,
+    "published": "2026-04-30T21:34:16Z",
+    "abstract": "In this work, we introduce CellxPert, a scalable multimodal foundation model that unifies single-cell and spatial multi-omics within a common representation space. CellxPert jointly encodes transcriptomic (scRNA-seq), chromatin-accessibility (ATAC-seq), and surface-proteomic (CITE-seq) measurements, while directly incorporating MERFISH and imaging mass-cytometry data as 2D or 3D spatial-visual layers. CellxPert facilitates four key downstream tasks out of the box: (i) cell-type annotation across a broad ontology of 154 largely overlapping identities -- the largest label space addressed to date and a stringent test of fine-grained discrimination, (ii) efficient fine-tuning using Low Rank Adaptation (LoRA), (iii) genome-wide transcriptomic response prediction to in-silico perturbations (ISP), and (iv) seamless multi-omic integration across various assays and platforms. Unlike current single-cell foundation models, which approximate gene perturbations by deleting or reordering tokenized gene expression ranks, CellxPert employs a Metropolis-Hastings sampler whose proposal kernel uses the model's masked conditional distributions to transition to new transcriptomic states conditioned on the perturbed genes. This Markov-chain procedure mitigates out-of-distribution artifacts introduced by abrupt token manipulation and produces trajectories that are biologically interpretable. Evaluations on PBMC68K, Replogle Perturb-seq, Systema, and BMMC benchmarks show that CellxPert surpasses classical and state-of-the-art baselines in cell-type annotation, perturbation response prediction, and multi-omic integration.",
+    "categories": [
+      "q-bio.GN",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2605.00930v1",
+    "url": "http://arxiv.org/abs/2605.00930v1"
+  },
+  {
+    "arxiv_id": "2512.02180",
+    "title": "CLEF: Clinically-Guided Contrastive Learning for Electrocardiogram Foundation Models",
+    "authors": "Yuxuan Shu, Peter H. Charlton, Fahim Kawsar et al.",
+    "year": 2025,
+    "published": "2025-12-01T20:21:44Z",
+    "abstract": "The electrocardiogram (ECG) is a key diagnostic tool in cardiovascular health. Single-lead ECG recording is integrated into both clinical-grade and consumer wearables. While self-supervised pretraining of foundation models on unlabeled ECGs improves diagnostic performance, existing approaches do not incorporate domain knowledge from clinical metadata. We introduce a novel contrastive learning approach that utilizes an established clinical risk score to adaptively weight negative pairs: clinically-guided contrastive learning. It aligns the similarities of ECG embeddings with clinically meaningful differences between subjects, with an explicit mechanism to handle missing metadata. On 12-lead ECGs from 161K patients in the MIMIC-IV dataset, we pretrain single-lead ECG foundation models at three scales, collectively called CLEF, using only routinely collected metadata without requiring per-sample ECG annotations. We evaluate CLEF on 18 clinical classification and regression tasks across 7 held-out datasets, and benchmark against 5 foundation model baselines and 3 self-supervised algorithms. When pretrained on 12-lead ECG data and tested on lead-I data, CLEF outperforms self-supervised foundation model baselines: the medium-sized CLEF achieves average AUROC improvements of at least 2.6% in classification and average reductions in MAEs of at least 3.2% in regression. Comparing with existing self-supervised learning algorithms, CLEF improves the average AUROC by at least 1.8%. Moreover, when pretrained only on lead-I data for classification tasks, CLEF performs comparably to the state-of-the-art ECGFounder, which was trained in a supervised manner. Overall, CLEF enables more accurate and scalable single-lead ECG analysis, advancing remote health monitoring. Code and pretrained CLEF models are available at: github.com/Nokia-Bell-Labs/ecg-foundation-model.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.02180v1",
+    "url": "http://arxiv.org/abs/2512.02180v1"
+  },
+  {
+    "arxiv_id": "2407.04065",
+    "title": "On the Workflows and Smells of Leaderboard Operations (LBOps): An Exploratory Study of Foundation Model Leaderboards",
+    "authors": "Zhimin Zhao, Abdul Ali Bangash, Filipe Roseiro Côgo et al.",
+    "year": 2024,
+    "published": "2024-07-04T17:12:00Z",
+    "abstract": "Foundation models (FM), such as large language models (LLMs), which are large-scale machine learning (ML) models, have demonstrated remarkable adaptability in various downstream software engineering (SE) tasks, such as code completion, code understanding, and software development. As a result, FM leaderboards have become essential tools for SE teams to compare and select the best third-party FMs for their specific products and purposes. However, the lack of standardized guidelines for FM evaluation and comparison threatens the transparency of FM leaderboards and limits stakeholders' ability to perform effective FM selection. As a first step towards addressing this challenge, our research focuses on understanding how these FM leaderboards operate in real-world scenarios (\"leaderboard operations\") and identifying potential pitfalls and areas for improvement (\"leaderboard smells\"). In this regard, we collect up to 1,045 FM leaderboards from five different sources: GitHub, Hugging Face Spaces, Papers With Code, spreadsheet and independent platform, to examine their documentation and engage in direct communication with leaderboard operators to understand their workflows. Through card sorting and negotiated agreement, we identify five distinct workflow patterns and develop a domain model that captures the key components and their interactions within these workflows. We then identify eight unique types of leaderboard smells in LBOps. By mitigating these smells, SE teams can improve transparency, accountability, and collaboration in current LBOps practices, fostering a more robust and responsible ecosystem for FM comparison and selection.",
+    "categories": [
+      "cs.SE",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.04065v4",
+    "url": "http://arxiv.org/abs/2407.04065v4"
+  },
+  {
+    "arxiv_id": "2304.05542",
+    "title": "CLCLSA: Cross-omics Linked embedding with Contrastive Learning and Self Attention for multi-omics integration with incomplete multi-omics data",
+    "authors": "Chen Zhao, Anqi Liu, Xiao Zhang et al.",
+    "year": 2023,
+    "published": "2023-04-12T00:22:18Z",
+    "abstract": "Integration of heterogeneous and high-dimensional multi-omics data is becoming increasingly important in understanding genetic data. Each omics technique only provides a limited view of the underlying biological process and integrating heterogeneous omics layers simultaneously would lead to a more comprehensive and detailed understanding of diseases and phenotypes. However, one obstacle faced when performing multi-omics data integration is the existence of unpaired multi-omics data due to instrument sensitivity and cost. Studies may fail if certain aspects of the subjects are missing or incomplete. In this paper, we propose a deep learning method for multi-omics integration with incomplete data by Cross-omics Linked unified embedding with Contrastive Learning and Self Attention (CLCLSA). Utilizing complete multi-omics data as supervision, the model employs cross-omics autoencoders to learn the feature representation across different types of biological data. The multi-omics contrastive learning, which is used to maximize the mutual information between different types of omics, is employed before latent feature concatenation. In addition, the feature-level self-attention and omics-level self-attention are employed to dynamically identify the most informative features for multi-omics data integration. Extensive experiments were conducted on four public multi-omics datasets. The experimental results indicated that the proposed CLCLSA outperformed the state-of-the-art approaches for multi-omics data classification using incomplete multi-omics data.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2304.05542v1",
+    "url": "http://arxiv.org/abs/2304.05542v1"
+  },
+  {
+    "arxiv_id": "2408.16245",
+    "title": "Large-Scale Multi-omic Biosequence Transformers for Modeling Protein-Nucleic Acid Interactions",
+    "authors": "Sully F. Chen, Robert J. Steele, Glen M. Hocky et al.",
+    "year": 2024,
+    "published": "2024-08-29T03:56:40Z",
+    "abstract": "The transformer architecture has revolutionized bioinformatics and driven progress in the understanding and prediction of the properties of biomolecules. To date, most biosequence transformers have been trained on single-omic data - either proteins or nucleic acids - and have seen incredible success in downstream tasks in each domain, with particularly noteworthy breakthroughs in protein structural modeling. However, single-omic pretraining limits the ability of these models to capture cross-modal interactions. Here we present OmniBioTE, the largest open-source multi-omic model trained on over 250 billion tokens of mixed protein and nucleic acid data. We show that despite only being trained on unlabeled sequence data, OmniBioTE learns joint representations mapping genes to their corresponding protein sequences. We further demonstrate that OmniBioTE achieves state-of-the-art results predicting the change in Gibbs free energy ({ΔG}) of the binding interaction between a given nucleic acid and protein. Remarkably, we show that multi-omic biosequence transformers emergently learn useful structural information without any a priori structural training, allowing us to predict which protein residues are most involved in the protein-nucleic acid binding interaction. Compared to single-omic controls trained with identical compute, OmniBioTE also demonstrates superior performance-per-FLOP across both multi-omic and single-omic benchmarks. Together, these results highlight the power of a unified modeling approach for biological sequences and establish OmniBioTE as a foundation model for multi-omic discovery.",
+    "categories": [
+      "cs.LG",
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2408.16245v6",
+    "url": "http://arxiv.org/abs/2408.16245v6"
+  },
+  {
+    "arxiv_id": "2412.10347",
+    "title": "COMET: Benchmark for Comprehensive Biological Multi-omics Evaluation Tasks and Language Models",
+    "authors": "Yuchen Ren, Wenwei Han, Qianyuan Zhang et al.",
+    "year": 2024,
+    "published": "2024-12-13T18:42:00Z",
+    "abstract": "As key elements within the central dogma, DNA, RNA, and proteins play crucial roles in maintaining life by guaranteeing accurate genetic expression and implementation. Although research on these molecules has profoundly impacted fields like medicine, agriculture, and industry, the diversity of machine learning approaches-from traditional statistical methods to deep learning models and large language models-poses challenges for researchers in choosing the most suitable models for specific tasks, especially for cross-omics and multi-omics tasks due to the lack of comprehensive benchmarks. To address this, we introduce the first comprehensive multi-omics benchmark COMET (Benchmark for Biological COmprehensive Multi-omics Evaluation Tasks and Language Models), designed to evaluate models across single-omics, cross-omics, and multi-omics tasks. First, we curate and develop a diverse collection of downstream tasks and datasets covering key structural and functional aspects in DNA, RNA, and proteins, including tasks that span multiple omics levels. Then, we evaluate existing foundational language models for DNA, RNA, and proteins, as well as the newly proposed multi-omics method, offering valuable insights into their performance in integrating and analyzing data from different biological modalities. This benchmark aims to define critical issues in multi-omics research and guide future directions, ultimately promoting advancements in understanding biological processes through integrated and different omics data analysis.",
+    "categories": [
+      "q-bio.BM",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2412.10347v1",
+    "url": "http://arxiv.org/abs/2412.10347v1"
+  },
+  {
+    "arxiv_id": "2308.16149",
+    "title": "Jais and Jais-chat: Arabic-Centric Foundation and Instruction-Tuned Open Generative Large Language Models",
+    "authors": "Neha Sengupta, Sunil Kumar Sahu, Bokang Jia et al.",
+    "year": 2023,
+    "published": "2023-08-30T17:07:17Z",
+    "abstract": "We introduce Jais and Jais-chat, new state-of-the-art Arabic-centric foundation and instruction-tuned open generative large language models (LLMs). The models are based on the GPT-3 decoder-only architecture and are pretrained on a mixture of Arabic and English texts, including source code in various programming languages. With 13 billion parameters, they demonstrate better knowledge and reasoning capabilities in Arabic than any existing open Arabic and multilingual models by a sizable margin, based on extensive evaluation. Moreover, the models are competitive in English compared to English-centric open models of similar size, despite being trained on much less English data. We provide a detailed description of the training, the tuning, the safety alignment, and the evaluation of the models. We release two open versions of the model -- the foundation Jais model, and an instruction-tuned Jais-chat variant -- with the aim of promoting research on Arabic LLMs. Available at https://huggingface.co/inception-mbzuai/jais-13b-chat",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2308.16149v2",
+    "url": "http://arxiv.org/abs/2308.16149v2"
+  },
+  {
+    "arxiv_id": "2301.02242",
+    "title": "Graph Contrastive Learning for Multi-omics Data",
+    "authors": "Nishant Rajadhyaksha, Aarushi Chitkara",
+    "year": 2023,
+    "published": "2023-01-03T10:03:08Z",
+    "abstract": "Advancements in technologies related to working with omics data require novel computation methods to fully leverage information and help develop a better understanding of human diseases. This paper studies the effects of introducing graph contrastive learning to help leverage graph structure and information to produce better representations for downstream classification tasks for multi-omics datasets. We present a learnining framework named Multi-Omics Graph Contrastive Learner(MOGCL) which outperforms several aproaches for integrating multi-omics data for supervised learning tasks. We show that pre-training graph models with a contrastive methodology along with fine-tuning it in a supervised manner is an efficient strategy for multi-omics data classification.",
+    "categories": [
+      "q-bio.GN",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2301.02242v1",
+    "url": "http://arxiv.org/abs/2301.02242v1"
+  },
+  {
+    "arxiv_id": "2506.13817",
+    "title": "DeepSeq: High-Throughput Single-Cell RNA Sequencing Data Labeling via Web Search-Augmented Agentic Generative AI Foundation Models",
+    "authors": "Saleem A. Al Dajani, Abel Sanchez, John R. Williams",
+    "year": 2025,
+    "published": "2025-06-14T23:30:22Z",
+    "abstract": "Generative AI foundation models offer transformative potential for processing structured biological data, particularly in single-cell RNA sequencing, where datasets are rapidly scaling toward billions of cells. We propose the use of agentic foundation models with real-time web search to automate the labeling of experimental data, achieving up to 82.5% accuracy. This addresses a key bottleneck in supervised learning for structured omics data by increasing annotation throughput without manual curation and human error. Our approach enables the development of virtual cell foundation models capable of downstream tasks such as cell-typing and perturbation prediction. As data volume grows, these models may surpass human performance in labeling, paving the way for reliable inference in large-scale perturbation screens. This application demonstrates domain-specific innovation in health monitoring and diagnostics, aligned with efforts like the Human Cell Atlas and Human Tumor Atlas Network.",
+    "categories": [
+      "q-bio.GN",
+      "cs.AI",
+      "cs.LG",
+      "cs.SE",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.13817v1",
+    "url": "http://arxiv.org/abs/2506.13817v1"
+  },
+  {
+    "arxiv_id": "2402.05964",
+    "title": "A Survey on Transformer Compression",
+    "authors": "Yehui Tang, Yunhe Wang, Jianyuan Guo et al.",
+    "year": 2024,
+    "published": "2024-02-05T12:16:28Z",
+    "abstract": "Transformer plays a vital role in the realms of natural language processing (NLP) and computer vision (CV), specially for constructing large language models (LLM) and large vision models (LVM). Model compression methods reduce the memory and computational cost of Transformer, which is a necessary step to implement large language/vision models on practical devices. Given the unique architecture of Transformer, featuring alternative attention and feedforward neural network (FFN) modules, specific compression techniques are usually required. The efficiency of these compression methods is also paramount, as retraining large models on the entire training dataset is usually impractical. This survey provides a comprehensive review of recent compression methods, with a specific focus on their application to Transformer-based models. The compression methods are primarily categorized into pruning, quantization, knowledge distillation, and efficient architecture design (Mamba, RetNet, RWKV, etc.). In each category, we discuss compression methods for both language and vision tasks, highlighting common underlying principles. Finally, we delve into the relation between various compression methods, and discuss further directions in this domain.",
+    "categories": [
+      "cs.LG",
+      "cs.CL",
+      "cs.CV"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2402.05964v2",
+    "url": "http://arxiv.org/abs/2402.05964v2"
+  },
+  {
+    "arxiv_id": "2409.02322",
+    "title": "TimeDiT: General-purpose Diffusion Transformers for Time Series Foundation Model",
+    "authors": "Defu Cao, Wen Ye, Yizhou Zhang et al.",
+    "year": 2024,
+    "published": "2024-09-03T22:31:57Z",
+    "abstract": "Foundation models, particularly Large Language Models (LLMs), have revolutionized text and video processing, yet time series data presents distinct challenges for such approaches due to domain-specific features such as missing values, multi-resolution characteristics, etc. Furthermore, the de-facto autoregressive transformers tend to learn deterministic temporal dependencies within pre-trained data while overlooking inherent uncertainties and lacking integration of physical constraints. In this paper, we introduce TimeDiT, a diffusion transformer model that synergistically combines transformer-based temporal dependency learning with diffusion-based probabilistic sampling. TimeDiT employs a unified masking mechanism to harmonize the training and inference process across diverse tasks while introducing a theoretically grounded, finetuning-free model editing strategy that enables flexible integration of external knowledge during sampling. Acknowledging the challenges of unifying multiple downstream tasks under a single model, our systematic evaluation demonstrates TimeDiT's effectiveness both in fundamental tasks, i.e., forecasting and imputation, through zero-shot/fine-tuning; and in domain tasks, i.e., multi-resolution forecasting, anomaly detection, and data generation, establishing it as a \\textit{proto-foundation model} that bridges the gap between general-purpose and domain-specific models.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2409.02322v2",
+    "url": "http://arxiv.org/abs/2409.02322v2"
+  },
+  {
+    "arxiv_id": "2508.06257",
+    "title": "Multi-Omics Analysis for Cancer Subtype Inference via Unrolling Graph Smoothness Priors",
+    "authors": "Jielong Lu, Zhihao Wu, Jiajun Yu et al.",
+    "year": 2025,
+    "published": "2025-08-08T12:22:36Z",
+    "abstract": "Integrating multi-omics datasets through data-driven analysis offers a comprehensive understanding of the complex biological processes underlying various diseases, particularly cancer. Graph Neural Networks (GNNs) have recently demonstrated remarkable ability to exploit relational structures in biological data, enabling advances in multi-omics integration for cancer subtype classification. Existing approaches often neglect the intricate coupling between heterogeneous omics, limiting their capacity to resolve subtle cancer subtype heterogeneity critical for precision oncology. To address these limitations, we propose a framework named Graph Transformer for Multi-omics Cancer Subtype Classification (GTMancer). This framework builds upon the GNN optimization problem and extends its application to complex multi-omics data. Specifically, our method leverages contrastive learning to embed multi-omics data into a unified semantic space. We unroll the multiplex graph optimization problem in that unified space and introduce dual sets of attention coefficients to capture structural graph priors both within and among multi-omics data. This approach enables global omics information to guide the refining of the representations of individual omics. Empirical experiments on seven real-world cancer datasets demonstrate that GTMancer outperforms existing state-of-the-art algorithms.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2508.06257v1",
+    "url": "http://arxiv.org/abs/2508.06257v1"
+  },
+  {
+    "arxiv_id": "2504.11321",
+    "title": "Subset-Contrastive Multi-Omics Network Embedding",
+    "authors": "Pedro Henrique da Costa Avelar, Min Wu, Sophia Tsoka",
+    "year": 2025,
+    "published": "2025-04-15T16:01:39Z",
+    "abstract": "Motivation: Network-based analyses of omics data are widely used, and while many of these methods have been adapted to single-cell scenarios, they often remain memory- and space-intensive. As a result, they are better suited to batch data or smaller datasets. Furthermore, the application of network-based methods in multi-omics often relies on similarity-based networks, which lack structurally-discrete topologies. This limitation may reduce the effectiveness of graph-based methods that were initially designed for topologies with better defined structures. Results: We propose Subset-Contrastive multi-Omics Network Embedding (SCONE), a method that employs contrastive learning techniques on large datasets through a scalable subgraph contrastive approach. By exploiting the pairwise similarity basis of many network-based omics methods, we transformed this characteristic into a strength, developing an approach that aims to achieve scalable and effective analysis. Our method demonstrates synergistic omics integration for cell type clustering in single-cell data. Additionally, we evaluate its performance in a bulk multi-omics integration scenario, where SCONE performs comparable to the state-of-the-art despite utilising limited views of the original data. We anticipate that our findings will motivate further research into the use of subset contrastive methods for omics data.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2504.11321v1",
+    "url": "http://arxiv.org/abs/2504.11321v1"
+  },
+  {
+    "arxiv_id": "2412.12668",
+    "title": "Artificial Intelligence for Central Dogma-Centric Multi-Omics: Challenges and Breakthroughs",
+    "authors": "Lei Xin, Caiyun Huang, Hao Li et al.",
+    "year": 2024,
+    "published": "2024-12-17T08:38:03Z",
+    "abstract": "With the rapid development of high-throughput sequencing platforms, an increasing number of omics technologies, such as genomics, metabolomics, and transcriptomics, are being applied to disease genetics research. However, biological data often exhibit high dimensionality and significant noise, making it challenging to effectively distinguish disease subtypes using a single-omics approach. To address these challenges and better capture the interactions among DNA, RNA, and proteins described by the central dogma, numerous studies have leveraged artificial intelligence to develop multi-omics models for disease research. These AI-driven models have improved the accuracy of disease prediction and facilitated the identification of genetic loci associated with diseases, thus advancing precision medicine. This paper reviews the mathematical definitions of multi-omics, strategies for integrating multi-omics data, applications of artificial intelligence and deep learning in multi-omics, the establishment of foundational models, and breakthroughs in multi-omics technologies, drawing insights from over 130 related articles. It aims to provide practical guidance for computational biologists to better understand and effectively utilize AI-based multi-omics machine learning algorithms in the context of central dogma.",
+    "categories": [
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2412.12668v1",
+    "url": "http://arxiv.org/abs/2412.12668v1"
+  },
+  {
+    "arxiv_id": "2508.18304",
+    "title": "scI2CL: Effectively Integrating Single-cell Multi-omics by Intra- and Inter-omics Contrastive Learning",
+    "authors": "Wuchao Liu, Han Peng, Wengen Li et al.",
+    "year": 2025,
+    "published": "2025-08-23T01:42:28Z",
+    "abstract": "Single-cell multi-omics data contain huge information of cellular states, and analyzing these data can reveal valuable insights into cellular heterogeneity, diseases, and biological processes. However, as cell differentiation \\& development is a continuous and dynamic process, it remains challenging to computationally model and infer cell interaction patterns based on single-cell multi-omics data. This paper presents scI2CL, a new single-cell multi-omics fusion framework based on intra- and inter-omics contrastive learning, to learn comprehensive and discriminative cellular representations from complementary multi-omics data for various downstream tasks. Extensive experiments of four downstream tasks validate the effectiveness of scI2CL and its superiority over existing peers. Concretely, in cell clustering, scI2CL surpasses eight state-of-the-art methods on four widely-used real-world datasets. In cell subtyping, scI2CL effectively distinguishes three latent monocyte cell subpopulations, which are not discovered by existing methods. Simultaneously, scI2CL is the only method that correctly constructs the cell developmental trajectory from hematopoietic stem and progenitor cells to Memory B cells. In addition, scI2CL resolves the misclassification of cell types between two subpopulations of CD4+ T cells, while existing methods fail to precisely distinguish the mixed cells. In summary, scI2CL can accurately characterize cross-omics relationships among cells, thus effectively fuses multi-omics data and learns discriminative cellular representations to support various downstream analysis tasks.",
+    "categories": [
+      "q-bio.GN",
+      "cs.AI",
+      "cs.LG",
+      "q-bio.CB"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2508.18304v1",
+    "url": "http://arxiv.org/abs/2508.18304v1"
+  },
+  {
+    "arxiv_id": "2307.04075",
+    "title": "DEDUCE: Multi-head attention decoupled contrastive learning to discover cancer subtypes based on multi-omics data",
+    "authors": "Liangrui Pan, Xiang Wang, Qingchun Liang et al.",
+    "year": 2023,
+    "published": "2023-07-09T00:53:23Z",
+    "abstract": "Background and Objective: Given the high heterogeneity and clinical diversity of cancer, substantial variations exist in multi-omics data and clinical features across different cancer subtypes. Methods: We propose a model, named DEDUCE, based on a symmetric multi-head attention encoders (SMAE), for unsupervised contrastive learning to analyze multi-omics cancer data, with the aim of identifying and characterizing cancer subtypes. This model adopts a unsupervised SMAE that can deeply extract contextual features and long-range dependencies from multi-omics data, thereby mitigating the impact of noise. Importantly, DEDUCE introduces a subtype decoupled contrastive learning method based on a multi-head attention mechanism to simultaneously learn features from multi-omics data and perform clustering for identifying cancer subtypes. Subtypes are clustered by calculating the similarity between samples in both the feature space and sample space of multi-omics data. The fundamental concept involves decoupling various attributes of multi-omics data features and learning them as contrasting terms. A contrastive loss function is constructed to quantify the disparity between positive and negative examples, and the model minimizes this difference, thereby promoting the acquisition of enhanced feature representation. Results: The DEDUCE model undergoes extensive experiments on simulated multi-omics datasets, single-cell multi-omics datasets, and cancer multi-omics datasets, outperforming 10 deep learning models. The DEDUCE model outperforms state-of-the-art methods, and ablation experiments demonstrate the effectiveness of each module in the DEDUCE model. Finally, we applied the DEDUCE model to identify six cancer subtypes of AML.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2307.04075v3",
+    "url": "http://arxiv.org/abs/2307.04075v3"
+  },
+  {
+    "arxiv_id": "2008.12455",
+    "title": "Strategies to integrate multi-omics data for patient survival prediction",
+    "authors": "Lana X Garmire",
+    "year": 2020,
+    "published": "2020-08-28T03:08:02Z",
+    "abstract": "Genomics, especially multi-omics, has made precision medicine feasible. The completion and publicly accessible multi-omics resource with clinical outcome, such as The Cancer Genome Atlas (TCGA) is a great test bed for developing computational methods that integrate multi-omics data to predict patient cancer phenotypes. We have been utilizing TCGA multi-omics data to predict cancer patient survival, using a variety of approaches, including prior-biological knowledge (such as pathways), and more recently, deep-learning methods. Over time, we have developed methods such as Cox-nnet, DeepProg, and two-stage Cox-nnet, to address the challenges due to multi-omics and multi-modality. Despite the limited sample size (hundreds to thousands) in the training datasets as well as the heterogeneity nature of human populations, these methods have shown significance and robustness at predicting patient survival in independent population cohorts. In the following, we would describe in detail these methodologies, the modeling results, and important biological insights revealed by these methods.",
+    "categories": [
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2008.12455v1",
+    "url": "http://arxiv.org/abs/2008.12455v1"
+  },
+  {
+    "arxiv_id": "2310.12941",
+    "title": "The Foundation Model Transparency Index",
+    "authors": "Rishi Bommasani, Kevin Klyman, Shayne Longpre et al.",
+    "year": 2023,
+    "published": "2023-10-19T17:39:02Z",
+    "abstract": "Foundation models have rapidly permeated society, catalyzing a wave of generative AI applications spanning enterprise and consumer-facing contexts. While the societal impact of foundation models is growing, transparency is on the decline, mirroring the opacity that has plagued past digital technologies (e.g. social media). Reversing this trend is essential: transparency is a vital precondition for public accountability, scientific innovation, and effective governance. To assess the transparency of the foundation model ecosystem and help improve transparency over time, we introduce the Foundation Model Transparency Index. The Foundation Model Transparency Index specifies 100 fine-grained indicators that comprehensively codify transparency for foundation models, spanning the upstream resources used to build a foundation model (e.g data, labor, compute), details about the model itself (e.g. size, capabilities, risks), and the downstream use (e.g. distribution channels, usage policies, affected geographies). We score 10 major foundation model developers (e.g. OpenAI, Google, Meta) against the 100 indicators to assess their transparency. To facilitate and standardize assessment, we score developers in relation to their practices for their flagship foundation model (e.g. GPT-4 for OpenAI, PaLM 2 for Google, Llama 2 for Meta). We present 10 top-level findings about the foundation model ecosystem: for example, no developer currently discloses significant information about the downstream impact of its flagship model, such as the number of users, affected market sectors, or how users can seek redress for harm. Overall, the Foundation Model Transparency Index establishes the level of transparency today to drive progress on foundation model governance via industry standards and regulatory intervention.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2310.12941v1",
+    "url": "http://arxiv.org/abs/2310.12941v1"
+  },
+  {
+    "arxiv_id": "2412.19191",
+    "title": "Biology-Instructions: A Dataset and Benchmark for Multi-Omics Sequence Understanding Capability of Large Language Models",
+    "authors": "Haonan He, Yuchen Ren, Yining Tang et al.",
+    "year": 2024,
+    "published": "2024-12-26T12:12:23Z",
+    "abstract": "Large language models (LLMs) have shown remarkable capabilities in general domains, but their application to multi-omics biology remains underexplored. To address this gap, we introduce Biology-Instructions, the first large-scale instruction-tuning dataset for multi-omics biological sequences, including DNA, RNA, proteins, and multi-molecules. This dataset bridges LLMs and complex biological sequence-related tasks, enhancing their versatility and reasoning while maintaining conversational fluency. We also highlight significant limitations of current state-of-the-art LLMs on multi-omics tasks without specialized training. To overcome this, we propose ChatMultiOmics, a strong baseline with a novel three-stage training pipeline, demonstrating superior biological understanding through Biology-Instructions. Both resources are publicly available, paving the way for better integration of LLMs in multi-omics analysis. The Biology-Instructions is publicly available at: https://github.com/hhnqqq/Biology-Instructions.",
+    "categories": [
+      "q-bio.BM",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2412.19191v2",
+    "url": "http://arxiv.org/abs/2412.19191v2"
+  },
+  {
+    "arxiv_id": "2502.07299",
+    "title": "Life-Code: Central Dogma Modeling with Multi-Omics Sequence Unification",
+    "authors": "Zicheng Liu, Siyuan Li, Zhiyuan Chen et al.",
+    "year": 2025,
+    "published": "2025-02-11T06:53:59Z",
+    "abstract": "The interactions between DNA, RNA, and proteins are fundamental to biological processes, as illustrated by the central dogma of molecular biology. Although modern biological pre-trained models have achieved great success in analyzing these macromolecules individually, their interconnected nature remains underexplored. This paper follows the guidance of the central dogma to redesign both the data and model pipeline and offers a comprehensive framework, Life-Code, that spans different biological functions. As for data flow, we propose a unified pipeline to integrate multi-omics data by reverse-transcribing RNA and reverse-translating amino acids into nucleotide-based sequences. As for the model, we design a codon tokenizer and a hybrid long-sequence architecture to encode the interactions between coding and non-coding regions through masked modeling pre-training. To model the translation and folding process with coding sequences, Life-Code learns protein structures of the corresponding amino acids by knowledge distillation from off-the-shelf protein language models. Such designs enable Life-Code to capture complex interactions within genetic sequences, providing a more comprehensive understanding of multi-omics with the central dogma. Extensive experiments show that Life-Code achieves state-of-the-art results on various tasks across three omics, highlighting its potential for advancing multi-omics analysis and interpretation.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "cs.CL",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2502.07299v3",
+    "url": "http://arxiv.org/abs/2502.07299v3"
+  },
+  {
+    "arxiv_id": "2303.06975",
+    "title": "A primer on correlation-based dimension reduction methods for multi-omics analysis",
+    "authors": "Tim Downing, Nicos Angelopoulos",
+    "year": 2023,
+    "published": "2023-03-13T10:21:27Z",
+    "abstract": "The continuing advances of omic technologies mean that it is now more tangible to measure the numerous features collectively reflecting the molecular properties of a sample. When multiple omic methods are used, statistical and computational approaches can exploit these large, connected profiles. Multi-omics is the integration of different omic data sources from the same biological sample. In this review, we focus on correlation-based dimension reduction approaches for single omic datasets, followed by methods for pairs of omics datasets, before detailing further techniques for three or more omic datasets. We also briefly detail network methods when three or more omic datasets are available and which complement correlation-oriented tools. To aid readers new to this area, these are all linked to relevant R packages that can implement these procedures. Finally, we discuss scenarios of experimental design and present road maps that simplify the selection of appropriate analysis methods. This review will guide researchers navigate the emerging methods for multi-omics and help them integrate diverse omic datasets appropriately and embrace the opportunity of population multi-omics.",
+    "categories": [
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2303.06975v7",
+    "url": "http://arxiv.org/abs/2303.06975v7"
+  },
+  {
+    "arxiv_id": "2409.02143",
+    "title": "MLOmics: Cancer Multi-Omics Database for Machine Learning",
+    "authors": "Ziwei Yang, Rikuto Kotoge, Xihao Piao et al.",
+    "year": 2024,
+    "published": "2024-09-02T22:04:08Z",
+    "abstract": "Framing the investigation of diverse cancers as a machine learning problem has recently shown significant potential in multi-omics analysis and cancer research. Empowering these successful machine learning models are the high-quality training datasets with sufficient data volume and adequate preprocessing. However, while there exist several public data portals, including The Cancer Genome Atlas (TCGA) multi-omics initiative or open-bases such as the LinkedOmics, these databases are not off-the-shelf for existing machine learning models. In this paper, we introduce MLOmics, an open cancer multi-omics database aiming at serving better the development and evaluation of bioinformatics and machine learning models. MLOmics contains 8,314 patient samples covering all 32 cancer types with four omics types, stratified features, and extensive baselines. Complementary support for downstream analysis and bio-knowledge linking are also included to support interdisciplinary analysis.",
+    "categories": [
+      "q-bio.GN",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2409.02143v3",
+    "url": "http://arxiv.org/abs/2409.02143v3"
+  },
+  {
+    "arxiv_id": "2410.05325",
+    "title": "Comparative Analysis of Multi-Omics Integration Using Advanced Graph Neural Networks for Cancer Classification",
+    "authors": "Fadi Alharbi, Aleksandar Vakanski, Boyu Zhang et al.",
+    "year": 2024,
+    "published": "2024-10-05T16:17:44Z",
+    "abstract": "Multi-omics data is increasingly being utilized to advance computational methods for cancer classification. However, multi-omics data integration poses significant challenges due to the high dimensionality, data complexity, and distinct characteristics of various omics types. This study addresses these challenges and evaluates three graph neural network architectures for multi-omics (MO) integration based on graph-convolutional networks (GCN), graph-attention networks (GAT), and graph-transformer networks (GTN) for classifying 31 cancer types and normal tissues. To address the high-dimensionality of multi-omics data, we employed LASSO (Least Absolute Shrinkage and Selection Operator) regression for feature selection, leading to the creation of LASSO-MOGCN, LASSO-MOGAT, and LASSO-MOTGN models. Graph structures for the networks were constructed using gene correlation matrices and protein-protein interaction networks for multi-omics integration of messenger-RNA, micro-RNA, and DNA methylation data. Such data integration enables the networks to dynamically focus on important relationships between biological entities, improving both model performance and interpretability. Among the models, LASSO-MOGAT with a correlation-based graph structure achieved state-of-the-art accuracy (95.9%) and outperformed the LASSO-MOGCN and LASSO-MOTGN models in terms of precision, recall, and F1-score. Our findings demonstrate that integrating multi-omics data in graph-based architectures enhances cancer classification performance by uncovering distinct molecular patterns that contribute to a better understanding of cancer biology and potential biomarkers for disease progression.",
+    "categories": [
+      "q-bio.GN",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2410.05325v1",
+    "url": "http://arxiv.org/abs/2410.05325v1"
+  }
+]

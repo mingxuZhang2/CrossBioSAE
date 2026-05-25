@@ -1,1 +1,435 @@
-[]
+[
+  {
+    "arxiv_id": "2308.16149",
+    "title": "Jais and Jais-chat: Arabic-Centric Foundation and Instruction-Tuned Open Generative Large Language Models",
+    "authors": "Neha Sengupta, Sunil Kumar Sahu, Bokang Jia et al.",
+    "year": 2023,
+    "published": "2023-08-30T17:07:17Z",
+    "abstract": "We introduce Jais and Jais-chat, new state-of-the-art Arabic-centric foundation and instruction-tuned open generative large language models (LLMs). The models are based on the GPT-3 decoder-only architecture and are pretrained on a mixture of Arabic and English texts, including source code in various programming languages. With 13 billion parameters, they demonstrate better knowledge and reasoning capabilities in Arabic than any existing open Arabic and multilingual models by a sizable margin, based on extensive evaluation. Moreover, the models are competitive in English compared to English-centric open models of similar size, despite being trained on much less English data. We provide a detailed description of the training, the tuning, the safety alignment, and the evaluation of the models. We release two open versions of the model -- the foundation Jais model, and an instruction-tuned Jais-chat variant -- with the aim of promoting research on Arabic LLMs. Available at https://huggingface.co/inception-mbzuai/jais-13b-chat",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2308.16149v2",
+    "url": "http://arxiv.org/abs/2308.16149v2"
+  },
+  {
+    "arxiv_id": "2410.08355",
+    "title": "Metalic: Meta-Learning In-Context with Protein Language Models",
+    "authors": "Jacob Beck, Shikha Surana, Manus McAuliffe et al.",
+    "year": 2024,
+    "published": "2024-10-10T20:19:35Z",
+    "abstract": "Predicting the biophysical and functional properties of proteins is essential for in silico protein design. Machine learning has emerged as a promising technique for such prediction tasks. However, the relative scarcity of in vitro annotations means that these models often have little, or no, specific data on the desired fitness prediction task. As a result of limited data, protein language models (PLMs) are typically trained on general protein sequence modeling tasks, and then fine-tuned, or applied zero-shot, to protein fitness prediction. When no task data is available, the models make strong assumptions about the correlation between the protein sequence likelihood and fitness scores. In contrast, we propose meta-learning over a distribution of standard fitness prediction tasks, and demonstrate positive transfer to unseen fitness prediction tasks. Our method, called Metalic (Meta-Learning In-Context), uses in-context learning and fine-tuning, when data is available, to adapt to new tasks. Crucially, fine-tuning enables considerable generalization, even though it is not accounted for during meta-training. Our fine-tuned models achieve strong results with 18 times fewer parameters than state-of-the-art models. Moreover, our method sets a new state-of-the-art in low-data settings on ProteinGym, an established fitness-prediction benchmark. Due to data scarcity, we believe meta-learning will play a pivotal role in advancing protein engineering.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2410.08355v3",
+    "url": "http://arxiv.org/abs/2410.08355v3"
+  },
+  {
+    "arxiv_id": "2506.08023",
+    "title": "Aligning Proteins and Language: A Foundation Model for Protein Retrieval",
+    "authors": "Qifeng Wu, Zhengzhe Liu, Han Zhu et al.",
+    "year": 2025,
+    "published": "2025-05-27T08:13:08Z",
+    "abstract": "This paper aims to retrieve proteins with similar structures and semantics from large-scale protein dataset, facilitating the functional interpretation of protein structures derived by structural determination methods like cryo-Electron Microscopy (cryo-EM). Motivated by the recent progress of vision-language models (VLMs), we propose a CLIP-style framework for aligning 3D protein structures with functional annotations using contrastive learning. For model training, we propose a large-scale dataset of approximately 200,000 protein-caption pairs with rich functional descriptors. We evaluate our model in both in-domain and more challenging cross-database retrieval on Protein Data Bank (PDB) and Electron Microscopy Data Bank (EMDB) dataset, respectively. In both cases, our approach demonstrates promising zero-shot retrieval performance, highlighting the potential of multimodal foundation models for structure-function understanding in protein biology.",
+    "categories": [
+      "q-bio.BM",
+      "cs.AI",
+      "cs.CE",
+      "cs.CV",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.08023v1",
+    "url": "http://arxiv.org/abs/2506.08023v1"
+  },
+  {
+    "arxiv_id": "2201.07338",
+    "title": "Controllable Protein Design with Language Models",
+    "authors": "Noelia Ferruz, Birte Höcker",
+    "year": 2022,
+    "published": "2022-01-18T22:23:03Z",
+    "abstract": "The 21st century is presenting humankind with unprecedented environmental and medical challenges. The ability to design novel proteins tailored for specific purposes could transform our ability to respond timely to these issues. Recent advances in the field of artificial intelligence are now setting the stage to make this goal achievable. Protein sequences are inherently similar to natural languages: Amino acids arrange in a multitude of combinations to form structures that carry function, the same way as letters form words and sentences that carry meaning. Therefore, it is not surprising that throughout the history of Natural Language Processing (NLP), many of its techniques have been applied to protein research problems. In the last few years, we have witnessed revolutionary breakthroughs in the field of NLP. The implementation of Transformer pre-trained models has enabled text generation with human-like capabilities, including texts with specific properties such as style or subject. Motivated by its considerable success in NLP tasks, we expect dedicated Transformers to dominate custom protein sequence generation in the near future. Finetuning pre-trained models on protein families will enable the extension of their repertoires with novel sequences that could be highly divergent but still potentially functional. The combination of control tags such as cellular compartment or function will further enable the controllable design of novel protein functions. Moreover, recent model interpretability methods will allow us to open the 'black box' and thus enhance our understanding of folding principles. While early initiatives show the enormous potential of generative language models to design functional sequences, the field is still in its infancy. We believe that protein language models are a promising and largely unexplored field and discuss their foreseeable impact on protein design.",
+    "categories": [
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2201.07338v2",
+    "url": "http://arxiv.org/abs/2201.07338v2"
+  },
+  {
+    "arxiv_id": "2605.12335",
+    "title": "EHR-RAGp: Retrieval-Augmented Prototype-Guided Foundation Model for Electronic Health Records",
+    "authors": "Saeed Shurrab, Mariam Al-Omari, Dana El Samad et al.",
+    "year": 2026,
+    "published": "2026-05-12T16:17:03Z",
+    "abstract": "Electronic Health Records (EHR) contain rich longitudinal patient information and are widely used in predictive modeling applications. However, effectively leveraging historical data remains challenging due to long trajectories, heterogeneous events, temporal irregularity, and the varying relevance of past clinical context. Existing approaches often rely on fixed windows or uniform aggregation, which can obscure clinically important signals. In this work, we introduce EHR-RAGp, a retrieval-augmented foundation model that dynamically integrates the most relevant patient history across diverse clinical event types. We propose a prototype-guided retrieval module that acts as an alignment mechanism and estimates the relevance of retrieved historical chunks with respect to a given prediction task, guiding the model towards the most informative context. Across multiple clinical prediction tasks, EHR-RAGp consistently outperforms state-of-the-art EHR foundation models and transformer-based baselines. Furthermore, integrating EHR-RAGp with existing clinical foundation models yields substantial performance gains. Overall, EHR-RAGp provides a scalable and efficient framework for leveraging long-range clinical context to improve downstream performance.",
+    "categories": [
+      "cs.IR",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2605.12335v1",
+    "url": "http://arxiv.org/abs/2605.12335v1"
+  },
+  {
+    "arxiv_id": "2407.16375",
+    "title": "Ranking protein-protein models with large language models and graph neural networks",
+    "authors": "Xiaotong Xu, Alexandre M. J. J. Bonvin",
+    "year": 2024,
+    "published": "2024-07-23T10:51:35Z",
+    "abstract": "Protein-protein interactions (PPIs) are associated with various diseases, including cancer, infections, and neurodegenerative disorders. Obtaining three-dimensional structural information on these PPIs serves as a foundation to interfere with those or to guide drug design. Various strategies can be followed to model those complexes, all typically resulting in a large number of models. A challenging step in this process is the identification of good models (near-native PPI conformations) from the large pool of generated models. To address this challenge, we previously developed DeepRank-GNN-esm, a graph-based deep learning algorithm for ranking modelled PPI structures harnessing the power of protein language models. Here, we detail the use of our software with examples. DeepRank-GNN-esm is freely available at https://github.com/haddocking/DeepRank-GNN-esm",
+    "categories": [
+      "q-bio.BM",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.16375v1",
+    "url": "http://arxiv.org/abs/2407.16375v1"
+  },
+  {
+    "arxiv_id": "2407.04065",
+    "title": "On the Workflows and Smells of Leaderboard Operations (LBOps): An Exploratory Study of Foundation Model Leaderboards",
+    "authors": "Zhimin Zhao, Abdul Ali Bangash, Filipe Roseiro Côgo et al.",
+    "year": 2024,
+    "published": "2024-07-04T17:12:00Z",
+    "abstract": "Foundation models (FM), such as large language models (LLMs), which are large-scale machine learning (ML) models, have demonstrated remarkable adaptability in various downstream software engineering (SE) tasks, such as code completion, code understanding, and software development. As a result, FM leaderboards have become essential tools for SE teams to compare and select the best third-party FMs for their specific products and purposes. However, the lack of standardized guidelines for FM evaluation and comparison threatens the transparency of FM leaderboards and limits stakeholders' ability to perform effective FM selection. As a first step towards addressing this challenge, our research focuses on understanding how these FM leaderboards operate in real-world scenarios (\"leaderboard operations\") and identifying potential pitfalls and areas for improvement (\"leaderboard smells\"). In this regard, we collect up to 1,045 FM leaderboards from five different sources: GitHub, Hugging Face Spaces, Papers With Code, spreadsheet and independent platform, to examine their documentation and engage in direct communication with leaderboard operators to understand their workflows. Through card sorting and negotiated agreement, we identify five distinct workflow patterns and develop a domain model that captures the key components and their interactions within these workflows. We then identify eight unique types of leaderboard smells in LBOps. By mitigating these smells, SE teams can improve transparency, accountability, and collaboration in current LBOps practices, fostering a more robust and responsible ecosystem for FM comparison and selection.",
+    "categories": [
+      "cs.SE",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.04065v4",
+    "url": "http://arxiv.org/abs/2407.04065v4"
+  },
+  {
+    "arxiv_id": "2207.07410",
+    "title": "AlphaFold predicts the most complex protein knot and composite protein knots",
+    "authors": "Maarten A. Brems, Robert Runkel, Todd O. Yeates et al.",
+    "year": 2022,
+    "published": "2022-07-15T11:38:45Z",
+    "abstract": "The computer artificial intelligence system AlphaFold has recently predicted previously unknown three-dimensional structures of thousands of proteins. Focusing on the subset with high-confidence scores, we algorithmically analyze these predictions for cases where the protein backbone exhibits rare topological complexity, i.e. knotting. Amongst others, we discovered a $7_1$-knot, the most topologically complex knot ever found in a protein, as well several 6-crossing composite knots comprised of two methyltransferase or carbonic anhydrase domains, each containing a simple trefoil knot. These deeply embedded composite knots occur evidently by gene duplication and interconnection of knotted dimers. Finally, we report two new five-crossing knots including the first $5_1$-knot. Our list of analyzed structures forms the basis for future experimental studies to confirm these novel knotted topologies and to explore their complex folding mechanisms.",
+    "categories": [
+      "q-bio.BM",
+      "cond-mat.soft",
+      "physics.bio-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2207.07410v1",
+    "url": "http://arxiv.org/abs/2207.07410v1"
+  },
+  {
+    "arxiv_id": "2512.03307",
+    "title": "Robust Tabular Foundation Models",
+    "authors": "Matthew Peroni, Franck Le, Vadim Sheinin",
+    "year": 2025,
+    "published": "2025-12-02T23:40:39Z",
+    "abstract": "The development of tabular foundation models (TFMs) has accelerated in recent years, showing strong potential to outperform traditional ML methods for structured data. A key finding is that TFMs can be pretrained entirely on synthetic datasets, opening opportunities to design data generators that encourage desirable model properties. Prior work has mainly focused on crafting high-quality priors over generators to improve overall pretraining performance. Our insight is that parameterizing the generator distribution enables an adversarial robustness perspective: during training, we can adapt the generator to emphasize datasets that are particularly challenging for the model. We formalize this by introducing an optimality gap measure, given by the difference between TFM performance and the best achievable performance as estimated by strong baselines such as XGBoost, CatBoost, and Random Forests. Building on this idea, we propose Robust Tabular Foundation Models (RTFM), a model-agnostic adversarial training framework. Applied to the TabPFN V2 classifier, RTFM improves benchmark performance, with up to a 6% increase in mean normalized AUC over the original TabPFN and other baseline algorithms, while requiring less than 100k additional synthetic datasets. These results highlight a promising new direction for targeted adversarial training and fine-tuning of TFMs using synthetic data alone.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.03307v1",
+    "url": "http://arxiv.org/abs/2512.03307v1"
+  },
+  {
+    "arxiv_id": "2312.10793",
+    "title": "Demystifying Instruction Mixing for Fine-tuning Large Language Models",
+    "authors": "Renxi Wang, Haonan Li, Minghao Wu et al.",
+    "year": 2023,
+    "published": "2023-12-17T18:44:26Z",
+    "abstract": "Instruction tuning significantly enhances the performance of large language models (LLMs) across various tasks. However, the procedure to optimizing the mixing of instruction datasets for LLM fine-tuning is still poorly understood. This study categorizes instructions into three primary types: NLP downstream tasks, coding, and general chat. We explore the effects of instruction tuning on different combinations of datasets on LLM performance, and find that certain instruction types are more advantageous for specific applications but can negatively impact other areas. This work provides insights into instruction mixtures, laying the foundations for future research.",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2312.10793v3",
+    "url": "http://arxiv.org/abs/2312.10793v3"
+  },
+  {
+    "arxiv_id": "1908.11739",
+    "title": "A Continuous Effective Model of the Protein Dynamics",
+    "authors": "Dmitry Melnikov, Alyson B. F. Neves",
+    "year": 2019,
+    "published": "2019-08-30T13:48:18Z",
+    "abstract": "The theory of elastic rods can be used to describe certain geometric and topological properties of the DNA molecules. A similar effective field theory approach was previously suggested to describe the conformations and dynamics of proteins. In this letter we report a detailed study of the basic features of a version of the proposed model, which assumes proteins to be very long continuous curves. In the most appealing case, the model is based on a potential with a pair of minima corresponding to helical and strand-like configurations of the curves. It allows to derive several predictions about the geometric features of the molecules, and we show that the predictions are compatible with the phenomenology. While the helices represent the ground state configurations, the abundance of beta strands is controlled by a parameter, which can either completely suppress their presence in a molecule, or make them abundant. The few-parameter model investigated in the letter rather represents a universality class of protein molecules. Generalizations accounting for the discrete nature and inhomogeneity of the molecules presumably allow to model realistic cases.",
+    "categories": [
+      "q-bio.BM",
+      "cond-mat.soft",
+      "hep-ph",
+      "hep-th",
+      "physics.bio-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1908.11739v1",
+    "url": "http://arxiv.org/abs/1908.11739v1"
+  },
+  {
+    "arxiv_id": "2512.02180",
+    "title": "CLEF: Clinically-Guided Contrastive Learning for Electrocardiogram Foundation Models",
+    "authors": "Yuxuan Shu, Peter H. Charlton, Fahim Kawsar et al.",
+    "year": 2025,
+    "published": "2025-12-01T20:21:44Z",
+    "abstract": "The electrocardiogram (ECG) is a key diagnostic tool in cardiovascular health. Single-lead ECG recording is integrated into both clinical-grade and consumer wearables. While self-supervised pretraining of foundation models on unlabeled ECGs improves diagnostic performance, existing approaches do not incorporate domain knowledge from clinical metadata. We introduce a novel contrastive learning approach that utilizes an established clinical risk score to adaptively weight negative pairs: clinically-guided contrastive learning. It aligns the similarities of ECG embeddings with clinically meaningful differences between subjects, with an explicit mechanism to handle missing metadata. On 12-lead ECGs from 161K patients in the MIMIC-IV dataset, we pretrain single-lead ECG foundation models at three scales, collectively called CLEF, using only routinely collected metadata without requiring per-sample ECG annotations. We evaluate CLEF on 18 clinical classification and regression tasks across 7 held-out datasets, and benchmark against 5 foundation model baselines and 3 self-supervised algorithms. When pretrained on 12-lead ECG data and tested on lead-I data, CLEF outperforms self-supervised foundation model baselines: the medium-sized CLEF achieves average AUROC improvements of at least 2.6% in classification and average reductions in MAEs of at least 3.2% in regression. Comparing with existing self-supervised learning algorithms, CLEF improves the average AUROC by at least 1.8%. Moreover, when pretrained only on lead-I data for classification tasks, CLEF performs comparably to the state-of-the-art ECGFounder, which was trained in a supervised manner. Overall, CLEF enables more accurate and scalable single-lead ECG analysis, advancing remote health monitoring. Code and pretrained CLEF models are available at: github.com/Nokia-Bell-Labs/ecg-foundation-model.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.02180v1",
+    "url": "http://arxiv.org/abs/2512.02180v1"
+  },
+  {
+    "arxiv_id": "2503.21676",
+    "title": "How do language models learn facts? Dynamics, curricula and hallucinations",
+    "authors": "Nicolas Zucchet, Jörg Bornschein, Stephanie Chan et al.",
+    "year": 2025,
+    "published": "2025-03-27T16:43:45Z",
+    "abstract": "Large language models accumulate vast knowledge during pre-training, yet the dynamics governing this acquisition remain poorly understood. This work investigates the learning dynamics of language models on a synthetic factual recall task, uncovering three key findings: First, language models learn in three phases, exhibiting a performance plateau before acquiring precise factual knowledge. Mechanistically, this plateau coincides with the formation of attention-based circuits that support recall. Second, the training data distribution significantly impacts learning dynamics, as imbalanced distributions lead to shorter plateaus. Finally, hallucinations emerge simultaneously with knowledge, and integrating new knowledge into the model through fine-tuning is challenging, as it quickly corrupts its existing parametric memories. Our results emphasize the importance of data distribution in knowledge acquisition and suggest novel data scheduling strategies to accelerate neural network training.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2503.21676v2",
+    "url": "http://arxiv.org/abs/2503.21676v2"
+  },
+  {
+    "arxiv_id": "2504.06806",
+    "title": "Mass Balance Approximation of Unfolding Improves Potential-Like Methods for Protein Stability Predictions",
+    "authors": "Ivan Rossi, Guido Barducci, Tiziana Sanavia et al.",
+    "year": 2025,
+    "published": "2025-04-09T11:53:02Z",
+    "abstract": "The prediction of protein stability changes following single-point mutations plays a pivotal role in computational biology, particularly in areas like drug discovery, enzyme reengineering, and genetic disease analysis. Although deep-learning strategies have pushed the field forward, their use in standard workflows remains limited due to resource demands. Conversely, potential-like methods are fast, intuitive, and efficient. Yet, these typically estimate Gibbs free energy shifts without considering the free-energy variations in the unfolded protein state, an omission that may breach mass balance and diminish accuracy. This study shows that incorporating a mass-balance correction (MBC) to account for the unfolded state significantly enhances these methods. While many machine learning models partially model this balance, our analysis suggests that a refined representation of the unfolded state may improve the predictive performance.",
+    "categories": [
+      "q-bio.QM",
+      "cs.LG",
+      "physics.bio-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2504.06806v1",
+    "url": "http://arxiv.org/abs/2504.06806v1"
+  },
+  {
+    "arxiv_id": "2304.12244",
+    "title": "WizardLM: Empowering large pre-trained language models to follow complex instructions",
+    "authors": "Can Xu, Qingfeng Sun, Kai Zheng et al.",
+    "year": 2023,
+    "published": "2023-04-24T16:31:06Z",
+    "abstract": "Training large language models (LLMs) with open-domain instruction following data brings colossal success. However, manually creating such instruction data is very time-consuming and labor-intensive. Moreover, humans may struggle to produce high-complexity instructions. In this paper, we show an avenue for creating large amounts of instruction data with varying levels of complexity using LLM instead of humans. Starting with an initial set of instructions, we use our proposed Evol-Instruct to rewrite them step by step into more complex instructions. Then, we mix all generated instruction data to fine-tune LLaMA. We call the resulting model WizardLM. Human evaluations on a complexity-balanced test bed and Vicuna's testset show that instructions from Evol-Instruct are superior to human-created ones. By analyzing the human evaluation results of the high complexity part, we demonstrate that outputs from our WizardLM are preferred to outputs from OpenAI ChatGPT. In GPT-4 automatic evaluation, WizardLM achieves more than 90\\% capacity of ChatGPT on 17 out of 29 skills. Even though WizardLM still lags behind ChatGPT in some aspects, our findings suggest that fine-tuning with AI-evolved instructions is a promising direction for enhancing LLMs. Our code and data are public at https://github.com/nlpxucan/WizardLM",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2304.12244v3",
+    "url": "http://arxiv.org/abs/2304.12244v3"
+  },
+  {
+    "arxiv_id": "2009.10632",
+    "title": "From Things' Modeling Language (ThingML) to Things' Machine Learning (ThingML2)",
+    "authors": "Armin Moin, Stephan Rössler, Marouane Sayih et al.",
+    "year": 2020,
+    "published": "2020-09-22T15:44:57Z",
+    "abstract": "In this paper, we illustrate how to enhance an existing state-of-the-art modeling language and tool for the Internet of Things (IoT), called ThingML, to support machine learning on the modeling level. To this aim, we extend the Domain-Specific Language (DSL) of ThingML, as well as its code generation framework. Our DSL allows one to define things, which are in charge of carrying out data analytics. Further, our code generators can automatically produce the complete implementation in Java and Python. The generated Python code is responsible for data analytics and employs APIs of machine learning libraries, such as Keras, Tensorflow and Scikit Learn. Our prototype is available as open source software on Github.",
+    "categories": [
+      "cs.SE",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2009.10632v1",
+    "url": "http://arxiv.org/abs/2009.10632v1"
+  },
+  {
+    "arxiv_id": "2307.03465",
+    "title": "TBGC: Task-level Backbone-Oriented Gradient Clip for Multi-Task Foundation Model Learning",
+    "authors": "Zelun Zhang, Xue Pan",
+    "year": 2023,
+    "published": "2023-07-07T08:57:57Z",
+    "abstract": "The AllInOne training paradigm squeezes a wide range of tasks into a unified model in a multi-task learning manner. However, optimization in multi-task learning is more challenge than single-task learning, as the gradient norm from different tasks may vary greatly, making the backbone overly biased towards one specific task. To address this issue, we propose the task-level backbone-oriented gradient clip paradigm, compared with the vanilla gradient clip method, it has two points of emphasis:1) gradient clip is performed independently for each task. 2) backbone gradients generated from each task are rescaled to the same norm scale. Based on the experimental results, we argue that the task-level backbone-oriented gradient clip paradigm can relieve the gradient bias problem to some extent. We also propose a novel multi-branch data augmentation strategy where conflict augmentations are placed in different branches. Our approach has been shown to be effective and finally achieve 1st place in the Leaderboard A and 2nd place in the Leaderboard B of the CVPR2023 Foundation Model Challenge. It's worth noting that instead of evaluating all three tasks(detection, segmentation and fine-grained classification) in Leaderboard A, the segmentation task is not evaluated in Leaderboard B, in which our team has a huge advantage.",
+    "categories": [
+      "cs.CV",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2307.03465v1",
+    "url": "http://arxiv.org/abs/2307.03465v1"
+  },
+  {
+    "arxiv_id": "2411.08909",
+    "title": "Long-context Protein Language Modeling Using Bidirectional Mamba with Shared Projection Layers",
+    "authors": "Yingheng Wang, Zichen Wang, Gil Sadeh et al.",
+    "year": 2024,
+    "published": "2024-10-29T16:43:28Z",
+    "abstract": "Self-supervised training of language models (LMs) has seen great success for protein sequences in learning meaningful representations and for generative drug design. Most protein LMs are based on the Transformer architecture trained on individual proteins with short context lengths. Such protein LMs cannot extrapolate to longer proteins and protein complexes well. They also fail to account for the underlying biological mechanisms carried out by biomolecular interactions and dynamics i.e., proteins often interact with other proteins, molecules, and pathways in complex biological systems. In this work, we propose LC-PLM based on an alternative protein LM architecture, BiMamba-S, built upon selective structured state-space models, to learn high-quality universal protein representations at the amino acid token level using masked language modeling. We also introduce its graph-contextual variant, LC-PLM, which contextualizes protein-protein interaction (PPI) graphs for a second stage of training. LC-PLM demonstrates favorable neural scaling laws, better length extrapolation capability, and up to 30% and 16% improvements on protein downstream tasks compared to Transformer-based ESM-2 when trained with 100B and 1T tokens, respectively. LC-PLM-G further trained within the context of PPI graphs shows promising results on protein structure and function prediction tasks. Our study demonstrates the benefit of increasing the context size with computationally efficient LM architecture (e.g., structured state space models) in learning universal protein representations and incorporating molecular interaction contexts contained in biological graphs.",
+    "categories": [
+      "q-bio.BM",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2411.08909v3",
+    "url": "http://arxiv.org/abs/2411.08909v3"
+  },
+  {
+    "arxiv_id": "2310.00034",
+    "title": "PB-LLM: Partially Binarized Large Language Models",
+    "authors": "Yuzhang Shang, Zhihang Yuan, Qiang Wu et al.",
+    "year": 2023,
+    "published": "2023-09-29T14:35:27Z",
+    "abstract": "This paper explores network binarization, a radical form of quantization, compressing model weights to a single bit, specifically for Large Language Models (LLMs) compression. Due to previous binarization methods collapsing LLMs, we propose a novel approach, Partially-Binarized LLM (PB-LLM), which can achieve extreme low-bit quantization while maintaining the linguistic reasoning capacity of quantized LLMs. Specifically, our exploration first uncovers the ineffectiveness of naive applications of existing binarization algorithms and highlights the imperative role of salient weights in achieving low-bit quantization. Thus, PB-LLM filters a small ratio of salient weights during binarization, allocating them to higher-bit storage, i.e., partially-binarization. PB-LLM is extended to recover the capacities of quantized LMMs, by analyzing from the perspective of post-training quantization (PTQ) and quantization-aware training (QAT). Under PTQ, combining the concepts from GPTQ, we reconstruct the binarized weight matrix guided by the Hessian matrix and successfully recover the reasoning capacity of PB-LLM in low-bit. Under QAT, we freeze the salient weights during training, explore the derivation of optimal scaling factors crucial for minimizing the quantization error, and propose a scaling mechanism based on this derived scaling strategy for residual binarized weights. Those explorations and the developed methodologies significantly contribute to rejuvenating the performance of low-bit quantized LLMs and present substantial advancements in the field of network binarization for LLMs.The code is available at https://github.com/hahnyuan/BinaryLLM.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2310.00034v2",
+    "url": "http://arxiv.org/abs/2310.00034v2"
+  },
+  {
+    "arxiv_id": "2403.17811",
+    "title": "Are Compressed Language Models Less Subgroup Robust?",
+    "authors": "Leonidas Gee, Andrea Zugarini, Novi Quadrianto",
+    "year": 2024,
+    "published": "2024-03-26T15:50:37Z",
+    "abstract": "To reduce the inference cost of large language models, model compression is increasingly used to create smaller scalable models. However, little is known about their robustness to minority subgroups defined by the labels and attributes of a dataset. In this paper, we investigate the effects of 18 different compression methods and settings on the subgroup robustness of BERT language models. We show that worst-group performance does not depend on model size alone, but also on the compression method used. Additionally, we find that model compression does not always worsen the performance on minority subgroups. Altogether, our analysis serves to further research into the subgroup robustness of model compression.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2403.17811v1",
+    "url": "http://arxiv.org/abs/2403.17811v1"
+  },
+  {
+    "arxiv_id": "2409.02228",
+    "title": "Unforgettable Generalization in Language Models",
+    "authors": "Eric Zhang, Leshem Chosen, Jacob Andreas",
+    "year": 2024,
+    "published": "2024-09-03T18:55:54Z",
+    "abstract": "When language models (LMs) are trained to forget (or \"unlearn'') a skill, how precisely does their behavior change? We study the behavior of transformer LMs in which tasks have been forgotten via fine-tuning on randomized labels. Such LMs learn to generate near-random predictions for individual examples in the \"training'' set used for forgetting. Across tasks, however, LMs exhibit extreme variability in whether LM predictions change on examples outside the training set. In some tasks (like entailment classification), forgetting generalizes robustly, and causes models to produce uninformative predictions on new task instances; in other tasks (like physical commonsense reasoning and scientific question answering) forgetting affects only the training examples, and models continue to perform the \"forgotten'' task accurately even for examples very similar to those that appeared in the training set. Dataset difficulty is not predictive of whether a behavior can be forgotten; instead, generalization in forgetting is (weakly) predicted by the confidence of LMs' initial task predictions and the variability of LM representations of training data, with low confidence and low variability both associated with greater generalization. Perhaps most surprisingly, random-label forgetting appears to be somewhat insensitive to the contents of the training set: for example, models trained on science questions with random labels continue to answer other science questions accurately, but begin to produce random labels on entailment classification tasks. Finally, we show that even generalizable forgetting is shallow: linear probes trained on LMs' representations can still perform tasks reliably after forgetting. Our results highlight the difficulty and unpredictability of performing targeted skill removal from models via fine-tuning.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2409.02228v1",
+    "url": "http://arxiv.org/abs/2409.02228v1"
+  },
+  {
+    "arxiv_id": "2506.16912",
+    "title": "From Data to Knowledge: Evaluating How Efficiently Language Models Learn Facts",
+    "authors": "Daniel Christoph, Max Ploner, Patrick Haller et al.",
+    "year": 2025,
+    "published": "2025-06-20T11:10:24Z",
+    "abstract": "Sample efficiency is a crucial property of language models with practical implications for training efficiency. In real-world text, information follows a long-tailed distribution. Yet, we expect models to learn and recall frequent and infrequent facts. Sample-efficient models are better equipped to handle this challenge of learning and retaining rare information without requiring excessive exposure. This study analyzes multiple models of varying architectures and sizes, all trained on the same pre-training data. By annotating relational facts with their frequencies in the training corpus, we examine how model performance varies with fact frequency. Our findings show that most models perform similarly on high-frequency facts but differ notably on low-frequency facts. This analysis provides new insights into the relationship between model architecture, size, and factual learning efficiency.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.16912v1",
+    "url": "http://arxiv.org/abs/2506.16912v1"
+  },
+  {
+    "arxiv_id": "2506.08936",
+    "title": "BioLangFusion: Multimodal Fusion of DNA, mRNA, and Protein Language Models",
+    "authors": "Amina Mollaysa, Artem Moskale, Pushpak Pati et al.",
+    "year": 2025,
+    "published": "2025-06-10T16:01:11Z",
+    "abstract": "We present BioLangFusion, a simple approach for integrating pre-trained DNA, mRNA, and protein language models into unified molecular representations. Motivated by the central dogma of molecular biology (information flow from gene to transcript to protein), we align per-modality embeddings at the biologically meaningful codon level (three nucleotides encoding one amino acid) to ensure direct cross-modal correspondence. BioLangFusion studies three standard fusion techniques: (i) codon-level embedding concatenation, (ii) entropy-regularized attention pooling inspired by multiple-instance learning, and (iii) cross-modal multi-head attention -- each technique providing a different inductive bias for combining modality-specific signals. These methods require no additional pre-training or modification of the base models, allowing straightforward integration with existing sequence-based foundation models. Across five molecular property prediction tasks, BioLangFusion outperforms strong unimodal baselines, showing that even simple fusion of pre-trained models can capture complementary multi-omic information with minimal overhead.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.08936v1",
+    "url": "http://arxiv.org/abs/2506.08936v1"
+  },
+  {
+    "arxiv_id": "2605.21835",
+    "title": "An Open Multi-Center Whole-Body FDG PET/CT Foundation Model for Tumor Segmentation",
+    "authors": "Xiaofeng Liu, Qianru Zhang, Thibault Marin et al.",
+    "year": 2026,
+    "published": "2026-05-20T23:59:50Z",
+    "abstract": "The synergistic interpretation of anatomical information from computed tomography (CT) and metabolic information from positron emission tomography (PET) is important to oncologic imaging. However, existing deep learning methods for PET/CT remain largely task-specific, are often trained on single-center cohorts, or adopt dual-branch fusion schemes that delay cross-modal interaction and underutilize early spatial correspondence between PET and CT. To address these limitations, we present an open-source, multi-center, whole-body FDG PET/CT foundation model utilizing 4,997 harmonized scans from four public datasets. Our framework employs hierarchical UNet-shaped backbones with early channel-wise concatenation, enabling anatomical and metabolic features to interact from the first embedding layer onward. We further introduce a masked autoencoding objective based on zero-mean imputation, combined with a weighted global reconstruction loss. This design avoids non-physical intensity discontinuities at masked-region boundaries that arise from learnable mask tokens. On downstream AutoPET lesion segmentation, the proposed models demonstrate strong label efficiency: with only 10\\% of the labeled training data, they achieve performance comparable to models trained from scratch on the full dataset. Under extreme 5-shot linear probing, joint PET/CT pretraining also achieves higher Dice scores than separated-modality pretraining. This multi-center foundation model demonstrates label efficiency and cross-modality representation learning for PET/CT tumor segmentation. It provides a robust, open-source basis for advancing automated oncologic imaging, significantly reducing the need for large-scale manual annotations in clinical practice.",
+    "categories": [
+      "eess.IV",
+      "cs.AI",
+      "cs.CV",
+      "physics.med-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2605.21835v1",
+    "url": "http://arxiv.org/abs/2605.21835v1"
+  },
+  {
+    "arxiv_id": "2402.09977",
+    "title": "Fast Vocabulary Transfer for Language Model Compression",
+    "authors": "Leonidas Gee, Andrea Zugarini, Leonardo Rigutini et al.",
+    "year": 2024,
+    "published": "2024-02-15T14:37:07Z",
+    "abstract": "Real-world business applications require a trade-off between language model performance and size. We propose a new method for model compression that relies on vocabulary transfer. We evaluate the method on various vertical domains and downstream tasks. Our results indicate that vocabulary transfer can be effectively used in combination with other compression techniques, yielding a significant reduction in model size and inference time while marginally compromising on performance.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2402.09977v1",
+    "url": "http://arxiv.org/abs/2402.09977v1"
+  },
+  {
+    "arxiv_id": "2310.06725",
+    "title": "Growing ecosystem of deep learning methods for modeling protein$\\unicode{x2013}$protein interactions",
+    "authors": "Julia R. Rogers, Gergő Nikolényi, Mohammed AlQuraishi",
+    "year": 2023,
+    "published": "2023-10-10T15:53:27Z",
+    "abstract": "Numerous cellular functions rely on protein$\\unicode{x2013}$protein interactions. Efforts to comprehensively characterize them remain challenged however by the diversity of molecular recognition mechanisms employed within the proteome. Deep learning has emerged as a promising approach for tackling this problem by exploiting both experimental data and basic biophysical knowledge about protein interactions. Here, we review the growing ecosystem of deep learning methods for modeling protein interactions, highlighting the diversity of these biophysically-informed models and their respective trade-offs. We discuss recent successes in using representation learning to capture complex features pertinent to predicting protein interactions and interaction sites, geometric deep learning to reason over protein structures and predict complex structures, and generative modeling to design de novo protein assemblies. We also outline some of the outstanding challenges and promising new directions. Opportunities abound to discover novel interactions, elucidate their physical mechanisms, and engineer binders to modulate their functions using deep learning and, ultimately, unravel how protein interactions orchestrate complex cellular behaviors.",
+    "categories": [
+      "q-bio.BM",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2310.06725v2",
+    "url": "http://arxiv.org/abs/2310.06725v2"
+  },
+  {
+    "arxiv_id": "2403.13369",
+    "title": "Clinical information extraction for Low-resource languages with Few-shot learning using Pre-trained language models and Prompting",
+    "authors": "Phillip Richter-Pechanski, Philipp Wiesenbach, Dominic M. Schwab et al.",
+    "year": 2024,
+    "published": "2024-03-20T08:01:33Z",
+    "abstract": "Automatic extraction of medical information from clinical documents poses several challenges: high costs of required clinical expertise, limited interpretability of model predictions, restricted computational resources and privacy regulations. Recent advances in domain-adaptation and prompting methods showed promising results with minimal training data using lightweight masked language models, which are suited for well-established interpretability methods. We are first to present a systematic evaluation of these methods in a low-resource setting, by performing multi-class section classification on German doctor's letters. We conduct extensive class-wise evaluations supported by Shapley values, to validate the quality of our small training data set and to ensure the interpretability of model predictions. We demonstrate that a lightweight, domain-adapted pretrained model, prompted with just 20 shots, outperforms a traditional classification model by 30.5% accuracy. Our results serve as a process-oriented guideline for clinical information extraction projects working with low-resource.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2403.13369v2",
+    "url": "http://arxiv.org/abs/2403.13369v2"
+  },
+  {
+    "arxiv_id": "2407.13493",
+    "title": "Training Foundation Models as Data Compression: On Information, Model Weights and Copyright Law",
+    "authors": "Giorgio Franceschelli, Claudia Cevenini, Mirco Musolesi",
+    "year": 2024,
+    "published": "2024-07-18T13:23:16Z",
+    "abstract": "The training process of foundation models as for other classes of deep learning systems is based on minimizing the reconstruction error over a training set. For this reason, they are susceptible to the memorization and subsequent reproduction of training samples. In this paper, we introduce a training-as-compressing perspective, wherein the model's weights embody a compressed representation of the training data. From a copyright standpoint, this point of view implies that the weights can be considered a reproduction or, more likely, a derivative work of a potentially protected set of works. We investigate the technical and legal challenges that emerge from this framing of the copyright of outputs generated by foundation models, including their implications for practitioners and researchers. We demonstrate that adopting an information-centric approach to the problem presents a promising pathway for tackling these emerging complex legal issues.",
+    "categories": [
+      "cs.CY",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.13493v4",
+    "url": "http://arxiv.org/abs/2407.13493v4"
+  },
+  {
+    "arxiv_id": "2306.08568",
+    "title": "WizardCoder: Empowering Code Large Language Models with Evol-Instruct",
+    "authors": "Ziyang Luo, Can Xu, Pu Zhao et al.",
+    "year": 2023,
+    "published": "2023-06-14T15:18:48Z",
+    "abstract": "Code Large Language Models (Code LLMs), such as StarCoder, have demonstrated exceptional performance in code-related tasks. However, most existing models are solely pre-trained on extensive raw code data without instruction fine-tuning. In this paper, we introduce WizardCoder, which empowers Code LLMs with complex instruction fine-tuning, by adapting the Evol-Instruct method to the domain of code. Through comprehensive experiments on four prominent code generation benchmarks, namely HumanEval, HumanEval+, MBPP, and DS-1000, we unveil the exceptional capabilities of our model. It surpasses all other open-source Code LLMs by a substantial margin. Moreover, our model even outperforms the largest closed LLMs, Anthropic's Claude and Google's Bard, on HumanEval and HumanEval+. Our code, model weights, and data are public at https://github.com/nlpxucan/WizardLM",
+    "categories": [
+      "cs.CL",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2306.08568v2",
+    "url": "http://arxiv.org/abs/2306.08568v2"
+  },
+  {
+    "arxiv_id": "2410.20542",
+    "title": "PaPaGei: Open Foundation Models for Optical Physiological Signals",
+    "authors": "Arvind Pillai, Dimitris Spathis, Fahim Kawsar et al.",
+    "year": 2024,
+    "published": "2024-10-27T18:18:06Z",
+    "abstract": "Photoplethysmography (PPG) is the leading non-invasive technique for monitoring biosignals and cardiovascular health, with widespread adoption in both clinical settings and consumer wearable devices. While machine learning models trained on PPG signals have shown promise, they tend to be task-specific and struggle with generalization. Current research is limited by the use of single-device datasets, insufficient exploration of out-of-domain generalization, and a lack of publicly available models, which hampers reproducibility. To address these limitations, we present PaPaGei, the first open foundation model for PPG signals. The model is pre-trained on over 57,000 hours of data, comprising 20 million unlabeled PPG segments from publicly available datasets. We introduce a novel representation learning approach that leverages domain knowledge of PPG signal morphology across individuals, enabling the capture of richer representations compared to traditional contrastive learning methods. We evaluate PaPaGei against state-of-the-art time-series foundation models and self-supervised learning benchmarks across 20 tasks from 10 diverse datasets, spanning cardiovascular health, sleep disorders, pregnancy monitoring, and wellbeing assessment. Our model demonstrates superior performance, improving classification and regression metrics by 6.3% and 2.9% respectively in at least 14 tasks. Notably, PaPaGei achieves these results while being more data- and parameter-efficient, outperforming models that are 70x larger. Beyond accuracy, we examine model robustness across different skin tones, establishing a benchmark for bias evaluation in future models. PaPaGei can serve as both a feature extractor and an encoder for multimodal models, opening up new opportunities for multimodal health monitoring.",
+    "categories": [
+      "cs.LG",
+      "eess.SP"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2410.20542v2",
+    "url": "http://arxiv.org/abs/2410.20542v2"
+  }
+]

@@ -1,0 +1,442 @@
+[
+  {
+    "arxiv_id": "1502.05667",
+    "title": "Towards de novo RNA 3D structure prediction",
+    "authors": "Sandro Bottaro, Francesco Di Palma, Giovanni Bussi",
+    "year": 2015,
+    "published": "2015-02-19T18:42:46Z",
+    "abstract": "RNA is a fundamental class of biomolecules that mediate a large variety of molecular processes within the cell. Computational algorithms can be of great help in the understanding of RNA structure-function relationship. One of the main challenges in this field is the development of structure-prediction algorithms, which aim at the prediction of the three-dimensional (3D) native fold from the sole knowledge of the sequence. In a recent paper, we have introduced a scoring function for RNA structure prediction. Here, we analyze in detail the performance of the method, we underline strengths and shortcomings, and we discuss the results with respect to state-of-the-art techniques. These observations provide a starting point for improving current methodologies, thus paving the way to the advances of more accurate approaches for RNA 3D structure prediction.",
+    "categories": [
+      "q-bio.BM",
+      "physics.bio-ph",
+      "physics.chem-ph",
+      "physics.comp-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1502.05667v1",
+    "url": "http://arxiv.org/abs/1502.05667v1"
+  },
+  {
+    "arxiv_id": "2511.02622",
+    "title": "Machine Learning for RNA Secondary Structure Prediction: a review of current methods and challenges",
+    "authors": "Giuseppe Sacco, Giovanni Bussi, Guido Sanguinetti",
+    "year": 2025,
+    "published": "2025-11-04T14:52:11Z",
+    "abstract": "Predicting the secondary structure of RNA is a core challenge in computational biology, essential for understanding molecular function and designing novel therapeutics. The field has evolved from foundational but accuracy-limited thermodynamic approaches to a new data-driven paradigm dominated by machine learning and deep learning. These models learn folding patterns directly from data, leading to significant performance gains. This review surveys the modern landscape of these methods, covering single-sequence, evolutionary-based, and hybrid models that blend machine learning with biophysics. A central theme is the field's \"generalization crisis,\" where powerful models were found to fail on new RNA families, prompting a community-wide shift to stricter, homology-aware benchmarking. In response to the underlying challenge of data scarcity, RNA foundation models have emerged, learning from massive, unlabeled sequence corpora to improve generalization. Finally, we look ahead to the next set of major hurdles-including the accurate prediction of complex motifs like pseudoknots, scaling to kilobase-length transcripts, incorporating the chemical diversity of modified nucleotides, and shifting the prediction target from static structures to the dynamic ensembles that better capture biological function. We also highlight the need for a standardized, prospective benchmarking system to ensure unbiased validation and accelerate progress.",
+    "categories": [
+      "q-bio.BM",
+      "physics.bio-ph",
+      "physics.comp-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2511.02622v2",
+    "url": "http://arxiv.org/abs/2511.02622v2"
+  },
+  {
+    "arxiv_id": "2308.16149",
+    "title": "Jais and Jais-chat: Arabic-Centric Foundation and Instruction-Tuned Open Generative Large Language Models",
+    "authors": "Neha Sengupta, Sunil Kumar Sahu, Bokang Jia et al.",
+    "year": 2023,
+    "published": "2023-08-30T17:07:17Z",
+    "abstract": "We introduce Jais and Jais-chat, new state-of-the-art Arabic-centric foundation and instruction-tuned open generative large language models (LLMs). The models are based on the GPT-3 decoder-only architecture and are pretrained on a mixture of Arabic and English texts, including source code in various programming languages. With 13 billion parameters, they demonstrate better knowledge and reasoning capabilities in Arabic than any existing open Arabic and multilingual models by a sizable margin, based on extensive evaluation. Moreover, the models are competitive in English compared to English-centric open models of similar size, despite being trained on much less English data. We provide a detailed description of the training, the tuning, the safety alignment, and the evaluation of the models. We release two open versions of the model -- the foundation Jais model, and an instruction-tuned Jais-chat variant -- with the aim of promoting research on Arabic LLMs. Available at https://huggingface.co/inception-mbzuai/jais-13b-chat",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2308.16149v2",
+    "url": "http://arxiv.org/abs/2308.16149v2"
+  },
+  {
+    "arxiv_id": "1002.1144",
+    "title": "A CHAID Based Performance Prediction Model in Educational Data Mining",
+    "authors": "M. Ramaswami, R. Bhaskaran",
+    "year": 2010,
+    "published": "2010-02-05T08:27:17Z",
+    "abstract": "The performance in higher secondary school education in India is a turning point in the academic lives of all students. As this academic performance is influenced by many factors, it is essential to develop predictive data mining model for students' performance so as to identify the slow learners and study the influence of the dominant factors on their academic performance. In the present investigation, a survey cum experimental methodology was adopted to generate a database and it was constructed from a primary and a secondary source. While the primary data was collected from the regular students, the secondary data was gathered from the school and office of the Chief Educational Officer (CEO). A total of 1000 datasets of the year 2006 from five different schools in three different districts of Tamilnadu were collected. The raw data was preprocessed in terms of filling up missing values, transforming values in one form into another and relevant attribute/ variable selection. As a result, we had 772 student records, which were used for CHAID prediction model construction. A set of prediction rules were extracted from CHIAD prediction model and the efficiency of the generated CHIAD prediction model was found. The accuracy of the present model was compared with other model and it has been found to be satisfactory.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1002.1144v1",
+    "url": "http://arxiv.org/abs/1002.1144v1"
+  },
+  {
+    "arxiv_id": "2506.13817",
+    "title": "DeepSeq: High-Throughput Single-Cell RNA Sequencing Data Labeling via Web Search-Augmented Agentic Generative AI Foundation Models",
+    "authors": "Saleem A. Al Dajani, Abel Sanchez, John R. Williams",
+    "year": 2025,
+    "published": "2025-06-14T23:30:22Z",
+    "abstract": "Generative AI foundation models offer transformative potential for processing structured biological data, particularly in single-cell RNA sequencing, where datasets are rapidly scaling toward billions of cells. We propose the use of agentic foundation models with real-time web search to automate the labeling of experimental data, achieving up to 82.5% accuracy. This addresses a key bottleneck in supervised learning for structured omics data by increasing annotation throughput without manual curation and human error. Our approach enables the development of virtual cell foundation models capable of downstream tasks such as cell-typing and perturbation prediction. As data volume grows, these models may surpass human performance in labeling, paving the way for reliable inference in large-scale perturbation screens. This application demonstrates domain-specific innovation in health monitoring and diagnostics, aligned with efforts like the Human Cell Atlas and Human Tumor Atlas Network.",
+    "categories": [
+      "q-bio.GN",
+      "cs.AI",
+      "cs.LG",
+      "cs.SE",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.13817v1",
+    "url": "http://arxiv.org/abs/2506.13817v1"
+  },
+  {
+    "arxiv_id": "2302.06120",
+    "title": "Knowledge from Large-Scale Protein Contact Prediction Models Can Be Transferred to the Data-Scarce RNA Contact Prediction Task",
+    "authors": "Yiren Jian, Chongyang Gao, Chen Zeng et al.",
+    "year": 2023,
+    "published": "2023-02-13T06:00:56Z",
+    "abstract": "RNA, whose functionality is largely determined by its structure, plays an important role in many biological activities. The prediction of pairwise structural proximity between each nucleotide of an RNA sequence can characterize the structural information of the RNA. Historically, this problem has been tackled by machine learning models using expert-engineered features and trained on scarce labeled datasets. Here, we find that the knowledge learned by a protein-coevolution Transformer-based deep neural network can be transferred to the RNA contact prediction task. As protein datasets are orders of magnitude larger than those for RNA contact prediction, our findings and the subsequent framework greatly reduce the data scarcity bottleneck. Experiments confirm that RNA contact prediction through transfer learning using a publicly available protein model is greatly improved. Our findings indicate that the learned structural patterns of proteins can be transferred to RNAs, opening up potential new avenues for research.",
+    "categories": [
+      "q-bio.QM",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2302.06120v3",
+    "url": "http://arxiv.org/abs/2302.06120v3"
+  },
+  {
+    "arxiv_id": "2605.12335",
+    "title": "EHR-RAGp: Retrieval-Augmented Prototype-Guided Foundation Model for Electronic Health Records",
+    "authors": "Saeed Shurrab, Mariam Al-Omari, Dana El Samad et al.",
+    "year": 2026,
+    "published": "2026-05-12T16:17:03Z",
+    "abstract": "Electronic Health Records (EHR) contain rich longitudinal patient information and are widely used in predictive modeling applications. However, effectively leveraging historical data remains challenging due to long trajectories, heterogeneous events, temporal irregularity, and the varying relevance of past clinical context. Existing approaches often rely on fixed windows or uniform aggregation, which can obscure clinically important signals. In this work, we introduce EHR-RAGp, a retrieval-augmented foundation model that dynamically integrates the most relevant patient history across diverse clinical event types. We propose a prototype-guided retrieval module that acts as an alignment mechanism and estimates the relevance of retrieved historical chunks with respect to a given prediction task, guiding the model towards the most informative context. Across multiple clinical prediction tasks, EHR-RAGp consistently outperforms state-of-the-art EHR foundation models and transformer-based baselines. Furthermore, integrating EHR-RAGp with existing clinical foundation models yields substantial performance gains. Overall, EHR-RAGp provides a scalable and efficient framework for leveraging long-range clinical context to improve downstream performance.",
+    "categories": [
+      "cs.IR",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2605.12335v1",
+    "url": "http://arxiv.org/abs/2605.12335v1"
+  },
+  {
+    "arxiv_id": "2308.00065",
+    "title": "FinPT: Financial Risk Prediction with Profile Tuning on Pretrained Foundation Models",
+    "authors": "Yuwei Yin, Yazheng Yang, Jian Yang et al.",
+    "year": 2023,
+    "published": "2023-07-22T09:27:05Z",
+    "abstract": "Financial risk prediction plays a crucial role in the financial sector. Machine learning methods have been widely applied for automatically detecting potential risks and thus saving the cost of labor. However, the development in this field is lagging behind in recent years by the following two facts: 1) the algorithms used are somewhat outdated, especially in the context of the fast advance of generative AI and large language models (LLMs); 2) the lack of a unified and open-sourced financial benchmark has impeded the related research for years. To tackle these issues, we propose FinPT and FinBench: the former is a novel approach for financial risk prediction that conduct Profile Tuning on large pretrained foundation models, and the latter is a set of high-quality datasets on financial risks such as default, fraud, and churn. In FinPT, we fill the financial tabular data into the pre-defined instruction template, obtain natural-language customer profiles by prompting LLMs, and fine-tune large foundation models with the profile text to make predictions. We demonstrate the effectiveness of the proposed FinPT by experimenting with a range of representative strong baselines on FinBench. The analytical studies further deepen the understanding of LLMs for financial risk prediction.",
+    "categories": [
+      "q-fin.RM",
+      "cs.CE",
+      "cs.CL",
+      "cs.LG",
+      "q-fin.ST"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2308.00065v1",
+    "url": "http://arxiv.org/abs/2308.00065v1"
+  },
+  {
+    "arxiv_id": "1103.3032",
+    "title": "Why Can't We Predict RNA Structure At Atomic Resolution?",
+    "authors": "Kyle Beauchamp, Parin Sripakdeevong, Rhiju Das",
+    "year": 2011,
+    "published": "2011-03-15T20:40:15Z",
+    "abstract": "No existing algorithm can start with arbitrary RNA sequences and return the precise, three-dimensional structures that ensures their biological function. This chapter outlines current algorithms for automated RNA structure prediction (including our own FARNA-FARFAR), highlights their successes, and dissects their limitations, using a tetraloop and the sarcin/ricin motif as examples. The barriers to future advances are considered in light of three particular challenges: improving computational sampling, reducing reliance on experimentally solved structures, and avoiding coarse-grained representations of atomic-level interactions. To help meet these challenges and better understand the current state of the field, we propose an ongoing community-wide CASP-style experiment for evaluating the performance of current structure prediction algorithms.",
+    "categories": [
+      "q-bio.BM",
+      "physics.bio-ph",
+      "physics.chem-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1103.3032v1",
+    "url": "http://arxiv.org/abs/1103.3032v1"
+  },
+  {
+    "arxiv_id": "2407.04065",
+    "title": "On the Workflows and Smells of Leaderboard Operations (LBOps): An Exploratory Study of Foundation Model Leaderboards",
+    "authors": "Zhimin Zhao, Abdul Ali Bangash, Filipe Roseiro Côgo et al.",
+    "year": 2024,
+    "published": "2024-07-04T17:12:00Z",
+    "abstract": "Foundation models (FM), such as large language models (LLMs), which are large-scale machine learning (ML) models, have demonstrated remarkable adaptability in various downstream software engineering (SE) tasks, such as code completion, code understanding, and software development. As a result, FM leaderboards have become essential tools for SE teams to compare and select the best third-party FMs for their specific products and purposes. However, the lack of standardized guidelines for FM evaluation and comparison threatens the transparency of FM leaderboards and limits stakeholders' ability to perform effective FM selection. As a first step towards addressing this challenge, our research focuses on understanding how these FM leaderboards operate in real-world scenarios (\"leaderboard operations\") and identifying potential pitfalls and areas for improvement (\"leaderboard smells\"). In this regard, we collect up to 1,045 FM leaderboards from five different sources: GitHub, Hugging Face Spaces, Papers With Code, spreadsheet and independent platform, to examine their documentation and engage in direct communication with leaderboard operators to understand their workflows. Through card sorting and negotiated agreement, we identify five distinct workflow patterns and develop a domain model that captures the key components and their interactions within these workflows. We then identify eight unique types of leaderboard smells in LBOps. By mitigating these smells, SE teams can improve transparency, accountability, and collaboration in current LBOps practices, fostering a more robust and responsible ecosystem for FM comparison and selection.",
+    "categories": [
+      "cs.SE",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.04065v4",
+    "url": "http://arxiv.org/abs/2407.04065v4"
+  },
+  {
+    "arxiv_id": "2512.03307",
+    "title": "Robust Tabular Foundation Models",
+    "authors": "Matthew Peroni, Franck Le, Vadim Sheinin",
+    "year": 2025,
+    "published": "2025-12-02T23:40:39Z",
+    "abstract": "The development of tabular foundation models (TFMs) has accelerated in recent years, showing strong potential to outperform traditional ML methods for structured data. A key finding is that TFMs can be pretrained entirely on synthetic datasets, opening opportunities to design data generators that encourage desirable model properties. Prior work has mainly focused on crafting high-quality priors over generators to improve overall pretraining performance. Our insight is that parameterizing the generator distribution enables an adversarial robustness perspective: during training, we can adapt the generator to emphasize datasets that are particularly challenging for the model. We formalize this by introducing an optimality gap measure, given by the difference between TFM performance and the best achievable performance as estimated by strong baselines such as XGBoost, CatBoost, and Random Forests. Building on this idea, we propose Robust Tabular Foundation Models (RTFM), a model-agnostic adversarial training framework. Applied to the TabPFN V2 classifier, RTFM improves benchmark performance, with up to a 6% increase in mean normalized AUC over the original TabPFN and other baseline algorithms, while requiring less than 100k additional synthetic datasets. These results highlight a promising new direction for targeted adversarial training and fine-tuning of TFMs using synthetic data alone.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.03307v1",
+    "url": "http://arxiv.org/abs/2512.03307v1"
+  },
+  {
+    "arxiv_id": "2512.02180",
+    "title": "CLEF: Clinically-Guided Contrastive Learning for Electrocardiogram Foundation Models",
+    "authors": "Yuxuan Shu, Peter H. Charlton, Fahim Kawsar et al.",
+    "year": 2025,
+    "published": "2025-12-01T20:21:44Z",
+    "abstract": "The electrocardiogram (ECG) is a key diagnostic tool in cardiovascular health. Single-lead ECG recording is integrated into both clinical-grade and consumer wearables. While self-supervised pretraining of foundation models on unlabeled ECGs improves diagnostic performance, existing approaches do not incorporate domain knowledge from clinical metadata. We introduce a novel contrastive learning approach that utilizes an established clinical risk score to adaptively weight negative pairs: clinically-guided contrastive learning. It aligns the similarities of ECG embeddings with clinically meaningful differences between subjects, with an explicit mechanism to handle missing metadata. On 12-lead ECGs from 161K patients in the MIMIC-IV dataset, we pretrain single-lead ECG foundation models at three scales, collectively called CLEF, using only routinely collected metadata without requiring per-sample ECG annotations. We evaluate CLEF on 18 clinical classification and regression tasks across 7 held-out datasets, and benchmark against 5 foundation model baselines and 3 self-supervised algorithms. When pretrained on 12-lead ECG data and tested on lead-I data, CLEF outperforms self-supervised foundation model baselines: the medium-sized CLEF achieves average AUROC improvements of at least 2.6% in classification and average reductions in MAEs of at least 3.2% in regression. Comparing with existing self-supervised learning algorithms, CLEF improves the average AUROC by at least 1.8%. Moreover, when pretrained only on lead-I data for classification tasks, CLEF performs comparably to the state-of-the-art ECGFounder, which was trained in a supervised manner. Overall, CLEF enables more accurate and scalable single-lead ECG analysis, advancing remote health monitoring. Code and pretrained CLEF models are available at: github.com/Nokia-Bell-Labs/ecg-foundation-model.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.02180v1",
+    "url": "http://arxiv.org/abs/2512.02180v1"
+  },
+  {
+    "arxiv_id": "2503.21676",
+    "title": "How do language models learn facts? Dynamics, curricula and hallucinations",
+    "authors": "Nicolas Zucchet, Jörg Bornschein, Stephanie Chan et al.",
+    "year": 2025,
+    "published": "2025-03-27T16:43:45Z",
+    "abstract": "Large language models accumulate vast knowledge during pre-training, yet the dynamics governing this acquisition remain poorly understood. This work investigates the learning dynamics of language models on a synthetic factual recall task, uncovering three key findings: First, language models learn in three phases, exhibiting a performance plateau before acquiring precise factual knowledge. Mechanistically, this plateau coincides with the formation of attention-based circuits that support recall. Second, the training data distribution significantly impacts learning dynamics, as imbalanced distributions lead to shorter plateaus. Finally, hallucinations emerge simultaneously with knowledge, and integrating new knowledge into the model through fine-tuning is challenging, as it quickly corrupts its existing parametric memories. Our results emphasize the importance of data distribution in knowledge acquisition and suggest novel data scheduling strategies to accelerate neural network training.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2503.21676v2",
+    "url": "http://arxiv.org/abs/2503.21676v2"
+  },
+  {
+    "arxiv_id": "1512.06979",
+    "title": "Screening Genome Sequences for Known RNA Genes and Motifs",
+    "authors": "Daniel Gautheret",
+    "year": 2015,
+    "published": "2015-12-22T08:21:18Z",
+    "abstract": "This methods paper presents computational protocols for the identification of non-coding RNA genes or RNA motifs within genomic sequences. An application to bacterial small RNA is proposed.",
+    "categories": [
+      "q-bio.QM",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1512.06979v1",
+    "url": "http://arxiv.org/abs/1512.06979v1"
+  },
+  {
+    "arxiv_id": "2204.00300",
+    "title": "Interpretable RNA Foundation Model from Unannotated Data for Highly Accurate RNA Structure and Function Predictions",
+    "authors": "Jiayang Chen, Zhihang Hu, Siqi Sun et al.",
+    "year": 2022,
+    "published": "2022-04-01T09:10:31Z",
+    "abstract": "Non-coding RNA structure and function are essential to understanding various biological processes, such as cell signaling, gene expression, and post-transcriptional regulations. These are all among the core problems in the RNA field. With the rapid growth of sequencing technology, we have accumulated a massive amount of unannotated RNA sequences. On the other hand, expensive experimental observatory results in only limited numbers of annotated data and 3D structures. Hence, it is still challenging to design computational methods for predicting their structures and functions. The lack of annotated data and systematic study causes inferior performance. To resolve the issue, we propose a novel RNA foundation model (RNA-FM) to take advantage of all the 23 million non-coding RNA sequences through self-supervised learning. Within this approach, we discover that the pre-trained RNA-FM could infer sequential and evolutionary information of non-coding RNAs without using any labels. Furthermore, we demonstrate RNA-FM's effectiveness by applying it to the downstream secondary/3D structure prediction, SARS-CoV-2 genome structure and evolution prediction, protein-RNA binding preference modeling, and gene expression regulation modeling. The comprehensive experiments show that the proposed method improves the RNA structural and functional modelling results significantly and consistently. Despite only being trained with unlabelled data, RNA-FM can serve as the foundational model for the field.",
+    "categories": [
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2204.00300v5",
+    "url": "http://arxiv.org/abs/2204.00300v5"
+  },
+  {
+    "arxiv_id": "2009.10632",
+    "title": "From Things' Modeling Language (ThingML) to Things' Machine Learning (ThingML2)",
+    "authors": "Armin Moin, Stephan Rössler, Marouane Sayih et al.",
+    "year": 2020,
+    "published": "2020-09-22T15:44:57Z",
+    "abstract": "In this paper, we illustrate how to enhance an existing state-of-the-art modeling language and tool for the Internet of Things (IoT), called ThingML, to support machine learning on the modeling level. To this aim, we extend the Domain-Specific Language (DSL) of ThingML, as well as its code generation framework. Our DSL allows one to define things, which are in charge of carrying out data analytics. Further, our code generators can automatically produce the complete implementation in Java and Python. The generated Python code is responsible for data analytics and employs APIs of machine learning libraries, such as Keras, Tensorflow and Scikit Learn. Our prototype is available as open source software on Github.",
+    "categories": [
+      "cs.SE",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2009.10632v1",
+    "url": "http://arxiv.org/abs/2009.10632v1"
+  },
+  {
+    "arxiv_id": "2409.02228",
+    "title": "Unforgettable Generalization in Language Models",
+    "authors": "Eric Zhang, Leshem Chosen, Jacob Andreas",
+    "year": 2024,
+    "published": "2024-09-03T18:55:54Z",
+    "abstract": "When language models (LMs) are trained to forget (or \"unlearn'') a skill, how precisely does their behavior change? We study the behavior of transformer LMs in which tasks have been forgotten via fine-tuning on randomized labels. Such LMs learn to generate near-random predictions for individual examples in the \"training'' set used for forgetting. Across tasks, however, LMs exhibit extreme variability in whether LM predictions change on examples outside the training set. In some tasks (like entailment classification), forgetting generalizes robustly, and causes models to produce uninformative predictions on new task instances; in other tasks (like physical commonsense reasoning and scientific question answering) forgetting affects only the training examples, and models continue to perform the \"forgotten'' task accurately even for examples very similar to those that appeared in the training set. Dataset difficulty is not predictive of whether a behavior can be forgotten; instead, generalization in forgetting is (weakly) predicted by the confidence of LMs' initial task predictions and the variability of LM representations of training data, with low confidence and low variability both associated with greater generalization. Perhaps most surprisingly, random-label forgetting appears to be somewhat insensitive to the contents of the training set: for example, models trained on science questions with random labels continue to answer other science questions accurately, but begin to produce random labels on entailment classification tasks. Finally, we show that even generalizable forgetting is shallow: linear probes trained on LMs' representations can still perform tasks reliably after forgetting. Our results highlight the difficulty and unpredictability of performing targeted skill removal from models via fine-tuning.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2409.02228v1",
+    "url": "http://arxiv.org/abs/2409.02228v1"
+  },
+  {
+    "arxiv_id": "1812.07630",
+    "title": "Assessing the accuracy of direct-coupling analysis for RNA contact prediction",
+    "authors": "Francesca Cuturello, Guido Tiana, Giovanni Bussi",
+    "year": 2018,
+    "published": "2018-12-18T20:32:02Z",
+    "abstract": "Many non-coding RNAs are known to play a role in the cell directly linked to their structure. Structure prediction based on the sole sequence is however a challenging task. On the other hand, thanks to the low cost of sequencing technologies, a very large number of homologous sequences are becoming available for many RNA families. In the protein community, it has emerged in the last decade the idea of exploiting the covariance of mutations within a family to predict the protein structure using the direct-coupling-analysis (DCA) method. The application of DCA to RNA systems has been limited so far. We here perform an assessment of the DCA method on 17 riboswitch families, comparing it with the commonly used mutual information analysis and with state-of-the-art R-scape covariance method. We also compare different flavors of DCA, including mean-field, pseudo-likelihood, and a proposed stochastic procedure (Boltzmann learning) for solving exactly the DCA inverse problem. Boltzmann learning outperforms the other methods in predicting contacts observed in high resolution crystal structures.",
+    "categories": [
+      "q-bio.QM",
+      "cond-mat.stat-mech",
+      "physics.bio-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1812.07630v4",
+    "url": "http://arxiv.org/abs/1812.07630v4"
+  },
+  {
+    "arxiv_id": "2403.17811",
+    "title": "Are Compressed Language Models Less Subgroup Robust?",
+    "authors": "Leonidas Gee, Andrea Zugarini, Novi Quadrianto",
+    "year": 2024,
+    "published": "2024-03-26T15:50:37Z",
+    "abstract": "To reduce the inference cost of large language models, model compression is increasingly used to create smaller scalable models. However, little is known about their robustness to minority subgroups defined by the labels and attributes of a dataset. In this paper, we investigate the effects of 18 different compression methods and settings on the subgroup robustness of BERT language models. We show that worst-group performance does not depend on model size alone, but also on the compression method used. Additionally, we find that model compression does not always worsen the performance on minority subgroups. Altogether, our analysis serves to further research into the subgroup robustness of model compression.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2403.17811v1",
+    "url": "http://arxiv.org/abs/2403.17811v1"
+  },
+  {
+    "arxiv_id": "2310.00034",
+    "title": "PB-LLM: Partially Binarized Large Language Models",
+    "authors": "Yuzhang Shang, Zhihang Yuan, Qiang Wu et al.",
+    "year": 2023,
+    "published": "2023-09-29T14:35:27Z",
+    "abstract": "This paper explores network binarization, a radical form of quantization, compressing model weights to a single bit, specifically for Large Language Models (LLMs) compression. Due to previous binarization methods collapsing LLMs, we propose a novel approach, Partially-Binarized LLM (PB-LLM), which can achieve extreme low-bit quantization while maintaining the linguistic reasoning capacity of quantized LLMs. Specifically, our exploration first uncovers the ineffectiveness of naive applications of existing binarization algorithms and highlights the imperative role of salient weights in achieving low-bit quantization. Thus, PB-LLM filters a small ratio of salient weights during binarization, allocating them to higher-bit storage, i.e., partially-binarization. PB-LLM is extended to recover the capacities of quantized LMMs, by analyzing from the perspective of post-training quantization (PTQ) and quantization-aware training (QAT). Under PTQ, combining the concepts from GPTQ, we reconstruct the binarized weight matrix guided by the Hessian matrix and successfully recover the reasoning capacity of PB-LLM in low-bit. Under QAT, we freeze the salient weights during training, explore the derivation of optimal scaling factors crucial for minimizing the quantization error, and propose a scaling mechanism based on this derived scaling strategy for residual binarized weights. Those explorations and the developed methodologies significantly contribute to rejuvenating the performance of low-bit quantized LLMs and present substantial advancements in the field of network binarization for LLMs.The code is available at https://github.com/hahnyuan/BinaryLLM.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2310.00034v2",
+    "url": "http://arxiv.org/abs/2310.00034v2"
+  },
+  {
+    "arxiv_id": "2506.16912",
+    "title": "From Data to Knowledge: Evaluating How Efficiently Language Models Learn Facts",
+    "authors": "Daniel Christoph, Max Ploner, Patrick Haller et al.",
+    "year": 2025,
+    "published": "2025-06-20T11:10:24Z",
+    "abstract": "Sample efficiency is a crucial property of language models with practical implications for training efficiency. In real-world text, information follows a long-tailed distribution. Yet, we expect models to learn and recall frequent and infrequent facts. Sample-efficient models are better equipped to handle this challenge of learning and retaining rare information without requiring excessive exposure. This study analyzes multiple models of varying architectures and sizes, all trained on the same pre-training data. By annotating relational facts with their frequencies in the training corpus, we examine how model performance varies with fact frequency. Our findings show that most models perform similarly on high-frequency facts but differ notably on low-frequency facts. This analysis provides new insights into the relationship between model architecture, size, and factual learning efficiency.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.16912v1",
+    "url": "http://arxiv.org/abs/2506.16912v1"
+  },
+  {
+    "arxiv_id": "2403.13369",
+    "title": "Clinical information extraction for Low-resource languages with Few-shot learning using Pre-trained language models and Prompting",
+    "authors": "Phillip Richter-Pechanski, Philipp Wiesenbach, Dominic M. Schwab et al.",
+    "year": 2024,
+    "published": "2024-03-20T08:01:33Z",
+    "abstract": "Automatic extraction of medical information from clinical documents poses several challenges: high costs of required clinical expertise, limited interpretability of model predictions, restricted computational resources and privacy regulations. Recent advances in domain-adaptation and prompting methods showed promising results with minimal training data using lightweight masked language models, which are suited for well-established interpretability methods. We are first to present a systematic evaluation of these methods in a low-resource setting, by performing multi-class section classification on German doctor's letters. We conduct extensive class-wise evaluations supported by Shapley values, to validate the quality of our small training data set and to ensure the interpretability of model predictions. We demonstrate that a lightweight, domain-adapted pretrained model, prompted with just 20 shots, outperforms a traditional classification model by 30.5% accuracy. Our results serve as a process-oriented guideline for clinical information extraction projects working with low-resource.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2403.13369v2",
+    "url": "http://arxiv.org/abs/2403.13369v2"
+  },
+  {
+    "arxiv_id": "1206.4084",
+    "title": "An Introduction to RNA Databases",
+    "authors": "Marc P. Hoeppner, Lars E. Barquist, Paul P. Gardner",
+    "year": 2012,
+    "published": "2012-06-18T21:48:47Z",
+    "abstract": "We present an introduction to RNA databases. The history and technology behind RNA databases is briefly discussed. We examine differing methods of data collection and curation, and discuss their impact on both the scope and accuracy of the resulting databases. Finally, we demonstrate these principals through detailed examination of four leading RNA databases: Noncode, miRBase, Rfam, and SILVA.",
+    "categories": [
+      "q-bio.BM",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1206.4084v1",
+    "url": "http://arxiv.org/abs/1206.4084v1"
+  },
+  {
+    "arxiv_id": "2402.09977",
+    "title": "Fast Vocabulary Transfer for Language Model Compression",
+    "authors": "Leonidas Gee, Andrea Zugarini, Leonardo Rigutini et al.",
+    "year": 2024,
+    "published": "2024-02-15T14:37:07Z",
+    "abstract": "Real-world business applications require a trade-off between language model performance and size. We propose a new method for model compression that relies on vocabulary transfer. We evaluate the method on various vertical domains and downstream tasks. Our results indicate that vocabulary transfer can be effectively used in combination with other compression techniques, yielding a significant reduction in model size and inference time while marginally compromising on performance.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2402.09977v1",
+    "url": "http://arxiv.org/abs/2402.09977v1"
+  },
+  {
+    "arxiv_id": "2207.01586",
+    "title": "Accurate RNA 3D structure prediction using a language model-based deep learning approach",
+    "authors": "Tao Shen, Zhihang Hu, Siqi Sun et al.",
+    "year": 2022,
+    "published": "2022-07-04T17:15:35Z",
+    "abstract": "Accurate prediction of RNA three-dimensional (3D) structure remains an unsolved challenge. Determining RNA 3D structures is crucial for understanding their functions and informing RNA-targeting drug development and synthetic biology design. The structural flexibility of RNA, which leads to scarcity of experimentally determined data, complicates computational prediction efforts. Here, we present RhoFold+, an RNA language model-based deep learning method that accurately predicts 3D structures of single-chain RNAs from sequences. By integrating an RNA language model pre-trained on ~23.7 million RNA sequences and leveraging techniques to address data scarcity, RhoFold+ offers a fully automated end-to-end pipeline for RNA 3D structure prediction. Retrospective evaluations on RNA-Puzzles and CASP15 natural RNA targets demonstrate RhoFold+'s superiority over existing methods, including human expert groups. Its efficacy and generalizability are further validated through cross-family and cross-type assessments, as well as time-censored benchmarks. Additionally, RhoFold+ predicts RNA secondary structures and inter-helical angles, providing empirically verifiable features that broaden its applicability to RNA structure and function studies.",
+    "categories": [
+      "q-bio.QM",
+      "cs.LG",
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2207.01586v3",
+    "url": "http://arxiv.org/abs/2207.01586v3"
+  },
+  {
+    "arxiv_id": "2403.00043",
+    "title": "RiNALMo: General-Purpose RNA Language Models Can Generalize Well on Structure Prediction Tasks",
+    "authors": "Rafael Josip Penić, Tin Vlašić, Roland G. Huber et al.",
+    "year": 2024,
+    "published": "2024-02-29T14:50:58Z",
+    "abstract": "While RNA has recently been recognized as an interesting small-molecule drug target, many challenges remain to be addressed before we take full advantage of it. This emphasizes the necessity to improve our understanding of its structures and functions. Over the years, sequencing technologies have produced an enormous amount of unlabeled RNA data, which hides a huge potential. Motivated by the successes of protein language models, we introduce RiboNucleic Acid Language Model (RiNALMo) to unveil the hidden code of RNA. RiNALMo is the largest RNA language model to date, with 650M parameters pre-trained on 36M non-coding RNA sequences from several databases. It can extract hidden knowledge and capture the underlying structure information implicitly embedded within the RNA sequences. RiNALMo achieves state-of-the-art results on several downstream tasks. Notably, we show that its generalization capabilities overcome the inability of other deep learning methods for secondary structure prediction to generalize on unseen RNA families.",
+    "categories": [
+      "q-bio.BM",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2403.00043v2",
+    "url": "http://arxiv.org/abs/2403.00043v2"
+  },
+  {
+    "arxiv_id": "2410.16212",
+    "title": "Comprehensive benchmarking of large language models for RNA secondary structure prediction",
+    "authors": "L. I. Zablocki, L. A. Bugnon, M. Gerard et al.",
+    "year": 2024,
+    "published": "2024-10-21T17:12:06Z",
+    "abstract": "Inspired by the success of large language models (LLM) for DNA and proteins, several LLM for RNA have been developed recently. RNA-LLM uses large datasets of RNA sequences to learn, in a self-supervised way, how to represent each RNA base with a semantically rich numerical vector. This is done under the hypothesis that obtaining high-quality RNA representations can enhance data-costly downstream tasks. Among them, predicting the secondary structure is a fundamental task for uncovering RNA functional mechanisms. In this work we present a comprehensive experimental analysis of several pre-trained RNA-LLM, comparing them for the RNA secondary structure prediction task in an unified deep learning framework. The RNA-LLM were assessed with increasing generalization difficulty on benchmark datasets. Results showed that two LLM clearly outperform the other models, and revealed significant challenges for generalization in low-homology scenarios.",
+    "categories": [
+      "cs.AI",
+      "cs.LG",
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2410.16212v2",
+    "url": "http://arxiv.org/abs/2410.16212v2"
+  },
+  {
+    "arxiv_id": "2510.02734",
+    "title": "SAE-RNA: A Sparse Autoencoder Model for Interpreting RNA Language Model Representations",
+    "authors": "Taehan Kim, Sangdae Nam",
+    "year": 2025,
+    "published": "2025-10-03T05:34:59Z",
+    "abstract": "Deep learning, particularly with the advancement of Large Language Models, has transformed biomolecular modeling, with protein language models such as ESM inspiring emerging RNA language models such as RiNALMo. Recent work has begun applying sparse autoencoders (SAEs) to protein language model representations, exploring representation-level interpretability in biomolecular models. Here, we explore whether SAEs can provide interpretable feature decompositions of RNA language model representations, while also examining their limitations in this setting. We present SAE-RNA, interpretability model that analyzes RiNALMo representations and maps them to known human-level biological features. Rather than claiming definitive biological concept discovery, our study frames SAE-based analysis as a representation-level probe for characterizing how RNA language models organize biological information internally. More broadly, SAE-RNA provides a feature-level framework for comparing RNA groups and identifying sparse representation components associated with RNA family identity or structural context.",
+    "categories": [
+      "q-bio.BM",
+      "cs.AI",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2510.02734v2",
+    "url": "http://arxiv.org/abs/2510.02734v2"
+  },
+  {
+    "arxiv_id": "2407.13493",
+    "title": "Training Foundation Models as Data Compression: On Information, Model Weights and Copyright Law",
+    "authors": "Giorgio Franceschelli, Claudia Cevenini, Mirco Musolesi",
+    "year": 2024,
+    "published": "2024-07-18T13:23:16Z",
+    "abstract": "The training process of foundation models as for other classes of deep learning systems is based on minimizing the reconstruction error over a training set. For this reason, they are susceptible to the memorization and subsequent reproduction of training samples. In this paper, we introduce a training-as-compressing perspective, wherein the model's weights embody a compressed representation of the training data. From a copyright standpoint, this point of view implies that the weights can be considered a reproduction or, more likely, a derivative work of a potentially protected set of works. We investigate the technical and legal challenges that emerge from this framing of the copyright of outputs generated by foundation models, including their implications for practitioners and researchers. We demonstrate that adopting an information-centric approach to the problem presents a promising pathway for tackling these emerging complex legal issues.",
+    "categories": [
+      "cs.CY",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.13493v4",
+    "url": "http://arxiv.org/abs/2407.13493v4"
+  },
+  {
+    "arxiv_id": "2505.12565",
+    "title": "mCLM: A Modular Chemical Language Model that Generates Functional and Makeable Molecules",
+    "authors": "Carl Edwards, Chi Han, Gawon Lee et al.",
+    "year": 2025,
+    "published": "2025-05-18T22:52:39Z",
+    "abstract": "Despite their ability to understand chemical knowledge, large language models (LLMs) remain limited in their capacity to propose novel molecules with desired functions (e.g., drug-like properties). In addition, the molecules that LLMs propose can often be challenging to make, and are almost never compatible with automated synthesis approaches. To better enable the discovery of functional small molecules, LLMs need to learn a new molecular language that is more effective in predicting properties and inherently synced with automated synthesis technology. Current molecule LLMs are limited by representing molecules based on atoms. In this paper, we argue that just like tokenizing texts into meaning-bearing (sub-)word tokens instead of characters, molecules should be tokenized at the level of functional building blocks, i.e., parts of molecules that bring unique functions and serve as effective building blocks for real-world automated laboratory synthesis. This motivates us to propose mCLM, a modular Chemical-Language Model that comprises a bilingual language model that understands both natural language descriptions of functions and molecular blocks. mCLM front-loads synthesizability considerations while improving the predicted functions of molecules in a principled manner. Experiments on FDA-approved drugs showed that mCLM is capable of significantly improving chemical functions. mCLM, with only 3B parameters, also achieves improvements in synthetic accessibility relative to 7 other leading generative AI methods including GPT-5. When tested on 122 out-of-distribution medicines using only building blocks/tokens that are compatible with automated modular synthesis, mCLM outperforms all baselines in property scores and synthetic accessibility. mCLM can also reason on multiple functions and iteratively self-improve to rescue drug candidates that failed late in clinical trials (\"fallen angels\").",
+    "categories": [
+      "cs.AI",
+      "cs.CL",
+      "cs.LG",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2505.12565v3",
+    "url": "http://arxiv.org/abs/2505.12565v3"
+  }
+]

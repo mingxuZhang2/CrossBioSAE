@@ -1,0 +1,30 @@
+[
+  {
+    "id": "45f222f063c1638696c9b187b54e255311a33c94",
+    "title": "Design of a multi-Epitope mRNA vaccine against Brucella type IV secretion system using reverse vaccinology and immunogenicity approaches",
+    "authors": "Jia-Rui Luo, Xingxing Qi, Tingting Tian et al.",
+    "year": 2025,
+    "venue": "Scientific Reports",
+    "citations": 2,
+    "abstract": "Brucellosis is a zoonotic disease caused by bacteria of the Brucella genus. This study investigates the development of a multi-epitope mRNA vaccine aimed at combating Brucella infections. The approach involves selecting the architecture of the pathogenic type IV secretion system (T4SS) of Brucella using bioinformatics tools and reverse vaccinology methodologies. The candidate proteins chosen for this vaccine include VirB2, VirB3, and VirB6, along with the effector protein BtpA. Key findings include robust antigenicity scores for the candidate proteins (VirB2:0.5685; VirB3:0.5329;VirB6:0.5054;BtpA:0.5575).A variety of tools were essential for identifying potential epitopes suitable for incorporation into the mRNA vaccine, as well as for utilizing appropriate linkers for docking. Molecular dynamics simulations confirmed stable interactions between the vaccine and TLR4, with a docking score of − 350.15. Furthermore, computer cloning methods were employed alongside simulated gel electrophoresis to ensure a comprehensive evaluation of the vaccine’s properties. The results of this investigation indicate that the newly formulated mRNA vaccine effectively stimulates an immune response, presenting innovative strategies for prevention and management. Although comprehensive evaluations of vaccine design have been conducted using bioinformatics tools and molecular simulations, certain limitations still exist, primarily manifested in the reliance on computational predictions without validation from wet lab experiments. Future research must further verify the accuracy of computational results through laboratory experiments.",
+    "url": "https://www.semanticscholar.org/paper/45f222f063c1638696c9b187b54e255311a33c94",
+    "pdf": "",
+    "doi": "10.1038/s41598-025-09509-7",
+    "arxiv": null,
+    "publication_date": "2025-08-21"
+  },
+  {
+    "id": "eb357b0f64da0d96ea8de8c401ab9ccd7550ca0b",
+    "title": "Is Toxoplasma gondii‐secreted Protein With an Altered Thrombospondin Repeat (TgSPATR) a Potential Candidate for Immunisation? An Immunoinformatics‐Based Analysis",
+    "authors": "M. Foroutan, Elaheh Karimzadeh-Soureshjani, F. Ghaffarifar",
+    "year": 2026,
+    "venue": "Veterinary Medicine and Science",
+    "citations": 0,
+    "abstract": "ABSTRACT Background Toxoplasmosis is a widespread zoonotic disease that poses risks to pregnant women and immunocompromised individuals. Despite considerable efforts, no licensed vaccines are currently available for humans or animals. Rational vaccine design increasingly relies on immunoinformatics approaches to identify immunodominant epitopes and key immunological features. Objectives This study aimed to characterise the Toxoplasma gondii‐secreted protein with an altered thrombospondin repeat (TgSPATR) using immunoinformatics tools to evaluate its suitability as a vaccine candidate. Methods A comprehensive panel of bioinformatics servers was used to predict allergenicity, solubility, antigenicity, secondary and tertiary structures, post‐translational modification (PTM) regions, and B‐ and T‐cell epitopes, followed by in silico immune simulation. Results TgSPATR consists of 534 amino acids with an estimated molecular weight of ∼57 kDa. The aliphatic index (65.71) and GRAVY score (–0.507) indicate moderate thermostability and an overall hydrophilic nature. Additionally, a total of 120 PTM sites were predicted, including phosphorylation, O‐ and N‐glycosylation, and palmitoylation sites. Secondary structure analysis (GOR IV, SOPMA, and NetSurfP‐3.0) revealed a predominance of random coils. Moreover, multiple servers (BcePred, SVMTriP, ABCpred, IEDB, ElliPro, and CTLpred) identified several high‐scoring B‐ and T‐cell epitopes capable of binding MHC class I and II molecules. According to SAVES v6.1, 74.1% and 93.8% of the residues of the initial and refined 3D models were located in favoured regions, indicating improved structural quality after refinement. In line with this, the ERRAT score also increased from 89.557 to 95.046. TgSPATR was predicted to be immunogenic and non‐allergenic. Finally, virtual immune simulation using the C‐ImmSim server showed that TgSPATR can elicit both humoral and cellular immune responses following three injections. Conclusions This study provides foundational evidence that TgSPATR possesses key immunogenic properties and may serve as a promising vaccine candidate against acute and chronic toxoplasmosis. Nonetheless, wet‐lab experiments are required to validate these computational findings.",
+    "url": "https://www.semanticscholar.org/paper/eb357b0f64da0d96ea8de8c401ab9ccd7550ca0b",
+    "pdf": "",
+    "doi": "10.1002/vms3.70807",
+    "arxiv": null,
+    "publication_date": "2026-01-01"
+  }
+]
