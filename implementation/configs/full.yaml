@@ -86,3 +86,5 @@ paths:
   checkpoint_dir: "checkpoints/full"
   protein_activations: "data/full/protein_activations.h5"
   dna_activations: "data/full/dna_activations.h5"
+  go_annotations: "data/full/go_annotations.json"
+  clinvar_variants: "data/full/clinvar_variants.csv"

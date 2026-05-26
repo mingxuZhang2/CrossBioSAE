@@ -379,37 +379,43 @@ class FunctionPredictor:
                     if term in go_term_to_idx:
                         go_matrix[idx, go_term_to_idx[term]] = True
 
+        # Only label active features (skip dead ones)
+        feat_counts = active.sum(axis=0)
+        active_feat_indices = np.where(feat_counts >= min_genes_per_feature)[0]
         logger.info(
-            f"Labeling {n_features} features against {len(go_terms_list)} GO terms"
+            f"Labeling {len(active_feat_indices)} active features "
+            f"(of {n_features} total) against {len(go_terms_list)} GO terms"
         )
 
-        for feat_idx in tqdm(range(n_features), desc="Labeling features"):
-            feat_active = active[:, feat_idx]
-            n_active = feat_active.sum()
+        # Vectorized: compute overlap matrix (n_active_features x n_go_terms)
+        active_subset = active[:, active_feat_indices].astype(np.float32)  # (n_genes, n_active_feat)
+        go_float = go_matrix.astype(np.float32)  # (n_genes, n_go)
 
-            if n_active < min_genes_per_feature:
-                continue
+        # a = overlap count: feature active AND GO annotated
+        overlap = active_subset.T @ go_float  # (n_active_feat, n_go)
+        feat_sums = active_subset.sum(axis=0)  # (n_active_feat,)
+        go_sums = go_float.sum(axis=0)  # (n_go,)
 
+        # Hypergeometric p-value via scipy (vectorized per feature)
+        from scipy.stats import hypergeom
+
+        for i, feat_idx in enumerate(tqdm(active_feat_indices, desc="Labeling features")):
+            n_feat = int(feat_sums[i])
             enrichments = []
-            for go_idx, go_term in enumerate(go_terms_list):
-                go_active = go_matrix[:, go_idx]
 
-                # 2x2 contingency table
-                a = (feat_active & go_active).sum()  # Both active
-                b = (feat_active & ~go_active).sum()  # Feature active, GO not
-                c = (~feat_active & go_active).sum()  # Feature not, GO active
-                d = (~feat_active & ~go_active).sum()  # Neither
-
-                if a < 3:  # Need minimum overlap
+            for go_idx in range(len(go_terms_list)):
+                a = int(overlap[i, go_idx])
+                if a < 3:
                     continue
-
-                _, p_value = stats.fisher_exact([[a, b], [c, d]], alternative="greater")
-                if p_value < 0.01:  # Bonferroni-corrected threshold
-                    enrichments.append((go_term, float(p_value)))
+                n_go = int(go_sums[go_idx])
+                # Hypergeometric test: P(X >= a) for drawing n_feat from population n_genes with n_go successes
+                p_value = hypergeom.sf(a - 1, n_genes, n_go, n_feat)
+                if p_value < 0.01:
+                    enrichments.append((go_terms_list[go_idx], float(p_value)))
 
             if enrichments:
                 enrichments.sort(key=lambda x: x[1])
-                feature_labels[feat_idx] = enrichments[:5]  # Top 5 GO terms
+                feature_labels[int(feat_idx)] = enrichments[:5]
 
         self.feature_labels = feature_labels
         logger.info(f"Labeled {len(feature_labels)} features with GO term enrichments")
