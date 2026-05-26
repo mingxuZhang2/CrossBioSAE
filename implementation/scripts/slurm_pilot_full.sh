@@ -1,18 +1,20 @@
 #!/bin/bash
 #SBATCH --job-name=cbsae_pilot
-#SBATCH --partition=i64m1tga800u
+#SBATCH --partition=acd_u
+#SBATCH --account=d_yings_team
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
-#SBATCH --mem=128G
-#SBATCH --time=48:00:00
+#SBATCH --mem=64G
+#SBATCH --time=24:00:00
 #SBATCH --output=logs/pilot_full_%j.out
 #SBATCH --error=logs/pilot_full_%j.err
 
 # CrossBioSAE: Complete pilot pipeline (all steps)
-# Runs: data prep -> activation extraction -> training -> evaluation
-# Usage: sbatch scripts/slurm_pilot_full.sh
+# Usage:
+#   sbatch scripts/slurm_pilot_full.sh              # real models
+#   SYNTH_MODE=1 sbatch scripts/slurm_pilot_full.sh # synthetic (pipeline test)
 
 set -euo pipefail
 
@@ -26,23 +28,25 @@ echo "Node: $(hostname)"
 echo "GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null || echo 'N/A')"
 echo "============================================"
 
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate crossbiosae 2>/dev/null || conda activate base
+source /data/user/mzhang630/miniconda3/etc/profile.d/conda.sh
+conda activate sake
 
 mkdir -p "${IMPL_DIR}/logs"
 cd "${IMPL_DIR}"
+
+# Detect synthetic mode
+SYNTH_FLAG=""
+if [[ "${SYNTH_MODE:-0}" == "1" ]]; then
+    SYNTH_FLAG="--synthetic"
+    echo "*** SYNTHETIC MODE: no real models will be loaded ***"
+fi
 
 # Step 1: Prepare data
 echo "=== Step 1: Prepare data ==="
 python scripts/prepare_data.py --config "configs/${CONFIG}.yaml" --synthetic
 echo "Data preparation done: $(date)"
 
-# Step 2: Extract activations (pass --synthetic if data was synthetic)
-SYNTH_FLAG=""
-if [[ "$*" == *"--synthetic"* ]] || grep -q "synthetic" <<< "${SYNTH_MODE:-}"; then
-    SYNTH_FLAG="--synthetic"
-fi
-
+# Step 2: Extract activations
 echo "=== Step 2a: Extract protein activations ==="
 python scripts/extract_activations.py --config "configs/${CONFIG}.yaml" --modality protein --device cuda ${SYNTH_FLAG}
 echo "Protein extraction done: $(date)"

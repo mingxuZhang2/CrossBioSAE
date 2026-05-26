@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=cbsae_extract_dna
-#SBATCH --partition=i64m1tga800u
+#SBATCH --partition=acd_u
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -27,8 +27,8 @@ echo "Node: $(hostname)"
 echo "GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null || echo 'N/A')"
 echo "============================================"
 
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate crossbiosae 2>/dev/null || conda activate base
+source /data/user/mzhang630/miniconda3/etc/profile.d/conda.sh
+conda activate sake
 
 mkdir -p "${IMPL_DIR}/logs"
 
