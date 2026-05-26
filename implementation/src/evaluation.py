@@ -369,15 +369,15 @@ class FunctionPredictor:
         # Gene-to-GO binary matrix
         gene_to_idx = {n: i for i, n in enumerate(gene_names)}
         go_terms_list = sorted(all_go_terms)
+        go_term_to_idx = {t: i for i, t in enumerate(go_terms_list)}
         go_matrix = np.zeros((n_genes, len(go_terms_list)), dtype=bool)
 
         for gene, terms in go_annotations.items():
             if gene in gene_to_idx:
                 idx = gene_to_idx[gene]
                 for term in terms:
-                    if term in go_terms_list:
-                        go_idx = go_terms_list.index(term)
-                        go_matrix[idx, go_idx] = True
+                    if term in go_term_to_idx:
+                        go_matrix[idx, go_term_to_idx[term]] = True
 
         logger.info(
             f"Labeling {n_features} features against {len(go_terms_list)} GO terms"
@@ -785,6 +785,8 @@ def run_pilot_evaluation(
         for k, v in pilot_results.items():
             if isinstance(v, (np.integer, np.floating)):
                 serializable[k] = float(v)
+            elif isinstance(v, np.bool_):
+                serializable[k] = bool(v)
             elif isinstance(v, np.ndarray):
                 serializable[k] = v.tolist()
             else:

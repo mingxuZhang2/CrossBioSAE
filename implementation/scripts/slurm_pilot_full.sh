@@ -37,14 +37,18 @@ echo "=== Step 1: Prepare data ==="
 python scripts/prepare_data.py --config "configs/${CONFIG}.yaml" --synthetic
 echo "Data preparation done: $(date)"
 
-# Step 2a: Extract protein activations
+# Step 2: Extract activations (pass --synthetic if data was synthetic)
+SYNTH_FLAG=""
+if [[ "$*" == *"--synthetic"* ]] || grep -q "synthetic" <<< "${SYNTH_MODE:-}"; then
+    SYNTH_FLAG="--synthetic"
+fi
+
 echo "=== Step 2a: Extract protein activations ==="
-python scripts/extract_activations.py --config "configs/${CONFIG}.yaml" --modality protein --device cuda
+python scripts/extract_activations.py --config "configs/${CONFIG}.yaml" --modality protein --device cuda ${SYNTH_FLAG}
 echo "Protein extraction done: $(date)"
 
-# Step 2b: Extract DNA activations
 echo "=== Step 2b: Extract DNA activations ==="
-python scripts/extract_activations.py --config "configs/${CONFIG}.yaml" --modality dna --device cuda
+python scripts/extract_activations.py --config "configs/${CONFIG}.yaml" --modality dna --device cuda ${SYNTH_FLAG}
 echo "DNA extraction done: $(date)"
 
 # Step 3: Train SAE

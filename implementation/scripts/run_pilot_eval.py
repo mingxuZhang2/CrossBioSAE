@@ -64,7 +64,7 @@ def main():
     model = CrossBioSAE(sae_config).to(device)
 
     # Load checkpoint
-    checkpoint = torch.load(args.checkpoint, map_location=device)
+    checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=True)
     model.load_state_dict(checkpoint["model_state_dict"])
     logger.info(f"Loaded checkpoint from {args.checkpoint}")
     logger.info(f"Training step: {checkpoint.get('global_step', 'unknown')}")

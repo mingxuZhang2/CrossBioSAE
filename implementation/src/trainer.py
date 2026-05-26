@@ -95,15 +95,16 @@ class CrossBioSAETrainer:
             betas=(0.9, 0.999),
         )
 
-        # Learning rate scheduler
+        # Learning rate scheduler (T_max excludes warmup steps)
         total_steps = self._estimate_total_steps()
+        decay_steps = max(total_steps - warmup_steps, 1)
         if lr_schedule == "cosine":
             self.scheduler = optim.lr_scheduler.CosineAnnealingLR(
-                self.optimizer, T_max=total_steps, eta_min=learning_rate * 0.01
+                self.optimizer, T_max=decay_steps, eta_min=learning_rate * 0.01
             )
         elif lr_schedule == "linear":
             self.scheduler = optim.lr_scheduler.LinearLR(
-                self.optimizer, start_factor=1.0, end_factor=0.01, total_iters=total_steps
+                self.optimizer, start_factor=1.0, end_factor=0.01, total_iters=decay_steps
             )
         else:
             self.scheduler = None
@@ -305,7 +306,7 @@ class CrossBioSAETrainer:
 
     def load_checkpoint(self, path: str):
         """Load model checkpoint."""
-        checkpoint = torch.load(path, map_location=self.device)
+        checkpoint = torch.load(path, map_location=self.device, weights_only=True)
         self.model.load_state_dict(checkpoint["model_state_dict"])
         self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
         self.global_step = checkpoint.get("global_step", 0)

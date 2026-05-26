@@ -28,7 +28,6 @@ wandb>=0.16.0
 
 # Config management
 pyyaml>=6.0
-omegaconf>=2.3.0
 
 # Utilities
 tqdm>=4.65.0

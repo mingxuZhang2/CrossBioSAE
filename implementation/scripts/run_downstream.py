@@ -57,7 +57,7 @@ def load_model(config: dict, checkpoint_path: str, device: str) -> CrossBioSAE:
     )
 
     model = CrossBioSAE(sae_config).to(device)
-    checkpoint = torch.load(checkpoint_path, map_location=device)
+    checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=True)
     model.load_state_dict(checkpoint["model_state_dict"])
     model.eval()
     logger.info(f"Loaded model from {checkpoint_path}")
@@ -98,11 +98,26 @@ def run_function_prediction(model, config, device):
 
     predictor = FunctionPredictor(model=model, device=device)
 
-    # NOTE: GO annotation data needs to be prepared separately
-    # For now, just compute features without GO labeling
-    logger.info("Function prediction requires GO annotation data. "
-                "See README for data preparation instructions.")
-    logger.info("Computing features for all genes...")
+    go_path = Path(paths.get("go_annotations", "data/go_annotations.json"))
+    if not go_path.exists():
+        logger.warning(
+            "Function prediction requires GO annotation data at %s. "
+            "Skipping. See README for data preparation instructions.", go_path
+        )
+        return None
+
+    import json
+    with open(go_path) as f:
+        go_annotations = json.load(f)
+
+    from src.evaluation import compute_feature_statistics
+    feat_stats = compute_feature_statistics(
+        model, paths["dna_activations"], paths["protein_activations"], device=device
+    )
+    combined_features = (feat_stats["features_dna"] + feat_stats["features_protein"]) / 2.0
+    predictor.label_features(
+        combined_features, feat_stats["gene_names"], go_annotations
+    )
 
     predictions = predictor.predict_function(
         dna_h5_path=paths["dna_activations"],

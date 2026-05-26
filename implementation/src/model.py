@@ -19,7 +19,6 @@ from typing import Optional, Literal
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from einops import rearrange
 
 
 @dataclass
@@ -96,6 +95,7 @@ class TopKActivation(nn.Module):
         self.k = k
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = F.relu(x)
         topk_values, topk_indices = torch.topk(x, self.k, dim=-1)
         result = torch.zeros_like(x)
         result.scatter_(-1, topk_indices, topk_values)
@@ -224,7 +224,8 @@ class CrossBioSAE(nn.Module):
         if config.normalize_inputs:
             self.register_buffer("dna_mean", torch.zeros(config.dim_dna))
             self.register_buffer("protein_mean", torch.zeros(config.dim_protein))
-            self.register_buffer("n_samples_seen", torch.tensor(0, dtype=torch.long))
+            self.register_buffer("n_dna_seen", torch.tensor(0, dtype=torch.long))
+            self.register_buffer("n_protein_seen", torch.tensor(0, dtype=torch.long))
 
     @torch.no_grad()
     def update_running_mean(
@@ -232,24 +233,21 @@ class CrossBioSAE(nn.Module):
         dna_acts: Optional[torch.Tensor] = None,
         protein_acts: Optional[torch.Tensor] = None,
     ):
-        """Update running mean for input normalization."""
+        """Update running mean for input normalization (separate counters per modality)."""
         if not self.config.normalize_inputs:
             return
-        n = self.n_samples_seen.item()
         if dna_acts is not None:
+            n = self.n_dna_seen.item()
             batch_mean = dna_acts.mean(dim=0)
             batch_size = dna_acts.shape[0]
             self.dna_mean = (self.dna_mean * n + batch_mean * batch_size) / (n + batch_size)
+            self.n_dna_seen += batch_size
         if protein_acts is not None:
+            n = self.n_protein_seen.item()
             batch_mean = protein_acts.mean(dim=0)
             batch_size = protein_acts.shape[0]
             self.protein_mean = (self.protein_mean * n + batch_mean * batch_size) / (n + batch_size)
-        total_batch = 0
-        if dna_acts is not None:
-            total_batch = max(total_batch, dna_acts.shape[0])
-        if protein_acts is not None:
-            total_batch = max(total_batch, protein_acts.shape[0])
-        self.n_samples_seen += total_batch
+            self.n_protein_seen += batch_size
 
     def _normalize(self, x: torch.Tensor, modality: str) -> torch.Tensor:
         """Subtract running mean from activations."""

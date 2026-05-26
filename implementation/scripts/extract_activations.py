@@ -35,6 +35,37 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def generate_synthetic_activations(config: dict, modality: str):
+    """Generate random activations for pipeline testing without real models."""
+    import numpy as np
+
+    data_config = config["data"]
+    paths = config["paths"]
+    mod_config = config["protein_model"] if modality == "protein" else config["dna_model"]
+
+    dataset = GenePairDataset(data_dir=data_config["data_dir"], split=data_config["split"])
+    pairs = dataset.load_pairs()
+    gene_names = [p["gene_name"] for p in pairs]
+    hidden_dim = mod_config["hidden_dim"]
+
+    logger.info(f"Generating synthetic {modality} activations: {len(gene_names)} genes, dim={hidden_dim}")
+    activations = np.random.randn(len(gene_names), hidden_dim).astype(np.float32)
+
+    output_file = paths["protein_activations"] if modality == "protein" else paths["dna_activations"]
+    Path(output_file).parent.mkdir(parents=True, exist_ok=True)
+
+    import h5py
+    with h5py.File(output_file, "w") as f:
+        f.create_dataset("activations", data=activations, compression="gzip")
+        f.create_dataset("gene_names", data=np.array(gene_names, dtype=h5py.string_dtype()))
+        f.attrs["model"] = "synthetic"
+        f.attrs["layer"] = mod_config.get("layer", 16)
+        f.attrs["pooling"] = "mean"
+        f.attrs["n_sequences"] = len(gene_names)
+
+    logger.info(f"Saved synthetic activations to {output_file}")
+
+
 def extract_protein_activations(config: dict, device: str):
     """Extract protein model activations."""
     prot_config = config["protein_model"]
@@ -104,6 +135,10 @@ def main():
         help="Which modality to extract"
     )
     parser.add_argument("--device", type=str, default="cuda", help="Device")
+    parser.add_argument(
+        "--synthetic", action="store_true",
+        help="Generate random activations instead of running real models (for pipeline testing)",
+    )
     args = parser.parse_args()
 
     with open(args.config) as f:
@@ -116,11 +151,17 @@ def main():
 
     logger.info(f"Using device: {device}")
 
-    if args.modality in ("protein", "both"):
-        extract_protein_activations(config, device)
-
-    if args.modality in ("dna", "both"):
-        extract_dna_activations(config, device)
+    if args.synthetic:
+        logger.info("Generating SYNTHETIC activations (no real models loaded)")
+        if args.modality in ("protein", "both"):
+            generate_synthetic_activations(config, "protein")
+        if args.modality in ("dna", "both"):
+            generate_synthetic_activations(config, "dna")
+    else:
+        if args.modality in ("protein", "both"):
+            extract_protein_activations(config, device)
+        if args.modality in ("dna", "both"):
+            extract_dna_activations(config, device)
 
     logger.info("Activation extraction complete")
 
