@@ -23,20 +23,20 @@ protein_model:
   max_length: 1024
 
 # ============================================================
-# DNA model (Evo-2 for pilot; may fallback to NT if too large)
+# DNA model (Nucleotide Transformer v2 500M for pilot)
 # ============================================================
 dna_model:
-  name: "evo2_7b"
-  layer: 16  # Middle of ~32 layers
-  hidden_dim: 4096
-  batch_size: 4  # Smaller batch for 7B model
-  max_length: 3072  # CDS can be longer than protein
+  name: "nt_500m"
+  layer: 14  # Middle of 29 layers
+  hidden_dim: 1024
+  batch_size: 8
+  max_length: 2048
 
 # ============================================================
 # CrossBioSAE architecture
 # ============================================================
 model:
-  dim_dna: 4096            # Evo-2 hidden dim
+  dim_dna: 1024            # Nucleotide Transformer v2 500M hidden dim
   dim_protein: 1280        # ESM-2 650M hidden dim
   dim_shared: 2048         # Shared adapter space
   expansion_factor: 8      # 8x for pilot (16k features)
@@ -56,17 +56,17 @@ training:
   weight_decay: 0.0
   lr_schedule: "cosine"
   warmup_steps: 500
-  max_epochs: 50
+  max_epochs: 500
   batch_size: 256
   grad_clip: 1.0
   # Loss weights
   recon_weight: 1.0
   sparsity_weight: 1.0
-  crossmodal_weight: 0.1   # Start small, ramp up
-  crossmodal_warmup_steps: 1000
+  crossmodal_weight: 1.0   # Strong cross-modal alignment
+  crossmodal_warmup_steps: 100
   # Logging
   log_interval: 50
-  eval_interval: 200
+  eval_interval: 100
   save_interval: 1000
   normalize_decoder_interval: 100
   # Infra

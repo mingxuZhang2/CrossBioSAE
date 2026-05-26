@@ -276,6 +276,8 @@ class ActivationExtractor:
             self._load_esmc()
         elif "evo" in self.model_name:
             self._load_evo()
+        elif "nucleotide-transformer" in self.model_name or "nt_" in self.model_name:
+            self._load_nt()
         else:
             raise ValueError(f"Unknown model: {self.model_name}")
 
@@ -343,9 +345,41 @@ class ActivationExtractor:
         ).eval().to(self.device)
 
         if self.layer is None:
-            # Evo-2 7B has ~32 layers; use middle
             self.layer = 16
         logger.info(f"Evo-2 loaded, extracting from layer {self.layer}")
+
+    def _load_nt(self):
+        """Load Nucleotide Transformer (DNA model, smaller alternative to Evo-2)."""
+        from transformers import AutoModelForMaskedLM, AutoTokenizer
+
+        model_map = {
+            "nt_500m": "InstaDeepAI/nucleotide-transformer-v2-500m-multi-species",
+            "nt_250m": "InstaDeepAI/nucleotide-transformer-v2-250m-multi-species",
+            "nt_100m": "InstaDeepAI/nucleotide-transformer-v2-100m-multi-species",
+        }
+        model_id = model_map.get(self.model_name, self.model_name)
+
+        local_path = os.path.join(
+            os.path.expanduser("~/.cache/huggingface/hub"),
+            f"models--{model_id.replace('/', '--')}/snapshots/main",
+        )
+        load_from = local_path if os.path.isdir(local_path) else model_id
+
+        logger.info(f"Loading Nucleotide Transformer: {load_from}")
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            load_from, trust_remote_code=True
+        )
+        self.model = AutoModelForMaskedLM.from_pretrained(
+            load_from, trust_remote_code=True
+        ).eval().to(self.device)
+
+        if self.layer is None:
+            n_layers = self.model.config.num_hidden_layers
+            self.layer = n_layers // 2
+        logger.info(
+            f"NT loaded: {self.model.config.hidden_size} dim, "
+            f"{self.model.config.num_hidden_layers} layers, extracting layer {self.layer}"
+        )
 
     @torch.no_grad()
     def extract_esm2(
@@ -495,6 +529,8 @@ class ActivationExtractor:
         elif "esmc" in self.model_name:
             return self.extract_esmc(sequences, output_file)
         elif "evo" in self.model_name:
+            return self.extract_evo(sequences, output_file)
+        elif "nucleotide-transformer" in self.model_name or "nt_" in self.model_name:
             return self.extract_evo(sequences, output_file)
         else:
             raise ValueError(f"Unknown model: {self.model_name}")

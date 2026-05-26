@@ -16,7 +16,7 @@
 #   sbatch scripts/slurm_pilot_full.sh              # real models
 #   SYNTH_MODE=1 sbatch scripts/slurm_pilot_full.sh # synthetic (pipeline test)
 
-set -euo pipefail
+set -eo pipefail
 
 IMPL_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CONFIG="pilot"
