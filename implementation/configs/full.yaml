@@ -1,70 +1,71 @@
 # CrossBioSAE Full-Scale Configuration
-# Run this ONLY after pilot succeeds
+# ESM-2 650M (protein) + Nucleotide Transformer v2 500M (DNA)
+# ~20k human protein-coding genes
 
 # ============================================================
 # Data
 # ============================================================
 data:
   split: "full"
-  n_genes: null  # All human protein-coding genes (~20k)
+  n_genes: null
   organism: "Homo sapiens"
-  max_protein_length: 2000
-  max_cds_length: 6000
+  max_protein_length: 1000
+  max_cds_length: 3000
   data_dir: "data/full"
 
 # ============================================================
-# Protein model (ESM-C 600M for full run)
+# Protein model (ESM-2 650M — same as pilot)
 # ============================================================
 protein_model:
-  name: "esmc_600m"
-  layer: 24  # Middle of 48 layers
-  hidden_dim: 2560
-  batch_size: 8
-  max_length: 2048
+  name: "esm2_t33_650M_UR50D"
+  layer: 16
+  hidden_dim: 1280
+  batch_size: 16
+  max_length: 1024
 
 # ============================================================
-# DNA model (Evo-2 7B)
+# DNA model (Nucleotide Transformer v2 500M — same as pilot)
 # ============================================================
 dna_model:
-  name: "evo2_7b"
-  layer: 16
-  hidden_dim: 4096
-  batch_size: 2
-  max_length: 6144
+  name: "nt_500m"
+  layer: 14
+  hidden_dim: 1024
+  batch_size: 8
+  max_length: 2048
 
 # ============================================================
 # CrossBioSAE architecture
 # ============================================================
 model:
-  dim_dna: 4096
-  dim_protein: 2560         # ESM-C 600M hidden dim
+  dim_dna: 1024
+  dim_protein: 1280
   dim_shared: 2048
-  expansion_factor: 32      # 32x for full (65k features)
+  expansion_factor: 16      # 16x (32k features, reduce dead features)
   sparsity_type: "topk"
-  topk_k: 64
+  topk_k: 128
   normalize_inputs: true
   tied_decoder: false
   bias: true
   crossmodal_type: "cosine"
 
 # ============================================================
-# Training
+# Training (proven hyperparams from pilot, scaled)
 # ============================================================
 training:
   learning_rate: 1.0e-4
   weight_decay: 0.0
   lr_schedule: "cosine"
-  warmup_steps: 2000
-  max_epochs: 20
+  warmup_steps: 500
+  max_epochs: 200
   batch_size: 512
   grad_clip: 1.0
   recon_weight: 1.0
   sparsity_weight: 1.0
-  crossmodal_weight: 0.1
-  crossmodal_warmup_steps: 5000
-  log_interval: 100
-  eval_interval: 2000
-  save_interval: 10000
+  crossmodal_weight: 1.0     # Proven in pilot
+  crossmodal_warmup_steps: 200
+  log_interval: 50
+  eval_interval: 200
+  save_interval: 1000
   normalize_decoder_interval: 100
   num_workers: 8
   seed: 42
@@ -73,9 +74,9 @@ training:
 # Experiment tracking
 # ============================================================
 wandb:
-  enabled: true
+  enabled: false  # HPC3 has no internet
   project: "crossbiosae"
-  run_name: "full_esmc_evo2_20k"
+  run_name: "full_esm2_nt_20k"
 
 # ============================================================
 # Paths
