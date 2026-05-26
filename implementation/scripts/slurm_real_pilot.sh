@@ -41,14 +41,12 @@ mkdir -p logs
 # Clean SAE training outputs but keep extracted activations
 rm -rf checkpoints/pilot results/pilot
 
-# Step 1: Prepare data (skip if exists)
+# Step 1: Check data exists (real data pre-transferred)
 if [ ! -f "data/pilot/gene_pairs_pilot.json" ]; then
-    echo "=== Step 1: Prepare data ==="
-    python scripts/prepare_data.py --config "configs/${CONFIG}.yaml" --synthetic
-    echo "Data preparation done: $(date)"
-else
-    echo "=== Step 1: Skipped (data exists) ==="
+    echo "ERROR: data/pilot/gene_pairs_pilot.json not found. Run download_real_data.py first."
+    exit 1
 fi
+echo "=== Step 1: Data exists ($(python -c "import json; print(len(json.load(open('data/pilot/gene_pairs_pilot.json'))))" 2>/dev/null) genes) ==="
 
 # Step 2a: Extract protein activations (skip if exists)
 if [ ! -f "data/pilot/protein_activations.h5" ]; then
