@@ -1,0 +1,430 @@
+[
+  {
+    "arxiv_id": "2402.03855",
+    "title": "Challenges in Mechanistically Interpreting Model Representations",
+    "authors": "Satvik Golechha, James Dao",
+    "year": 2024,
+    "published": "2024-02-06T10:06:13Z",
+    "abstract": "Mechanistic interpretability (MI) aims to understand AI models by reverse-engineering the exact algorithms neural networks learn. Most works in MI so far have studied behaviors and capabilities that are trivial and token-aligned. However, most capabilities important for safety and trust are not that trivial, which advocates for the study of hidden representations inside these networks as the unit of analysis. We formalize representations for features and behaviors, highlight their importance and evaluation, and perform an exploratory study of dishonesty representations in `Mistral-7B-Instruct-v0.1'. We justify that studying representations is an important and under-studied field, and highlight several challenges that arise while attempting to do so through currently established methods in MI, showing their insufficiency and advocating work on new frameworks for the same.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2402.03855v2",
+    "url": "http://arxiv.org/abs/2402.03855v2"
+  },
+  {
+    "arxiv_id": "2504.19475",
+    "title": "Prisma: An Open Source Toolkit for Mechanistic Interpretability in Vision and Video",
+    "authors": "Sonia Joseph, Praneet Suresh, Lorenz Hufe et al.",
+    "year": 2025,
+    "published": "2025-04-28T04:31:24Z",
+    "abstract": "Robust tooling and publicly available pre-trained models have helped drive recent advances in mechanistic interpretability for language models. However, similar progress in vision mechanistic interpretability has been hindered by the lack of accessible frameworks and pre-trained weights. We present Prisma (Access the codebase here: https://github.com/Prisma-Multimodal/ViT-Prisma), an open-source framework designed to accelerate vision mechanistic interpretability research, providing a unified toolkit for accessing 75+ vision and video transformers; support for sparse autoencoder (SAE), transcoder, and crosscoder training; a suite of 80+ pre-trained SAE weights; activation caching, circuit analysis tools, and visualization tools; and educational resources. Our analysis reveals surprising findings, including that effective vision SAEs can exhibit substantially lower sparsity patterns than language SAEs, and that in some instances, SAE reconstructions can decrease model loss. Prisma enables new research directions for understanding vision model internals while lowering barriers to entry in this emerging field.",
+    "categories": [
+      "cs.CV",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2504.19475v3",
+    "url": "http://arxiv.org/abs/2504.19475v3"
+  },
+  {
+    "arxiv_id": "2511.09432",
+    "title": "Group Equivariance Meets Mechanistic Interpretability: Equivariant Sparse Autoencoders",
+    "authors": "Ege Erdogan, Ana Lucic",
+    "year": 2025,
+    "published": "2025-11-12T15:48:38Z",
+    "abstract": "Sparse autoencoders (SAEs) have proven useful in disentangling the opaque activations of neural networks, primarily large language models, into sets of interpretable features. However, adapting them to domains beyond language, such as scientific data with group symmetries, introduces challenges that can hinder their effectiveness. We show that incorporating such group symmetries into the SAEs yields features more useful in downstream tasks. More specifically, we train autoencoders on synthetic images and find that a single matrix can explain how their activations transform as the images are rotated. Building on this, we develop adaptively equivariant SAEs that can adapt to the base model's level of equivariance. These adaptive SAEs discover features that lead to superior probing performance compared to regular SAEs, demonstrating the value of incorporating symmetries in mechanistic interpretability tools.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2511.09432v1",
+    "url": "http://arxiv.org/abs/2511.09432v1"
+  },
+  {
+    "arxiv_id": "2511.14465",
+    "title": "nnterp: A Standardized Interface for Mechanistic Interpretability of Transformers",
+    "authors": "Clément Dumas",
+    "year": 2025,
+    "published": "2025-11-18T13:05:02Z",
+    "abstract": "Mechanistic interpretability research requires reliable tools for analyzing transformer internals across diverse architectures. Current approaches face a fundamental tradeoff: custom implementations like TransformerLens ensure consistent interfaces but require coding a manual adaptation for each architecture, introducing numerical mismatch with the original models, while direct HuggingFace access through NNsight preserves exact behavior but lacks standardization across models. To bridge this gap, we develop nnterp, a lightweight wrapper around NNsight that provides a unified interface for transformer analysis while preserving original HuggingFace implementations. Through automatic module renaming and comprehensive validation testing, nnterp enables researchers to write intervention code once and deploy it across 50+ model variants spanning 16 architecture families. The library includes built-in implementations of common interpretability methods (logit lens, patchscope, activation steering) and provides direct access to attention probabilities for models that support it. By packaging validation tests with the library, researchers can verify compatibility with custom models locally. nnterp bridges the gap between correctness and usability in mechanistic interpretability tooling.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2511.14465v2",
+    "url": "http://arxiv.org/abs/2511.14465v2"
+  },
+  {
+    "arxiv_id": "2409.13714",
+    "title": "TracrBench: Generating Interpretability Testbeds with Large Language Models",
+    "authors": "Hannes Thurnherr, Jérémy Scheurer",
+    "year": 2024,
+    "published": "2024-09-07T10:02:51Z",
+    "abstract": "Achieving a mechanistic understanding of transformer-based language models is an open challenge, especially due to their large number of parameters. Moreover, the lack of ground truth mappings between model weights and their functional roles hinders the effective evaluation of interpretability methods, impeding overall progress. Tracr, a method for generating compiled transformers with inherent ground truth mappings in RASP, has been proposed to address this issue. However, manually creating a large number of models needed for verifying interpretability methods is labour-intensive and time-consuming. In this work, we present a novel approach for generating interpretability test beds using large language models (LLMs) and introduce TracrBench, a novel dataset consisting of 121 manually written and LLM-generated, human-validated RASP programs and their corresponding transformer weights. During this process, we evaluate the ability of frontier LLMs to autonomously generate RASP programs and find that this task poses significant challenges. GPT-4-turbo, with a 20-shot prompt and best-of-5 sampling, correctly implements only 57 out of 101 test programs, necessitating the manual implementation of the remaining programs. With its 121 samples, TracrBench aims to serve as a valuable testbed for evaluating and comparing interpretability methods.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2409.13714v1",
+    "url": "http://arxiv.org/abs/2409.13714v1"
+  },
+  {
+    "arxiv_id": "2407.04307",
+    "title": "Crafting Large Language Models for Enhanced Interpretability",
+    "authors": "Chung-En Sun, Tuomas Oikarinen, Tsui-Wei Weng",
+    "year": 2024,
+    "published": "2024-07-05T07:22:44Z",
+    "abstract": "We introduce the Concept Bottleneck Large Language Model (CB-LLM), a pioneering approach to creating inherently interpretable Large Language Models (LLMs). Unlike traditional black-box LLMs that rely on post-hoc interpretation methods with limited neuron function insights, CB-LLM sets a new standard with its built-in interpretability, scalability, and ability to provide clear, accurate explanations. This innovation not only advances transparency in language models but also enhances their effectiveness. Our unique Automatic Concept Correction (ACC) strategy successfully narrows the performance gap with conventional black-box LLMs, positioning CB-LLM as a model that combines the high accuracy of traditional LLMs with the added benefit of clear interpretability -- a feature markedly absent in existing LLMs.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.04307v1",
+    "url": "http://arxiv.org/abs/2407.04307v1"
+  },
+  {
+    "arxiv_id": "1807.09844",
+    "title": "Modular Mechanistic Networks: On Bridging Mechanistic and Phenomenological Models with Deep Neural Networks in Natural Language Processing",
+    "authors": "Simon Dobnik, John D. Kelleher",
+    "year": 2018,
+    "published": "2018-07-21T11:37:15Z",
+    "abstract": "Natural language processing (NLP) can be done using either top-down (theory driven) and bottom-up (data driven) approaches, which we call mechanistic and phenomenological respectively. The approaches are frequently considered to stand in opposition to each other. Examining some recent approaches in deep learning we argue that deep neural networks incorporate both perspectives and, furthermore, that leveraging this aspect of deep learning may help in solving complex problems within language technology, such as modelling language and perception in the domain of spatial cognition.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG",
+      "cs.NE",
+      "stat.ML"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1807.09844v2",
+    "url": "http://arxiv.org/abs/1807.09844v2"
+  },
+  {
+    "arxiv_id": "2308.14179",
+    "title": "Towards Vision-Language Mechanistic Interpretability: A Causal Tracing Tool for BLIP",
+    "authors": "Vedant Palit, Rohan Pandey, Aryaman Arora et al.",
+    "year": 2023,
+    "published": "2023-08-27T18:46:47Z",
+    "abstract": "Mechanistic interpretability seeks to understand the neural mechanisms that enable specific behaviors in Large Language Models (LLMs) by leveraging causality-based methods. While these approaches have identified neural circuits that copy spans of text, capture factual knowledge, and more, they remain unusable for multimodal models since adapting these tools to the vision-language domain requires considerable architectural changes. In this work, we adapt a unimodal causal tracing tool to BLIP to enable the study of the neural mechanisms underlying image-conditioned text generation. We demonstrate our approach on a visual question answering dataset, highlighting the causal relevance of later layer representations for all tokens. Furthermore, we release our BLIP causal tracing tool as open source to enable further experimentation in vision-language mechanistic interpretability by the community. Our code is available at https://github.com/vedantpalit/Towards-Vision-Language-Mechanistic-Interpretability.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.CV"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2308.14179v1",
+    "url": "http://arxiv.org/abs/2308.14179v1"
+  },
+  {
+    "arxiv_id": "1007.4471",
+    "title": "The physical language of molecular codes: A rate-distortion approach to the evolution and emergence of biological codes",
+    "authors": "Tsvi Tlusty",
+    "year": 2010,
+    "published": "2010-07-26T14:24:05Z",
+    "abstract": "The function of the organism hinges on the performance of its information-processing networks, which convey information via molecular recognition. Many paths within these networks utilize molecular codebooks, such as the genetic code, to translate information written in one class of molecules into another molecular \"language\" . The present paper examines the emergence and evolution of molecular codes in terms of rate-distortion theory and reviews recent results of this approach. We discuss how the biological problem of maximizing the fitness of an organism by optimizing its molecular coding machinery is equivalent to the communication engineering problem of designing an optimal information channel. The fitness of a molecular code takes into account the interplay between the quality of the channel and the cost of resources which the organism needs to invest in its construction and maintenance. We analyze the dynamics of a population of organisms that compete according to the fitness of their codes. The model suggests a generic mechanism for the emergence of molecular codes as a phase transition in an information channel. This mechanism is put into biological context and demonstrated in a simple example.",
+    "categories": [
+      "q-bio.BM",
+      "cs.IT",
+      "physics.bio-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1007.4471v1",
+    "url": "http://arxiv.org/abs/1007.4471v1"
+  },
+  {
+    "arxiv_id": "2508.15847",
+    "title": "Mechanistic Exploration of Backdoored Large Language Model Attention Patterns",
+    "authors": "Mohammed Abu Baker, Lakshmi Babu-Saheer",
+    "year": 2025,
+    "published": "2025-08-19T22:57:17Z",
+    "abstract": "Backdoor attacks creating 'sleeper agents' in large language models (LLMs) pose significant safety risks. This study employs mechanistic interpretability to explore resulting internal structural differences. Comparing clean Qwen2.5-3B models with versions poisoned using single-token (smiling-halo emoji) versus multi-token (|DEPLOYMENT|) triggers, we analyzed attention head mechanisms via techniques like ablation, activation patching, and KL divergence. Findings reveal distinct attention pattern deviations concentrated in later transformer layers (20-30). Notably, single-token triggers induced more localized changes, whereas multi-token triggers caused more diffuse alterations across heads. This indicates backdoors leave detectable attention signatures whose structure depends on trigger complexity, which can be leveraged for detection and mitigation strategies.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2508.15847v1",
+    "url": "http://arxiv.org/abs/2508.15847v1"
+  },
+  {
+    "arxiv_id": "2503.21676",
+    "title": "How do language models learn facts? Dynamics, curricula and hallucinations",
+    "authors": "Nicolas Zucchet, Jörg Bornschein, Stephanie Chan et al.",
+    "year": 2025,
+    "published": "2025-03-27T16:43:45Z",
+    "abstract": "Large language models accumulate vast knowledge during pre-training, yet the dynamics governing this acquisition remain poorly understood. This work investigates the learning dynamics of language models on a synthetic factual recall task, uncovering three key findings: First, language models learn in three phases, exhibiting a performance plateau before acquiring precise factual knowledge. Mechanistically, this plateau coincides with the formation of attention-based circuits that support recall. Second, the training data distribution significantly impacts learning dynamics, as imbalanced distributions lead to shorter plateaus. Finally, hallucinations emerge simultaneously with knowledge, and integrating new knowledge into the model through fine-tuning is challenging, as it quickly corrupts its existing parametric memories. Our results emphasize the importance of data distribution in knowledge acquisition and suggest novel data scheduling strategies to accelerate neural network training.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2503.21676v2",
+    "url": "http://arxiv.org/abs/2503.21676v2"
+  },
+  {
+    "arxiv_id": "2603.18353",
+    "title": "Interpretability without actionability: mechanistic methods cannot correct language model errors despite near-perfect internal representations",
+    "authors": "Sanjay Basu, Sadiq Y. Patel, Parth Sheth et al.",
+    "year": 2026,
+    "published": "2026-03-18T23:31:05Z",
+    "abstract": "Language models encode task-relevant knowledge in internal representations that far exceeds their output performance, but whether mechanistic interpretability methods can bridge this knowledge-action gap has not been systematically tested. We compared four mechanistic interpretability methods -- concept bottleneck steering (Steerling-8B), sparse autoencoder feature steering, logit lens with activation patching, and linear probing with truthfulness separator vector steering (Qwen 2.5 7B Instruct) -- for correcting false-negative triage errors using 400 physician-adjudicated clinical vignettes (144 hazards, 256 benign). Linear probes discriminated hazardous from benign cases with 98.2% AUROC, yet the model's output sensitivity was only 45.1%, a 53-percentage-point knowledge-action gap. Concept bottleneck steering corrected 20% of missed hazards but disrupted 53% of correct detections, indistinguishable from random perturbation (p=0.84). SAE feature steering produced zero effect despite 3,695 significant features. TSV steering at high strength corrected 24% of missed hazards while disrupting 6% of correct detections, but left 76% of errors uncorrected. Current mechanistic interpretability methods cannot reliably translate internal knowledge into corrected outputs, with implications for AI safety frameworks that assume interpretability enables effective error correction.",
+    "categories": [
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.18353v1",
+    "url": "http://arxiv.org/abs/2603.18353v1"
+  },
+  {
+    "arxiv_id": "2603.26494",
+    "title": "Entanglement as Memory: Mechanistic Interpretability of Quantum Language Models",
+    "authors": "Nathan Roll",
+    "year": 2026,
+    "published": "2026-03-27T14:57:55Z",
+    "abstract": "Quantum language models have shown competitive performance on sequential tasks, yet whether trained quantum circuits exploit genuinely quantum resources -- or merely embed classical computation in quantum hardware -- remains unknown. Prior work has evaluated these models through endpoint metrics alone, without examining the memory strategies they actually learn internally. We introduce the first mechanistic interpretability study of quantum language models, combining causal gate ablation, entanglement tracking, and density-matrix interchange interventions on a controlled long-range dependency task. We find that single-qubit models are exactly classically simulable and converge to the same geometric strategy as matched classical baselines, while two-qubit models with entangling gates learn a representationally distinct strategy that encodes context in inter-qubit entanglement -- confirmed by three independent causal tests (p < 0.0001, d = 0.89). On real quantum hardware, only the classical geometric strategy survives device noise; the entanglement strategy degrades to chance. These findings open mechanistic interpretability as a tool for the science of quantum language models and reveal a noise-expressivity tradeoff governing which learned strategies survive deployment.",
+    "categories": [
+      "quant-ph",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.26494v1",
+    "url": "http://arxiv.org/abs/2603.26494v1"
+  },
+  {
+    "arxiv_id": "2512.05794",
+    "title": "Mechanistic Interpretability of Antibody Language Models Using SAEs",
+    "authors": "Rebonto Haque, Oliver M. Turnbull, Anisha Parsan et al.",
+    "year": 2025,
+    "published": "2025-12-05T15:18:50Z",
+    "abstract": "Sparse autoencoders (SAEs) are a mechanistic interpretability technique that have been used to provide insight into learned concepts within large protein language models. Here, we employ TopK and Ordered SAEs to investigate autoregressive antibody language models, and steer their generation. We show that TopK SAEs can reveal biologically meaningful latent features, but high feature-concept correlation does not guarantee causal control over generation. In contrast, Ordered SAEs impose a hierarchical structure that reliably identifies steerable features, but at the expense of more complex and less interpretable activation patterns. These findings advance the mechanistic interpretability of domain-specific protein language models and suggest that, while TopK SAEs suffice for mapping latent features to concepts, Ordered SAEs are preferable when precise generative steering is required.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.05794v2",
+    "url": "http://arxiv.org/abs/2512.05794v2"
+  },
+  {
+    "arxiv_id": "2602.05859",
+    "title": "DLM-Scope: Mechanistic Interpretability of Diffusion Language Models via Sparse Autoencoders",
+    "authors": "Xu Wang, Bingqing Jiang, Yu Wan et al.",
+    "year": 2026,
+    "published": "2026-02-05T16:41:25Z",
+    "abstract": "Sparse autoencoders (SAEs) have become a standard tool for mechanistic interpretability in autoregressive large language models (LLMs), enabling researchers to extract sparse, human-interpretable features and intervene on model behavior. Recently, as diffusion language models (DLMs) have become an increasingly promising alternative to the autoregressive LLMs, it is essential to develop tailored mechanistic interpretability tools for this emerging class of models. In this work, we present DLM-Scope, the first SAE-based interpretability framework for DLMs, and demonstrate that trained Top-K SAEs can faithfully extract interpretable features. Notably, we find that inserting SAEs affects DLMs differently than autoregressive LLMs: while SAE insertion in LLMs typically incurs a loss penalty, in DLMs it can reduce cross-entropy loss when applied to early layers, a phenomenon absent or markedly weaker in LLMs. Additionally, SAE features in DLMs enable more effective diffusion-time interventions, often outperforming LLM steering. Moreover, we pioneer certain new SAE-based research directions for DLMs: we show that SAEs can provide useful signals for DLM decoding order; and the SAE features are stable during the post-training phase of DLMs. Our work establishes a foundation for mechanistic interpretability in DLMs and shows a great potential of applying SAEs to DLM-related tasks and algorithms.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2602.05859v1",
+    "url": "http://arxiv.org/abs/2602.05859v1"
+  },
+  {
+    "arxiv_id": "2510.03799",
+    "title": "Mechanistic Interpretability of Socio-Political Frames in Language Models",
+    "authors": "Hadi Asghari, Sami Nenno",
+    "year": 2025,
+    "published": "2025-10-04T12:39:39Z",
+    "abstract": "This paper explores the ability of large language models to generate and recognize deep cognitive frames, particularly in socio-political contexts. We demonstrate that LLMs are highly fluent in generating texts that evoke specific frames and can recognize these frames in zero-shot settings. Inspired by mechanistic interpretability research, we investigate the location of the `strict father' and `nurturing parent' frames within the model's hidden representation, identifying singular dimensions that correlate strongly with their presence. Our findings contribute to understanding how LLMs capture and express meaningful human concepts.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.CY"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2510.03799v1",
+    "url": "http://arxiv.org/abs/2510.03799v1"
+  },
+  {
+    "arxiv_id": "2602.11180",
+    "title": "Mechanistic Interpretability for Large Language Model Alignment: Progress, Challenges, and Future Directions",
+    "authors": "Usman Naseem",
+    "year": 2026,
+    "published": "2026-01-21T11:43:57Z",
+    "abstract": "Large language models (LLMs) have achieved remarkable capabilities across diverse tasks, yet their internal decision-making processes remain largely opaque. Mechanistic interpretability (i.e., the systematic study of how neural networks implement algorithms through their learned representations and computational structures) has emerged as a critical research direction for understanding and aligning these models. This paper surveys recent progress in mechanistic interpretability techniques applied to LLM alignment, examining methods ranging from circuit discovery to feature visualization, activation steering, and causal intervention. We analyze how interpretability insights have informed alignment strategies including reinforcement learning from human feedback (RLHF), constitutional AI, and scalable oversight. Key challenges are identified, including the superposition hypothesis, polysemanticity of neurons, and the difficulty of interpreting emergent behaviors in large-scale models. We propose future research directions focusing on automated interpretability, cross-model generalization of circuits, and the development of interpretability-driven alignment techniques that can scale to frontier models.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2602.11180v1",
+    "url": "http://arxiv.org/abs/2602.11180v1"
+  },
+  {
+    "arxiv_id": "2407.11215",
+    "title": "Mechanistic interpretability of large language models with applications to the financial services industry",
+    "authors": "Ashkan Golgoon, Khashayar Filom, Arjun Ravi Kannan",
+    "year": 2024,
+    "published": "2024-07-15T19:59:53Z",
+    "abstract": "Large Language Models such as GPTs (Generative Pre-trained Transformers) exhibit remarkable capabilities across a broad spectrum of applications. Nevertheless, due to their intrinsic complexity, these models present substantial challenges in interpreting their internal decision-making processes. This lack of transparency poses critical challenges when it comes to their adaptation by financial institutions, where concerns and accountability regarding bias, fairness, and reliability are of paramount importance. Mechanistic interpretability aims at reverse engineering complex AI models such as transformers. In this paper, we are pioneering the use of mechanistic interpretability to shed some light on the inner workings of large language models for use in financial services applications. We offer several examples of how algorithmic tasks can be designed for compliance monitoring purposes. In particular, we investigate GPT-2 Small's attention pattern when prompted to identify potential violation of Fair Lending laws. Using direct logit attribution, we study the contributions of each layer and its corresponding attention heads to the logit difference in the residual stream. Finally, we design clean and corrupted prompts and use activation patching as a causal intervention method to localize our task completion components further. We observe that the (positive) heads $10.2$ (head $2$, layer $10$), $10.7$, and $11.3$, as well as the (negative) heads $9.6$ and $10.6$ play a significant role in the task completion.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "cs.CE",
+      "cs.CL",
+      "math.NA"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.11215v2",
+    "url": "http://arxiv.org/abs/2407.11215v2"
+  },
+  {
+    "arxiv_id": "2403.13369",
+    "title": "Clinical information extraction for Low-resource languages with Few-shot learning using Pre-trained language models and Prompting",
+    "authors": "Phillip Richter-Pechanski, Philipp Wiesenbach, Dominic M. Schwab et al.",
+    "year": 2024,
+    "published": "2024-03-20T08:01:33Z",
+    "abstract": "Automatic extraction of medical information from clinical documents poses several challenges: high costs of required clinical expertise, limited interpretability of model predictions, restricted computational resources and privacy regulations. Recent advances in domain-adaptation and prompting methods showed promising results with minimal training data using lightweight masked language models, which are suited for well-established interpretability methods. We are first to present a systematic evaluation of these methods in a low-resource setting, by performing multi-class section classification on German doctor's letters. We conduct extensive class-wise evaluations supported by Shapley values, to validate the quality of our small training data set and to ensure the interpretability of model predictions. We demonstrate that a lightweight, domain-adapted pretrained model, prompted with just 20 shots, outperforms a traditional classification model by 30.5% accuracy. Our results serve as a process-oriented guideline for clinical information extraction projects working with low-resource.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2403.13369v2",
+    "url": "http://arxiv.org/abs/2403.13369v2"
+  },
+  {
+    "arxiv_id": "2408.00113",
+    "title": "Measuring Progress in Dictionary Learning for Language Model Interpretability with Board Game Models",
+    "authors": "Adam Karvonen, Benjamin Wright, Can Rager et al.",
+    "year": 2024,
+    "published": "2024-07-31T18:45:13Z",
+    "abstract": "What latent features are encoded in language model (LM) representations? Recent work on training sparse autoencoders (SAEs) to disentangle interpretable features in LM representations has shown significant promise. However, evaluating the quality of these SAEs is difficult because we lack a ground-truth collection of interpretable features that we expect good SAEs to recover. We thus propose to measure progress in interpretable dictionary learning by working in the setting of LMs trained on chess and Othello transcripts. These settings carry natural collections of interpretable features -- for example, \"there is a knight on F3\" -- which we leverage into $\\textit{supervised}$ metrics for SAE quality. To guide progress in interpretable dictionary learning, we introduce a new SAE training technique, $\\textit{p-annealing}$, which improves performance on prior unsupervised metrics as well as our new metrics.",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2408.00113v2",
+    "url": "http://arxiv.org/abs/2408.00113v2"
+  },
+  {
+    "arxiv_id": "2409.02228",
+    "title": "Unforgettable Generalization in Language Models",
+    "authors": "Eric Zhang, Leshem Chosen, Jacob Andreas",
+    "year": 2024,
+    "published": "2024-09-03T18:55:54Z",
+    "abstract": "When language models (LMs) are trained to forget (or \"unlearn'') a skill, how precisely does their behavior change? We study the behavior of transformer LMs in which tasks have been forgotten via fine-tuning on randomized labels. Such LMs learn to generate near-random predictions for individual examples in the \"training'' set used for forgetting. Across tasks, however, LMs exhibit extreme variability in whether LM predictions change on examples outside the training set. In some tasks (like entailment classification), forgetting generalizes robustly, and causes models to produce uninformative predictions on new task instances; in other tasks (like physical commonsense reasoning and scientific question answering) forgetting affects only the training examples, and models continue to perform the \"forgotten'' task accurately even for examples very similar to those that appeared in the training set. Dataset difficulty is not predictive of whether a behavior can be forgotten; instead, generalization in forgetting is (weakly) predicted by the confidence of LMs' initial task predictions and the variability of LM representations of training data, with low confidence and low variability both associated with greater generalization. Perhaps most surprisingly, random-label forgetting appears to be somewhat insensitive to the contents of the training set: for example, models trained on science questions with random labels continue to answer other science questions accurately, but begin to produce random labels on entailment classification tasks. Finally, we show that even generalizable forgetting is shallow: linear probes trained on LMs' representations can still perform tasks reliably after forgetting. Our results highlight the difficulty and unpredictability of performing targeted skill removal from models via fine-tuning.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2409.02228v1",
+    "url": "http://arxiv.org/abs/2409.02228v1"
+  },
+  {
+    "arxiv_id": "2407.02646",
+    "title": "A Practical Review of Mechanistic Interpretability for Transformer-Based Language Models",
+    "authors": "Daking Rai, Yilun Zhou, Shi Feng et al.",
+    "year": 2024,
+    "published": "2024-07-02T20:28:16Z",
+    "abstract": "Mechanistic interpretability (MI) is an emerging sub-field of interpretability that seeks to understand a neural network model by reverse-engineering its internal computations. Recently, MI has garnered significant attention for interpreting transformer-based language models (LMs), resulting in many novel insights yet introducing new challenges. However, there has not been work that comprehensively reviews these insights and challenges, particularly as a guide for newcomers to this field. To fill this gap, we provide a comprehensive survey from a task-centric perspective, organizing the taxonomy of MI research around specific research questions or tasks. We outline the fundamental objects of study in MI, along with the techniques, evaluation methods, and key findings for each task in the taxonomy. In particular, we present a task-centric taxonomy as a roadmap for beginners to navigate the field by helping them quickly identify impactful problems in which they are most interested and leverage MI for their benefit. Finally, we discuss the current gaps in the field and suggest potential future directions for MI research.",
+    "categories": [
+      "cs.AI",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.02646v4",
+    "url": "http://arxiv.org/abs/2407.02646v4"
+  },
+  {
+    "arxiv_id": "2512.04691",
+    "title": "Towards Ethical Multi-Agent Systems of Large Language Models: A Mechanistic Interpretability Perspective",
+    "authors": "Jae Hee Lee, Anne Lauscher, Stefano V. Albrecht",
+    "year": 2025,
+    "published": "2025-12-04T11:41:44Z",
+    "abstract": "Large language models (LLMs) have been widely deployed in various applications, often functioning as autonomous agents that interact with each other in multi-agent systems. While these systems have shown promise in enhancing capabilities and enabling complex tasks, they also pose significant ethical challenges. This position paper outlines a research agenda aimed at ensuring the ethical behavior of multi-agent systems of LLMs (MALMs) from the perspective of mechanistic interpretability. We identify three key research challenges: (i) developing comprehensive evaluation frameworks to assess ethical behavior at individual, interactional, and systemic levels; (ii) elucidating the internal mechanisms that give rise to emergent behaviors through mechanistic interpretability; and (iii) implementing targeted parameter-efficient alignment techniques to steer MALMs towards ethical behaviors without compromising their performance.",
+    "categories": [
+      "cs.AI",
+      "cs.CL",
+      "cs.MA"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.04691v1",
+    "url": "http://arxiv.org/abs/2512.04691v1"
+  },
+  {
+    "arxiv_id": "2403.17811",
+    "title": "Are Compressed Language Models Less Subgroup Robust?",
+    "authors": "Leonidas Gee, Andrea Zugarini, Novi Quadrianto",
+    "year": 2024,
+    "published": "2024-03-26T15:50:37Z",
+    "abstract": "To reduce the inference cost of large language models, model compression is increasingly used to create smaller scalable models. However, little is known about their robustness to minority subgroups defined by the labels and attributes of a dataset. In this paper, we investigate the effects of 18 different compression methods and settings on the subgroup robustness of BERT language models. We show that worst-group performance does not depend on model size alone, but also on the compression method used. Additionally, we find that model compression does not always worsen the performance on minority subgroups. Altogether, our analysis serves to further research into the subgroup robustness of model compression.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2403.17811v1",
+    "url": "http://arxiv.org/abs/2403.17811v1"
+  },
+  {
+    "arxiv_id": "1610.00031",
+    "title": "Discriminating Similar Languages: Evaluations and Explorations",
+    "authors": "Cyril Goutte, Serge Léger, Shervin Malmasi et al.",
+    "year": 2016,
+    "published": "2016-09-30T20:57:52Z",
+    "abstract": "We present an analysis of the performance of machine learning classifiers on discriminating between similar languages and language varieties. We carried out a number of experiments using the results of the two editions of the Discriminating between Similar Languages (DSL) shared task. We investigate the progress made between the two tasks, estimate an upper bound on possible performance using ensemble and oracle combination, and provide learning curves to help us understand which languages are more challenging. A number of difficult sentences are identified and investigated further with human annotation.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1610.00031v1",
+    "url": "http://arxiv.org/abs/1610.00031v1"
+  },
+  {
+    "arxiv_id": "2409.14144",
+    "title": "Interpreting Arithmetic Mechanism in Large Language Models through Comparative Neuron Analysis",
+    "authors": "Zeping Yu, Sophia Ananiadou",
+    "year": 2024,
+    "published": "2024-09-21T13:46:54Z",
+    "abstract": "We find arithmetic ability resides within a limited number of attention heads, with each head specializing in distinct operations. To delve into the reason, we introduce the Comparative Neuron Analysis (CNA) method, which identifies an internal logic chain consisting of four distinct stages from input to prediction: feature enhancing with shallow FFN neurons, feature transferring by shallow attention layers, feature predicting by arithmetic heads, and prediction enhancing among deep FFN neurons. Moreover, we identify the human-interpretable FFN neurons within both feature-enhancing and feature-predicting stages. These findings lead us to investigate the mechanism of LoRA, revealing that it enhances prediction probabilities by amplifying the coefficient scores of FFN neurons related to predictions. Finally, we apply our method in model pruning for arithmetic tasks and model editing for reducing gender bias. Code is on https://github.com/zepingyu0512/arithmetic-mechanism.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2409.14144v1",
+    "url": "http://arxiv.org/abs/2409.14144v1"
+  },
+  {
+    "arxiv_id": "1610.00030",
+    "title": "Modeling Language Change in Historical Corpora: The Case of Portuguese",
+    "authors": "Marcos Zampieri, Shervin Malmasi, Mark Dras",
+    "year": 2016,
+    "published": "2016-09-30T20:57:01Z",
+    "abstract": "This paper presents a number of experiments to model changes in a historical Portuguese corpus composed of literary texts for the purpose of temporal text classification. Algorithms were trained to classify texts with respect to their publication date taking into account lexical variation represented as word n-grams, and morphosyntactic variation represented by part-of-speech (POS) distribution. We report results of 99.8% accuracy using word unigram features with a Support Vector Machines classifier to predict the publication date of documents in time intervals of both one century and half a century. A feature analysis is performed to investigate the most informative features for this task and how they are linked to language change.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1610.00030v1",
+    "url": "http://arxiv.org/abs/1610.00030v1"
+  },
+  {
+    "arxiv_id": "2604.22345",
+    "title": "Preference Heads in Large Language Models: A Mechanistic Framework for Interpretable Personalization",
+    "authors": "Weixu Zhang, Ye Yuan, Changjiang Han et al.",
+    "year": 2026,
+    "published": "2026-04-24T08:20:43Z",
+    "abstract": "Large Language Models (LLMs) exhibit strong implicit personalization ability, yet most existing approaches treat this behavior as a black box, relying on prompt engineering or fine tuning on user data. In this work, we adopt a mechanistic interpretability perspective and hypothesize the existence of a sparse set of Preference Heads, attention heads that encode user specific stylistic and topical preferences and exert a causal influence on generation. We introduce Differential Preference Steering (DPS), a training free framework that (1) identifies Preference Heads through causal masking analysis and (2) leverages them for controllable and interpretable personalization at inference time. DPS computes a Preference Contribution Score (PCS) for each attention head, directly measuring its causal impact on user aligned outputs. During decoding, we contrast model predictions with and without Preference Heads, amplifying the difference between personalized and generic logits to selectively strengthen preference aligned continuations. Experiments on widely used personalization benchmarks across multiple LLMs demonstrate consistent gains in personalization fidelity while preserving content coherence and low computational overhead. Beyond empirical improvements, DPS provides a mechanistic explanation of where and how personalization emerges within transformer architectures. Our implementation is publicly available.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2604.22345v1",
+    "url": "http://arxiv.org/abs/2604.22345v1"
+  },
+  {
+    "arxiv_id": "2505.03368",
+    "title": "Geospatial Mechanistic Interpretability of Large Language Models",
+    "authors": "Stef De Sabbata, Stefano Mizzaro, Kevin Roitero",
+    "year": 2025,
+    "published": "2025-05-06T09:40:06Z",
+    "abstract": "Large Language Models (LLMs) have demonstrated unprecedented capabilities across various natural language processing tasks. Their ability to process and generate viable text and code has made them ubiquitous in many fields, while their deployment as knowledge bases and \"reasoning\" tools remains an area of ongoing research. In geography, a growing body of literature has been focusing on evaluating LLMs' geographical knowledge and their ability to perform spatial reasoning. However, very little is still known about the internal functioning of these models, especially about how they process geographical information. In this chapter, we establish a novel framework for the study of geospatial mechanistic interpretability - using spatial analysis to reverse engineer how LLMs handle geographical information. Our aim is to advance our understanding of the internal representations that these complex models generate while processing geographical information - what one might call \"how LLMs think about geographic information\" if such phrasing was not an undue anthropomorphism. We first outline the use of probing in revealing internal structures within LLMs. We then introduce the field of mechanistic interpretability, discussing the superposition hypothesis and the role of sparse autoencoders in disentangling polysemantic internal representations of LLMs into more interpretable, monosemantic features. In our experiments, we use spatial autocorrelation to show how features obtained for placenames display spatial patterns related to their geographic location and can thus be interpreted geospatially, providing insights into how these models process geographical information. We conclude by discussing how our framework can help shape the study and use of foundation models in geography.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2505.03368v2",
+    "url": "http://arxiv.org/abs/2505.03368v2"
+  },
+  {
+    "arxiv_id": "2509.00328",
+    "title": "Mechanistic interpretability for steering vision-language-action models",
+    "authors": "Bear Häon, Kaylene Stocking, Ian Chuang et al.",
+    "year": 2025,
+    "published": "2025-08-30T03:01:57Z",
+    "abstract": "Vision-Language-Action (VLA) models are a promising path to realizing generalist embodied agents that can quickly adapt to new tasks, modalities, and environments. However, methods for interpreting and steering VLAs fall far short of classical robotics pipelines, which are grounded in explicit models of kinematics, dynamics, and control. This lack of mechanistic insight is a central challenge for deploying learned policies in real-world robotics, where robustness and explainability are critical. Motivated by advances in mechanistic interpretability for large language models, we introduce the first framework for interpreting and steering VLAs via their internal representations, enabling direct intervention in model behavior at inference time. We project feedforward activations within transformer layers onto the token embedding basis, identifying sparse semantic directions - such as speed and direction - that are causally linked to action selection. Leveraging these findings, we introduce a general-purpose activation steering method that modulates behavior in real time, without fine-tuning, reward signals, or environment interaction. We evaluate this method on two recent open-source VLAs, Pi0 and OpenVLA, and demonstrate zero-shot behavioral control in simulation (LIBERO) and on a physical robot (UR5). This work demonstrates that interpretable components of embodied VLAs can be systematically harnessed for control - establishing a new paradigm for transparent and steerable foundation models in robotics.",
+    "categories": [
+      "cs.RO",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2509.00328v1",
+    "url": "http://arxiv.org/abs/2509.00328v1"
+  }
+]

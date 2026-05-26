@@ -1,0 +1,429 @@
+[
+  {
+    "arxiv_id": "2411.13282",
+    "title": "Combining Autoregressive and Autoencoder Language Models for Text Classification",
+    "authors": "João Gonçalves",
+    "year": 2024,
+    "published": "2024-11-20T12:49:42Z",
+    "abstract": "This paper presents CAALM-TC (Combining Autoregressive and Autoencoder Language Models for Text Classification), a novel method that enhances text classification by integrating autoregressive and autoencoder language models. Autoregressive large language models such as Open AI's GPT, Meta's Llama or Microsoft's Phi offer promising prospects for content analysis practitioners, but they generally underperform supervised BERT based models for text classification. CAALM leverages autoregressive models to generate contextual information based on input texts, which is then combined with the original text and fed into an autoencoder model for classification. This hybrid approach capitalizes on the extensive contextual knowledge of autoregressive models and the efficient classification capabilities of autoencoders. Experimental results on four benchmark datasets demonstrate that CAALM consistently outperforms existing methods, particularly in tasks with smaller datasets and more abstract classification objectives. The findings indicate that CAALM offers a scalable and effective solution for automated content analysis in social science research that minimizes sample size requirements.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2411.13282v2",
+    "url": "http://arxiv.org/abs/2411.13282v2"
+  },
+  {
+    "arxiv_id": "2410.08355",
+    "title": "Metalic: Meta-Learning In-Context with Protein Language Models",
+    "authors": "Jacob Beck, Shikha Surana, Manus McAuliffe et al.",
+    "year": 2024,
+    "published": "2024-10-10T20:19:35Z",
+    "abstract": "Predicting the biophysical and functional properties of proteins is essential for in silico protein design. Machine learning has emerged as a promising technique for such prediction tasks. However, the relative scarcity of in vitro annotations means that these models often have little, or no, specific data on the desired fitness prediction task. As a result of limited data, protein language models (PLMs) are typically trained on general protein sequence modeling tasks, and then fine-tuned, or applied zero-shot, to protein fitness prediction. When no task data is available, the models make strong assumptions about the correlation between the protein sequence likelihood and fitness scores. In contrast, we propose meta-learning over a distribution of standard fitness prediction tasks, and demonstrate positive transfer to unseen fitness prediction tasks. Our method, called Metalic (Meta-Learning In-Context), uses in-context learning and fine-tuning, when data is available, to adapt to new tasks. Crucially, fine-tuning enables considerable generalization, even though it is not accounted for during meta-training. Our fine-tuned models achieve strong results with 18 times fewer parameters than state-of-the-art models. Moreover, our method sets a new state-of-the-art in low-data settings on ProteinGym, an established fitness-prediction benchmark. Due to data scarcity, we believe meta-learning will play a pivotal role in advancing protein engineering.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2410.08355v3",
+    "url": "http://arxiv.org/abs/2410.08355v3"
+  },
+  {
+    "arxiv_id": "2207.07410",
+    "title": "AlphaFold predicts the most complex protein knot and composite protein knots",
+    "authors": "Maarten A. Brems, Robert Runkel, Todd O. Yeates et al.",
+    "year": 2022,
+    "published": "2022-07-15T11:38:45Z",
+    "abstract": "The computer artificial intelligence system AlphaFold has recently predicted previously unknown three-dimensional structures of thousands of proteins. Focusing on the subset with high-confidence scores, we algorithmically analyze these predictions for cases where the protein backbone exhibits rare topological complexity, i.e. knotting. Amongst others, we discovered a $7_1$-knot, the most topologically complex knot ever found in a protein, as well several 6-crossing composite knots comprised of two methyltransferase or carbonic anhydrase domains, each containing a simple trefoil knot. These deeply embedded composite knots occur evidently by gene duplication and interconnection of knotted dimers. Finally, we report two new five-crossing knots including the first $5_1$-knot. Our list of analyzed structures forms the basis for future experimental studies to confirm these novel knotted topologies and to explore their complex folding mechanisms.",
+    "categories": [
+      "q-bio.BM",
+      "cond-mat.soft",
+      "physics.bio-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2207.07410v1",
+    "url": "http://arxiv.org/abs/2207.07410v1"
+  },
+  {
+    "arxiv_id": "2201.07338",
+    "title": "Controllable Protein Design with Language Models",
+    "authors": "Noelia Ferruz, Birte Höcker",
+    "year": 2022,
+    "published": "2022-01-18T22:23:03Z",
+    "abstract": "The 21st century is presenting humankind with unprecedented environmental and medical challenges. The ability to design novel proteins tailored for specific purposes could transform our ability to respond timely to these issues. Recent advances in the field of artificial intelligence are now setting the stage to make this goal achievable. Protein sequences are inherently similar to natural languages: Amino acids arrange in a multitude of combinations to form structures that carry function, the same way as letters form words and sentences that carry meaning. Therefore, it is not surprising that throughout the history of Natural Language Processing (NLP), many of its techniques have been applied to protein research problems. In the last few years, we have witnessed revolutionary breakthroughs in the field of NLP. The implementation of Transformer pre-trained models has enabled text generation with human-like capabilities, including texts with specific properties such as style or subject. Motivated by its considerable success in NLP tasks, we expect dedicated Transformers to dominate custom protein sequence generation in the near future. Finetuning pre-trained models on protein families will enable the extension of their repertoires with novel sequences that could be highly divergent but still potentially functional. The combination of control tags such as cellular compartment or function will further enable the controllable design of novel protein functions. Moreover, recent model interpretability methods will allow us to open the 'black box' and thus enhance our understanding of folding principles. While early initiatives show the enormous potential of generative language models to design functional sequences, the field is still in its infancy. We believe that protein language models are a promising and largely unexplored field and discuss their foreseeable impact on protein design.",
+    "categories": [
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2201.07338v2",
+    "url": "http://arxiv.org/abs/2201.07338v2"
+  },
+  {
+    "arxiv_id": "2502.09135",
+    "title": "Interpreting and Steering Protein Language Models through Sparse Autoencoders",
+    "authors": "Edith Natalia Villegas Garcia, Alessio Ansuini",
+    "year": 2025,
+    "published": "2025-02-13T10:11:36Z",
+    "abstract": "The rapid advancements in transformer-based language models have revolutionized natural language processing, yet understanding the internal mechanisms of these models remains a significant challenge. This paper explores the application of sparse autoencoders (SAE) to interpret the internal representations of protein language models, specifically focusing on the ESM-2 8M parameter model. By performing a statistical analysis on each latent component's relevance to distinct protein annotations, we identify potential interpretations linked to various protein characteristics, including transmembrane regions, binding sites, and specialized motifs. We then leverage these insights to guide sequence generation, shortlisting the relevant latent components that can steer the model towards desired targets such as zinc finger domains. This work contributes to the emerging field of mechanistic interpretability in biological sequence models, offering new perspectives on model steering for sequence design.",
+    "categories": [
+      "cs.LG",
+      "q-bio.BM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2502.09135v1",
+    "url": "http://arxiv.org/abs/2502.09135v1"
+  },
+  {
+    "arxiv_id": "2506.01197",
+    "title": "Incorporating Hierarchical Semantics in Sparse Autoencoder Architectures",
+    "authors": "Mark Muchane, Sean Richardson, Kiho Park et al.",
+    "year": 2025,
+    "published": "2025-06-01T22:20:07Z",
+    "abstract": "Sparse dictionary learning (and, in particular, sparse autoencoders) attempts to learn a set of human-understandable concepts that can explain variation on an abstract space. A basic limitation of this approach is that it neither exploits nor represents the semantic relationships between the learned concepts. In this paper, we introduce a modified SAE architecture that explicitly models a semantic hierarchy of concepts. Application of this architecture to the internal representations of large language models shows both that semantic hierarchy can be learned, and that doing so improves both reconstruction and interpretability. Additionally, the architecture leads to significant improvements in computational efficiency.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.01197v1",
+    "url": "http://arxiv.org/abs/2506.01197v1"
+  },
+  {
+    "arxiv_id": "2504.06806",
+    "title": "Mass Balance Approximation of Unfolding Improves Potential-Like Methods for Protein Stability Predictions",
+    "authors": "Ivan Rossi, Guido Barducci, Tiziana Sanavia et al.",
+    "year": 2025,
+    "published": "2025-04-09T11:53:02Z",
+    "abstract": "The prediction of protein stability changes following single-point mutations plays a pivotal role in computational biology, particularly in areas like drug discovery, enzyme reengineering, and genetic disease analysis. Although deep-learning strategies have pushed the field forward, their use in standard workflows remains limited due to resource demands. Conversely, potential-like methods are fast, intuitive, and efficient. Yet, these typically estimate Gibbs free energy shifts without considering the free-energy variations in the unfolded protein state, an omission that may breach mass balance and diminish accuracy. This study shows that incorporating a mass-balance correction (MBC) to account for the unfolded state significantly enhances these methods. While many machine learning models partially model this balance, our analysis suggests that a refined representation of the unfolded state may improve the predictive performance.",
+    "categories": [
+      "q-bio.QM",
+      "cs.LG",
+      "physics.bio-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2504.06806v1",
+    "url": "http://arxiv.org/abs/2504.06806v1"
+  },
+  {
+    "arxiv_id": "2407.16375",
+    "title": "Ranking protein-protein models with large language models and graph neural networks",
+    "authors": "Xiaotong Xu, Alexandre M. J. J. Bonvin",
+    "year": 2024,
+    "published": "2024-07-23T10:51:35Z",
+    "abstract": "Protein-protein interactions (PPIs) are associated with various diseases, including cancer, infections, and neurodegenerative disorders. Obtaining three-dimensional structural information on these PPIs serves as a foundation to interfere with those or to guide drug design. Various strategies can be followed to model those complexes, all typically resulting in a large number of models. A challenging step in this process is the identification of good models (near-native PPI conformations) from the large pool of generated models. To address this challenge, we previously developed DeepRank-GNN-esm, a graph-based deep learning algorithm for ranking modelled PPI structures harnessing the power of protein language models. Here, we detail the use of our software with examples. DeepRank-GNN-esm is freely available at https://github.com/haddocking/DeepRank-GNN-esm",
+    "categories": [
+      "q-bio.BM",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2407.16375v1",
+    "url": "http://arxiv.org/abs/2407.16375v1"
+  },
+  {
+    "arxiv_id": "2509.05309",
+    "title": "ProtSAE: Disentangling and Interpreting Protein Language Models via Semantically-Guided Sparse Autoencoders",
+    "authors": "Xiangyu Liu, Haodi Lei, Yi Liu et al.",
+    "year": 2025,
+    "published": "2025-08-26T11:20:31Z",
+    "abstract": "Sparse Autoencoder (SAE) has emerged as a powerful tool for mechanistic interpretability of large language models. Recent works apply SAE to protein language models (PLMs), aiming to extract and analyze biologically meaningful features from their latent spaces. However, SAE suffers from semantic entanglement, where individual neurons often mix multiple nonlinear concepts, making it difficult to reliably interpret or manipulate model behaviors. In this paper, we propose a semantically-guided SAE, called ProtSAE. Unlike existing SAE which requires annotation datasets to filter and interpret activations, we guide semantic disentanglement during training using both annotation datasets and domain knowledge to mitigate the effects of entangled attributes. We design interpretability experiments showing that ProtSAE learns more biologically relevant and interpretable hidden features compared to previous methods. Performance analyses further demonstrate that ProtSAE maintains high reconstruction fidelity while achieving better results in interpretable probing. We also show the potential of ProtSAE in steering PLMs for downstream generation tasks.",
+    "categories": [
+      "q-bio.QM",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2509.05309v2",
+    "url": "http://arxiv.org/abs/2509.05309v2"
+  },
+  {
+    "arxiv_id": "2503.21676",
+    "title": "How do language models learn facts? Dynamics, curricula and hallucinations",
+    "authors": "Nicolas Zucchet, Jörg Bornschein, Stephanie Chan et al.",
+    "year": 2025,
+    "published": "2025-03-27T16:43:45Z",
+    "abstract": "Large language models accumulate vast knowledge during pre-training, yet the dynamics governing this acquisition remain poorly understood. This work investigates the learning dynamics of language models on a synthetic factual recall task, uncovering three key findings: First, language models learn in three phases, exhibiting a performance plateau before acquiring precise factual knowledge. Mechanistically, this plateau coincides with the formation of attention-based circuits that support recall. Second, the training data distribution significantly impacts learning dynamics, as imbalanced distributions lead to shorter plateaus. Finally, hallucinations emerge simultaneously with knowledge, and integrating new knowledge into the model through fine-tuning is challenging, as it quickly corrupts its existing parametric memories. Our results emphasize the importance of data distribution in knowledge acquisition and suggest novel data scheduling strategies to accelerate neural network training.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2503.21676v2",
+    "url": "http://arxiv.org/abs/2503.21676v2"
+  },
+  {
+    "arxiv_id": "2412.12101",
+    "title": "InterPLM: Discovering Interpretable Features in Protein Language Models via Sparse Autoencoders",
+    "authors": "Elana Simon, James Zou",
+    "year": 2024,
+    "published": "2024-11-13T18:51:21Z",
+    "abstract": "Protein language models (PLMs) have demonstrated remarkable success in protein modeling and design, yet their internal mechanisms for predicting structure and function remain poorly understood. Here we present a systematic approach to extract and analyze interpretable features from PLMs using sparse autoencoders (SAEs). By training SAEs on embeddings from the PLM ESM-2, we identify up to 2,548 human-interpretable latent features per layer that strongly correlate with up to 143 known biological concepts such as binding sites, structural motifs, and functional domains. In contrast, examining individual neurons in ESM-2 reveals up to 46 neurons per layer with clear conceptual alignment across 15 known concepts, suggesting that PLMs represent most concepts in superposition. Beyond capturing known annotations, we show that ESM-2 learns coherent concepts that do not map onto existing annotations and propose a pipeline using language models to automatically interpret novel latent features learned by the SAEs. As practical applications, we demonstrate how these latent features can fill in missing annotations in protein databases and enable targeted steering of protein sequence generation. Our results demonstrate that PLMs encode rich, interpretable representations of protein biology and we propose a systematic framework to extract and analyze these latent features. In the process, we recover both known biology and potentially new protein motifs. As community resources, we introduce InterPLM (interPLM.ai), an interactive visualization platform for exploring and analyzing learned PLM features, and release code for training and analysis at github.com/ElanaPearl/interPLM.",
+    "categories": [
+      "q-bio.BM",
+      "cs.AI",
+      "cs.LG",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2412.12101v1",
+    "url": "http://arxiv.org/abs/2412.12101v1"
+  },
+  {
+    "arxiv_id": "1708.03735",
+    "title": "Sparse Coding and Autoencoders",
+    "authors": "Akshay Rangamani, Anirbit Mukherjee, Amitabh Basu et al.",
+    "year": 2017,
+    "published": "2017-08-12T01:02:47Z",
+    "abstract": "In \"Dictionary Learning\" one tries to recover incoherent matrices $A^* \\in \\mathbb{R}^{n \\times h}$ (typically overcomplete and whose columns are assumed to be normalized) and sparse vectors $x^* \\in \\mathbb{R}^h$ with a small support of size $h^p$ for some $0 <p < 1$ while having access to observations $y \\in \\mathbb{R}^n$ where $y = A^*x^*$. In this work we undertake a rigorous analysis of whether gradient descent on the squared loss of an autoencoder can solve the dictionary learning problem. The \"Autoencoder\" architecture we consider is a $\\mathbb{R}^n \\rightarrow \\mathbb{R}^n$ mapping with a single ReLU activation layer of size $h$. Under very mild distributional assumptions on $x^*$, we prove that the norm of the expected gradient of the standard squared loss function is asymptotically (in sparse code dimension) negligible for all points in a small neighborhood of $A^*$. This is supported with experimental evidence using synthetic data. We also conduct experiments to suggest that $A^*$ is a local minimum. Along the way we prove that a layer of ReLU gates can be set up to automatically recover the support of the sparse codes. This property holds independent of the loss function. We believe that it could be of independent interest.",
+    "categories": [
+      "cs.LG",
+      "math.OC",
+      "stat.ML"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1708.03735v2",
+    "url": "http://arxiv.org/abs/1708.03735v2"
+  },
+  {
+    "arxiv_id": "2409.02228",
+    "title": "Unforgettable Generalization in Language Models",
+    "authors": "Eric Zhang, Leshem Chosen, Jacob Andreas",
+    "year": 2024,
+    "published": "2024-09-03T18:55:54Z",
+    "abstract": "When language models (LMs) are trained to forget (or \"unlearn'') a skill, how precisely does their behavior change? We study the behavior of transformer LMs in which tasks have been forgotten via fine-tuning on randomized labels. Such LMs learn to generate near-random predictions for individual examples in the \"training'' set used for forgetting. Across tasks, however, LMs exhibit extreme variability in whether LM predictions change on examples outside the training set. In some tasks (like entailment classification), forgetting generalizes robustly, and causes models to produce uninformative predictions on new task instances; in other tasks (like physical commonsense reasoning and scientific question answering) forgetting affects only the training examples, and models continue to perform the \"forgotten'' task accurately even for examples very similar to those that appeared in the training set. Dataset difficulty is not predictive of whether a behavior can be forgotten; instead, generalization in forgetting is (weakly) predicted by the confidence of LMs' initial task predictions and the variability of LM representations of training data, with low confidence and low variability both associated with greater generalization. Perhaps most surprisingly, random-label forgetting appears to be somewhat insensitive to the contents of the training set: for example, models trained on science questions with random labels continue to answer other science questions accurately, but begin to produce random labels on entailment classification tasks. Finally, we show that even generalizable forgetting is shallow: linear probes trained on LMs' representations can still perform tasks reliably after forgetting. Our results highlight the difficulty and unpredictability of performing targeted skill removal from models via fine-tuning.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2409.02228v1",
+    "url": "http://arxiv.org/abs/2409.02228v1"
+  },
+  {
+    "arxiv_id": "2403.17811",
+    "title": "Are Compressed Language Models Less Subgroup Robust?",
+    "authors": "Leonidas Gee, Andrea Zugarini, Novi Quadrianto",
+    "year": 2024,
+    "published": "2024-03-26T15:50:37Z",
+    "abstract": "To reduce the inference cost of large language models, model compression is increasingly used to create smaller scalable models. However, little is known about their robustness to minority subgroups defined by the labels and attributes of a dataset. In this paper, we investigate the effects of 18 different compression methods and settings on the subgroup robustness of BERT language models. We show that worst-group performance does not depend on model size alone, but also on the compression method used. Additionally, we find that model compression does not always worsen the performance on minority subgroups. Altogether, our analysis serves to further research into the subgroup robustness of model compression.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2403.17811v1",
+    "url": "http://arxiv.org/abs/2403.17811v1"
+  },
+  {
+    "arxiv_id": "1610.00031",
+    "title": "Discriminating Similar Languages: Evaluations and Explorations",
+    "authors": "Cyril Goutte, Serge Léger, Shervin Malmasi et al.",
+    "year": 2016,
+    "published": "2016-09-30T20:57:52Z",
+    "abstract": "We present an analysis of the performance of machine learning classifiers on discriminating between similar languages and language varieties. We carried out a number of experiments using the results of the two editions of the Discriminating between Similar Languages (DSL) shared task. We investigate the progress made between the two tasks, estimate an upper bound on possible performance using ensemble and oracle combination, and provide learning curves to help us understand which languages are more challenging. A number of difficult sentences are identified and investigated further with human annotation.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1610.00031v1",
+    "url": "http://arxiv.org/abs/1610.00031v1"
+  },
+  {
+    "arxiv_id": "2510.02734",
+    "title": "SAE-RNA: A Sparse Autoencoder Model for Interpreting RNA Language Model Representations",
+    "authors": "Taehan Kim, Sangdae Nam",
+    "year": 2025,
+    "published": "2025-10-03T05:34:59Z",
+    "abstract": "Deep learning, particularly with the advancement of Large Language Models, has transformed biomolecular modeling, with protein language models such as ESM inspiring emerging RNA language models such as RiNALMo. Recent work has begun applying sparse autoencoders (SAEs) to protein language model representations, exploring representation-level interpretability in biomolecular models. Here, we explore whether SAEs can provide interpretable feature decompositions of RNA language model representations, while also examining their limitations in this setting. We present SAE-RNA, interpretability model that analyzes RiNALMo representations and maps them to known human-level biological features. Rather than claiming definitive biological concept discovery, our study frames SAE-based analysis as a representation-level probe for characterizing how RNA language models organize biological information internally. More broadly, SAE-RNA provides a feature-level framework for comparing RNA groups and identifying sparse representation components associated with RNA family identity or structural context.",
+    "categories": [
+      "q-bio.BM",
+      "cs.AI",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2510.02734v2",
+    "url": "http://arxiv.org/abs/2510.02734v2"
+  },
+  {
+    "arxiv_id": "1610.00030",
+    "title": "Modeling Language Change in Historical Corpora: The Case of Portuguese",
+    "authors": "Marcos Zampieri, Shervin Malmasi, Mark Dras",
+    "year": 2016,
+    "published": "2016-09-30T20:57:01Z",
+    "abstract": "This paper presents a number of experiments to model changes in a historical Portuguese corpus composed of literary texts for the purpose of temporal text classification. Algorithms were trained to classify texts with respect to their publication date taking into account lexical variation represented as word n-grams, and morphosyntactic variation represented by part-of-speech (POS) distribution. We report results of 99.8% accuracy using word unigram features with a Support Vector Machines classifier to predict the publication date of documents in time intervals of both one century and half a century. A feature analysis is performed to investigate the most informative features for this task and how they are linked to language change.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1610.00030v1",
+    "url": "http://arxiv.org/abs/1610.00030v1"
+  },
+  {
+    "arxiv_id": "2204.09486",
+    "title": "Graph neural networks and attention-based CNN-LSTM for protein classification",
+    "authors": "Zhuangwei Shi, Bo Li",
+    "year": 2022,
+    "published": "2022-04-20T14:34:29Z",
+    "abstract": "This paper focuses on three critical problems on protein classification. Firstly, Carbohydrate-active enzyme (CAZyme) classification can help people to understand the properties of enzymes. However, one CAZyme may belong to several classes. This leads to Multi-label CAZyme classification. Secondly, to capture information from the secondary structure of protein, protein classification is modeled as graph classification problem. Thirdly, compound-protein interactions prediction employs graph learning for compound with sequential embedding for protein. This can be seen as classification task for compound-protein pairs. This paper proposes three models for protein classification. Firstly, this paper proposes a Multi-label CAZyme classification model using CNN-LSTM with Attention mechanism. Secondly, this paper proposes a variational graph autoencoder based subspace learning model for protein graph classification. Thirdly, this paper proposes graph isomorphism networks (GIN) and Attention-based CNN-LSTM for compound-protein interactions prediction, as well as comparing GIN with graph convolution networks (GCN) and graph attention networks (GAT) in this task. The proposed models are effective for protein classification. Source code and data are available at https://github.com/zshicode/GNN-AttCL-protein. Besides, this repository collects and collates the benchmark datasets with respect to above problems, including CAZyme classification, enzyme protein graph classification, compound-protein interactions prediction, drug-target affinities prediction and drug-drug interactions prediction. Hence, the usage for evaluation by benchmark datasets can be more conveniently.",
+    "categories": [
+      "q-bio.BM",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2204.09486v2",
+    "url": "http://arxiv.org/abs/2204.09486v2"
+  },
+  {
+    "arxiv_id": "1711.10540",
+    "title": "ISLAND: In-Silico Prediction of Proteins Binding Affinity Using Sequence Descriptors",
+    "authors": "Wajid Arshad Abbasi, Fahad Ul Hassan, Adiba Yaseen et al.",
+    "year": 2017,
+    "published": "2017-11-22T07:54:31Z",
+    "abstract": "Determination of binding affinity of proteins in the formation of protein complexes requires sophisticated, expensive and time-consuming experimentation which can be replaced with computational methods. Most computational prediction techniques require protein structures which limit their applicability to protein complexes with known structures. In this work, we explore sequence based protein binding affinity prediction using machine learning. Our paper highlights the fact that the generalization performance of even the state of the art sequence-only predictor of binding affinity is far from satisfactory and that the development of effective and practical methods in this domain is still an open problem. We also propose a novel sequence-only predictor of binding affinity called ISLAND which gives better accuracy than existing methods over the same validation set as well as on external independent test dataset. A cloud-based webserver implementation of ISLAND and its Python code are available at the URL: http://faculty.pieas.edu.pk/fayyaz/software.html#island.",
+    "categories": [
+      "q-bio.QM",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1711.10540v2",
+    "url": "http://arxiv.org/abs/1711.10540v2"
+  },
+  {
+    "arxiv_id": "1908.11739",
+    "title": "A Continuous Effective Model of the Protein Dynamics",
+    "authors": "Dmitry Melnikov, Alyson B. F. Neves",
+    "year": 2019,
+    "published": "2019-08-30T13:48:18Z",
+    "abstract": "The theory of elastic rods can be used to describe certain geometric and topological properties of the DNA molecules. A similar effective field theory approach was previously suggested to describe the conformations and dynamics of proteins. In this letter we report a detailed study of the basic features of a version of the proposed model, which assumes proteins to be very long continuous curves. In the most appealing case, the model is based on a potential with a pair of minima corresponding to helical and strand-like configurations of the curves. It allows to derive several predictions about the geometric features of the molecules, and we show that the predictions are compatible with the phenomenology. While the helices represent the ground state configurations, the abundance of beta strands is controlled by a parameter, which can either completely suppress their presence in a molecule, or make them abundant. The few-parameter model investigated in the letter rather represents a universality class of protein molecules. Generalizations accounting for the discrete nature and inhomogeneity of the molecules presumably allow to model realistic cases.",
+    "categories": [
+      "q-bio.BM",
+      "cond-mat.soft",
+      "hep-ph",
+      "hep-th",
+      "physics.bio-ph"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1908.11739v1",
+    "url": "http://arxiv.org/abs/1908.11739v1"
+  },
+  {
+    "arxiv_id": "1501.03191",
+    "title": "Annotating Cognates and Etymological Origin in Turkic Languages",
+    "authors": "Benjamin S. Mericli, Michael Bloodgood",
+    "year": 2015,
+    "published": "2015-01-13T22:14:57Z",
+    "abstract": "Turkic languages exhibit extensive and diverse etymological relationships among lexical items. These relationships make the Turkic languages promising for exploring automated translation lexicon induction by leveraging cognate and other etymological information. However, due to the extent and diversity of the types of relationships between words, it is not clear how to annotate such information. In this paper, we present a methodology for annotating cognates and etymological origin in Turkic languages. Our method strives to balance the amount of research effort the annotator expends with the utility of the annotations for supporting research on improving automated translation lexicon induction.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1501.03191v1",
+    "url": "http://arxiv.org/abs/1501.03191v1"
+  },
+  {
+    "arxiv_id": "2403.13369",
+    "title": "Clinical information extraction for Low-resource languages with Few-shot learning using Pre-trained language models and Prompting",
+    "authors": "Phillip Richter-Pechanski, Philipp Wiesenbach, Dominic M. Schwab et al.",
+    "year": 2024,
+    "published": "2024-03-20T08:01:33Z",
+    "abstract": "Automatic extraction of medical information from clinical documents poses several challenges: high costs of required clinical expertise, limited interpretability of model predictions, restricted computational resources and privacy regulations. Recent advances in domain-adaptation and prompting methods showed promising results with minimal training data using lightweight masked language models, which are suited for well-established interpretability methods. We are first to present a systematic evaluation of these methods in a low-resource setting, by performing multi-class section classification on German doctor's letters. We conduct extensive class-wise evaluations supported by Shapley values, to validate the quality of our small training data set and to ensure the interpretability of model predictions. We demonstrate that a lightweight, domain-adapted pretrained model, prompted with just 20 shots, outperforms a traditional classification model by 30.5% accuracy. Our results serve as a process-oriented guideline for clinical information extraction projects working with low-resource.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2403.13369v2",
+    "url": "http://arxiv.org/abs/2403.13369v2"
+  },
+  {
+    "arxiv_id": "2508.18567",
+    "title": "Sparse Autoencoders for Low-$N$ Protein Function Prediction and Design",
+    "authors": "Darin Tsui, Kunal Talreja, Amirali Aghazadeh",
+    "year": 2025,
+    "published": "2025-08-25T23:56:39Z",
+    "abstract": "Predicting protein function from amino acid sequence remains a central challenge in data-scarce (low-$N$) regimes, limiting machine learning-guided protein design when only small amounts of assay-labeled sequence-function data are available. Protein language models (pLMs) have advanced the field by providing evolutionary-informed embeddings and sparse autoencoders (SAEs) have enabled decomposition of these embeddings into interpretable latent variables that capture structural and functional features. However, the effectiveness of SAEs for low-$N$ function prediction and protein design has not been systematically studied. Herein, we evaluate SAEs trained on fine-tuned ESM2 embeddings across diverse fitness extrapolation and protein engineering tasks. We show that SAEs, with as few as 24 sequences, consistently outperform or compete with their ESM2 baselines in fitness prediction, indicating that their sparse latent space encodes compact and biologically meaningful representations that generalize more effectively from limited data. Moreover, steering predictive latents exploits biological motifs in pLM representations, yielding top-fitness variants in 83% of cases compared to designing with ESM2 alone.",
+    "categories": [
+      "cs.LG",
+      "q-bio.QM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2508.18567v1",
+    "url": "http://arxiv.org/abs/2508.18567v1"
+  },
+  {
+    "arxiv_id": "2603.27043",
+    "title": "Introducing MELI: the Mandarin-English Language Interview Corpus",
+    "authors": "Suyuan Liu, Molly Babel",
+    "year": 2026,
+    "published": "2026-03-27T23:15:30Z",
+    "abstract": "We introduce the Mandarin-English Language Interview (MELI) Corpus, an open-source resource of 29.8 hours of speech from 51 Mandarin-English bilingual speakers. MELI combines matched sessions in Mandarin and English with two speaking styles: read sentences and spontaneous interviews about language varieties, standardness, and learning experiences. Audio was recorded at 44.1 kHz (16-bit, stereo). Interviews were fully transcribed, force-aligned at word and phone levels, and anonymized. Descriptively, the Mandarin component totals ~14.7 hours (mean duration 17.3 minutes) and the English component ~15.1 hours (mean duration 17.8 minutes). We report token/type statistics for each language and document code-switching patterns (frequent in Mandarin sessions; more limited in English sessions). The corpus design supports within-/cross-speaker, within/cross-language acoustic comparison and links acoustics to speakers' stated language attitudes, enabling both quantitative and qualitative analyses. The MELI Corpus will be released with transcriptions, alignments, metadata, scans of labelled maps and documentation under a CC BY-NC 4.0 license.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.27043v2",
+    "url": "http://arxiv.org/abs/2603.27043v2"
+  },
+  {
+    "arxiv_id": "2208.00173",
+    "title": "A Survey on Masked Autoencoder for Self-supervised Learning in Vision and Beyond",
+    "authors": "Chaoning Zhang, Chenshuang Zhang, Junha Song et al.",
+    "year": 2022,
+    "published": "2022-07-30T09:59:28Z",
+    "abstract": "Masked autoencoders are scalable vision learners, as the title of MAE \\cite{he2022masked}, which suggests that self-supervised learning (SSL) in vision might undertake a similar trajectory as in NLP. Specifically, generative pretext tasks with the masked prediction (e.g., BERT) have become a de facto standard SSL practice in NLP. By contrast, early attempts at generative methods in vision have been buried by their discriminative counterparts (like contrastive learning); however, the success of mask image modeling has revived the masking autoencoder (often termed denoising autoencoder in the past). As a milestone to bridge the gap with BERT in NLP, masked autoencoder has attracted unprecedented attention for SSL in vision and beyond. This work conducts a comprehensive survey of masked autoencoders to shed insight on a promising direction of SSL. As the first to review SSL with masked autoencoders, this work focuses on its application in vision by discussing its historical developments, recent progress, and implications for diverse applications.",
+    "categories": [
+      "cs.CV",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2208.00173v1",
+    "url": "http://arxiv.org/abs/2208.00173v1"
+  },
+  {
+    "arxiv_id": "2402.09977",
+    "title": "Fast Vocabulary Transfer for Language Model Compression",
+    "authors": "Leonidas Gee, Andrea Zugarini, Leonardo Rigutini et al.",
+    "year": 2024,
+    "published": "2024-02-15T14:37:07Z",
+    "abstract": "Real-world business applications require a trade-off between language model performance and size. We propose a new method for model compression that relies on vocabulary transfer. We evaluate the method on various vertical domains and downstream tasks. Our results indicate that vocabulary transfer can be effectively used in combination with other compression techniques, yielding a significant reduction in model size and inference time while marginally compromising on performance.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2402.09977v1",
+    "url": "http://arxiv.org/abs/2402.09977v1"
+  },
+  {
+    "arxiv_id": "2402.15010",
+    "title": "How Important Is Tokenization in French Medical Masked Language Models?",
+    "authors": "Yanis Labrak, Adrien Bazoge, Beatrice Daille et al.",
+    "year": 2024,
+    "published": "2024-02-22T23:11:08Z",
+    "abstract": "Subword tokenization has become the prevailing standard in the field of natural language processing (NLP) over recent years, primarily due to the widespread utilization of pre-trained language models. This shift began with Byte-Pair Encoding (BPE) and was later followed by the adoption of SentencePiece and WordPiece. While subword tokenization consistently outperforms character and word-level tokenization, the precise factors contributing to its success remain unclear. Key aspects such as the optimal segmentation granularity for diverse tasks and languages, the influence of data sources on tokenizers, and the role of morphological information in Indo-European languages remain insufficiently explored. This is particularly pertinent for biomedical terminology, characterized by specific rules governing morpheme combinations. Despite the agglutinative nature of biomedical terminology, existing language models do not explicitly incorporate this knowledge, leading to inconsistent tokenization strategies for common terms. In this paper, we seek to delve into the complexities of subword tokenization in French biomedical domain across a variety of NLP tasks and pinpoint areas where further enhancements can be made. We analyze classical tokenization algorithms, including BPE and SentencePiece, and introduce an original tokenization strategy that integrates morpheme-enriched word segmentation into existing tokenization methods.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2402.15010v2",
+    "url": "http://arxiv.org/abs/2402.15010v2"
+  },
+  {
+    "arxiv_id": "2603.15969",
+    "title": "Robust Language Identification for Romansh Varieties",
+    "authors": "Charlotte Model, Sina Ahmadi, Jannis Vamvas",
+    "year": 2026,
+    "published": "2026-03-16T22:42:10Z",
+    "abstract": "The Romansh language has several regional varieties, called idioms, which sometimes have limited mutual intelligibility. Despite this linguistic diversity, there has been a lack of documented efforts to build a language identification (LID) system that can distinguish between these idioms. Since Romansh LID should also be able to recognize Rumantsch Grischun, a supra-regional variety that combines elements of several idioms, this makes for a novel and interesting classification problem. In this paper, we present a LID system for Romansh idioms based on an SVM approach. We evaluate our model on a newly curated benchmark across two domains and find that it reaches an average in-domain accuracy of 97%, enabling applications such as idiom-aware spell checking or machine translation. Our classifier is publicly available.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.15969v2",
+    "url": "http://arxiv.org/abs/2603.15969v2"
+  },
+  {
+    "arxiv_id": "2310.14025",
+    "title": "Large Language Models and Multimodal Retrieval for Visual Word Sense Disambiguation",
+    "authors": "Anastasia Kritharoula, Maria Lymperaiou, Giorgos Stamou",
+    "year": 2023,
+    "published": "2023-10-21T14:35:42Z",
+    "abstract": "Visual Word Sense Disambiguation (VWSD) is a novel challenging task with the goal of retrieving an image among a set of candidates, which better represents the meaning of an ambiguous word within a given context. In this paper, we make a substantial step towards unveiling this interesting task by applying a varying set of approaches. Since VWSD is primarily a text-image retrieval task, we explore the latest transformer-based methods for multimodal retrieval. Additionally, we utilize Large Language Models (LLMs) as knowledge bases to enhance the given phrases and resolve ambiguity related to the target word. We also study VWSD as a unimodal problem by converting to text-to-text and image-to-image retrieval, as well as question-answering (QA), to fully explore the capabilities of relevant models. To tap into the implicit knowledge of LLMs, we experiment with Chain-of-Thought (CoT) prompting to guide explainable answer generation. On top of all, we train a learn to rank (LTR) model in order to combine our different modules, achieving competitive ranking results. Extensive experiments on VWSD demonstrate valuable insights to effectively drive future directions.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2310.14025v1",
+    "url": "http://arxiv.org/abs/2310.14025v1"
+  },
+  {
+    "arxiv_id": "2603.19028",
+    "title": "SEM: Sparse Embedding Modulation for Post-Hoc Debiasing of Vision-Language Models",
+    "authors": "Quentin Guimard, Federico Bartsch, Simone Caldarella et al.",
+    "year": 2026,
+    "published": "2026-03-19T15:28:08Z",
+    "abstract": "Models that bridge vision and language, such as CLIP, are key components of multimodal AI, yet their large-scale, uncurated training data introduce severe social and spurious biases. Existing post-hoc debiasing methods often operate directly in the dense CLIP embedding space, where bias and task-relevant information are highly entangled. This entanglement limits their ability to remove bias without degrading semantic fidelity. In this work, we propose Sparse Embedding Modulation (SEM), a post-hoc, zero-shot debiasing framework that operates in a Sparse Autoencoder (SAE) latent space. By decomposing CLIP text embeddings into disentangled features, SEM identifies and modulates bias-relevant neurons while preserving query-relevant ones. This enables more precise, non-linear interventions. Across four benchmark datasets and two CLIP backbones, SEM achieves substantial fairness gains in retrieval and zero-shot classification. Our results demonstrate that sparse latent representations provide an effective foundation for post-hoc debiasing of vision-language models.",
+    "categories": [
+      "cs.CV",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.19028v1",
+    "url": "http://arxiv.org/abs/2603.19028v1"
+  }
+]

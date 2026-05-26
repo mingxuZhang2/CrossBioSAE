@@ -1,0 +1,419 @@
+[
+  {
+    "arxiv_id": "2510.23802",
+    "title": "Learning Interpretable Features in Audio Latent Spaces via Sparse Autoencoders",
+    "authors": "Nathan Paek, Yongyi Zang, Qihui Yang et al.",
+    "year": 2025,
+    "published": "2025-10-27T19:35:39Z",
+    "abstract": "While sparse autoencoders (SAEs) successfully extract interpretable features from language models, applying them to audio generation faces unique challenges: audio's dense nature requires compression that obscures semantic meaning, and automatic feature characterization remains limited. We propose a framework for interpreting audio generative models by mapping their latent representations to human-interpretable acoustic concepts. We train SAEs on audio autoencoder latents, then learn linear mappings from SAE features to discretized acoustic properties (pitch, amplitude, and timbre). This enables both controllable manipulation and analysis of the AI music generation process, revealing how acoustic properties emerge during synthesis. We validate our approach on continuous (DiffRhythm-VAE) and discrete (EnCodec, WavTokenizer) audio latent spaces, and analyze DiffRhythm, a state-of-the-art text-to-music model, to demonstrate how pitch, timbre, and loudness evolve throughout generation. While our work is only done on audio modality, our framework can be extended to interpretable analysis of visual latent space generation models.",
+    "categories": [
+      "cs.LG",
+      "cs.SD"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2510.23802v1",
+    "url": "http://arxiv.org/abs/2510.23802v1"
+  },
+  {
+    "arxiv_id": "2511.09432",
+    "title": "Group Equivariance Meets Mechanistic Interpretability: Equivariant Sparse Autoencoders",
+    "authors": "Ege Erdogan, Ana Lucic",
+    "year": 2025,
+    "published": "2025-11-12T15:48:38Z",
+    "abstract": "Sparse autoencoders (SAEs) have proven useful in disentangling the opaque activations of neural networks, primarily large language models, into sets of interpretable features. However, adapting them to domains beyond language, such as scientific data with group symmetries, introduces challenges that can hinder their effectiveness. We show that incorporating such group symmetries into the SAEs yields features more useful in downstream tasks. More specifically, we train autoencoders on synthetic images and find that a single matrix can explain how their activations transform as the images are rotated. Building on this, we develop adaptively equivariant SAEs that can adapt to the base model's level of equivariance. These adaptive SAEs discover features that lead to superior probing performance compared to regular SAEs, demonstrating the value of incorporating symmetries in mechanistic interpretability tools.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2511.09432v1",
+    "url": "http://arxiv.org/abs/2511.09432v1"
+  },
+  {
+    "arxiv_id": "2509.23717",
+    "title": "Measuring Sparse Autoencoder Feature Sensitivity",
+    "authors": "Claire Tian, Katherine Tian, Nathan Hu",
+    "year": 2025,
+    "published": "2025-09-28T07:58:53Z",
+    "abstract": "Sparse Autoencoder (SAE) features have become essential tools for mechanistic interpretability research. SAE features are typically characterized by examining their activating examples, which are often \"monosemantic\" and align with human interpretable concepts. However, these examples don't reveal feature sensitivity: how reliably a feature activates on texts similar to its activating examples. In this work, we develop a scalable method to evaluate feature sensitivity. Our approach avoids the need to generate natural language descriptions for features; instead we use language models to generate text with the same semantic properties as a feature's activating examples. We then test whether the feature activates on these generated texts. We demonstrate that sensitivity measures a new facet of feature quality and find that many interpretable features have poor sensitivity. Human evaluation confirms that when features fail to activate on our generated text, that text genuinely resembles the original activating examples. Lastly, we study feature sensitivity at the SAE level and observe that average feature sensitivity declines with increasing SAE width across 7 SAE variants. Our work establishes feature sensitivity as a new dimension for evaluating both individual features and SAE architectures.",
+    "categories": [
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2509.23717v1",
+    "url": "http://arxiv.org/abs/2509.23717v1"
+  },
+  {
+    "arxiv_id": "2506.01197",
+    "title": "Incorporating Hierarchical Semantics in Sparse Autoencoder Architectures",
+    "authors": "Mark Muchane, Sean Richardson, Kiho Park et al.",
+    "year": 2025,
+    "published": "2025-06-01T22:20:07Z",
+    "abstract": "Sparse dictionary learning (and, in particular, sparse autoencoders) attempts to learn a set of human-understandable concepts that can explain variation on an abstract space. A basic limitation of this approach is that it neither exploits nor represents the semantic relationships between the learned concepts. In this paper, we introduce a modified SAE architecture that explicitly models a semantic hierarchy of concepts. Application of this architecture to the internal representations of large language models shows both that semantic hierarchy can be learned, and that doing so improves both reconstruction and interpretability. Additionally, the architecture leads to significant improvements in computational efficiency.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2506.01197v1",
+    "url": "http://arxiv.org/abs/2506.01197v1"
+  },
+  {
+    "arxiv_id": "1708.03735",
+    "title": "Sparse Coding and Autoencoders",
+    "authors": "Akshay Rangamani, Anirbit Mukherjee, Amitabh Basu et al.",
+    "year": 2017,
+    "published": "2017-08-12T01:02:47Z",
+    "abstract": "In \"Dictionary Learning\" one tries to recover incoherent matrices $A^* \\in \\mathbb{R}^{n \\times h}$ (typically overcomplete and whose columns are assumed to be normalized) and sparse vectors $x^* \\in \\mathbb{R}^h$ with a small support of size $h^p$ for some $0 <p < 1$ while having access to observations $y \\in \\mathbb{R}^n$ where $y = A^*x^*$. In this work we undertake a rigorous analysis of whether gradient descent on the squared loss of an autoencoder can solve the dictionary learning problem. The \"Autoencoder\" architecture we consider is a $\\mathbb{R}^n \\rightarrow \\mathbb{R}^n$ mapping with a single ReLU activation layer of size $h$. Under very mild distributional assumptions on $x^*$, we prove that the norm of the expected gradient of the standard squared loss function is asymptotically (in sparse code dimension) negligible for all points in a small neighborhood of $A^*$. This is supported with experimental evidence using synthetic data. We also conduct experiments to suggest that $A^*$ is a local minimum. Along the way we prove that a layer of ReLU gates can be set up to automatically recover the support of the sparse codes. This property holds independent of the loss function. We believe that it could be of independent interest.",
+    "categories": [
+      "cs.LG",
+      "math.OC",
+      "stat.ML"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/1708.03735v2",
+    "url": "http://arxiv.org/abs/1708.03735v2"
+  },
+  {
+    "arxiv_id": "2503.11232",
+    "title": "PrivacyScalpel: Enhancing LLM Privacy via Interpretable Feature Intervention with Sparse Autoencoders",
+    "authors": "Ahmed Frikha, Muhammad Reza Ar Razi, Krishna Kanth Nakka et al.",
+    "year": 2025,
+    "published": "2025-03-14T09:31:01Z",
+    "abstract": "Large Language Models (LLMs) have demonstrated remarkable capabilities in natural language processing but also pose significant privacy risks by memorizing and leaking Personally Identifiable Information (PII). Existing mitigation strategies, such as differential privacy and neuron-level interventions, often degrade model utility or fail to effectively prevent leakage. To address this challenge, we introduce PrivacyScalpel, a novel privacy-preserving framework that leverages LLM interpretability techniques to identify and mitigate PII leakage while maintaining performance. PrivacyScalpel comprises three key steps: (1) Feature Probing, which identifies layers in the model that encode PII-rich representations, (2) Sparse Autoencoding, where a k-Sparse Autoencoder (k-SAE) disentangles and isolates privacy-sensitive features, and (3) Feature-Level Interventions, which employ targeted ablation and vector steering to suppress PII leakage. Our empirical evaluation on Gemma2-2b and Llama2-7b, fine-tuned on the Enron dataset, shows that PrivacyScalpel significantly reduces email leakage from 5.15\\% to as low as 0.0\\%, while maintaining over 99.4\\% of the original model's utility. Notably, our method outperforms neuron-level interventions in privacy-utility trade-offs, demonstrating that acting on sparse, monosemantic features is more effective than manipulating polysemantic neurons. Beyond improving LLM privacy, our approach offers insights into the mechanisms underlying PII memorization, contributing to the broader field of model interpretability and secure AI deployment.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2503.11232v1",
+    "url": "http://arxiv.org/abs/2503.11232v1"
+  },
+  {
+    "arxiv_id": "2503.08200",
+    "title": "Route Sparse Autoencoder to Interpret Large Language Models",
+    "authors": "Wei Shi, Sihang Li, Tao Liang et al.",
+    "year": 2025,
+    "published": "2025-03-11T09:08:07Z",
+    "abstract": "Mechanistic interpretability of large language models (LLMs) aims to uncover the internal processes of information propagation and reasoning. Sparse autoencoders (SAEs) have demonstrated promise in this domain by extracting interpretable and monosemantic features. However, prior works primarily focus on feature extraction from a single layer, failing to effectively capture activations that span multiple layers. In this paper, we introduce Route Sparse Autoencoder (RouteSAE), a new framework that integrates a routing mechanism with a shared SAE to efficiently extract features from multiple layers. It dynamically assigns weights to activations from different layers, incurring minimal parameter overhead while achieving high interpretability and flexibility for targeted feature manipulation. We evaluate RouteSAE through extensive experiments on Llama-3.2-1B-Instruct. Specifically, under the same sparsity constraint of 64, RouteSAE extracts 22.5% more features than baseline SAEs while achieving a 22.3% higher interpretability score. These results underscore the potential of RouteSAE as a scalable and effective method for LLM interpretability, with applications in feature discovery and model intervention. Our codes are available at https://github.com/swei2001/RouteSAEs.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2503.08200v3",
+    "url": "http://arxiv.org/abs/2503.08200v3"
+  },
+  {
+    "arxiv_id": "2501.18823",
+    "title": "Transcoders Beat Sparse Autoencoders for Interpretability",
+    "authors": "Gonçalo Paulo, Stepan Shabalin, Nora Belrose",
+    "year": 2025,
+    "published": "2025-01-31T00:36:30Z",
+    "abstract": "Sparse autoencoders (SAEs) extract human-interpretable features from deep neural networks by transforming their activations into a sparse, higher dimensional latent space, and then reconstructing the activations from these latents. Transcoders are similar to SAEs, but they are trained to reconstruct the output of a component of a deep network given its input. In this work, we compare the features found by transcoders and SAEs trained on the same model and data, finding that transcoder features are significantly more interpretable. We also propose skip transcoders, which add an affine skip connection to the transcoder architecture, and show that these achieve lower reconstruction loss with no effect on interpretability.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2501.18823v2",
+    "url": "http://arxiv.org/abs/2501.18823v2"
+  },
+  {
+    "arxiv_id": "2309.08600",
+    "title": "Sparse Autoencoders Find Highly Interpretable Features in Language Models",
+    "authors": "Hoagy Cunningham, Aidan Ewart, Logan Riggs et al.",
+    "year": 2023,
+    "published": "2023-09-15T17:56:55Z",
+    "abstract": "One of the roadblocks to a better understanding of neural networks' internals is \\textit{polysemanticity}, where neurons appear to activate in multiple, semantically distinct contexts. Polysemanticity prevents us from identifying concise, human-understandable explanations for what neural networks are doing internally. One hypothesised cause of polysemanticity is \\textit{superposition}, where neural networks represent more features than they have neurons by assigning features to an overcomplete set of directions in activation space, rather than to individual neurons. Here, we attempt to identify those directions, using sparse autoencoders to reconstruct the internal activations of a language model. These autoencoders learn sets of sparsely activating features that are more interpretable and monosemantic than directions identified by alternative approaches, where interpretability is measured by automated methods. Moreover, we show that with our learned set of features, we can pinpoint the features that are causally responsible for counterfactual behaviour on the indirect object identification task \\citep{wang2022interpretability} to a finer degree than previous decompositions. This work indicates that it is possible to resolve superposition in language models using a scalable, unsupervised method. Our method may serve as a foundation for future mechanistic interpretability work, which we hope will enable greater model transparency and steerability.",
+    "categories": [
+      "cs.LG",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2309.08600v3",
+    "url": "http://arxiv.org/abs/2309.08600v3"
+  },
+  {
+    "arxiv_id": "2511.06048",
+    "title": "Visual Exploration of Feature Relationships in Sparse Autoencoders with Curated Concepts",
+    "authors": "Xinyuan Yan, Shusen Liu, Kowshik Thopalli et al.",
+    "year": 2025,
+    "published": "2025-11-08T15:36:57Z",
+    "abstract": "Sparse autoencoders (SAEs) have emerged as a powerful tool for uncovering interpretable features in large language models (LLMs) through the sparse directions they learn. However, the sheer number of extracted directions makes comprehensive exploration intractable. While conventional embedding techniques such as UMAP can reveal global structure, they suffer from limitations including high-dimensional compression artifacts, overplotting, and misleading neighborhood distortions. In this work, we propose a focused exploration framework that prioritizes curated concepts and their corresponding SAE features over attempts to visualize all available features simultaneously. We present an interactive visualization system that combines topology-based visual encoding with dimensionality reduction to faithfully represent both local and global relationships among selected features. This hybrid approach enables users to investigate SAE behavior through targeted, interpretable subsets, facilitating deeper and more nuanced analysis of concept representation in latent space.",
+    "categories": [
+      "cs.CL",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2511.06048v1",
+    "url": "http://arxiv.org/abs/2511.06048v1"
+  },
+  {
+    "arxiv_id": "2503.07050",
+    "title": "TIDE : Temporal-Aware Sparse Autoencoders for Interpretable Diffusion Transformers in Image Generation",
+    "authors": "Victor Shea-Jay Huang, Le Zhuo, Yi Xin et al.",
+    "year": 2025,
+    "published": "2025-03-10T08:35:51Z",
+    "abstract": "Diffusion Transformers (DiTs) are a powerful yet underexplored class of generative models compared to U-Net-based diffusion architectures. We propose TIDE-Temporal-aware sparse autoencoders for Interpretable Diffusion transformErs-a framework designed to extract sparse, interpretable activation features across timesteps in DiTs. TIDE effectively captures temporally-varying representations and reveals that DiTs naturally learn hierarchical semantics (e.g., 3D structure, object class, and fine-grained concepts) during large-scale pretraining. Experiments show that TIDE enhances interpretability and controllability while maintaining reasonable generation quality, enabling applications such as safe image editing and style transfer.",
+    "categories": [
+      "cs.CV",
+      "cs.AI",
+      "cs.MM"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2503.07050v2",
+    "url": "http://arxiv.org/abs/2503.07050v2"
+  },
+  {
+    "arxiv_id": "2508.08746",
+    "title": "Interpretable Reward Model via Sparse Autoencoder",
+    "authors": "Shuyi Zhang, Wei Shi, Sihang Li et al.",
+    "year": 2025,
+    "published": "2025-08-12T08:41:00Z",
+    "abstract": "Large language models (LLMs) have been widely deployed across numerous fields. Reinforcement Learning from Human Feedback (RLHF) leverages reward models (RMs) as proxies for human preferences to align LLM behaviors with human values, making the accuracy, reliability, and interpretability of RMs critical for effective alignment. However, traditional RMs lack interpretability, offer limited insight into the reasoning behind reward assignments, and are inflexible toward user preference shifts. While recent multidimensional RMs aim for improved interpretability, they often fail to provide feature-level attribution and require costly annotations. To overcome these limitations, we introduce the Sparse Autoencoder-enhanced Reward Model (SARM), a novel architecture that integrates a pretrained Sparse Autoencoder (SAE) into a reward model. SARM maps the hidden activations of LLM-based RM into an interpretable, sparse, and monosemantic feature space, from which a scalar head aggregates feature activations to produce transparent and conceptually meaningful reward scores. Empirical evaluations demonstrate that SARM facilitates direct feature-level attribution of reward assignments, allows dynamic adjustment to preference shifts, and achieves superior alignment performance compared to conventional reward models. Our code is available at https://github.com/schrieffer-z/sarm.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2508.08746v5",
+    "url": "http://arxiv.org/abs/2508.08746v5"
+  },
+  {
+    "arxiv_id": "2602.10437",
+    "title": "Control Reinforcement Learning: Interpretable Token-Level Steering of LLMs via Sparse Autoencoder Features",
+    "authors": "Seonglae Cho, Zekun Wu, Adriano Koshiyama",
+    "year": 2026,
+    "published": "2026-02-11T02:28:49Z",
+    "abstract": "Sparse autoencoders (SAEs) decompose language model activations into interpretable features, but existing methods reveal only which features activate, not which change model outputs when amplified. We introduce Control Reinforcement Learning (CRL), which trains a policy to select SAE features for steering at each token, producing interpretable intervention logs: the learned policy identifies features that change model outputs when amplified. Adaptive Feature Masking encourages diverse feature discovery while preserving singlefeature interpretability. The framework yields new analysis capabilities: branch point tracking locates tokens where feature choice determines output correctness; critic trajectory analysis separates policy limitations from value estimation errors; layer-wise comparison reveals syntactic features in early layers and semantic features in later layers. On Gemma 2 2B across MMLU, BBQ, GSM8K, HarmBench, and XSTest, CRL achieves improvements while providing per-token intervention logs. These results establish learned feature steering as a mechanistic interpretability tool that complements static feature analysis with dynamic intervention probes",
+    "categories": [
+      "cs.LG",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2602.10437v3",
+    "url": "http://arxiv.org/abs/2602.10437v3"
+  },
+  {
+    "arxiv_id": "2411.01220",
+    "title": "Enhancing Neural Network Interpretability with Feature-Aligned Sparse Autoencoders",
+    "authors": "Luke Marks, Alasdair Paren, David Krueger et al.",
+    "year": 2024,
+    "published": "2024-11-02T11:42:23Z",
+    "abstract": "Sparse Autoencoders (SAEs) have shown promise in improving the interpretability of neural network activations, but can learn features that are not features of the input, limiting their effectiveness. We propose \\textsc{Mutual Feature Regularization} \\textbf{(MFR)}, a regularization technique for improving feature learning by encouraging SAEs trained in parallel to learn similar features. We motivate \\textsc{MFR} by showing that features learned by multiple SAEs are more likely to correlate with features of the input. By training on synthetic data with known features of the input, we show that \\textsc{MFR} can help SAEs learn those features, as we can directly compare the features learned by the SAE with the input features for the synthetic data. We then scale \\textsc{MFR} to SAEs that are trained to denoise electroencephalography (EEG) data and SAEs that are trained to reconstruct GPT-2 Small activations. We show that \\textsc{MFR} can improve the reconstruction loss of SAEs by up to 21.21\\% on GPT-2 Small, and 6.67\\% on EEG data. Our results suggest that the similarity between features learned by different SAEs can be leveraged to improve SAE training, thereby enhancing performance and the usefulness of SAEs for model interpretability.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2411.01220v2",
+    "url": "http://arxiv.org/abs/2411.01220v2"
+  },
+  {
+    "arxiv_id": "2208.00173",
+    "title": "A Survey on Masked Autoencoder for Self-supervised Learning in Vision and Beyond",
+    "authors": "Chaoning Zhang, Chenshuang Zhang, Junha Song et al.",
+    "year": 2022,
+    "published": "2022-07-30T09:59:28Z",
+    "abstract": "Masked autoencoders are scalable vision learners, as the title of MAE \\cite{he2022masked}, which suggests that self-supervised learning (SSL) in vision might undertake a similar trajectory as in NLP. Specifically, generative pretext tasks with the masked prediction (e.g., BERT) have become a de facto standard SSL practice in NLP. By contrast, early attempts at generative methods in vision have been buried by their discriminative counterparts (like contrastive learning); however, the success of mask image modeling has revived the masking autoencoder (often termed denoising autoencoder in the past). As a milestone to bridge the gap with BERT in NLP, masked autoencoder has attracted unprecedented attention for SSL in vision and beyond. This work conducts a comprehensive survey of masked autoencoders to shed insight on a promising direction of SSL. As the first to review SSL with masked autoencoders, this work focuses on its application in vision by discussing its historical developments, recent progress, and implications for diverse applications.",
+    "categories": [
+      "cs.CV",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2208.00173v1",
+    "url": "http://arxiv.org/abs/2208.00173v1"
+  },
+  {
+    "arxiv_id": "2510.23749",
+    "title": "Re-envisioning Euclid Galaxy Morphology: Identifying and Interpreting Features with Sparse Autoencoders",
+    "authors": "John F. Wu, Michael Walmsley",
+    "year": 2025,
+    "published": "2025-10-27T18:28:56Z",
+    "abstract": "Sparse Autoencoders (SAEs) can efficiently identify candidate monosemantic features from pretrained neural networks for galaxy morphology. We demonstrate this on Euclid Q1 images using both supervised (Zoobot) and new self-supervised (MAE) models. Our publicly released MAE achieves superhuman image reconstruction performance. While a Principal Component Analysis (PCA) on the supervised model primarily identifies features already aligned with the Galaxy Zoo decision tree, SAEs can identify interpretable features outside of this framework. SAE features also show stronger alignment than PCA with Galaxy Zoo labels. Although challenges in interpretability remain, SAEs provide a powerful engine for discovering astrophysical phenomena beyond the confines of human-defined classification.",
+    "categories": [
+      "astro-ph.IM",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2510.23749v2",
+    "url": "http://arxiv.org/abs/2510.23749v2"
+  },
+  {
+    "arxiv_id": "2605.12874",
+    "title": "Descriptive Collision in Sparse Autoencoder Auto-Interpretability: When One Explanation Describes Many Features",
+    "authors": "Jordan F. McCann",
+    "year": 2026,
+    "published": "2026-05-13T01:41:38Z",
+    "abstract": "Sparse autoencoders (SAEs) are now standard tools for decomposing language model activations into interpretable features, and automated interpretability pipelines routinely assign each feature a short natural-language explanation. Existing critiques of this practice focus on polysemanticity -- one feature with many meanings -- or on whether explanations predict activations. We identify a complementary, structurally distinct problem we call descriptive collision: many distinct SAE features admit the same explanation. Reanalyzing the largest publicly-available dataset of human-annotated SAE features (Marks et al., 2025), comprising 722 annotated features across Gemma 2 2B and Pythia 70M, we find that the mean annotation string is reused across 3.07 features; 82.1% of features share their annotation with at least one other feature; and the single most common annotation string (\"plural nouns\") labels 101 distinct features spanning 18 layers and four model components. Information-theoretically, the average annotation resolves only 70% of feature identity. We formalize a property called discrimination, prove that current detection-style auto-interpretability scoring is invariant to collision, and propose two complementary corrective metrics -- collision-adjusted detection and discrimination scoring -- that explicitly penalize explanations that fail to distinguish a feature from its neighbors. The collision problem is independent of, and additive with, previously identified failure modes of auto-interpretability; ignoring it inflates reported feature interpretability by a quantity equal to roughly one-third of the bits required to identify a feature.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2605.12874v1",
+    "url": "http://arxiv.org/abs/2605.12874v1"
+  },
+  {
+    "arxiv_id": "2512.10805",
+    "title": "Interpretable and Steerable Concept Bottleneck Sparse Autoencoders",
+    "authors": "Akshay Kulkarni, Tsui-Wei Weng, Vivek Narayanaswamy et al.",
+    "year": 2025,
+    "published": "2025-12-11T16:48:07Z",
+    "abstract": "Sparse autoencoders (SAEs) promise a unified approach for mechanistic interpretability, concept discovery, and model steering in LLMs and LVLMs. However, realizing this potential requires learned features to be both interpretable and steerable. To that end, we introduce two new computationally inexpensive interpretability and steerability metrics for a systematic analysis of LVLM SAEs. This uncovers two observations; (i) a majority of SAE neurons exhibit either low interpretability or low steerability or both, rendering them ineffective for downstream use; and (ii) user-desired concepts are often absent in the SAE, thus limiting their practical utility. To address these limitations, we propose Concept Bottleneck Sparse Autoencoders (CB-SAE) - a novel post-hoc framework that prunes low-utility neurons and augments the latent space with a lightweight concept bottleneck aligned to a user-defined concept set. The resulting CB-SAE improves interpretability by +32.1% and steerability by +14.5% across LVLMs and image generation tasks.",
+    "categories": [
+      "cs.LG",
+      "cs.CV"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.10805v2",
+    "url": "http://arxiv.org/abs/2512.10805v2"
+  },
+  {
+    "arxiv_id": "2505.24360",
+    "title": "Interpreting Large Text-to-Image Diffusion Models with Dictionary Learning",
+    "authors": "Stepan Shabalin, Ayush Panda, Dmitrii Kharlapenko et al.",
+    "year": 2025,
+    "published": "2025-05-30T08:53:27Z",
+    "abstract": "Sparse autoencoders are a promising new approach for decomposing language model activations for interpretation and control. They have been applied successfully to vision transformer image encoders and to small-scale diffusion models. Inference-Time Decomposition of Activations (ITDA) is a recently proposed variant of dictionary learning that takes the dictionary to be a set of data points from the activation distribution and reconstructs them with gradient pursuit. We apply Sparse Autoencoders (SAEs) and ITDA to a large text-to-image diffusion model, Flux 1, and consider the interpretability of embeddings of both by introducing a visual automated interpretation pipeline. We find that SAEs accurately reconstruct residual stream embeddings and beat MLP neurons on interpretability. We are able to use SAE features to steer image generation through activation addition. We find that ITDA has comparable interpretability to SAEs.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2505.24360v3",
+    "url": "http://arxiv.org/abs/2505.24360v3"
+  },
+  {
+    "arxiv_id": "2406.17759",
+    "title": "Interpreting Attention Layer Outputs with Sparse Autoencoders",
+    "authors": "Connor Kissane, Robert Krzyzanowski, Joseph Isaac Bloom et al.",
+    "year": 2024,
+    "published": "2024-06-25T17:43:13Z",
+    "abstract": "Decomposing model activations into interpretable components is a key open problem in mechanistic interpretability. Sparse autoencoders (SAEs) are a popular method for decomposing the internal activations of trained transformers into sparse, interpretable features, and have been applied to MLP layers and the residual stream. In this work we train SAEs on attention layer outputs and show that also here SAEs find a sparse, interpretable decomposition. We demonstrate this on transformers from several model families and up to 2B parameters. We perform a qualitative study of the features computed by attention layers, and find multiple families: long-range context, short-range context and induction features. We qualitatively study the role of every head in GPT-2 Small, and estimate that at least 90% of the heads are polysemantic, i.e. have multiple unrelated roles. Further, we show that Sparse Autoencoders are a useful tool that enable researchers to explain model behavior in greater detail than prior work. For example, we explore the mystery of why models have so many seemingly redundant induction heads, use SAEs to motivate the hypothesis that some are long-prefix whereas others are short-prefix, and confirm this with more rigorous analysis. We use our SAEs to analyze the computation performed by the Indirect Object Identification circuit (Wang et al.), validating that the SAEs find causally meaningful intermediate variables, and deepening our understanding of the semantics of the circuit. We open-source the trained SAEs and a tool for exploring arbitrary prompts through the lens of Attention Output SAEs.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2406.17759v1",
+    "url": "http://arxiv.org/abs/2406.17759v1"
+  },
+  {
+    "arxiv_id": "2509.00691",
+    "title": "CE-Bench: Towards a Reliable Contrastive Evaluation Benchmark of Interpretability of Sparse Autoencoders",
+    "authors": "Alex Gulko, Yusen Peng, Sachin Kumar",
+    "year": 2025,
+    "published": "2025-08-31T04:17:16Z",
+    "abstract": "Sparse autoencoders (SAEs) are a promising approach for uncovering interpretable features in large language models (LLMs). While several automated evaluation methods exist for SAEs, most rely on external LLMs. In this work, we introduce CE-Bench, a novel and lightweight contrastive evaluation benchmark for sparse autoencoders, built on a curated dataset of contrastive story pairs. We conduct comprehensive evaluation studies to validate the effectiveness of our approach. Our results show that CE-Bench reliably measures the interpretability of sparse autoencoders and aligns well with existing benchmarks without requiring an external LLM judge, achieving over 70% Spearman correlation with results in SAEBench. The official implementation and evaluation dataset are open-sourced and publicly available.",
+    "categories": [
+      "cs.CL"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2509.00691v2",
+    "url": "http://arxiv.org/abs/2509.00691v2"
+  },
+  {
+    "arxiv_id": "2603.03031",
+    "title": "Step-Level Sparse Autoencoder for Reasoning Process Interpretation",
+    "authors": "Xuan Yang, Jiayu Liu, Yuhang Lai et al.",
+    "year": 2026,
+    "published": "2026-03-03T14:25:02Z",
+    "abstract": "Large Language Models (LLMs) have achieved strong complex reasoning capabilities through Chain-of-Thought (CoT) reasoning. However, their reasoning patterns remain too complicated to analyze. While Sparse Autoencoders (SAEs) have emerged as a powerful tool for interpretability, existing approaches predominantly operate at the token level, creating a granularity mismatch when capturing more critical step-level information, such as reasoning direction and semantic transitions. In this work, we propose step-level sparse autoencoder (SSAE), which serves as an analytical tool to disentangle different aspects of LLMs' reasoning steps into sparse features. Specifically, by precisely controlling the sparsity of a step feature conditioned on its context, we form an information bottleneck in step reconstruction, which splits incremental information from background information and disentangles it into several sparsely activated dimensions. Experiments on multiple base models and reasoning tasks show the effectiveness of the extracted features. By linear probing, we can easily predict surface-level information, such as generation length and first token distribution, as well as more complicated properties, such as the correctness and logicality of the step. These observations indicate that LLMs should already at least partly know about these properties during generation, which provides the foundation for the self-verification ability of LLMs. The code is available at https://github.com/Miaow-Lab/SSAE",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2603.03031v1",
+    "url": "http://arxiv.org/abs/2603.03031v1"
+  },
+  {
+    "arxiv_id": "2502.03714",
+    "title": "Universal Sparse Autoencoders: Interpretable Cross-Model Concept Alignment",
+    "authors": "Harrish Thasarathan, Julian Forsyth, Thomas Fel et al.",
+    "year": 2025,
+    "published": "2025-02-06T02:06:16Z",
+    "abstract": "We present Universal Sparse Autoencoders (USAEs), a framework for uncovering and aligning interpretable concepts spanning multiple pretrained deep neural networks. Unlike existing concept-based interpretability methods, which focus on a single model, USAEs jointly learn a universal concept space that can reconstruct and interpret the internal activations of multiple models at once. Our core insight is to train a single, overcomplete sparse autoencoder (SAE) that ingests activations from any model and decodes them to approximate the activations of any other model under consideration. By optimizing a shared objective, the learned dictionary captures common factors of variation-concepts-across different tasks, architectures, and datasets. We show that USAEs discover semantically coherent and important universal concepts across vision models; ranging from low-level features (e.g., colors and textures) to higher-level structures (e.g., parts and objects). Overall, USAEs provide a powerful new method for interpretable cross-model analysis and offers novel applications, such as coordinated activation maximization, that open avenues for deeper insights in multi-model AI systems",
+    "categories": [
+      "cs.CV",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2502.03714v2",
+    "url": "http://arxiv.org/abs/2502.03714v2"
+  },
+  {
+    "arxiv_id": "2512.13442",
+    "title": "XNNTab -- Interpretable Neural Networks for Tabular Data using Sparse Autoencoders",
+    "authors": "Khawla Elhadri, Jörg Schlötterer, Christin Seifert",
+    "year": 2025,
+    "published": "2025-12-15T15:39:59Z",
+    "abstract": "In data-driven applications relying on tabular data, where interpretability is key, machine learning models such as decision trees and linear regression are applied. Although neural networks can provide higher predictive performance, they are not used because of their blackbox nature. In this work, we present XNNTab, a neural architecture that combines the expressiveness of neural networks and interpretability. XNNTab first learns highly non-linear feature representations, which are decomposed into monosemantic features using a sparse autoencoder (SAE). These features are then assigned human-interpretable concepts, making the overall model prediction intrinsically interpretable. XNNTab outperforms interpretable predictive models, and achieves comparable performance to its non-interpretable counterparts.",
+    "categories": [
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2512.13442v3",
+    "url": "http://arxiv.org/abs/2512.13442v3"
+  },
+  {
+    "arxiv_id": "2504.08729",
+    "title": "Steering CLIP's vision transformer with sparse autoencoders",
+    "authors": "Sonia Joseph, Praneet Suresh, Ethan Goldfarb et al.",
+    "year": 2025,
+    "published": "2025-04-11T17:56:09Z",
+    "abstract": "While vision models are highly capable, their internal mechanisms remain poorly understood -- a challenge which sparse autoencoders (SAEs) have helped address in language, but which remains underexplored in vision. We address this gap by training SAEs on CLIP's vision transformer and uncover key differences between vision and language processing, including distinct sparsity patterns for SAEs trained across layers and token types. We then provide the first systematic analysis on the steerability of CLIP's vision transformer by introducing metrics to quantify how precisely SAE features can be steered to affect the model's output. We find that 10-15\\% of neurons and features are steerable, with SAEs providing thousands more steerable features than the base model. Through targeted suppression of SAE features, we then demonstrate improved performance on three vision disentanglement tasks (CelebA, Waterbirds, and typographic attacks), finding optimal disentanglement in middle model layers, and achieving state-of-the-art performance on defense against typographic attacks.",
+    "categories": [
+      "cs.CV",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2504.08729v1",
+    "url": "http://arxiv.org/abs/2504.08729v1"
+  },
+  {
+    "arxiv_id": "2410.03334",
+    "title": "An X-Ray Is Worth 15 Features: Sparse Autoencoders for Interpretable Radiology Report Generation",
+    "authors": "Ahmed Abdulaal, Hugo Fry, Nina Montaña-Brown et al.",
+    "year": 2024,
+    "published": "2024-10-04T11:40:21Z",
+    "abstract": "Radiological services are experiencing unprecedented demand, leading to increased interest in automating radiology report generation. Existing Vision-Language Models (VLMs) suffer from hallucinations, lack interpretability, and require expensive fine-tuning. We introduce SAE-Rad, which uses sparse autoencoders (SAEs) to decompose latent representations from a pre-trained vision transformer into human-interpretable features. Our hybrid architecture combines state-of-the-art SAE advancements, achieving accurate latent reconstructions while maintaining sparsity. Using an off-the-shelf language model, we distil ground-truth reports into radiological descriptions for each SAE feature, which we then compile into a full report for each image, eliminating the need for fine-tuning large models for this task. To the best of our knowledge, SAE-Rad represents the first instance of using mechanistic interpretability techniques explicitly for a downstream multi-modal reasoning task. On the MIMIC-CXR dataset, SAE-Rad achieves competitive radiology-specific metrics compared to state-of-the-art models while using significantly fewer computational resources for training. Qualitative analysis reveals that SAE-Rad learns meaningful visual concepts and generates reports aligning closely with expert interpretations. Our results suggest that SAEs can enhance multimodal reasoning in healthcare, providing a more interpretable alternative to existing VLMs.",
+    "categories": [
+      "cs.CV",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2410.03334v1",
+    "url": "http://arxiv.org/abs/2410.03334v1"
+  },
+  {
+    "arxiv_id": "2510.02734",
+    "title": "SAE-RNA: A Sparse Autoencoder Model for Interpreting RNA Language Model Representations",
+    "authors": "Taehan Kim, Sangdae Nam",
+    "year": 2025,
+    "published": "2025-10-03T05:34:59Z",
+    "abstract": "Deep learning, particularly with the advancement of Large Language Models, has transformed biomolecular modeling, with protein language models such as ESM inspiring emerging RNA language models such as RiNALMo. Recent work has begun applying sparse autoencoders (SAEs) to protein language model representations, exploring representation-level interpretability in biomolecular models. Here, we explore whether SAEs can provide interpretable feature decompositions of RNA language model representations, while also examining their limitations in this setting. We present SAE-RNA, interpretability model that analyzes RiNALMo representations and maps them to known human-level biological features. Rather than claiming definitive biological concept discovery, our study frames SAE-based analysis as a representation-level probe for characterizing how RNA language models organize biological information internally. More broadly, SAE-RNA provides a feature-level framework for comparing RNA groups and identifying sparse representation components associated with RNA family identity or structural context.",
+    "categories": [
+      "q-bio.BM",
+      "cs.AI",
+      "q-bio.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2510.02734v2",
+    "url": "http://arxiv.org/abs/2510.02734v2"
+  },
+  {
+    "arxiv_id": "2511.14465",
+    "title": "nnterp: A Standardized Interface for Mechanistic Interpretability of Transformers",
+    "authors": "Clément Dumas",
+    "year": 2025,
+    "published": "2025-11-18T13:05:02Z",
+    "abstract": "Mechanistic interpretability research requires reliable tools for analyzing transformer internals across diverse architectures. Current approaches face a fundamental tradeoff: custom implementations like TransformerLens ensure consistent interfaces but require coding a manual adaptation for each architecture, introducing numerical mismatch with the original models, while direct HuggingFace access through NNsight preserves exact behavior but lacks standardization across models. To bridge this gap, we develop nnterp, a lightweight wrapper around NNsight that provides a unified interface for transformer analysis while preserving original HuggingFace implementations. Through automatic module renaming and comprehensive validation testing, nnterp enables researchers to write intervention code once and deploy it across 50+ model variants spanning 16 architecture families. The library includes built-in implementations of common interpretability methods (logit lens, patchscope, activation steering) and provides direct access to attention probabilities for models that support it. By packaging validation tests with the library, researchers can verify compatibility with custom models locally. nnterp bridges the gap between correctness and usability in mechanistic interpretability tooling.",
+    "categories": [
+      "cs.LG",
+      "cs.AI"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2511.14465v2",
+    "url": "http://arxiv.org/abs/2511.14465v2"
+  },
+  {
+    "arxiv_id": "2412.02605",
+    "title": "Interpretable Company Similarity with Sparse Autoencoders",
+    "authors": "Marco Molinari, Victor Shao, Luca Imeneo et al.",
+    "year": 2024,
+    "published": "2024-12-03T17:34:50Z",
+    "abstract": "Determining company similarity is a vital task in finance, underpinning risk management, hedging, and portfolio diversification. Practitioners often rely on sector and industry classifications such as SIC and GICS codes to gauge similarity, the former being used by the U.S. Securities and Exchange Commission (SEC), and the latter widely used by the investment community. Since these classifications lack granularity and need regular updating, using clusters of embeddings of company descriptions has been proposed as a potential alternative, but the lack of interpretability in token embeddings poses a significant barrier to adoption in high-stakes contexts. Sparse Autoencoders (SAEs) have shown promise in enhancing the interpretability of Large Language Models (LLMs) by decomposing Large Language Model (LLM) activations into interpretable features. Moreover, SAEs capture an LLM's internal representation of a company description, as opposed to semantic similarity alone, as is the case with embeddings. We apply SAEs to company descriptions, and obtain meaningful clusters of equities. We benchmark SAE features against SIC-codes, Industry codes, and Embeddings. Our results demonstrate that SAE features surpass sector classifications and embeddings in capturing fundamental company characteristics. This is evidenced by their superior performance in correlating logged monthly returns - a proxy for similarity - and generating higher Sharpe ratios in co-integration trading strategies, which underscores deeper fundamental similarities among companies. Finally, we verify the interpretability of our clusters, and demonstrate that sparse features form simple and interpretable explanations for our clusters.",
+    "categories": [
+      "cs.CL",
+      "cs.LG",
+      "econ.GN"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2412.02605v3",
+    "url": "http://arxiv.org/abs/2412.02605v3"
+  },
+  {
+    "arxiv_id": "2511.05541",
+    "title": "Temporal Sparse Autoencoders: Leveraging the Sequential Nature of Language for Interpretability",
+    "authors": "Usha Bhalla, Alex Oesterling, Claudio Mayrink Verdun et al.",
+    "year": 2025,
+    "published": "2025-10-30T17:59:30Z",
+    "abstract": "Translating the internal representations and computations of models into concepts that humans can understand is a key goal of interpretability. While recent dictionary learning methods such as Sparse Autoencoders (SAEs) provide a promising route to discover human-interpretable features, they often only recover token-specific, noisy, or highly local concepts. We argue that this limitation stems from neglecting the temporal structure of language, where semantic content typically evolves smoothly over sequences. Building on this insight, we introduce Temporal Sparse Autoencoders (T-SAEs), which incorporate a novel contrastive loss encouraging consistent activations of high-level features over adjacent tokens. This simple yet powerful modification enables SAEs to disentangle semantic from syntactic features in a self-supervised manner. Across multiple datasets and models, T-SAEs recover smoother, more coherent semantic concepts without sacrificing reconstruction quality. Strikingly, they exhibit clear semantic structure despite being trained without explicit semantic signal, offering a new pathway for unsupervised interpretability in language models.",
+    "categories": [
+      "cs.CL",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "pdf_url": "https://arxiv.org/pdf/2511.05541v2",
+    "url": "http://arxiv.org/abs/2511.05541v2"
+  }
+]
