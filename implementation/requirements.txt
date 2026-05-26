@@ -1,0 +1,35 @@
+# CrossBioSAE: Cross-modal Sparse Autoencoder for Protein-DNA Feature Alignment
+# Core ML
+torch>=2.1.0
+transformers>=4.40.0
+einops>=0.7.0
+
+# Biological models
+fair-esm>=2.0.0        # ESM-2 (and ESM-C if available)
+# evo-model             # Evo-2 — install from source: pip install git+https://github.com/arcinstitute/evo.git
+
+# SAE reference
+sae-lens>=4.0.0
+
+# Data & Bio
+biopython>=1.80
+h5py>=3.10.0
+numpy>=1.24.0
+pandas>=1.5.0
+scipy>=1.10.0
+
+# Evaluation
+scikit-learn>=1.3.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Experiment tracking
+wandb>=0.16.0
+
+# Config management
+pyyaml>=6.0
+omegaconf>=2.3.0
+
+# Utilities
+tqdm>=4.65.0
+requests>=2.31.0
