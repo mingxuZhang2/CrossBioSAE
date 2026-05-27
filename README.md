@@ -2,143 +2,139 @@
 
 ## Overview
 
-CrossBioSAE trains a shared Sparse Autoencoder (SAE) that bridges a **protein language model** (ESM-2 650M) and a **DNA language model** (Nucleotide Transformer v2 500M) through learned adapters. It tests whether biologically meaningful concepts live in a shared feature space across modalities — and uses that shared space for downstream biological tasks.
+CrossBioSAE uses **Sparse Autoencoders (SAEs)** to test whether independently trained **protein** and **DNA** foundation models learn the same underlying biology. We train independent SAEs on ESM-2 (protein) and Nucleotide Transformer (DNA) activations, then measure post-hoc alignment — no cross-modal training signal needed.
+
+**Core finding**: Independently trained protein and DNA SAE features *are* alignable (CCA retrieval R@1 = 10.3%, 340× above chance), providing non-circular evidence that bio-FMs converge on shared biological representations.
 
 **Target venues**: Nature Communications / ICLR / NeurIPS
 
-## Architecture
+## Two Experimental Approaches
+
+### Approach 1: Independent SAEs + Post-hoc Alignment (addresses circular-evidence concern)
 
 ```
-DNA sequence  → NT v2 500M  → mean-pool → Adapter_DNA (linear) ──┐
-                                                                   ├→ Shared SAE → TopK sparse features → SAE decoder ─┬→ reconstruct DNA
-Protein seq   → ESM-2 650M  → mean-pool → Adapter_Prot (linear) ─┘                                                    └→ reconstruct Protein
+Protein sequences → ESM-2 650M → activations → Independent Protein-SAE → protein features ─┐
+                                                                                             ├→ CCA / Procrustes / Linear Probe
+DNA CDS sequences → NT v2 500M → activations → Independent DNA-SAE → DNA features ──────────┘
 ```
 
-Three training losses:
-1. **Reconstruction** (MSE): faithfully reconstruct both modalities
-2. **Sparsity** (TopK k=128): enforce sparse feature activations
-3. **Cross-modal consistency** (cosine): same gene should activate similar features from both modalities
+No shared parameters, no cross-modal loss. Alignment measured purely post-hoc.
+
+### Approach 2: Joint CrossBioSAE (shared feature space)
+
+```
+Protein activations → Adapter → Shared SAE (TopK=128, 32k features) → reconstruct protein
+DNA activations     → Adapter ↗                                      ↘ reconstruct DNA
+```
+
+Three losses: reconstruction + sparsity + cross-modal cosine consistency.
 
 ## Key Results
 
-### Cross-modal Alignment (16,604 human genes)
+### Independent Alignment (the core scientific result)
 
-| Metric | Value |
-|---|---|
-| Shared features | 202 / 32,768 |
-| Cross-modal similarity | 0.974 |
-| Z-score vs permutation | **204.7** |
-| P-value | 0.00 (underflow) |
+| Method | Retrieval R@1 | R@5 | MRR | Notes |
+|---|---|---|---|---|
+| Random baseline | 0.03% | 0.15% | — | chance level |
+| Independent SAEs + CCA | **10.3%** | **25.9%** | **0.188** | no cross-modal training |
+| Independent SAEs + Procrustes | 8.4% | 18.6% | 0.141 | orthogonal rotation only |
+| Joint CrossBioSAE + CCA | 14.3% | 32.4% | 0.239 | with cross-modal loss |
 
-ESM-2 and NT do converge on shared biological representations.
+**Interpretation**: ESM-2 and NT independently learn partially aligned representations. Joint training improves alignment but independent features already carry substantial cross-modal structure.
+
+### Cross-modal Alignment Metrics
+
+| Metric | Independent SAEs | Joint CrossBioSAE |
+|---|---|---|
+| CCA mean correlation | 0.581 | 0.627 |
+| Procrustes cosine sim | 0.083 | 0.101 |
+| Linear probe R² | 0.073–0.079 | 0.088–0.097 |
 
 ### Downstream Tasks
 
 **Task 1 — Variant Effect Prediction** (5,000 ClinVar variants):
 
-| Method | AUROC | AUPRC |
-|---|---|---|
-| ESM-2 LLR (protein only) | 0.851 | 0.990 |
-| CrossBioSAE feature disruption | 0.556 | 0.951 |
-| ESM-2 + NT ensemble (LR) | 0.854 | 0.990 |
+| Method | AUROC |
+|---|---|
+| ESM-2 LLR (per-residue, protein only) | 0.851 |
+| CrossBioSAE feature disruption (gene-level) | 0.556 |
+| ESM-2 + NT ensemble (logistic regression) | 0.854 |
 
-Cross-modal ensemble marginally improves over protein-only. Evo (Science 2024) integration pending for stronger DNA signal.
+Gene-level SAE features are too coarse for single-residue variant scoring. Per-residue SAE is planned as future work.
 
-**Task 2 — Gene Function Prediction**: 25,822 features labeled with GO terms via hypergeometric enrichment. Predictions for 16,620 genes.
+**Task 2 — Gene Function Prediction**: Features labeled with GO terms via hypergeometric enrichment + Benjamini-Hochberg FDR correction. Predictions for 16,620 genes.
 
-**Task 3 — Cross-modal Anomaly Detection**: Genes where protein and DNA models disagree most. Top anomalous: ZFR2 (consistency=0), RBMX, ZNF776. ZNF zinc-finger proteins are overrepresented — potentially because zinc finger domains are encoded differently at DNA vs protein level.
+**Task 3 — Cross-modal Anomaly Detection**: Genes where protein and DNA models disagree. Top anomalous: ZFR2, RBMX, ZNF776. ZNF zinc-finger proteins systematically overrepresented (Fisher's exact test per gene family).
 
 ## Data
 
-- **Genes**: 16,620 matched human protein/CDS pairs from UniProt + NCBI RefSeq
-- **Variants**: 50,000 ClinVar SNVs (26,841 pathogenic, 23,159 benign)
-- **GO annotations**: 16,039 genes, 227,648 GO term assignments from UniProt
-- **Models**: ESM-2 650M (protein, Facebook/Meta), NT v2 500M (DNA, InstaDeep)
+- **16,620 matched human genes** (protein from UniProt + CDS from NCBI RefSeq, translation-verified)
+- **50,000 ClinVar variants** (26,841 pathogenic, 23,159 benign)
+- **227,648 GO term assignments** for 16,039 genes
+- **Models**: ESM-2 650M (protein), Nucleotide Transformer v2 500M (DNA)
 
 ## Project Structure
 
 ```
-survey/                          # Stage 1: Literature survey (complete)
-  sae_bio_ideas.md               # 5 research ideas
-  sae_bio_gaps.md                # 12 identified gaps
-  landscape.md                   # LLM-for-bio research landscape
-  ...
-
-implementation/                  # Stage 2: Code (active)
+survey/                           # Stage 1: Literature survey
+implementation/                   # Stage 2: Code
   src/
-    model.py                     # CrossBioSAE architecture
-    data.py                      # Data pipeline + activation extraction
-    trainer.py                   # Training loop
-    evaluation.py                # All evaluation tasks
+    model.py                      # CrossBioSAE + StandardSAE architectures
+    data.py                       # Data pipeline + activation extraction
+    trainer.py                    # CrossBioSAETrainer + StandardSAETrainer
+    evaluation.py                 # Pilot eval, variant/function/anomaly tasks
+    alignment.py                  # Post-hoc alignment: CCA, Procrustes, LinearProbe, Retrieval
   scripts/
-    download_real_data.py        # Fetch gene pairs from UniProt + NCBI
-    download_clinvar.py          # Fetch ClinVar variants
-    download_go_annotations.py   # Fetch GO terms
-    extract_activations.py       # Extract ESM-2 / NT activations
-    train_sae.py                 # Train CrossBioSAE
-    run_pilot_eval.py            # Pilot feasibility check
-    run_downstream.py            # Downstream tasks
-    run_baselines.py             # Baseline comparisons
-    run_baselines_v3.py          # Cross-modal ensemble (ESM-2 + NT)
-    run_baselines_evo.py         # ESM-2 + Evo ensemble (pending)
-    prepare_variant_data.py      # Variant scoring pipeline
-    slurm_*.sh                   # HPC job scripts
+    train_sae.py                  # Train joint CrossBioSAE
+    train_independent_sae.py      # Train independent single-modality SAEs
+    run_alignment_benchmark.py    # Compare alignment methods
+    download_real_data.py         # Fetch verified gene pairs (UniProt + NCBI)
+    run_baselines*.py             # Variant prediction baselines
+    slurm_*.sh                    # HPC job scripts
   configs/
-    pilot.yaml                   # 1k genes, 16k features
-    full.yaml                    # 16k genes, 32k features
+    pilot.yaml                    # 1k genes, 16k features
+    full.yaml                     # 16k genes, 32k features
+    independent.yaml              # Independent SAE + alignment benchmark
 ```
 
-## Training
+## Quick Start
 
 ```bash
-# 1. Download data (requires internet)
-python scripts/download_real_data.py --n_genes 20000
-python scripts/download_clinvar.py
-python scripts/download_go_annotations.py
+# Independent SAE approach (recommended for scientific claims)
+python scripts/train_independent_sae.py --config configs/independent.yaml --modality protein --device cuda
+python scripts/train_independent_sae.py --config configs/independent.yaml --modality dna --device cuda
+python scripts/run_alignment_benchmark.py --config configs/independent.yaml \
+    --protein_sae_ckpt checkpoints/full/protein_sae/checkpoint_best.pt \
+    --dna_sae_ckpt checkpoints/full/dna_sae/checkpoint_best.pt --device cuda
 
-# 2. Extract activations (requires GPU)
-python scripts/extract_activations.py --config configs/full.yaml --modality both --device cuda
-
-# 3. Train SAE
+# Joint CrossBioSAE approach (for shared feature space)
 python scripts/train_sae.py --config configs/full.yaml --device cuda
-
-# 4. Evaluate
-python scripts/run_pilot_eval.py --config configs/full.yaml --checkpoint checkpoints/full/checkpoint_best.pt
-python scripts/run_downstream.py --config configs/full.yaml --checkpoint checkpoints/full/checkpoint_best.pt --task all
 ```
 
-## Key Hyperparameters
+## GPT Pro Review Response
 
-| Parameter | Value | Notes |
+An external review identified 10 concerns. Status after addressing:
+
+| # | Concern | Status |
 |---|---|---|
-| crossmodal_weight | 1.0 | Critical — 0.1 leads to no alignment |
-| crossmodal_warmup_steps | 200 | Ramp up alignment loss gradually |
-| expansion_factor | 16 | 32k features for 2048-dim shared space |
-| topk_k | 128 | Active features per sample |
-| learning_rate | 1e-4 | With cosine decay |
-| max_epochs | 200 | ~6400 steps for 16k genes |
+| 1 | Variant pipeline issues | ⚠️ Documented as limitation |
+| 2 | CDS translation consistency | ✅ translate(CDS)==protein verified |
+| 3 | Silent synthetic fallback | ✅ Removed (fail-fast) |
+| 4 | Alignment eval needs retrieval | ✅ Independent SAE + CCA/Procrustes/Retrieval |
+| 5 | GO labeling needs FDR | ✅ Benjamini-Hochberg correction |
+| 6 | Shared feature definition | ✅ Matched-gene co-activation (corr>0.1) |
+| 7 | Per-residue SAE | Planned as future work |
+| 8 | Ablation baselines | ✅ Shuffled pairs + multiple methods |
+| 9 | Engineering fixes | ✅ Core issues fixed |
+| 10 | Anomaly analysis | ✅ Gene-family enrichment (Fisher's exact) |
 
 ## Pending Work
 
-- [ ] **Evo integration** (Science 2024): Replace NT with Evo for character-level DNA LLR. Expected to significantly improve variant prediction ensemble.
-- [ ] **Per-residue SAE**: Current SAE operates on gene-level mean-pooled activations. Per-residue variant would enable fine-grained variant scoring.
-- [ ] **Real CDS for variant scoring**: Use actual genomic CDS with single-codon mutations instead of back-translation.
-- [ ] **Paper writing**: Stage 3 — draft for Nature Communications / ICLR.
+- [ ] **Evo integration** (Science 2024): Character-level DNA LLR for variant ensemble
+- [ ] **Per-residue CrossBioSAE**: Enable fine-grained variant scoring
+- [ ] **Biological validation of anomalies**: Deep case study on ZNF discordance
+- [ ] **Paper writing**: Target Nature Communications / ICLR
 
 ## Requirements
 
-- PyTorch >= 2.1
-- fair-esm >= 2.0 (ESM-2)
-- transformers >= 4.40 (NT v2)
-- h5py, biopython, scikit-learn, scipy, pandas
-
-## Citation
-
-If you use this work, please cite:
-```
-@article{crossbiosae2026,
-  title={CrossBioSAE: Cross-modal Sparse Autoencoder for Protein-DNA Feature Alignment},
-  author={Zhang, Mingxu},
-  year={2026}
-}
-```
+PyTorch >= 2.1, fair-esm >= 2.0, transformers >= 4.40, h5py, biopython, scikit-learn, scipy, pandas, statsmodels
