@@ -601,6 +601,20 @@ class AlignmentBenchmark:
             logger.error(f"Retrieval (Procrustes) failed: {e}")
             all_results.append({"method": "Retrieval_Procrustes", "metric": "error", "value": str(e)})
 
+        # 8. Random baseline: shuffled gene pairs (measures chance alignment)
+        logger.info("Running random baseline (shuffled gene pairs)...")
+        try:
+            shuffled_dna = dna_test[rng.permutation(len(dna_test))]
+            rand_cca = CCAAlignment(n_components=self.cca.n_components)
+            rand_cca.fit(prot_train, dna_train[rng.permutation(len(dna_train))])
+            proj_prot_rand, proj_dna_rand = rand_cca.transform(prot_test, shuffled_dna)
+            rand_retrieval = CrossModalRetrieval(metric=self.retrieval.metric)
+            rand_ret_scores = rand_retrieval.evaluate(proj_prot_rand, proj_dna_rand, gene_names_test)
+            for metric, value in rand_ret_scores.items():
+                all_results.append({"method": "Random_Shuffled", "metric": metric, "value": value})
+        except Exception as e:
+            logger.error(f"Random baseline failed: {e}")
+
         df = pd.DataFrame(all_results)
         logger.info(f"AlignmentBenchmark complete: {len(df)} results")
         return df

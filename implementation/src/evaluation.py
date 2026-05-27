@@ -99,15 +99,36 @@ def compute_feature_statistics(
     freq_dna = (features_dna > 0).float().mean(dim=0).numpy()
     freq_protein = (features_protein > 0).float().mean(dim=0).numpy()
 
-    # Classify features
-    threshold = 0.01  # Feature is "active" if it fires in >1% of genes
+    # Classify features using TWO criteria:
+    # 1. Marginal activity: feature fires in >1% of genes in each modality
+    # 2. Matched-gene co-activation: per-feature correlation across matched genes
+    threshold = 0.01
     dna_active = freq_dna > threshold
     prot_active = freq_protein > threshold
 
-    shared_indices = np.where(dna_active & prot_active)[0]
+    # Per-feature matched-gene correlation (the stricter, reviewer-requested definition)
+    feat_correlations = np.zeros(n_features)
+    for j in range(n_features):
+        d_col = features_dna[:, j].numpy()
+        p_col = features_protein[:, j].numpy()
+        if d_col.std() > 1e-8 and p_col.std() > 1e-8:
+            feat_correlations[j] = np.corrcoef(d_col, p_col)[0, 1]
+
+    # Shared: marginally active in both AND positively correlated across matched genes
+    coactivation_threshold = 0.1
+    shared_indices = np.where(
+        dna_active & prot_active & (feat_correlations > coactivation_threshold)
+    )[0]
+    # Marginal-only shared (old definition, for comparison)
+    marginal_shared = np.where(dna_active & prot_active)[0]
     dna_specific = np.where(dna_active & ~prot_active)[0]
     prot_specific = np.where(~dna_active & prot_active)[0]
     dead_features = np.where(~dna_active & ~prot_active)[0]
+
+    logger.info(
+        f"Shared features: {len(shared_indices)} (co-activation corr > {coactivation_threshold}), "
+        f"{len(marginal_shared)} (marginal overlap only)"
+    )
 
     # Per-gene cross-modal cosine similarity
     cos_sim = F.cosine_similarity(features_dna, features_protein, dim=-1).numpy()
@@ -117,13 +138,16 @@ def compute_feature_statistics(
         "n_genes": len(common),
         "n_features": n_features,
         "shared_feature_indices": shared_indices,
+        "marginal_shared_indices": marginal_shared,
         "dna_specific_indices": dna_specific,
         "protein_specific_indices": prot_specific,
         "dead_feature_indices": dead_features,
         "n_shared": len(shared_indices),
+        "n_marginal_shared": len(marginal_shared),
         "n_dna_specific": len(dna_specific),
         "n_protein_specific": len(prot_specific),
         "n_dead": len(dead_features),
+        "feature_correlations": feat_correlations,
         "feature_activation_freq_dna": freq_dna,
         "feature_activation_freq_protein": freq_protein,
         "crossmodal_cosine_sim": cos_sim,
@@ -398,27 +422,48 @@ class FunctionPredictor:
 
         # Hypergeometric p-value via scipy (vectorized per feature)
         from scipy.stats import hypergeom
+        from statsmodels.stats.multitest import multipletests
 
-        for i, feat_idx in enumerate(tqdm(active_feat_indices, desc="Labeling features")):
+        # Collect all p-values for global FDR correction
+        all_pvalues = []  # (feat_idx, go_idx, p_value)
+
+        for i, feat_idx in enumerate(tqdm(active_feat_indices, desc="Computing enrichment p-values")):
             n_feat = int(feat_sums[i])
-            enrichments = []
-
             for go_idx in range(len(go_terms_list)):
                 a = int(overlap[i, go_idx])
                 if a < 3:
                     continue
                 n_go = int(go_sums[go_idx])
-                # Hypergeometric test: P(X >= a) for drawing n_feat from population n_genes with n_go successes
                 p_value = hypergeom.sf(a - 1, n_genes, n_go, n_feat)
-                if p_value < 0.01:
-                    enrichments.append((go_terms_list[go_idx], float(p_value)))
+                if p_value < 0.05:
+                    all_pvalues.append((int(feat_idx), go_idx, float(p_value)))
 
-            if enrichments:
-                enrichments.sort(key=lambda x: x[1])
-                feature_labels[int(feat_idx)] = enrichments[:5]
+        logger.info(f"Collected {len(all_pvalues)} candidate enrichments (p < 0.05)")
+
+        # Benjamini-Hochberg FDR correction across ALL tests
+        if all_pvalues:
+            raw_ps = np.array([x[2] for x in all_pvalues])
+            reject, fdr_corrected, _, _ = multipletests(raw_ps, alpha=0.05, method="fdr_bh")
+
+            n_significant = reject.sum()
+            logger.info(f"After BH-FDR correction (alpha=0.05): {n_significant} significant enrichments")
+
+            for idx, (feat_idx, go_idx, raw_p) in enumerate(all_pvalues):
+                if not reject[idx]:
+                    continue
+                if feat_idx not in feature_labels:
+                    feature_labels[feat_idx] = []
+                feature_labels[feat_idx].append((
+                    go_terms_list[go_idx], float(fdr_corrected[idx])
+                ))
+
+            # Sort and keep top 5 per feature
+            for feat_idx in feature_labels:
+                feature_labels[feat_idx].sort(key=lambda x: x[1])
+                feature_labels[feat_idx] = feature_labels[feat_idx][:5]
 
         self.feature_labels = feature_labels
-        logger.info(f"Labeled {len(feature_labels)} features with GO term enrichments")
+        logger.info(f"Labeled {len(feature_labels)} features with FDR-corrected GO term enrichments")
         return feature_labels
 
     def predict_function(
@@ -611,7 +656,57 @@ class AnomalyDetector:
             f"Bottom-100 mean consistency: {df.tail(100)['consistency_score'].mean():.4f}"
         )
 
+        # Systematic gene-family enrichment analysis
+        self._analyze_gene_family_enrichment(df, output_dir)
+
         return df
+
+    def _analyze_gene_family_enrichment(self, df: pd.DataFrame, output_dir: Path):
+        """Check if specific gene families are over/under-represented in anomalies."""
+        prefixes = ["ZNF", "OR", "KRT", "HLA", "SLC", "KRTAP", "TAS", "RPS", "RPL",
+                     "MT-", "HIST", "TMEM", "FAM", "LINC", "LOC", "ADAM", "MYH"]
+
+        n_genes = len(df)
+        top200 = set(df.head(200)["gene_name"])
+        bottom200 = set(df.tail(200)["gene_name"])
+
+        enrichment_results = []
+        for prefix in prefixes:
+            family_genes = set(df[df["gene_name"].str.startswith(prefix)]["gene_name"])
+            if len(family_genes) < 3:
+                continue
+
+            top_overlap = len(top200 & family_genes)
+            bottom_overlap = len(bottom200 & family_genes)
+            expected = len(family_genes) * 200 / n_genes
+
+            if top_overlap > 0 or bottom_overlap > 0:
+                from scipy.stats import fisher_exact
+                _, p_top = fisher_exact([
+                    [top_overlap, 200 - top_overlap],
+                    [len(family_genes) - top_overlap, n_genes - 200 - (len(family_genes) - top_overlap)],
+                ], alternative="greater")
+
+                enrichment_results.append({
+                    "family": prefix,
+                    "n_family_genes": len(family_genes),
+                    "in_top200_anomalous": top_overlap,
+                    "in_bottom200_consistent": bottom_overlap,
+                    "expected": round(expected, 1),
+                    "fold_enrichment_top": round(top_overlap / max(expected, 0.1), 2),
+                    "p_value_top": p_top,
+                })
+
+        if enrichment_results:
+            enrich_df = pd.DataFrame(enrichment_results).sort_values("p_value_top")
+            enrich_df.to_csv(output_dir / "gene_family_enrichment.csv", index=False)
+            logger.info("Gene family enrichment in top-200 anomalous genes:")
+            for _, row in enrich_df.iterrows():
+                if row["fold_enrichment_top"] > 1.5 or row["p_value_top"] < 0.05:
+                    logger.info(
+                        f"  {row['family']:8s}: {row['in_top200_anomalous']}/{row['n_family_genes']} in top-200 "
+                        f"(expected {row['expected']}, fold={row['fold_enrichment_top']}x, p={row['p_value_top']:.4f})"
+                    )
 
     def validate_against_databases(
         self,
