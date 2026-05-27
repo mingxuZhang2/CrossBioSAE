@@ -8,9 +8,10 @@ Focus: computational-only research, no wet lab access.
 ## Project Status
 - Stage 1 (Survey): COMPLETE — general LLM-for-bio + deep SAE+bio sub-survey
 - Stage 2 (Implementation): IN PROGRESS — Idea 3 (CrossBioSAE) selected by Dr. Zhang
-  - Code: COMPLETE — model, data pipeline, training, evaluation, downstream tasks
+  - Code: COMPLETE — model, data pipeline, training, evaluation, downstream tasks, 4 applications
   - Tests: ALL PASSING — verified on CPU with synthetic data
-  - Experiments: NOT STARTED — awaiting HPC submission
+  - Experiments: ROUND 1-3 COMPLETE, APPLICATIONS RUNNING (job 316138)
+  - Key findings: Raw+CCA R@1=30.3% >> SAE+CCA 14.3%; SAE = interpretability layer, not performance engine
 - Stage 3 (Writing): Not started
 
 ## Selected Idea: CrossBioSAE
@@ -51,6 +52,13 @@ implementation/                      — Stage 2 code
     pilot.yaml                       — Pilot: 1k genes, ESM-2 650M, 8x expansion
     full.yaml                        — Full: 20k genes, ESM-C 600M, 32x expansion
     independent.yaml                 — Independent SAE training + alignment benchmark config
+  src/
+    applications.py                  — 4 downstream applications (transfer, consensus, QC, discordance)
+  scripts/
+    run_applications.py              — Runner for all 4 applications
+    run_gptpro_r3_experiments.py     — GPT Pro Round 3 experiments (fair benchmark, hard-neg, low-label, transfer)
+    build_feature_atlas.py           — Feature classification + cards
+    slurm_applications.sh            — SLURM: 4 applications
   environment.yml                    — Conda environment spec
   requirements.txt                   — Pip requirements
   README.md                          — Implementation documentation
@@ -106,6 +114,24 @@ Addresses reviewer concern that joint cross-modal loss creates circular evidence
 - PyTorch >= 2.1, fair-esm >= 2.0 (ESM-2), transformers >= 4.40 (Evo-2)
 - sae-lens >= 4.0 (reference), h5py, biopython, wandb
 - Evo-2: install from source (github.com/arcinstitute/evo)
+
+## Downstream Applications (GPT Pro R4 pivot)
+Paper story shifted from "SAE-centered interpretability" to "protein-DNA shared gene space enables applications."
+Performance layer = raw+CCA; Interpretation layer = SAE.
+
+**App 1: Cross-modal functional transfer** — train classifier on protein-side GO labels, transfer to DNA via CCA
+**App 2: Consensus annotation** — protein+DNA agreement as confidence signal; precision-coverage curves
+**App 3: Annotation QC** — CCA cosine detects wrong CDS-protein pairings (random, same-family, length-matched negatives)
+**App 4: Discordance atlas** — per-gene consistency with confound regression + gene family enrichment
+
+Script: `scripts/run_applications.py`; Module: `src/applications.py`
+
+## HPC Environment
+- **HPC3**: HKUST-GZ HPC3 (H100 GPUs in acd_u partition, account d_yings_team)
+  - Project dir: `/data/user/mzhang630/data/bioinfo/implementation`
+  - Conda env: `sake`
+- **HPC2**: HKUST-GZ HPC2 (A800 GPUs in i64m1tga800u partition) — development only
+- SLURM scripts in `implementation/scripts/slurm_*.sh`
 
 ## Git Workflow
 - Branch `stage2-crossbiosae` for all implementation work
