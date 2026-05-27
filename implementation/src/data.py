@@ -95,12 +95,9 @@ class GenePairDataset:
             response.raise_for_status()
             data = response.json()
         except Exception as e:
-            logger.error(f"UniProt API request failed: {e}")
-            logger.info("Falling back to synthetic pilot data for development")
-            return self._generate_synthetic_pairs(
-                max_genes if max_genes else 1000,
-                max_protein_length,
-                max_cds_length,
+            raise RuntimeError(
+                f"UniProt API request failed: {e}. "
+                "Use --synthetic flag explicitly for development data."
             )
 
         pairs = []
@@ -736,4 +733,61 @@ def create_dataloaders(
         pin_memory=True,
     )
 
+    return train_loader, val_loader
+
+
+def create_single_modality_dataloaders(
+    h5_path: str,
+    modality: str,
+    batch_size: int = 256,
+    train_ratio: float = 0.9,
+    num_workers: int = 4,
+    seed: int = 42,
+) -> tuple[DataLoader, DataLoader]:
+    """
+    Create train/val dataloaders for single-modality SAE training.
+
+    Uses the existing SingleModalityDataset class.
+
+    Args:
+        h5_path: Path to HDF5 activation file (protein or DNA).
+        modality: "protein" or "dna".
+        batch_size: Training batch size.
+        train_ratio: Fraction of data for training.
+        num_workers: DataLoader workers.
+        seed: Random seed for reproducible split.
+
+    Returns:
+        (train_loader, val_loader)
+    """
+    dataset = SingleModalityDataset(h5_path, modality)
+    logger.info(f"Single-modality dataset [{modality}]: {len(dataset)} samples, dim={dataset.dim}")
+
+    # Train/val split
+    n = len(dataset)
+    n_train = int(n * train_ratio)
+    n_val = n - n_train
+
+    generator = torch.Generator().manual_seed(seed)
+    train_dataset, val_dataset = torch.utils.data.random_split(
+        dataset, [n_train, n_val], generator=generator
+    )
+
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=num_workers,
+        pin_memory=True,
+        drop_last=True,
+    )
+    val_loader = DataLoader(
+        val_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=num_workers,
+        pin_memory=True,
+    )
+
+    logger.info(f"Train: {len(train_dataset)} samples, Val: {len(val_dataset)} samples")
     return train_loader, val_loader

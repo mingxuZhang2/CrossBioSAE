@@ -1,0 +1,116 @@
+# Independent SAE Training + Post-hoc Alignment Benchmark Configuration
+# Addresses reviewer concern: joint cross-modal loss creates circular evidence.
+# Strategy: train two SAEs independently (no cross-modal signal), then evaluate
+# alignment post-hoc with CCA, Procrustes, linear probe, and retrieval.
+
+# ============================================================
+# Data (same activation files as full/pilot)
+# ============================================================
+data:
+  split: "full"
+  n_genes: null
+  organism: "Homo sapiens"
+  data_dir: "data/full"
+
+# ============================================================
+# Protein model (ESM-2 650M)
+# ============================================================
+protein_model:
+  name: "esm2_t33_650M_UR50D"
+  layer: 16
+  hidden_dim: 1280
+  batch_size: 16
+  max_length: 1024
+
+# ============================================================
+# DNA model (Nucleotide Transformer v2 500M)
+# ============================================================
+dna_model:
+  name: "nt_500m"
+  layer: 14
+  hidden_dim: 1024
+  batch_size: 8
+  max_length: 2048
+
+# ============================================================
+# Model dimensions (used by both independent and joint)
+# ============================================================
+model:
+  dim_dna: 1024
+  dim_protein: 1280
+  dim_shared: 2048           # Only used by joint CrossBioSAE
+  expansion_factor: 16       # Shared default, overridable per independent SAE
+  sparsity_type: "topk"
+  topk_k: 128
+  normalize_inputs: true
+  tied_decoder: false
+  bias: true
+  crossmodal_type: "cosine"  # Only used by joint CrossBioSAE
+
+# ============================================================
+# Independent SAE overrides (optional)
+# Falls back to model.* and training.* if not specified
+# ============================================================
+independent_sae:
+  expansion_factor: 16       # Same as joint for fair comparison
+  sparsity_type: "topk"
+  topk_k: 128
+  normalize_inputs: true
+  tied_decoder: false
+  bias: true
+  # Training overrides for independent SAEs
+  learning_rate: 1.0e-4
+  max_epochs: 200
+  # max_steps: null          # Uncomment to use step-based training
+
+# ============================================================
+# Training
+# ============================================================
+training:
+  learning_rate: 1.0e-4
+  weight_decay: 0.0
+  lr_schedule: "cosine"
+  warmup_steps: 500
+  max_epochs: 200
+  batch_size: 512
+  grad_clip: 1.0
+  recon_weight: 1.0
+  sparsity_weight: 1.0
+  crossmodal_weight: 1.0     # Only used by joint CrossBioSAE
+  crossmodal_warmup_steps: 200
+  log_interval: 50
+  eval_interval: 200
+  save_interval: 1000
+  normalize_decoder_interval: 100
+  num_workers: 8
+  seed: 42
+
+# ============================================================
+# Alignment benchmark settings
+# ============================================================
+alignment:
+  cca_components: 50
+  ridge_alpha: 1.0
+  retrieval_metric: "cosine"
+  train_ratio: 0.8           # 80% for fitting alignment, 20% for evaluation
+  seed: 42
+
+# ============================================================
+# Experiment tracking
+# ============================================================
+wandb:
+  enabled: false  # HPC3 has no internet
+  project: "crossbiosae"
+  run_name: "independent_sae_alignment"
+
+# ============================================================
+# Paths
+# ============================================================
+paths:
+  output_dir: "results/full"
+  checkpoint_dir: "checkpoints/full"
+  protein_activations: "data/full/protein_activations.h5"
+  dna_activations: "data/full/dna_activations.h5"
+  # Independent SAE checkpoints will be at:
+  #   checkpoints/full/protein_sae/checkpoint_best.pt
+  #   checkpoints/full/dna_sae/checkpoint_best.pt

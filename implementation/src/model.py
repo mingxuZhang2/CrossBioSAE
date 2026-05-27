@@ -485,3 +485,218 @@ def count_parameters(model: nn.Module) -> dict[str, int]:
         counts[component] += param.numel()
     counts["total"] = sum(counts.values())
     return counts
+
+
+# =============================================================================
+# Independent (Standard) SAE — single-modality, no adapters, no cross-modal loss
+# =============================================================================
+
+
+@dataclass
+class StandardSAEConfig:
+    """Configuration for a single-modality Standard SAE (no adapters, no cross-modal loss)."""
+    # Input dimension (raw modality activations)
+    dim_input: int = 1280           # 1280 for ESM-2 protein, 1024 for DNA
+    expansion_factor: int = 8       # SAE expansion factor
+
+    # Sparsity
+    sparsity_type: Literal["topk", "l1", "jumprelu"] = "topk"
+    topk_k: int = 64
+    l1_coeff: float = 1e-3
+    jumprelu_threshold: float = 0.01
+    jumprelu_bandwidth: float = 0.001
+
+    # Loss weights
+    recon_weight: float = 1.0
+    sparsity_weight: float = 1.0
+
+    # Architecture options
+    normalize_inputs: bool = True
+    tied_decoder: bool = False
+    bias: bool = True
+
+    @property
+    def n_features(self) -> int:
+        return self.dim_input * self.expansion_factor
+
+
+class StandardSAE(nn.Module):
+    """
+    Standard single-modality Sparse Autoencoder.
+
+    No adapters, no cross-modal loss. Operates directly on raw modality
+    activations (e.g. 1280-dim ESM-2 or 1024-dim NT activations).
+
+    Architecture:
+        Input (dim_input) -> Encoder -> Sparse features (n_features) -> Decoder -> Output (dim_input)
+
+    Used for the independent SAE training baseline: train one SAE per modality,
+    then evaluate cross-modal alignment post-hoc.
+    """
+
+    def __init__(self, config: StandardSAEConfig):
+        super().__init__()
+        self.config = config
+        n_features = config.n_features
+
+        # Encoder: dim_input -> n_features
+        self.encoder = nn.Linear(config.dim_input, n_features, bias=config.bias)
+        nn.init.kaiming_uniform_(self.encoder.weight, a=math.sqrt(5))
+        if config.bias:
+            nn.init.zeros_(self.encoder.bias)
+
+        # Decoder: n_features -> dim_input
+        if config.tied_decoder:
+            self.decoder_weight = None  # Will use encoder.weight.T
+        else:
+            self.decoder = nn.Linear(n_features, config.dim_input, bias=config.bias)
+            nn.init.kaiming_uniform_(self.decoder.weight, a=math.sqrt(5))
+            if config.bias:
+                nn.init.zeros_(self.decoder.bias)
+
+        # Normalize decoder columns to unit norm
+        self._normalize_decoder()
+
+        # Sparsity activation (reuses TopKActivation / JumpReLU from above)
+        if config.sparsity_type == "topk":
+            self.activation = TopKActivation(config.topk_k)
+        elif config.sparsity_type == "jumprelu":
+            self.activation = JumpReLU(config.jumprelu_threshold, config.jumprelu_bandwidth)
+        elif config.sparsity_type == "l1":
+            self.activation = nn.ReLU()
+        else:
+            raise ValueError(f"Unknown sparsity type: {config.sparsity_type}")
+
+        # Running mean for single-modality input normalization
+        if config.normalize_inputs:
+            self.register_buffer("running_mean", torch.zeros(config.dim_input))
+            self.register_buffer("n_seen", torch.tensor(0, dtype=torch.long))
+
+    @torch.no_grad()
+    def _normalize_decoder(self):
+        """Normalize decoder weight columns to unit norm."""
+        if self.config.tied_decoder:
+            return
+        self.decoder.weight.data = F.normalize(self.decoder.weight.data, dim=0)
+
+    @torch.no_grad()
+    def update_running_mean(self, x: torch.Tensor):
+        """Update running mean for input normalization."""
+        if not self.config.normalize_inputs:
+            return
+        n = self.n_seen.item()
+        batch_mean = x.mean(dim=0)
+        batch_size = x.shape[0]
+        self.running_mean = (self.running_mean * n + batch_mean * batch_size) / (n + batch_size)
+        self.n_seen += batch_size
+
+    def _normalize(self, x: torch.Tensor) -> torch.Tensor:
+        """Subtract running mean from activations."""
+        if not self.config.normalize_inputs:
+            return x
+        return x - self.running_mean.to(x.device)
+
+    def _denormalize(self, x: torch.Tensor) -> torch.Tensor:
+        """Add running mean back to reconstructed activations."""
+        if not self.config.normalize_inputs:
+            return x
+        return x + self.running_mean.to(x.device)
+
+    def encode(self, x: torch.Tensor) -> torch.Tensor:
+        """Encode raw activations to sparse features."""
+        x_norm = self._normalize(x)
+        pre_activation = self.encoder(x_norm)
+        features = self.activation(pre_activation)
+        return features
+
+    def decode(self, features: torch.Tensor) -> torch.Tensor:
+        """Decode sparse features back to activation space."""
+        if self.config.tied_decoder:
+            recon = F.linear(features, self.encoder.weight.t(),
+                             self.encoder.bias if self.config.bias else None)
+        else:
+            recon = self.decoder(features)
+        return self._denormalize(recon)
+
+    def forward(self, x: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        """
+        Args:
+            x: (batch, dim_input) raw modality activations
+        Returns:
+            reconstructed: (batch, dim_input) reconstructed activations
+            features: (batch, n_features) sparse feature activations
+        """
+        features = self.encode(x)
+        reconstructed = self.decode(features)
+        return reconstructed, features
+
+
+class StandardSAELoss(nn.Module):
+    """
+    Loss for single-modality Standard SAE: reconstruction + sparsity only.
+
+    L = w_recon * MSE(input, reconstructed) + w_sparsity * L_sparsity(features)
+    """
+
+    def __init__(self, config: StandardSAEConfig):
+        super().__init__()
+        self.config = config
+
+    def reconstruction_loss(
+        self,
+        original: torch.Tensor,
+        reconstructed: torch.Tensor,
+    ) -> torch.Tensor:
+        """MSE reconstruction loss."""
+        return F.mse_loss(reconstructed, original)
+
+    def sparsity_loss(self, features: torch.Tensor) -> torch.Tensor:
+        """
+        Sparsity loss.
+        TopK: L1 for monitoring (sparsity is structural).
+        L1: weighted L1 norm.
+        JumpReLU: L0 via sigmoid approximation.
+        """
+        if self.config.sparsity_type == "topk":
+            return features.abs().sum(dim=-1).mean()
+        elif self.config.sparsity_type == "l1":
+            return self.config.l1_coeff * features.abs().sum(dim=-1).mean()
+        elif self.config.sparsity_type == "jumprelu":
+            return (torch.sigmoid(
+                (features - self.config.jumprelu_threshold) / self.config.jumprelu_bandwidth
+            )).sum(dim=-1).mean()
+        return torch.tensor(0.0, device=features.device)
+
+    def forward(
+        self,
+        original: torch.Tensor,
+        reconstructed: torch.Tensor,
+        features: torch.Tensor,
+    ) -> dict[str, torch.Tensor]:
+        """
+        Compute reconstruction + sparsity losses.
+
+        Args:
+            original: (batch, dim_input) original activations
+            reconstructed: (batch, dim_input) reconstructed activations
+            features: (batch, n_features) sparse feature activations
+
+        Returns:
+            Dict with loss components and total loss.
+        """
+        losses = {}
+
+        recon_loss = self.reconstruction_loss(original, reconstructed)
+        losses["recon"] = recon_loss
+        total_loss = self.config.recon_weight * recon_loss
+
+        if self.config.sparsity_type != "topk":
+            sparse_loss = self.sparsity_loss(features)
+            losses["sparsity"] = sparse_loss
+            total_loss = total_loss + self.config.sparsity_weight * sparse_loss
+        else:
+            # For monitoring only (TopK enforces sparsity structurally)
+            losses["l0"] = (features > 0).float().sum(dim=-1).mean()
+
+        losses["total"] = total_loss
+        return losses
