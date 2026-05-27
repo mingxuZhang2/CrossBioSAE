@@ -42,28 +42,40 @@ class CCAAlignment:
     their correlation. Naturally handles different input dimensions.
     """
 
-    def __init__(self, n_components: int = 50, max_iter: int = 1000):
+    def __init__(self, n_components: int = 50, max_iter: int = 1000, pca_dim: int = 256):
         """
         Args:
             n_components: Number of CCA components (canonical dimensions).
             max_iter: Maximum iterations for CCA convergence.
+            pca_dim: PCA pre-reduction dimension (SAE features are very high-dim and sparse).
         """
         self.n_components = n_components
         self.max_iter = max_iter
+        self.pca_dim = pca_dim
         self.cca = None
         self.scaler_a = StandardScaler()
         self.scaler_b = StandardScaler()
+        self.pca_a = None
+        self.pca_b = None
 
     def fit(self, features_a: np.ndarray, features_b: np.ndarray):
         """
         Fit CCA on paired feature matrices.
-
-        Args:
-            features_a: (n_samples, dim_a) feature matrix from modality A
-            features_b: (n_samples, dim_b) feature matrix from modality B
+        Uses PCA pre-reduction to avoid sklearn CCA being extremely slow on high-dim sparse data.
         """
         n_samples = features_a.shape[0]
-        # CCA requires n_components <= min(n_samples, dim_a, dim_b)
+
+        # PCA pre-reduction for high-dimensional features
+        pca_target = min(self.pca_dim, n_samples - 1, features_a.shape[1], features_b.shape[1])
+        if features_a.shape[1] > pca_target:
+            logger.info(f"CCA: PCA pre-reducing A from {features_a.shape[1]} to {pca_target}")
+            self.pca_a = PCA(n_components=pca_target)
+            features_a = self.pca_a.fit_transform(features_a)
+        if features_b.shape[1] > pca_target:
+            logger.info(f"CCA: PCA pre-reducing B from {features_b.shape[1]} to {pca_target}")
+            self.pca_b = PCA(n_components=pca_target)
+            features_b = self.pca_b.fit_transform(features_b)
+
         max_components = min(n_samples, features_a.shape[1], features_b.shape[1])
         actual_components = min(self.n_components, max_components)
 
@@ -90,6 +102,10 @@ class CCAAlignment:
         Returns:
             (projected_a, projected_b) each of shape (n_samples, n_components)
         """
+        if self.pca_a is not None:
+            features_a = self.pca_a.transform(features_a)
+        if self.pca_b is not None:
+            features_b = self.pca_b.transform(features_b)
         fa = self.scaler_a.transform(features_a)
         fb = self.scaler_b.transform(features_b)
         proj_a, proj_b = self.cca.transform(fa, fb)
@@ -136,10 +152,10 @@ class ProcrustesAlignment:
     feature sets to a common dimension via PCA.
     """
 
-    def __init__(self, n_components: Optional[int] = None):
+    def __init__(self, n_components: Optional[int] = 256):
         """
         Args:
-            n_components: Common PCA dimension. If None, uses min(dim_a, dim_b).
+            n_components: Common PCA dimension. Default 256 to avoid very slow SVD on large dims.
         """
         self.n_components = n_components
         self.pca_a = None
@@ -250,24 +266,38 @@ class LinearProbeAlignment:
     features from the other, indicating shared representational structure.
     """
 
-    def __init__(self, alpha: float = 1.0):
+    def __init__(self, alpha: float = 1.0, pca_dim: int = 256):
         """
         Args:
             alpha: Ridge regression regularization strength.
+            pca_dim: PCA pre-reduction dimension for efficiency.
         """
         self.alpha = alpha
+        self.pca_dim = pca_dim
         self.model = None
         self.scaler_a = StandardScaler()
         self.scaler_b = StandardScaler()
+        self.pca_a = None
+        self.pca_b = None
 
     def fit(self, features_a: np.ndarray, features_b: np.ndarray):
         """
-        Fit ridge regression: A -> B.
-
-        Args:
-            features_a: (n_samples, dim_a) source features
-            features_b: (n_samples, dim_b) target features
+        Fit ridge regression: PCA(A) -> PCA(B).
+        PCA pre-reduction avoids fitting a huge weight matrix on high-dim sparse features.
         """
+        n_samples = features_a.shape[0]
+
+        # PCA pre-reduction
+        pca_target_a = min(self.pca_dim, n_samples - 1, features_a.shape[1])
+        pca_target_b = min(self.pca_dim, n_samples - 1, features_b.shape[1])
+
+        if features_a.shape[1] > pca_target_a:
+            self.pca_a = PCA(n_components=pca_target_a)
+            features_a = self.pca_a.fit_transform(features_a)
+        if features_b.shape[1] > pca_target_b:
+            self.pca_b = PCA(n_components=pca_target_b)
+            features_b = self.pca_b.fit_transform(features_b)
+
         fa = self.scaler_a.fit_transform(features_a)
         fb = self.scaler_b.fit_transform(features_b)
 
@@ -283,10 +313,9 @@ class LinearProbeAlignment:
     def transform(self, features_a: np.ndarray) -> np.ndarray:
         """
         Predict B features from A features.
-
-        Returns:
-            (n_samples, dim_b) predicted features in B's space
         """
+        if self.pca_a is not None:
+            features_a = self.pca_a.transform(features_a)
         fa = self.scaler_a.transform(features_a)
         return self.model.predict(fa)
 
@@ -301,6 +330,8 @@ class LinearProbeAlignment:
             - linear_probe_cosine_sim: cosine similarity of predicted vs actual
         """
         predicted_b = self.transform(features_a)
+        if self.pca_b is not None:
+            features_b = self.pca_b.transform(features_b)
         fb = self.scaler_b.transform(features_b)
 
         # R-squared
