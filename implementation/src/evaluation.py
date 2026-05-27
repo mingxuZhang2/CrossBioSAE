@@ -424,8 +424,9 @@ class FunctionPredictor:
         from scipy.stats import hypergeom
         from statsmodels.stats.multitest import multipletests
 
-        # Collect all p-values for global FDR correction
+        # Collect candidate p-values and count total tests for proper FDR
         all_pvalues = []  # (feat_idx, go_idx, p_value)
+        total_tests = 0
 
         for i, feat_idx in enumerate(tqdm(active_feat_indices, desc="Computing enrichment p-values")):
             n_feat = int(feat_sums[i])
@@ -433,17 +434,22 @@ class FunctionPredictor:
                 a = int(overlap[i, go_idx])
                 if a < 3:
                     continue
+                total_tests += 1
                 n_go = int(go_sums[go_idx])
                 p_value = hypergeom.sf(a - 1, n_genes, n_go, n_feat)
                 if p_value < 0.05:
                     all_pvalues.append((int(feat_idx), go_idx, float(p_value)))
 
-        logger.info(f"Collected {len(all_pvalues)} candidate enrichments (p < 0.05)")
+        logger.info(f"Collected {len(all_pvalues)} candidate enrichments (p < 0.05) from {total_tests} total tests")
 
-        # Benjamini-Hochberg FDR correction across ALL tests
+        # BH-FDR correction accounting for ALL tested hypotheses
+        # Adjust p-values by total_tests / len(candidates) to correct for pre-filtering
         if all_pvalues:
             raw_ps = np.array([x[2] for x in all_pvalues])
-            reject, fdr_corrected, _, _ = multipletests(raw_ps, alpha=0.05, method="fdr_bh")
+            # Scale factor: we only kept p<0.05 candidates, but BH needs to account for all tests
+            correction_factor = total_tests / len(raw_ps) if len(raw_ps) > 0 else 1.0
+            adjusted_ps = np.minimum(raw_ps * correction_factor, 1.0)
+            reject, fdr_corrected, _, _ = multipletests(adjusted_ps, alpha=0.05, method="fdr_bh")
 
             n_significant = reject.sum()
             logger.info(f"After BH-FDR correction (alpha=0.05): {n_significant} significant enrichments")
