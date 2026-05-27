@@ -173,23 +173,44 @@ def main():
     nm_ids = [p["refseq_nm_id"] for p in parsed]
     nm_to_cds = batch_fetch_cds(nm_ids)
 
-    # Step 3: Merge and filter
+    # Step 3: Merge, verify translation consistency, and filter
+    from Bio.Seq import Seq
+
     pairs = []
+    n_mismatch = 0
+    n_length_filtered = 0
     for p in parsed:
         nm_id = p["refseq_nm_id"]
         if nm_id not in nm_to_cds:
             continue
         cds = nm_to_cds[nm_id]
         if len(cds) > args.max_cds_length or len(cds) < 30:
+            n_length_filtered += 1
             continue
+
+        # Translation consistency check: translate(CDS) should match UniProt protein
+        translated = str(Seq(cds).translate()).rstrip("*")
+        protein = p["protein_seq"]
+        if translated == protein:
+            translation_match = "exact"
+        elif translated.lstrip("M") == protein.lstrip("M"):
+            translation_match = "methionine_processing"
+        elif len(translated) == len(protein) and sum(a != b for a, b in zip(translated, protein)) <= 2:
+            translation_match = "near_match"
+        else:
+            n_mismatch += 1
+            continue
+
         p["cds_seq"] = cds
         p["cds_length"] = len(cds)
+        p["translation_match"] = translation_match
         pairs.append(p)
 
         if len(pairs) >= args.n_genes:
             break
 
     logger.info(f"Final dataset: {len(pairs)} matched gene pairs")
+    logger.info(f"Filtered: {n_mismatch} translation mismatches, {n_length_filtered} length-filtered")
 
     # Stats
     prot_lens = [p["protein_length"] for p in pairs]
