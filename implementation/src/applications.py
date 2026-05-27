@@ -715,29 +715,26 @@ def run_discordance_atlas(
         disc_indices = sorted_by_consistency[:50]
         conc_indices = sorted_by_consistency[-50:]
 
-        # Feature-level analysis: which features differ most between modalities in discordant genes?
         for label, indices in [("discordant", disc_indices), ("concordant", conc_indices)]:
             prot_feats = prot_sae_feats[indices]
             dna_feats = dna_sae_feats[indices]
 
-            # Per-feature modality difference
-            prot_active = (prot_feats > 0).mean(axis=0)
-            dna_active = (dna_feats > 0).mean(axis=0)
-            modality_diff = prot_active - dna_active
+            prot_active_frac = (prot_feats > 0).mean(axis=0)
+            dna_active_frac = (dna_feats > 0).mean(axis=0)
 
-            # Top protein-dominant features
-            prot_dominant = np.argsort(-modality_diff)[:20]
-            # Top DNA-dominant features
-            dna_dominant = np.argsort(modality_diff)[:20]
+            prot_sparsity = (prot_feats > 0).float().mean() if hasattr(prot_feats, 'float') else (prot_feats > 0).astype(float).mean()
+            dna_sparsity = (dna_feats > 0).float().mean() if hasattr(dna_feats, 'float') else (dna_feats > 0).astype(float).mean()
 
             sae_analysis.append({
                 "group": label,
-                "mean_prot_active": float(prot_active.mean()),
-                "mean_dna_active": float(dna_active.mean()),
-                "n_prot_dominant_features": int((modality_diff > 0.1).sum()),
-                "n_dna_dominant_features": int((modality_diff < -0.1).sum()),
-                "top_prot_dominant_features": prot_dominant.tolist(),
-                "top_dna_dominant_features": dna_dominant.tolist(),
+                "mean_prot_active_frac": float(prot_active_frac.mean()),
+                "mean_dna_active_frac": float(dna_active_frac.mean()),
+                "prot_sparsity": float(prot_sparsity),
+                "dna_sparsity": float(dna_sparsity),
+                "n_prot_features": prot_feats.shape[1],
+                "n_dna_features": dna_feats.shape[1],
+                "prot_mean_activation": float(prot_feats.mean()),
+                "dna_mean_activation": float(dna_feats.mean()),
             })
 
     sae_df = pd.DataFrame(sae_analysis)
@@ -779,9 +776,9 @@ def run_discordance_atlas(
     if sae_analysis:
         logger.info(f"\nSAE feature analysis:")
         for row in sae_analysis:
-            logger.info(f"  {row['group']}: prot_active={row['mean_prot_active']:.4f}, "
-                       f"dna_active={row['mean_dna_active']:.4f}, "
-                       f"prot_dominant={row['n_prot_dominant_features']}, "
-                       f"dna_dominant={row['n_dna_dominant_features']}")
+            logger.info(f"  {row['group']}: prot_sparsity={row['prot_sparsity']:.4f}, "
+                       f"dna_sparsity={row['dna_sparsity']:.4f}, "
+                       f"prot_mean_act={row['prot_mean_activation']:.4f}, "
+                       f"dna_mean_act={row['dna_mean_activation']:.4f}")
 
     return enrich_df, atlas
