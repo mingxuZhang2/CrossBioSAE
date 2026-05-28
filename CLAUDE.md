@@ -10,8 +10,9 @@ Focus: computational-only research, no wet lab access.
 - Stage 2 (Implementation): IN PROGRESS — Idea 3 (CrossBioSAE) selected by Dr. Zhang
   - Code: COMPLETE — model, data pipeline, training, evaluation, downstream tasks, 4 applications
   - Tests: ALL PASSING — verified on CPU with synthetic data
-  - Experiments: ROUND 1-3 COMPLETE, APPLICATIONS RUNNING (job 316138)
+  - Experiments: ROUND 1-4 COMPLETE (4 apps done but GPT Pro R5 deemed insufficient)
   - Key findings: Raw+CCA R@1=30.3% >> SAE+CCA 14.3%; SAE = interpretability layer, not performance engine
+  - **Current pivot**: Zhong 2025 Gene Embedding Benchmark — testing CCA-aligned cross-modal embeddings against 38 baselines on standardized tasks
 - Stage 3 (Writing): Not started
 
 ## Selected Idea: CrossBioSAE
@@ -58,7 +59,10 @@ implementation/                      — Stage 2 code
     run_applications.py              — Runner for all 4 applications
     run_gptpro_r3_experiments.py     — GPT Pro Round 3 experiments (fair benchmark, hard-neg, low-label, transfer)
     build_feature_atlas.py           — Feature classification + cards
+    prepare_benchmark_embeddings.py  — Zhong 2025 benchmark: create embedding variants from activations
+    run_gene_benchmark.py            — Zhong 2025 benchmark: run gene-level and gene-pair tasks
     slurm_applications.sh            — SLURM: 4 applications
+    slurm_benchmark.sh               — SLURM: Zhong 2025 gene embedding benchmark
   environment.yml                    — Conda environment spec
   requirements.txt                   — Pip requirements
   README.md                          — Implementation documentation
@@ -125,6 +129,28 @@ Performance layer = raw+CCA; Interpretation layer = SAE.
 **App 4: Discordance atlas** — per-gene consistency with confound regression + gene family enrichment
 
 Script: `scripts/run_applications.py`; Module: `src/applications.py`
+
+## Zhong 2025 Gene Embedding Benchmark (current focus)
+Standardized benchmark comparing 38 gene embedding methods (Zhong et al. 2025, bioRxiv).
+No existing method uses both protein + DNA sequence embeddings — our CCA-aligned representation is a novel entry.
+
+**Embedding variants we test:**
+- ESM2-RAW: protein raw activations (1280-dim, our baseline)
+- NT-RAW: DNA raw activations (1024-dim, our baseline)
+- RAW-CONCAT: concat(protein, dna) — simple fusion baseline
+- CCA-PROT / CCA-DNA: single modality in CCA space
+- CCA-FUSED: concat(cca_prot, cca_dna) — our main cross-modal entry
+- CCA-SHARED: mean(cca_prot, cca_dna) — shared representation
+
+**Benchmark tasks:**
+- Gene-level: GO function prediction (56 terms), OMIM disease gene prediction
+- Gene-pair: Genetic interaction (NG, SL), TF-target prediction
+- Gene-set: Pathway matching (requires ANDES, optional)
+
+**Gene ID format:** Entrez Gene IDs (numeric). Our gene symbols mapped via mygene.
+
+Scripts: `prepare_benchmark_embeddings.py`, `run_gene_benchmark.py`, `slurm_benchmark.sh`
+External repo: `gene-embedding-benchmarks/` (cloned, gitignored)
 
 ## HPC Environment
 - **HPC3**: HKUST-GZ HPC3 (H100 GPUs in acd_u partition, account d_yings_team)
