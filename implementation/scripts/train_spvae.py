@@ -20,14 +20,13 @@ import h5py
 import numpy as np
 import pandas as pd
 import torch
-from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
-from sklearn.linear_model import Ridge, LogisticRegression
+import torch.nn as nn
 from sklearn.metrics import r2_score, roc_auc_score
-from sklearn.model_selection import cross_val_score, KFold
+from sklearn.model_selection import KFold
 from sklearn.preprocessing import StandardScaler
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
-from crossmodal_vae import SharedPrivateVAE, SPVAEConfig, SPVAETrainer
+from crossmodal_vae import SharedPrivateAE, SPAEConfig, SPAETrainer
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -67,8 +66,56 @@ def load_essentiality(path):
     return labels
 
 
-def evaluate_representations(reps_dict, gene_names, labels, task_type, task_name):
-    """Evaluate multiple representations on a task."""
+class MLPProbe(nn.Module):
+    def __init__(self, input_dim, task_type="regression"):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(input_dim, 256), nn.ReLU(), nn.Dropout(0.1),
+            nn.Linear(256, 64), nn.ReLU(), nn.Dropout(0.1),
+            nn.Linear(64, 1),
+        )
+        self.task_type = task_type
+
+    def forward(self, x):
+        return self.net(x).squeeze(-1)
+
+
+def train_mlp_probe(X_train, y_train, X_test, y_test, task_type, device, epochs=100):
+    model = MLPProbe(X_train.shape[1], task_type).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
+
+    X_tr = torch.tensor(X_train, dtype=torch.float32, device=device)
+    y_tr = torch.tensor(y_train, dtype=torch.float32, device=device)
+    X_te = torch.tensor(X_test, dtype=torch.float32, device=device)
+    y_te = torch.tensor(y_test, dtype=torch.float32, device=device)
+
+    if task_type == "classification":
+        pos_weight = torch.tensor([(y_train == 0).sum() / max((y_train == 1).sum(), 1)], device=device)
+        loss_fn = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+    else:
+        loss_fn = nn.MSELoss()
+
+    model.train()
+    for _ in range(epochs):
+        pred = model(X_tr)
+        loss = loss_fn(pred, y_tr)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+    model.eval()
+    with torch.no_grad():
+        pred = model(X_te).cpu().numpy()
+
+    y_test_np = y_test
+    if task_type == "regression":
+        return r2_score(y_test_np, pred)
+    else:
+        from scipy.special import expit
+        return roc_auc_score(y_test_np, expit(pred))
+
+
+def evaluate_representations(reps_dict, gene_names, labels, task_type, task_name, device="cuda"):
     labeled_genes = [g for g in gene_names if g in labels]
     indices = [gene_names.index(g) for g in labeled_genes]
     y = np.array([labels[g] for g in labeled_genes])
@@ -83,33 +130,23 @@ def evaluate_representations(reps_dict, gene_names, labels, task_type, task_name
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(X)
 
-        if task_type == "regression":
-            ridge_scores = cross_val_score(Ridge(alpha=1.0), X_scaled, y, cv=kf, scoring="r2")
-            gbr_scores = cross_val_score(
-                GradientBoostingRegressor(n_estimators=200, max_depth=4, learning_rate=0.05, random_state=42),
-                X_scaled, y, cv=kf, scoring="r2",
+        fold_scores = []
+        for train_idx, test_idx in kf.split(X_scaled):
+            score = train_mlp_probe(
+                X_scaled[train_idx], y[train_idx],
+                X_scaled[test_idx], y[test_idx],
+                task_type, device,
             )
-            results.append({
-                "name": rep_name, "dim": X.shape[1],
-                "ridge_r2": ridge_scores.mean(), "ridge_std": ridge_scores.std(),
-                "gbr_r2": gbr_scores.mean(), "gbr_std": gbr_scores.std(),
-            })
-            logger.info(f"  {rep_name:30s} ({X.shape[1]:4d}d): Ridge R²={ridge_scores.mean():.4f}±{ridge_scores.std():.4f}  GBR R²={gbr_scores.mean():.4f}±{gbr_scores.std():.4f}")
-        else:
-            lr_scores = cross_val_score(
-                LogisticRegression(max_iter=1000, C=1.0, class_weight="balanced"),
-                X_scaled, y, cv=kf, scoring="roc_auc",
-            )
-            gbc_scores = cross_val_score(
-                GradientBoostingClassifier(n_estimators=200, max_depth=4, learning_rate=0.05, random_state=42),
-                X_scaled, y, cv=kf, scoring="roc_auc",
-            )
-            results.append({
-                "name": rep_name, "dim": X.shape[1],
-                "lr_auc": lr_scores.mean(), "lr_std": lr_scores.std(),
-                "gbc_auc": gbc_scores.mean(), "gbc_std": gbc_scores.std(),
-            })
-            logger.info(f"  {rep_name:30s} ({X.shape[1]:4d}d): LR AUC={lr_scores.mean():.4f}±{lr_scores.std():.4f}  GBC AUC={gbc_scores.mean():.4f}±{gbc_scores.std():.4f}")
+            fold_scores.append(score)
+        fold_scores = np.array(fold_scores)
+
+        metric = "r2" if task_type == "regression" else "auc"
+        results.append({
+            "name": rep_name, "dim": X.shape[1],
+            f"mlp_{metric}": fold_scores.mean(),
+            f"mlp_{metric}_std": fold_scores.std(),
+        })
+        logger.info(f"  {rep_name:30s} ({X.shape[1]:4d}d): MLP {metric}={fold_scores.mean():.4f}±{fold_scores.std():.4f}")
 
     return pd.DataFrame(results)
 
@@ -127,6 +164,7 @@ def main():
     parser.add_argument("--batch_size", type=int, default=512)
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--alpha_align", type=float, default=10.0)
+    parser.add_argument("--alpha_cross_recon", type=float, default=0.5)
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
 
@@ -165,19 +203,20 @@ def main():
     logger.info(f"Train: {len(train_idx)}, Val: {len(val_idx)}")
 
     # Build model
-    config = SPVAEConfig(
+    config = SPAEConfig(
         prot_dim=prot_aligned.shape[1],
         dna_dim=dna_aligned.shape[1],
         hidden_dim=args.hidden_dim,
         shared_dim=args.shared_dim,
         private_dim=args.private_dim,
         alpha_align=args.alpha_align,
+        alpha_cross_recon=args.alpha_cross_recon,
     )
-    model = SharedPrivateVAE(config)
+    model = SharedPrivateAE(config)
     logger.info(f"Model params: {sum(p.numel() for p in model.parameters()):,}")
 
     # Train
-    trainer = SPVAETrainer(model, config, lr=args.lr, device=args.device)
+    trainer = SPAETrainer(model, config, lr=args.lr, device=args.device)
     save_path = os.path.join(args.output_dir, "spvae_best.pt")
     history = trainer.fit(
         prot_train, dna_train, prot_val, dna_val,
@@ -212,23 +251,23 @@ def main():
     loeuf_path = os.path.join(args.labels_dir, "gnomad_constraint.txt.bgz")
     if os.path.exists(loeuf_path):
         loeuf_labels = load_loeuf(loeuf_path)
-        df_loeuf = evaluate_representations(reps_dict, gene_names, loeuf_labels, "regression", "LOEUF")
+        df_loeuf = evaluate_representations(reps_dict, gene_names, loeuf_labels, "regression", "LOEUF", args.device)
         df_loeuf.to_csv(os.path.join(args.output_dir, "loeuf_results.csv"), index=False)
         print("\n" + "=" * 80)
         print("LOEUF Prediction")
         print("=" * 80)
-        print(df_loeuf.sort_values("gbr_r2", ascending=False).to_string(index=False))
+        print(df_loeuf.sort_values("mlp_r2", ascending=False).to_string(index=False))
 
     # Evaluate on essentiality
     ess_path = os.path.join(args.labels_dir, "depmap_gene_essentiality.tsv")
     if os.path.exists(ess_path):
         ess_labels = load_essentiality(ess_path)
-        df_ess = evaluate_representations(reps_dict, gene_names, ess_labels, "classification", "Essentiality")
+        df_ess = evaluate_representations(reps_dict, gene_names, ess_labels, "classification", "Essentiality", args.device)
         df_ess.to_csv(os.path.join(args.output_dir, "essentiality_results.csv"), index=False)
         print("\n" + "=" * 80)
         print("Gene Essentiality Prediction")
         print("=" * 80)
-        print(df_ess.sort_values("gbc_auc", ascending=False).to_string(index=False))
+        print(df_ess.sort_values("mlp_auc", ascending=False).to_string(index=False))
 
     # Save representations
     np.savez_compressed(

@@ -1,32 +1,37 @@
 """
-Shared-Private VAE for cross-modal gene representation learning.
+Shared-Private Autoencoder for cross-modal gene representation learning.
 
-Learns to decompose protein LM and DNA LM embeddings into:
+Deterministic AE (no KL divergence) that decomposes protein LM and DNA LM
+embeddings into:
 - z_shared: what both modalities agree on (cross-modal biological concepts)
-- z_prot_private: protein-specific information (structure, domains)
-- z_dna_private: DNA-specific information (codon usage, regulatory signals)
+- z_prot_private: protein-specific information
+- z_dna_private: DNA-specific information
+
+Losses:
+1. Reconstruction (must reconstruct input from shared + private)
+2. Alignment (shared representations match across modalities)
+3. Disentanglement (shared independent of private)
+4. Cross-reconstruction (reconstruct protein from shared + DNA private, and vice versa)
 """
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass
-class SPVAEConfig:
+class SPAEConfig:
     prot_dim: int = 1280
     dna_dim: int = 1024
-    hidden_dim: int = 512
+    hidden_dim: int = 1024
     shared_dim: int = 128
     private_dim: int = 64
-    n_layers: int = 2
+    n_layers: int = 3
     dropout: float = 0.1
-    beta_shared: float = 1.0
-    beta_private: float = 1.0
     alpha_align: float = 10.0
     alpha_disentangle: float = 1.0
+    alpha_cross_recon: float = 0.5
 
 
 class Encoder(nn.Module):
@@ -34,22 +39,22 @@ class Encoder(nn.Module):
                  private_dim: int, n_layers: int, dropout: float):
         super().__init__()
 
-        layers = [nn.Linear(input_dim, hidden_dim), nn.LayerNorm(hidden_dim), nn.GELU(), nn.Dropout(dropout)]
-        for _ in range(n_layers - 1):
-            layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.LayerNorm(hidden_dim), nn.GELU(), nn.Dropout(dropout)])
+        dims = [input_dim] + [hidden_dim] * n_layers
+        layers = []
+        for i in range(n_layers):
+            layers.extend([
+                nn.Linear(dims[i], dims[i + 1]),
+                nn.LayerNorm(dims[i + 1]),
+                nn.GELU(),
+                nn.Dropout(dropout),
+            ])
         self.backbone = nn.Sequential(*layers)
-
-        self.shared_mu = nn.Linear(hidden_dim, shared_dim)
-        self.shared_logvar = nn.Linear(hidden_dim, shared_dim)
-        self.private_mu = nn.Linear(hidden_dim, private_dim)
-        self.private_logvar = nn.Linear(hidden_dim, private_dim)
+        self.shared_head = nn.Linear(hidden_dim, shared_dim)
+        self.private_head = nn.Linear(hidden_dim, private_dim)
 
     def forward(self, x):
         h = self.backbone(x)
-        return (
-            self.shared_mu(h), self.shared_logvar(h),
-            self.private_mu(h), self.private_logvar(h),
-        )
+        return self.shared_head(h), self.private_head(h)
 
 
 class Decoder(nn.Module):
@@ -58,18 +63,24 @@ class Decoder(nn.Module):
         super().__init__()
 
         input_dim = shared_dim + private_dim
-        layers = [nn.Linear(input_dim, hidden_dim), nn.LayerNorm(hidden_dim), nn.GELU(), nn.Dropout(dropout)]
-        for _ in range(n_layers - 1):
-            layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.LayerNorm(hidden_dim), nn.GELU(), nn.Dropout(dropout)])
-        layers.append(nn.Linear(hidden_dim, output_dim))
+        dims = [input_dim] + [hidden_dim] * n_layers + [output_dim]
+        layers = []
+        for i in range(n_layers):
+            layers.extend([
+                nn.Linear(dims[i], dims[i + 1]),
+                nn.LayerNorm(dims[i + 1]),
+                nn.GELU(),
+                nn.Dropout(dropout),
+            ])
+        layers.append(nn.Linear(dims[-2], dims[-1]))
         self.net = nn.Sequential(*layers)
 
     def forward(self, z_shared, z_private):
         return self.net(torch.cat([z_shared, z_private], dim=-1))
 
 
-class SharedPrivateVAE(nn.Module):
-    def __init__(self, config: SPVAEConfig):
+class SharedPrivateAE(nn.Module):
+    def __init__(self, config: SPAEConfig):
         super().__init__()
         self.config = config
 
@@ -90,126 +101,86 @@ class SharedPrivateVAE(nn.Module):
             config.dna_dim, config.n_layers, config.dropout,
         )
 
-    def reparameterize(self, mu, logvar):
-        if self.training:
-            std = torch.exp(0.5 * logvar)
-            return mu + std * torch.randn_like(std)
-        return mu
-
-    def encode(self, prot, dna):
-        """Encode both modalities. Returns all latent parameters."""
-        p_shared_mu, p_shared_logvar, p_priv_mu, p_priv_logvar = self.prot_encoder(prot)
-        d_shared_mu, d_shared_logvar, d_priv_mu, d_priv_logvar = self.dna_encoder(dna)
-        return {
-            "p_shared_mu": p_shared_mu, "p_shared_logvar": p_shared_logvar,
-            "p_priv_mu": p_priv_mu, "p_priv_logvar": p_priv_logvar,
-            "d_shared_mu": d_shared_mu, "d_shared_logvar": d_shared_logvar,
-            "d_priv_mu": d_priv_mu, "d_priv_logvar": d_priv_logvar,
-        }
-
-    def decode(self, z_shared, z_prot_priv, z_dna_priv):
-        """Decode from latent variables."""
-        prot_recon = self.prot_decoder(z_shared, z_prot_priv)
-        dna_recon = self.dna_decoder(z_shared, z_dna_priv)
-        return prot_recon, dna_recon
-
     def forward(self, prot, dna):
-        params = self.encode(prot, dna)
+        z_p_shared, z_p_priv = self.prot_encoder(prot)
+        z_d_shared, z_d_priv = self.dna_encoder(dna)
 
-        # Sample latent variables
-        z_p_shared = self.reparameterize(params["p_shared_mu"], params["p_shared_logvar"])
-        z_d_shared = self.reparameterize(params["d_shared_mu"], params["d_shared_logvar"])
-        z_p_priv = self.reparameterize(params["p_priv_mu"], params["p_priv_logvar"])
-        z_d_priv = self.reparameterize(params["d_priv_mu"], params["d_priv_logvar"])
-
-        # Use averaged shared for decoding (product-of-experts approximation)
         z_shared = (z_p_shared + z_d_shared) / 2.0
 
-        prot_recon, dna_recon = self.decode(z_shared, z_p_priv, z_d_priv)
+        prot_recon = self.prot_decoder(z_shared, z_p_priv)
+        dna_recon = self.dna_decoder(z_shared, z_d_priv)
+
+        # Cross-reconstruction: use shared from one modality + private from the other
+        prot_cross = self.prot_decoder(z_d_shared, z_p_priv)
+        dna_cross = self.dna_decoder(z_p_shared, z_d_priv)
 
         return {
             "prot_recon": prot_recon, "dna_recon": dna_recon,
+            "prot_cross": prot_cross, "dna_cross": dna_cross,
             "z_shared": z_shared,
             "z_p_shared": z_p_shared, "z_d_shared": z_d_shared,
             "z_p_priv": z_p_priv, "z_d_priv": z_d_priv,
-            "params": params,
         }
 
+    @torch.no_grad()
     def get_representations(self, prot, dna):
-        """Get all representations for downstream use (no grad)."""
-        with torch.no_grad():
-            out = self.forward(prot, dna)
+        self.eval()
+        out = self.forward(prot, dna)
         return {
             "shared": out["z_shared"].cpu().numpy(),
             "prot_private": out["z_p_priv"].cpu().numpy(),
             "dna_private": out["z_d_priv"].cpu().numpy(),
-            "prot_shared": out["z_p_shared"].cpu().numpy(),
-            "dna_shared": out["z_d_shared"].cpu().numpy(),
         }
 
 
-class SPVAELoss(nn.Module):
-    def __init__(self, config: SPVAEConfig):
+class SPAELoss(nn.Module):
+    def __init__(self, config: SPAEConfig):
         super().__init__()
         self.config = config
 
-    def kl_divergence(self, mu, logvar):
-        return -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp(), dim=-1).mean()
-
-    def forward(self, prot, dna, model_output):
+    def forward(self, prot, dna, out):
         cfg = self.config
-        params = model_output["params"]
 
-        # 1. Reconstruction loss
-        recon_prot = F.mse_loss(model_output["prot_recon"], prot)
-        recon_dna = F.mse_loss(model_output["dna_recon"], dna)
+        recon_prot = F.mse_loss(out["prot_recon"], prot)
+        recon_dna = F.mse_loss(out["dna_recon"], dna)
         recon_loss = recon_prot + recon_dna
 
-        # 2. KL divergence for shared latents
-        kl_p_shared = self.kl_divergence(params["p_shared_mu"], params["p_shared_logvar"])
-        kl_d_shared = self.kl_divergence(params["d_shared_mu"], params["d_shared_logvar"])
-        kl_shared = cfg.beta_shared * (kl_p_shared + kl_d_shared)
+        cross_prot = F.mse_loss(out["prot_cross"], prot)
+        cross_dna = F.mse_loss(out["dna_cross"], dna)
+        cross_loss = cfg.alpha_cross_recon * (cross_prot + cross_dna)
 
-        # 3. KL divergence for private latents
-        kl_p_priv = self.kl_divergence(params["p_priv_mu"], params["p_priv_logvar"])
-        kl_d_priv = self.kl_divergence(params["d_priv_mu"], params["d_priv_logvar"])
-        kl_private = cfg.beta_private * (kl_p_priv + kl_d_priv)
+        align_loss = cfg.alpha_align * F.mse_loss(out["z_p_shared"], out["z_d_shared"])
 
-        # 4. Alignment loss: shared representations should match across modalities
-        align_loss = cfg.alpha_align * F.mse_loss(
-            params["p_shared_mu"], params["d_shared_mu"]
+        def cross_cov_penalty(z1, z2):
+            z1_c = z1 - z1.mean(dim=0)
+            z2_c = z2 - z2.mean(dim=0)
+            cov = (z1_c.T @ z2_c) / (z1.shape[0] - 1)
+            return (cov ** 2).mean()
+
+        disentangle = cfg.alpha_disentangle * (
+            cross_cov_penalty(out["z_p_shared"], out["z_p_priv"]) +
+            cross_cov_penalty(out["z_d_shared"], out["z_d_priv"])
         )
 
-        # 5. Disentanglement: shared and private should be independent
-        # Use cosine similarity penalty
-        cos_p = F.cosine_similarity(
-            model_output["z_p_shared"], model_output["z_p_priv"], dim=-1
-        ).abs().mean()
-        cos_d = F.cosine_similarity(
-            model_output["z_d_shared"], model_output["z_d_priv"], dim=-1
-        ).abs().mean()
-        disentangle_loss = cfg.alpha_disentangle * (cos_p + cos_d)
-
-        total = recon_loss + kl_shared + kl_private + align_loss + disentangle_loss
+        total = recon_loss + cross_loss + align_loss + disentangle
 
         return {
             "loss": total,
             "recon_prot": recon_prot.item(),
             "recon_dna": recon_dna.item(),
-            "kl_shared": kl_shared.item(),
-            "kl_private": kl_private.item(),
+            "cross_prot": cross_prot.item(),
+            "cross_dna": cross_dna.item(),
             "align": align_loss.item(),
-            "disentangle": disentangle_loss.item(),
+            "disentangle": disentangle.item(),
         }
 
 
-class SPVAETrainer:
-    def __init__(self, model: SharedPrivateVAE, config: SPVAEConfig,
-                 lr: float = 1e-3, device: str = "cuda"):
+class SPAETrainer:
+    def __init__(self, model, config, lr=1e-3, device="cuda"):
         self.model = model.to(device)
         self.config = config
         self.device = device
-        self.loss_fn = SPVAELoss(config)
+        self.loss_fn = SPAELoss(config)
         self.optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
 
     def train_epoch(self, prot_data, dna_data, batch_size=512):
@@ -259,10 +230,9 @@ class SPVAETrainer:
         return {k: v / n_batches for k, v in total_losses.items()}
 
     def fit(self, prot_train, dna_train, prot_val=None, dna_val=None,
-            n_epochs=200, batch_size=512, patience=20, save_path=None):
+            n_epochs=300, batch_size=512, patience=30, save_path=None):
         best_val_loss = float("inf")
         wait = 0
-        history = []
 
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
             self.optimizer, T_max=n_epochs, eta_min=1e-5
@@ -272,13 +242,14 @@ class SPVAETrainer:
             train_losses = self.train_epoch(prot_train, dna_train, batch_size)
             scheduler.step()
 
-            log = f"Epoch {epoch+1:3d} | train loss={train_losses['loss']:.4f}"
+            log = f"Epoch {epoch+1:3d} | loss={train_losses['loss']:.4f}"
             log += f" recon_p={train_losses['recon_prot']:.4f} recon_d={train_losses['recon_dna']:.4f}"
-            log += f" align={train_losses['align']:.4f} disentangle={train_losses['disentangle']:.4f}"
+            log += f" cross_p={train_losses['cross_prot']:.4f} cross_d={train_losses['cross_dna']:.4f}"
+            log += f" align={train_losses['align']:.4f}"
 
             if prot_val is not None:
                 val_losses = self.evaluate(prot_val, dna_val, batch_size)
-                log += f" | val loss={val_losses['loss']:.4f}"
+                log += f" | val={val_losses['loss']:.4f} recon={val_losses['recon_prot']+val_losses['recon_dna']:.4f}"
 
                 if val_losses["loss"] < best_val_loss:
                     best_val_loss = val_losses["loss"]
@@ -291,22 +262,14 @@ class SPVAETrainer:
                         print(f"Early stopping at epoch {epoch+1}")
                         break
 
-                history.append({**{f"train_{k}": v for k, v in train_losses.items()},
-                                **{f"val_{k}": v for k, v in val_losses.items()}})
-            else:
-                history.append({f"train_{k}": v for k, v in train_losses.items()})
-
             if (epoch + 1) % 10 == 0 or epoch == 0:
-                print(log)
+                print(log, flush=True)
 
         if save_path and prot_val is not None:
             self.model.load_state_dict(torch.load(save_path, weights_only=True))
 
-        return history
-
     @torch.no_grad()
     def extract_all(self, prot_data, dna_data, batch_size=512):
-        """Extract all representations for all genes."""
         self.model.eval()
         all_shared, all_p_priv, all_d_priv = [], [], []
 
