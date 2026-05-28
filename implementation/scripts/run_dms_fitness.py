@@ -25,7 +25,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 logger = logging.getLogger(__name__)
 
 
-def load_gfp_data(nt_file, ref_file, max_mutations=3, min_barcodes=2):
+def load_gfp_data(nt_file, ref_file, max_mutations=3, min_barcodes=1):
     """Load GFP DMS data. Returns variant CDS sequences + brightness."""
     with open(ref_file) as f:
         lines = f.readlines()
@@ -206,34 +206,60 @@ def main():
     df, wt_cds, wt_protein = load_gfp_data(args.nt_file, args.ref_file, args.max_mutations)
     y = df["brightness"].values
 
-    # Extract ESM-2 embeddings
-    logger.info("Loading ESM-2...")
-    import esm
-    esm_model, alphabet = esm.pretrained.esm2_t33_650M_UR50D()
-    esm_model = esm_model.to(args.device)
-    esm_model.eval()
+    # Check for cached embeddings
+    cache_path = os.path.join(args.output_dir, "gfp_embeddings.npz")
+    if os.path.exists(cache_path):
+        logger.info(f"Loading cached embeddings from {cache_path}")
+        cached = np.load(cache_path)
+        if cached["protein"].shape[0] == len(df):
+            prot_embeddings = cached["protein"]
+            dna_embeddings = cached["dna"]
+            logger.info(f"Protein embeddings: {prot_embeddings.shape}, DNA: {dna_embeddings.shape}")
+        else:
+            logger.info(f"Cache size mismatch ({cached['protein'].shape[0]} vs {len(df)}), re-extracting")
+            prot_embeddings = None
+            dna_embeddings = None
+    else:
+        prot_embeddings = None
+        dna_embeddings = None
 
-    logger.info("Extracting ESM-2 embeddings...")
-    prot_embeddings = extract_esm2_embeddings(df["protein"].tolist(), esm_model, alphabet, args.device)
-    logger.info(f"Protein embeddings: {prot_embeddings.shape}")
+    # Extract ESM-2 embeddings if needed
+    if prot_embeddings is None:
+        logger.info("Loading ESM-2...")
+        import esm
+        esm_model, alphabet = esm.pretrained.esm2_t33_650M_UR50D()
+        esm_model = esm_model.to(args.device)
+        esm_model.eval()
 
-    del esm_model
-    torch.cuda.empty_cache()
+        logger.info("Extracting ESM-2 embeddings...")
+        prot_embeddings = extract_esm2_embeddings(df["protein"].tolist(), esm_model, alphabet, args.device)
+        logger.info(f"Protein embeddings: {prot_embeddings.shape}")
 
-    # Extract NT embeddings
-    logger.info("Loading Nucleotide Transformer...")
-    from transformers import AutoTokenizer, AutoModelForMaskedLM
-    nt_tokenizer = AutoTokenizer.from_pretrained("InstaDeepAI/nucleotide-transformer-v2-500m-multi-species")
-    nt_model = AutoModelForMaskedLM.from_pretrained("InstaDeepAI/nucleotide-transformer-v2-500m-multi-species")
-    nt_model = nt_model.to(args.device)
-    nt_model.eval()
+        del esm_model
+        torch.cuda.empty_cache()
 
-    logger.info("Extracting NT embeddings...")
-    dna_embeddings = extract_nt_embeddings(df["cds"].tolist(), nt_model, nt_tokenizer, args.device)
-    logger.info(f"DNA embeddings: {dna_embeddings.shape}")
+    # Extract NT embeddings if needed
+    if dna_embeddings is None:
+        logger.info("Loading Nucleotide Transformer...")
+        from transformers import AutoTokenizer, AutoModelForMaskedLM
+        model_id = "InstaDeepAI/nucleotide-transformer-v2-500m-multi-species"
+        local_path = os.path.join(
+            os.path.expanduser("~/.cache/huggingface/hub"),
+            f"models--{model_id.replace('/', '--')}/snapshots/main",
+        )
+        load_from = local_path if os.path.isdir(local_path) else model_id
+        logger.info(f"  Loading from: {load_from}")
+        nt_tokenizer = AutoTokenizer.from_pretrained(load_from, trust_remote_code=True)
+        nt_model = AutoModelForMaskedLM.from_pretrained(load_from, trust_remote_code=True)
+        nt_model = nt_model.to(args.device)
+        nt_model.eval()
 
-    del nt_model
-    torch.cuda.empty_cache()
+        logger.info("Extracting NT embeddings...")
+        dna_embeddings = extract_nt_embeddings(df["cds"].tolist(), nt_model, nt_tokenizer, args.device)
+        logger.info(f"DNA embeddings: {dna_embeddings.shape}")
+
+        del nt_model
+        torch.cuda.empty_cache()
 
     # Build representations
     concat = np.hstack([prot_embeddings, dna_embeddings])
