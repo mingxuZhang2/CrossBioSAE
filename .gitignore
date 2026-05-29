@@ -28,3 +28,7 @@ Thumbs.db
 
 # Wandb
 wandb/
+implementation/evo2_wheels/
+implementation/flash_src/
+implementation/models/
+implementation/activations_debug.log
