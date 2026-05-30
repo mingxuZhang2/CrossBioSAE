@@ -39,8 +39,9 @@ def set_seed(s):
     np.random.seed(s); torch.manual_seed(s); torch.cuda.manual_seed_all(s)
 
 
-def train_fold(model_fn, Xp_tr, Xd_tr, m_tr, y_tr, Xp_va, Xd_va, m_va, y_va,
-               Xp_te, Xd_te, m_te, dev):
+def train_fold(model_fn, Xp_tr, Xd_tr, m_tr, y_tr, s_tr,
+               Xp_va, Xd_va, m_va, y_va, s_va,
+               Xp_te, Xd_te, m_te, s_te, dev):
     model = model_fn().to(dev)
     opt = torch.optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()),
                             lr=LR, weight_decay=WD)
@@ -48,16 +49,17 @@ def train_fold(model_fn, Xp_tr, Xd_tr, m_tr, y_tr, Xp_va, Xd_va, m_va, y_va,
     td = torch.tensor(Xd_tr, dtype=torch.float32, device=dev)
     tm = torch.tensor(m_tr, dtype=torch.float32, device=dev)
     ty = torch.tensor(y_tr, dtype=torch.float32, device=dev)
+    ts = torch.tensor(s_tr, dtype=torch.float32, device=dev) if s_tr is not None else None
     vp = torch.tensor(Xp_va, dtype=torch.float32, device=dev)
     vd = torch.tensor(Xd_va, dtype=torch.float32, device=dev)
     vm = torch.tensor(m_va, dtype=torch.float32, device=dev)
+    vs = torch.tensor(s_va, dtype=torch.float32, device=dev) if s_va is not None else None
 
     best_auc, best_state, bad = -1, None, 0
     for ep in range(EPOCHS):
         model.train(); opt.zero_grad()
-        logit, zp, zd = model(tp, td, tm)
+        logit, zp, zd = model(tp, td, tm, ts)
         loss = F.binary_cross_entropy_with_logits(logit, ty)
-        # cross-modal alignment reg on valid pairs
         valid = tm.squeeze(-1) > 0.5
         if valid.any():
             loss = loss + 0.1 * (1 - F.cosine_similarity(zp[valid], zd[valid])).mean()
@@ -65,7 +67,7 @@ def train_fold(model_fn, Xp_tr, Xd_tr, m_tr, y_tr, Xp_va, Xd_va, m_va, y_va,
 
         model.eval()
         with torch.no_grad():
-            vlogit, _, _ = model(vp, vd, vm)
+            vlogit, _, _ = model(vp, vd, vm, vs)
             va = roc_auc_score(y_va, torch.sigmoid(vlogit).cpu().numpy())
         if va > best_auc + 1e-4:
             best_auc = va
@@ -82,11 +84,12 @@ def train_fold(model_fn, Xp_tr, Xd_tr, m_tr, y_tr, Xp_va, Xd_va, m_va, y_va,
         ep_ = torch.tensor(Xp_te, dtype=torch.float32, device=dev)
         ed_ = torch.tensor(Xd_te, dtype=torch.float32, device=dev)
         em_ = torch.tensor(m_te, dtype=torch.float32, device=dev)
-        logit, _, _ = model(ep_, ed_, em_)
+        es_ = torch.tensor(s_te, dtype=torch.float32, device=dev) if s_te is not None else None
+        logit, _, _ = model(ep_, ed_, em_, es_)
         return torch.sigmoid(logit).cpu().numpy()
 
 
-def oof(model_fn, pdelta, ddelta, mask, y, groups, dev, n_splits=5):
+def oof(model_fn, pdelta, ddelta, mask, y, groups, scalars, dev, n_splits=5):
     set_seed(SEED)
     gkf = GroupKFold(n_splits=n_splits)
     pred = np.zeros(len(y))
@@ -96,14 +99,18 @@ def oof(model_fn, pdelta, ddelta, mask, y, groups, dev, n_splits=5):
         va_groups = set(rng.choice(uniq, size=max(1, len(uniq) // 10), replace=False))
         va = tr_all[np.array([g in va_groups for g in g_tr])]
         tr = tr_all[np.array([g not in va_groups for g in g_tr])]
-        # standardize using train stats — use the pretrained normalization for
-        # the encoder, but standard-scale the raw deltas going IN to the encoder
         sp = StandardScaler().fit(pdelta[tr]); sd = StandardScaler().fit(ddelta[tr])
+        s_tr = scalars[tr] if scalars is not None else None
+        s_va = scalars[va] if scalars is not None else None
+        s_te = scalars[te] if scalars is not None else None
+        if scalars is not None:
+            ss = StandardScaler().fit(s_tr)
+            s_tr, s_va, s_te = ss.transform(s_tr), ss.transform(s_va), ss.transform(s_te)
         pred[te] = train_fold(
             model_fn,
-            sp.transform(pdelta[tr]), sd.transform(ddelta[tr]), mask[tr], y[tr],
-            sp.transform(pdelta[va]), sd.transform(ddelta[va]), mask[va], y[va],
-            sp.transform(pdelta[te]), sd.transform(ddelta[te]), mask[te], dev)
+            sp.transform(pdelta[tr]), sd.transform(ddelta[tr]), mask[tr], y[tr], s_tr,
+            sp.transform(pdelta[va]), sd.transform(ddelta[va]), mask[va], y[va], s_va,
+            sp.transform(pdelta[te]), sd.transform(ddelta[te]), mask[te], s_te, dev)
     return pred
 
 
@@ -129,6 +136,8 @@ def main():
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--freeze_encoders", action="store_true",
                     help="freeze pretrained encoders (only train head+gate)")
+    ap.add_argument("--use_llr", action="store_true",
+                    help="append Evo2 LLR to DNA input (task-specific signal)")
     args = ap.parse_args()
     dev = args.device if torch.cuda.is_available() else "cpu"
 
@@ -150,42 +159,42 @@ def main():
     llr = ev["llr"]
     llr_imp = np.where(np.isnan(llr), np.nanmedian(llr), llr).astype(np.float32)
 
+    scalar_dim = 1 if args.use_llr else 0
+    scalars = llr_imp[:, None] if args.use_llr else None
+    if args.use_llr:
+        logger.info("LLR as SEPARATE scalar pathway (bypasses embedding encoder)")
+
     d_prot_actual = pdelta.shape[1]
     d_dna_actual = ddelta.shape[1]
-    logger.info(f"variant deltas: prot {d_prot_actual}-d, dna {d_dna_actual}-d")
-    logger.info(f"pretrained dims: prot {cfg['d_prot']}-d, dna {cfg['d_dna']}-d")
+    logger.info(f"variant deltas: prot {d_prot_actual}-d, dna {d_dna_actual}-d, scalar_dim={scalar_dim}")
 
-    # if DNA dim mismatch (pretrained on old 1024-d, variants have Evo2 4096-d),
-    # re-initialize the DNA encoder for the new dim but keep protein encoder pretrained
     dim_match = (d_prot_actual == cfg["d_prot"] and d_dna_actual == cfg["d_dna"])
 
     def make_model():
+        clip = CrossModalCLIP(d_prot=d_prot_actual, d_dna=d_dna_actual,
+                              d_hidden=cfg["d_hidden"], d_shared=cfg["d_shared"],
+                              n_layers=cfg["n_layers"])
         if dim_match:
-            clip = CrossModalCLIP(**cfg)
             clip.load_state_dict(ckpt["model_state"])
             logger.info("loaded FULL pretrained weights (dims match)")
         else:
-            clip = CrossModalCLIP(d_prot=d_prot_actual, d_dna=d_dna_actual,
-                                  d_hidden=cfg["d_hidden"], d_shared=cfg["d_shared"],
-                                  n_layers=cfg["n_layers"])
-            # load protein encoder weights (dims match)
             prot_keys = {k: v for k, v in ckpt["model_state"].items() if "enc_prot" in k}
             clip.load_state_dict(prot_keys, strict=False)
-            logger.info(f"dim mismatch: loaded protein encoder, DNA encoder random "
-                        f"(pretrained {cfg['d_dna']}-d vs actual {d_dna_actual}-d)")
+            logger.info(f"dim mismatch: loaded protein encoder only")
         return VariantFusionHead(clip, d_shared=cfg["d_shared"],
-                                freeze_encoders=args.freeze_encoders)
+                                freeze_encoders=args.freeze_encoders,
+                                scalar_dim=scalar_dim)
 
     # --- Evo2 zero-shot reference ---
     print(f"\n{'='*76}")
     print("BRCA1 variant effect: PRETRAINED cross-modal shared embedding")
     print(f"  encoders={'frozen' if args.freeze_encoders else 'fine-tuned'}")
-    print(f"  dim_match={dim_match}")
+    print(f"  use_llr={args.use_llr}  d_dna_actual={d_dna_actual}")
     print(f"{'='*76}")
     print(f"  {'Evo2 zero-shot':20s}: all={roc_auc_score(y, -llr_imp):.4f} (reference)")
 
     preds = {"Evo2 zero-shot": -llr_imp}
-    p = oof(make_model, pdelta, ddelta, pmask, y, groups, dev)
+    p = oof(make_model, pdelta, ddelta, pmask, y, groups, scalars, dev)
     tag = "Pretrained-Fused"
     preds[tag] = p
     s = strat(y, p, df)

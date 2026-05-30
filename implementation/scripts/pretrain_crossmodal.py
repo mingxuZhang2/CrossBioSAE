@@ -63,7 +63,15 @@ def main():
 
     prot_acts, prot_names = load_activations(args.prot_h5)
     dna_acts, dna_names = load_activations(args.dna_h5)
-    assert prot_names == dna_names, "gene order mismatch between protein and DNA h5"
+    if prot_names != dna_names:
+        logger.info("gene order differs between h5 files; aligning by name ...")
+        common = sorted(set(prot_names) & set(dna_names))
+        p_idx = {n: i for i, n in enumerate(prot_names)}
+        d_idx = {n: i for i, n in enumerate(dna_names)}
+        prot_acts = prot_acts[[p_idx[n] for n in common]]
+        dna_acts = dna_acts[[d_idx[n] for n in common]]
+        prot_names = dna_names = common
+        logger.info(f"aligned to {len(common)} shared genes")
     n, d_prot = prot_acts.shape
     _, d_dna = dna_acts.shape
     logger.info(f"loaded {n} genes: protein {d_prot}-d, DNA {d_dna}-d")

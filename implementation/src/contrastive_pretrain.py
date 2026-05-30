@@ -73,30 +73,44 @@ class VariantFusionHead(nn.Module):
 
     Takes per-variant embedding deltas (ref→alt), projects through the frozen
     pretrained encoders into the shared space, fuses there, and classifies.
+
+    Optional scalar_dim: extra task-specific scalars (e.g. Evo2 LLR) that
+    bypass the embedding encoder via a SEPARATE pathway and are combined with
+    the shared-space output through a learned gate. This prevents a powerful
+    scalar signal from being swamped by thousands of embedding dimensions.
     """
     def __init__(self, pretrained_clip, d_shared=256, d_hidden=128, p_drop=0.3,
-                 freeze_encoders=True):
+                 freeze_encoders=True, scalar_dim=0):
         super().__init__()
         self.enc_prot = pretrained_clip.enc_prot
         self.enc_dna = pretrained_clip.enc_dna
+        self.scalar_dim = scalar_dim
         if freeze_encoders:
             for p in self.enc_prot.parameters():
                 p.requires_grad = False
             for p in self.enc_dna.parameters():
                 p.requires_grad = False
         # gate over modalities in shared space
+        gate_in = d_shared * 2 + scalar_dim
         self.gate = nn.Sequential(
-            nn.Linear(d_shared * 2, d_hidden), nn.GELU(), nn.Linear(d_hidden, 2))
+            nn.Linear(gate_in, d_hidden), nn.GELU(), nn.Linear(d_hidden, 2))
+        head_in = d_shared + scalar_dim
         self.head = nn.Sequential(
-            nn.LayerNorm(d_shared),
-            nn.Linear(d_shared, d_hidden), nn.GELU(), nn.Dropout(p_drop),
+            nn.LayerNorm(head_in),
+            nn.Linear(head_in, d_hidden), nn.GELU(), nn.Dropout(p_drop),
             nn.Linear(d_hidden, 1),
         )
 
-    def forward(self, xp, xd, mask):
-        """xp: protein delta, xd: DNA delta, mask: 1 if protein delta valid."""
+    def forward(self, xp, xd, mask, scalars=None):
+        """xp: protein delta, xd: DNA delta, mask: 1 if protein delta valid.
+        scalars: (B, scalar_dim) task-specific signals that bypass the encoder."""
         zp = self.enc_prot(xp) * mask
         zd = self.enc_dna(xd)
-        g = F.softmax(self.gate(torch.cat([zp, zd], dim=-1)), dim=-1)
+        gate_in = torch.cat([zp, zd], dim=-1)
+        if scalars is not None:
+            gate_in = torch.cat([gate_in, scalars], dim=-1)
+        g = F.softmax(self.gate(gate_in), dim=-1)
         z = g[:, 0:1] * zp + g[:, 1:2] * zd
+        if scalars is not None:
+            z = torch.cat([z, scalars], dim=-1)
         return self.head(z).squeeze(-1), zp, zd
