@@ -101,7 +101,7 @@ class VariantFusionHead(nn.Module):
             nn.Linear(d_hidden, 1),
         )
 
-    def forward(self, xp, xd, mask, scalars=None):
+    def forward(self, xp, xd, mask, scalars=None, return_gate=False):
         """xp: protein delta, xd: DNA delta, mask: 1 if protein delta valid.
         scalars: (B, scalar_dim) task-specific signals that bypass the encoder."""
         zp = self.enc_prot(xp) * mask
@@ -113,4 +113,6 @@ class VariantFusionHead(nn.Module):
         z = g[:, 0:1] * zp + g[:, 1:2] * zd
         if scalars is not None:
             z = torch.cat([z, scalars], dim=-1)
+        if return_gate:
+            return self.head(z).squeeze(-1), zp, zd, g
         return self.head(z).squeeze(-1), zp, zd
