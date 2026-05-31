@@ -57,22 +57,28 @@ clip = clip.eval()
 
 with torch.no_grad():
     z_dna = clip.enc_dna(torch.tensor(edelta[has_emb], dtype=torch.float32)).numpy()
+del edelta  # free ~300MB
 print(f"  z_dna: {z_dna.shape}")
 
-# standardize using the same scaler as genome-wide SAE
+# standardize using the same scaler as genome-wide SAE (incremental to avoid OOM)
 from sklearn.preprocessing import StandardScaler
 
-# load the training data stats (from genome-wide SAE)
-gw_edelta = np.zeros((40976, 4096), dtype=np.float32)
+print("  Computing scaler from genome-wide data (incremental) ...")
+sc = StandardScaler()
 for s in range(8):
     f = f"results/variant/clinvar_evo2_emb_shard{s}.npz"
-    if os.path.exists(f):
-        d = np.load(f)
-        gw_edelta[d["idx"]] = d["edelta"]
-gw_has = np.any(gw_edelta != 0, axis=1)
-with torch.no_grad():
-    gw_zdna = clip.enc_dna(torch.tensor(gw_edelta[gw_has], dtype=torch.float32)).numpy()
-sc = StandardScaler().fit(gw_zdna)
+    if not os.path.exists(f):
+        continue
+    d = np.load(f)
+    chunk = d["edelta"]
+    has_emb_chunk = np.any(chunk != 0, axis=1)
+    if has_emb_chunk.sum() == 0:
+        continue
+    with torch.no_grad():
+        z_chunk = clip.enc_dna(torch.tensor(chunk[has_emb_chunk], dtype=torch.float32)).numpy()
+    sc.partial_fit(z_chunk)
+    del chunk, z_chunk
+print(f"  Scaler fitted on {sc.n_samples_seen_} samples")
 z_s = sc.transform(z_dna).astype(np.float32)
 
 # ── Run through SAE ─────────────────────────────────────────────
@@ -96,13 +102,30 @@ class TopKSAE(nn.Module):
         x_hat = self.decoder(h_sparse)
         return x_hat, h_sparse
 
-# we need the trained SAE weights — check if saved on HPC3
+# we need the trained SAE weights — check if saved
 sae_checkpoint = os.path.join("results/sae_genomewide", "sae_model.pt")
 if not os.path.exists(sae_checkpoint):
-    # retrain SAE on genome-wide data (fast on CPU)
-    print("  Retraining SAE (genome-wide data not saved, retraining) ...")
-    gw_zs = sc.transform(gw_zdna).astype(np.float32)
+    # retrain SAE on full genome-wide data (GPU node has plenty of memory)
+    print("  Retraining SAE from genome-wide shards ...")
+    gw_chunks = []
+    for s in range(8):
+        f = f"results/variant/clinvar_evo2_emb_shard{s}.npz"
+        if not os.path.exists(f):
+            continue
+        d = np.load(f)
+        chunk = d["edelta"]
+        has_c = np.any(chunk != 0, axis=1)
+        if has_c.sum() == 0:
+            continue
+        with torch.no_grad():
+            z_c = clip.enc_dna(torch.tensor(chunk[has_c], dtype=torch.float32)).numpy()
+        gw_chunks.append(sc.transform(z_c).astype(np.float32))
+        del chunk, z_c
+    gw_zs = np.concatenate(gw_chunks, axis=0)
+    del gw_chunks
+    print(f"  Training on {len(gw_zs)} samples")
     gw_zt = torch.tensor(gw_zs)
+    del gw_zs
     sae = TopKSAE(d_in=256, d_hidden=2048, k=32)
     opt = torch.optim.Adam(sae.parameters(), lr=1e-3)
     for ep in range(1, 1001):
@@ -112,11 +135,13 @@ if not os.path.exists(sae_checkpoint):
         opt.zero_grad(); loss.backward(); opt.step()
         if ep % 200 == 0:
             print(f"    ep {ep}: loss={loss.item():.4f}")
+    os.makedirs(os.path.dirname(sae_checkpoint), exist_ok=True)
     torch.save(sae.state_dict(), sae_checkpoint)
     print(f"  Saved SAE to {sae_checkpoint}")
 else:
     sae = TopKSAE(d_in=256, d_hidden=2048, k=32)
-    sae.load_state_dict(torch.load(sae_checkpoint, map_location="cpu"))
+    sae.load_state_dict(torch.load(sae_checkpoint, map_location="cpu",
+                                    weights_only=True))
     print("  Loaded saved SAE")
 
 sae.eval()
@@ -201,8 +226,8 @@ print(f"\n  Non-Gly VUS with 3+ novel pathogenic features: {len(nongly_novel)}")
 if len(nongly_novel) > 0:
     top_ng = nongly_novel.sort_values("novel_path_score", ascending=False).head(10)
     for _, r in top_ng.iterrows():
-        print(f"  {r['gene']:10s} chr{r['chrom']}:{int(r['pos'])} "
-              f"{r['pchange']:>15s} n_feat={int(r['n_novel_features_active'])} "
+        print(f"  {str(r['gene']):10s} chr{r['chrom']}:{int(r['pos'])} "
+              f"{str(r['pchange']):>15s} n_feat={int(r['n_novel_features_active'])} "
               f"score={r['novel_path_score']:.3f}")
 
 # save
