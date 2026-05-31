@@ -6,19 +6,31 @@ Research goal: test whether biologically meaningful concepts live in a shared fe
 Focus: computational-only research, no wet lab access.
 
 ## Project Status
-- Stage 1 (Survey): COMPLETE — general LLM-for-bio + deep SAE+bio sub-survey
-- Stage 2 (Implementation): IN PROGRESS — Idea 3 (CrossBioSAE) selected by Dr. Zhang
-  - Code: COMPLETE — model, data pipeline, training, evaluation, downstream tasks, 4 applications
-  - Tests: ALL PASSING — verified on CPU with synthetic data
-  - Experiments: ROUND 1-4 COMPLETE (4 apps done but GPT Pro R5 deemed insufficient)
-  - Key findings: Raw+CCA R@1=30.3% >> SAE+CCA 14.3%; SAE = interpretability layer, not performance engine
-  - **Current pivot**: Zhong 2025 Gene Embedding Benchmark — testing CCA-aligned cross-modal embeddings against 38 baselines on standardized tasks
+- Stage 1 (Survey): COMPLETE
+- Stage 2 (Implementation): IN PROGRESS
+  - Cross-modal pretraining: COMPLETE (40k gene pairs, 4 species, Val R@1=79%)
+  - Variant effect fusion: COMPLETE (BRCA1 0.911 vs Evo2 0.889)
+  - **Current focus: SAE interpretability + VUS mechanism profiling**
+    - Genome-wide SAE: 1655 alive features, 4 modality classes (protein/dna/crossmodal/novel)
+    - Gate analysis: pathogenic variants have lower cross-modal alignment (cos=0.230 vs 0.398)
+    - Novel features: capture collagen Gly-X-Y triple helix disruption (91% are Gly subs)
+    - VUS pilot: 20k structural protein VUS, Evo2 extraction submitted
 - Stage 3 (Writing): Not started
 
-## Selected Idea: CrossBioSAE
-Train a single SAE that ingests activations from both a protein LM and a DNA LM on paired protein/coding-DNA inputs. Test whether biologically meaningful concepts (binding sites, secondary structure, signal peptides) live in a shared feature space across modalities.
+## Paper Narrative
+**Not a "better predictor" paper — an interpretability paper.**
 
-Target venues: Nature Communications, ICLR, NeurIPS
+1. **Interpretability**: Cross-modal SAE decomposes protein-LM + DNA-LM representations into
+   protein-driven, DNA-driven, cross-modal, and novel signal types
+2. **Serves**: Understanding mechanism-specific pathogenicity — different genes have different
+   profiles (MSH2=DNA-conservation-driven, RB1=protein-damage-driven, SCN1A=cross-modal)
+3. **Application**: VUS mechanism-aware interpretation — collagen Gly-sub VUS with novel
+   feature activation → candidates for Likely Pathogenic reclassification
+
+Key competitors: EVEE (Evo2 alone AUC=0.997 on ClinVar), Sabata (Evo2+ProGen2 fusion FAILED).
+Our contribution: not better prediction, but mechanistic decomposition no single-model approach provides.
+
+Target venues: Nature Communications, Genome Biology
 
 ## Directory Structure
 ```
