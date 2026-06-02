@@ -21,7 +21,7 @@ python scripts/extract_evo2_emb_ckpt.py \
   --subset_idx data/variant/sae_pretrain/dual_idx.npy \
   --output_dir results/sae_pretrain_emb \
   --shard ${SLURM_ARRAY_TASK_ID} --nshards 16 \
-  --batch 4 \
+  --batch 6 \
   --genome data/variant/GRCh38.fa.gz \
   --local_path models/evo2_7b.pt
 echo "PT_EVO2C_SHARD${SLURM_ARRAY_TASK_ID}_DONE $(date)"
