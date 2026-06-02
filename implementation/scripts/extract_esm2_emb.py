@@ -96,21 +96,17 @@ def map_flanking_variants_via_cds(sub, gene_pairs_json, genome_fa_gz):
 
 
 def get_uniprot_sequences(gene_names):
-    """Load protein sequences for genes. Uses pre-downloaded sequences if available."""
-    seq_file = "data/pretrain/protein_sequences.parquet"
-    if os.path.exists(seq_file):
-        df = pd.read_parquet(seq_file)
-        seqs = dict(zip(df["gene_name"], df["sequence"]))
-        return {g: seqs[g] for g in gene_names if g in seqs}
-
-    # fallback: try gene_pairs
-    for f in ["data/full/gene_pairs.parquet", "data/multispecies/gene_pairs.parquet",
-              "data/pilot/gene_pairs.parquet"]:
+    """Load protein sequences for genes from gene_pairs JSON."""
+    import json
+    for f in ["data/full/gene_pairs_full.json", "data/pilot/gene_pairs_pilot.json"]:
         if os.path.exists(f):
-            df = pd.read_parquet(f)
-            if "protein_seq" in df.columns and "gene_name" in df.columns:
-                seqs = dict(zip(df["gene_name"], df["protein_seq"]))
-                return {g: seqs[g] for g in gene_names if g in seqs}
+            with open(f) as fh:
+                data = json.load(fh)
+            seqs = {g["gene_name"]: g["protein_seq"] for g in data
+                    if "protein_seq" in g and "gene_name" in g}
+            result = {g: seqs[g] for g in gene_names if g in seqs}
+            logger.info(f"  loaded {len(result)}/{len(gene_names)} sequences from {f}")
+            return result
     return {}
 
 
