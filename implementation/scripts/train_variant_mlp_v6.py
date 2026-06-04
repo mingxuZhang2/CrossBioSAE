@@ -437,6 +437,9 @@ def main():
         oof = np.zeros(n_lab, dtype=np.float32)
 
         for fi, (tr, te) in enumerate(skf.split(prot_lab, y)):
+            # Per-fold normalization for extra features
+            em, es = extra_lab[tr].mean(0), extra_lab[tr].std(0) + 1e-8
+
             model_fold = VariantMLPv6(d_extra=d_extra).to(device)
             # Load pretrained projections
             sd = model_fold.state_dict()
@@ -447,8 +450,8 @@ def main():
 
             preds, bauc = finetune_fold(
                 model_fold,
-                prot_lab[tr], dna_lab[tr], extra_lab[tr], y[tr],
-                prot_lab[te], dna_lab[te], extra_lab[te], y[te],
+                prot_lab[tr], dna_lab[tr], (extra_lab[tr] - em) / es, y[tr],
+                prot_lab[te], dna_lab[te], (extra_lab[te] - em) / es, y[te],
                 device,
             )
             oof[te] = preds
@@ -472,6 +475,10 @@ def main():
                     sd[k] = v.clone()
             model_full.load_state_dict(sd)
 
+            # Normalize extra features using labeled stats
+            em_full, es_full = extra_lab.mean(0), extra_lab.std(0) + 1e-8
+            extra_lab_n = (extra_lab - em_full) / es_full
+
             # Quick train on all labeled
             proj_params = list(model_full.proj_prot.parameters()) + list(model_full.proj_dna.parameters())
             head_params = list(model_full.head.parameters())
@@ -483,7 +490,7 @@ def main():
 
             Xp_all_lab = torch.tensor(prot_lab, dtype=torch.float32, device=device)
             Xd_all_lab = torch.tensor(dna_lab, dtype=torch.float32, device=device)
-            Xe_all_lab = torch.tensor(extra_lab, dtype=torch.float32, device=device)
+            Xe_all_lab = torch.tensor(extra_lab_n, dtype=torch.float32, device=device)
             y_lab_t = torch.tensor(y, dtype=torch.float32, device=device)
 
             model_full.train()
@@ -497,14 +504,15 @@ def main():
                     nn.utils.clip_grad_norm_(model_full.parameters(), 1.0)
                     opt.step()
 
-            # Predict VUS
+            # Predict VUS (normalize extra with same stats)
             model_full.eval()
             vus_indices = np.where(vus_mask)[0]
+            extra_vus_n = (extra[vus_mask] - em_full) / es_full
             with torch.no_grad():
                 vus_preds = torch.sigmoid(model_full(
                     torch.tensor(prot_z[vus_mask], dtype=torch.float32, device=device),
                     torch.tensor(dna_z[vus_mask], dtype=torch.float32, device=device),
-                    torch.tensor(extra[vus_mask], dtype=torch.float32, device=device),
+                    torch.tensor(extra_vus_n, dtype=torch.float32, device=device),
                 )).cpu().numpy()
 
             # Select high-confidence pseudo-labels
@@ -548,8 +556,11 @@ def main():
                         # Augment training fold with pseudo-labeled
                         Xp_tr_aug = np.concatenate([prot_lab[tr], prot_z[pseudo_idx]])
                         Xd_tr_aug = np.concatenate([dna_lab[tr], dna_z[pseudo_idx]])
-                        Xe_tr_aug = np.concatenate([extra_lab[tr], extra[pseudo_idx]])
+                        Xe_tr_raw = np.concatenate([extra_lab[tr], extra[pseudo_idx]])
                         y_tr_aug = np.concatenate([y[tr], pseudo_y])
+
+                        # Per-fold normalization (fit on augmented train)
+                        em_st, es_st = Xe_tr_raw.mean(0), Xe_tr_raw.std(0) + 1e-8
 
                         model_f = VariantMLPv6(d_extra=d_extra).to(device)
                         sd = model_f.state_dict()
@@ -560,8 +571,8 @@ def main():
 
                         preds, bauc = finetune_fold(
                             model_f,
-                            Xp_tr_aug, Xd_tr_aug, Xe_tr_aug, y_tr_aug,
-                            prot_lab[te], dna_lab[te], extra_lab[te], y[te],
+                            Xp_tr_aug, Xd_tr_aug, (Xe_tr_raw - em_st) / es_st, y_tr_aug,
+                            prot_lab[te], dna_lab[te], (extra_lab[te] - em_st) / es_st, y[te],
                             device,
                         )
                         oof_st[te] = preds
