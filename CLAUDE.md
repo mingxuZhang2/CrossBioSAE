@@ -9,12 +9,14 @@ Focus: computational-only research, no wet lab access.
 - Stage 1 (Survey): COMPLETE
 - Stage 2 (Implementation): IN PROGRESS
   - Cross-modal pretraining: COMPLETE (40k gene pairs, 4 species, Val R@1=79%)
-  - Variant effect fusion: COMPLETE (BRCA1 0.911 vs Evo2 0.889)
-  - **Current focus: SAE interpretability + VUS mechanism profiling**
-    - Genome-wide SAE: 1655 alive features, 4 modality classes (protein/dna/crossmodal/novel)
-    - Gate analysis: pathogenic variants have lower cross-modal alignment (cos=0.230 vs 0.398)
-    - Novel features: capture collagen Gly-X-Y triple helix disruption (91% are Gly subs)
-    - VUS pilot: 20k structural protein VUS, Evo2 extraction submitted
+  - Variant effect prediction (v6): COMPLETE
+    - v6 ensemble AUC=0.9629, 95%CI [0.9619, 0.9639] — matches AlphaMissense (0.9638)
+    - Features: ESM-2+Evo2 edelta + AA substitution (BLOSUM62/Grantham) + gnomAD gene constraint
+    - Pretrain-then-finetune on 260k variants, 20 seeds + self-training
+  - **Current focus: SAE concept interpretability on v6 representations**
+    - Training new TopK SAE (1536→12288, k=32) on v6's 768+768 projected representations
+    - Previous gene-level SAE: 1655 alive features, context-specific activation confirmed
+    - Goal: discover fine-grained biological concepts (domain-specific, mechanism-specific)
 - Stage 3 (Writing): Not started
 
 ## Paper Narrative
