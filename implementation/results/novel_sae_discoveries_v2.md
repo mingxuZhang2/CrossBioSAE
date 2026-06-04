@@ -1,7 +1,7 @@
-# CrossBioSAE: Novel SAE Discoveries v2 (Post GPT-Pro Review)
+# CrossBioSAE: SAE Interpretability Findings v2 (Post GPT-Pro Review R1+R2)
 
 Date: 2026-06-04
-Status: Updated after GPT Pro review — Met1 confound confirmed, story pivot to Cys-loop receptor features
+Status: Updated after two rounds of GPT Pro review — Met1 confound confirmed, wording tightened per R2
 
 ## Changes from v1
 
@@ -15,11 +15,11 @@ The new lead story is **Discovery 1: cross-paralog substitution-specific channel
 
 ### Summary
 
-The SAE learned a **family of features** that each capture a specific substitution type at homologous structural positions across the **Cys-loop ligand-gated ion channel superfamily** — without any pathway, family, or structural annotation input.
+The SAE learned a **family of features** that each capture a specific substitution type at homologous structural positions across **ligand-gated and voltage-gated ion channel families** — without any pathway, family, or structural annotation input.
 
-### Feature F10750: TM2 Pore-Lining Threonine Disruption (198.9x enrichment)
+### Feature F10750: Ion-Channel Pore-Region Threonine Disruption (198.9x enrichment)
 
-33 activating variants. The top 5 (activation > 4.8) are ALL at the conserved TM2 pore-lining threonine:
+33 activating variants. A high-activation Thr→Ile core at conserved pore threonines, with broader activation for disruptive substitutions at homologous pore-region threonines. The top 5 (activation > 4.8) are ALL at the conserved M2/TM2 pore-lining threonine:
 
 | Rank | Gene | Variant | Activation | ClinVar | Literature |
 |------|------|---------|-----------|---------|------------|
@@ -29,18 +29,18 @@ The SAE learned a **family of features** that each capture a specific substituti
 | 4 | GABRA2 | p.Thr294Ile | 5.03 | Pathogenic/LP | — |
 | 5 | GABRA1 | p.Thr294Ile | 4.82 | Pathogenic | Functional: T292 pore residue |
 
-**Crucially, the feature extends beyond GABA receptors to the entire Cys-loop superfamily:**
+**The feature extends across the Cys-loop ligand-gated receptor family and, in lower-activation cases, to structurally analogous pore-region threonine variants in other ion-channel families such as KCNB1/Kv2.1:**
 
-| Activation | Gene | Variant | Receptor family |
-|-----------|------|---------|-----------------|
-| 3.01 | GABRA5 | p.Thr301Arg | GABA-A alpha 5 |
-| 2.96 | KCNB1 | p.Thr374Ile | Voltage-gated K+ channel |
-| 2.27 | CHRNA1 | p.Thr274Ile | Nicotinic ACh receptor |
-| 2.22 | CHRNE | p.Thr284Ile | Nicotinic ACh receptor |
-| 1.92 | GLRA2 | p.Thr296Met | Glycine receptor |
-| 1.83 | GLRA1 | p.Thr287Ala | Glycine receptor |
+| Activation | Gene | Variant | Receptor family | Evidence strength |
+|-----------|------|---------|-----------------|-------------------|
+| 3.01 | GABRA5 | p.Thr301Arg | GABA-A alpha 5 (Cys-loop) | Pathogenic/LP |
+| 2.96 | KCNB1 | p.Thr374Ile | Voltage-gated K+ (Kv2.1, NOT Cys-loop) | Pathogenic |
+| 2.27 | CHRNA1 | p.Thr274Ile | Nicotinic ACh receptor (Cys-loop) | Pathogenic |
+| 2.22 | CHRNE | p.Thr284Ile | Nicotinic ACh receptor (Cys-loop) | VUS — candidate, not anchor |
+| 1.92 | GLRA2 | p.Thr296Met | Glycine receptor (Cys-loop) | Pathogenic |
+| 1.83 | GLRA1 | p.Thr287Ala | Glycine receptor (Cys-loop) | Likely pathogenic |
 
-All of these Thr positions map to the TM2 segment (channel pore helix). The threonine side chains face the pore lumen and are critical for:
+In Cys-loop receptors, these Thr positions map to the M2/TM2 pore-lining helix; in KCNB1/Kv2.1, the analogous signal maps to the voltage-gated potassium-channel pore helix (KCNB1 T374I is associated with epileptic encephalopathy). The threonine side chains face the pore lumen and are critical for:
 1. Channel selectivity (H-bonding with permeating ions)
 2. Channel gating (conformational switch during opening/closing)
 3. Desensitization kinetics
@@ -63,15 +63,17 @@ All of these Thr positions map to the TM2 segment (channel pore helix). The thre
 
 2. **GABRA1 p.Thr292**: Lachance-Touchette et al. (2022) showed T292I/T292S in GABRA1 alter channel-gating properties. T292 is in the TM2 pore-lining segment, directly contacting permeating chloride ions.
 
-3. **CHRNA1 p.Thr274Ile**: The nicotinic receptor T274 is homologous to the GABA receptor pore threonine. Known to cause congenital myasthenic syndromes.
+3. **CHRNA1 p.Thr274Ile**: The nicotinic receptor T274 is homologous to the GABA receptor pore threonine. UniProt/SwissProt associates this variant with slow-channel congenital myasthenic syndrome; T274 falls within the TM helix (265-285). This is a strong independent anchor.
 
-4. **KRAS p.Pro34Leu** (Feature F11728): ClinGen RASopathy Expert Panel classified this as pathogenic. The P34 position is in the switch I region critical for GTP hydrolysis.
+4. **CHRNE p.Thr284Ile**: Currently VUS in ClinVar (not a validation anchor). However, CHRNE p.Thr284Pro and p.Val285Ala at homologous positions ARE listed as disease-causing in slow-channel CMS resources. F10750's activation on CHRNE T284I represents a VUS candidate at a homologous pore residue, not independent pathogenic confirmation.
+
+5. **KRAS p.Pro34Leu** (Feature F11728): ClinGen RASopathy Expert Panel classified this as pathogenic. The P34 position is in the switch I region critical for GTP hydrolysis.
 
 ### Why This Is NC-Level
 
-1. **Cross-paralog reasoning without labels**: The SAE groups GABRB1/B2/B3 + GABRA1/A2/A5 + GLRA1/A2 + CHRNA1/CHRNE — all members of the Cys-loop superfamily — into one feature, despite never seeing protein family or structural domain annotations.
+1. **Cross-paralog and cross-family reasoning without labels**: The SAE groups GABRB1/B2/B3 + GABRA1/A2/A5 (GABA-A) + GLRA1/A2 (glycine) + CHRNA1/CHRNE (nicotinic) — all Cys-loop family — into one feature, and additionally captures the structurally analogous KCNB1/Kv2.1 pore variant at lower activation. This was achieved without protein family or structural domain annotations.
 
-2. **Substitution × position specificity**: Feature F10750 doesn't just capture "GABA receptor variants" — it captures specifically Thr→Ile at pore-lining TM2 positions. Feature F3118 captures Pro→Thr at TM1-TM2 loop positions. This resolution matches expert structural reasoning.
+2. **Substitution × position specificity with activation gradient**: Feature F10750 doesn't just capture "ion channel variants." It has a high-activation core of Thr→Ile at conserved pore threonines, with broader activation for other disruptive substitutions (T→R, T→M, T→A) at homologous positions. Feature F3118 captures Pro→Thr at M2-M3 loop positions. This resolution matches expert structural reasoning.
 
 3. **Independent functional validation**: The top variant (GABRB3 T287I) has published electrophysiology data confirming it as a GOF mechanism.
 
@@ -102,13 +104,13 @@ All of these Thr positions map to the TM2 segment (channel pore helix). The thre
 | 5 | KRAS | p.Pro34Arg | 4.67 | Pathogenic/LP |
 | 6 | RHEB | p.Pro37Leu | 3.63 | Pathogenic |
 
-Pro34 in KRAS/NRAS and Pro52 in RIT1 are in the switch I region, critical for GTP hydrolysis and effector binding. RHEB Pro37 is the analogous position.
+Pro34 in KRAS/NRAS and Pro52 in RIT1 are in the switch I region, critical for GTP hydrolysis and effector binding. RHEB Pro37 is an analogous position in a related small GTPase (mTOR pathway, not RASopathy per se — should be described as "small-GTPase extension" rather than grouped with RASopathy clinical framework).
 
-**Clinical utility**: RIT1 p.Pro52Leu is currently VUS in ClinVar, but the SAE groups it with confirmed pathogenic KRAS/NRAS variants at the homologous position — supporting reclassification to Likely Pathogenic.
+**Clinical utility**: F11728 prioritizes RIT1 p.Pro52Leu as a mechanistically plausible RASopathy VUS at an analogous switch-region position, warranting expert-panel review and functional testing. Note: SAE grouping alone does NOT support clinical reclassification — formal reclassification requires gene-specific ClinGen VCEP rules, population frequency, phenotype, de novo evidence, and approved functional assays.
 
 Lower activations extend to TP53 Pro278 (4 variants, all P/LP — known hotspot), then various other proline disruptions.
 
-This feature is solid supplementary evidence for "SAE recovers expert-panel analogous residue reasoning." ClinGen RASopathy rules explicitly allow cross-gene evidence for HRAS/NRAS/KRAS homologous positions.
+This feature is solid supplementary evidence for "SAE recovers expert-panel analogous residue reasoning." ClinGen RASopathy rules explicitly allow cross-gene evidence for HRAS/NRAS/KRAS homologous positions. The SAE learned this reasoning pattern automatically.
 
 ---
 
@@ -159,7 +161,7 @@ We avoid overinterpreting mechanism. The claim is:
 | **F2013** | **0.3%** | **99.7%** | **77.6%** |
 | F4272 | 8.6% | 91.4% | 93.3% (but mostly non-Met subs) |
 
-**7/9 features are start-loss driven.** Only F2013 has genuine internal Met signal (350 variants, 77.6% pathogenic).
+**7/9 features are start-loss driven.** Only F2013 has genuine internal Met signal (350 variants, 77.6% pathogenic). F4272 has high internal Met proportion but is mostly non-Met substitutions (35 Met out of 692 active) — should be relabeled by its actual top substitution/gene pattern, not included in methionine story.
 
 ### Revised Narrative
 
@@ -183,11 +185,17 @@ We avoid overinterpreting mechanism. The claim is:
 | Internal Met loss (F2013) | Supplement candidate | Needs structural validation |
 | Start-loss recovery (7 features) | Methods/supplement note | Complete |
 
-## Updated Manuscript Structure (per GPT Pro suggestion)
+## Updated Manuscript Structure (per GPT Pro R1+R2)
+
+**Overall title framing** (per GPT Pro R1): avoid "novel SAE discoveries"; use:
+> "Sparse cross-modal features recover known mechanisms and reveal under-recognized variant effect modes"
 
 **Section 1: Cross-paralog substitution-specific mechanisms**
-Lead with GABA receptor T>I (F10750). Core sentence:
-> "CrossBioSAE learns a GABA_A receptor feature that activates on Thr→Ile substitutions across multiple receptor subunits, matching literature-supported channel-gating mechanisms."
+Lead with GABA receptor T>I (F10750). Suggested figure title:
+> "A sparse feature captures pore-region threonine disruption across ligand-gated and voltage-gated ion channels."
+
+Core sentence:
+> "CrossBioSAE learns an ion-channel pore-region feature with a high-activation Thr→Ile core at conserved pore threonines across GABA-A, glycine, nicotinic, and voltage-gated potassium channels, matching literature-supported channel-gating mechanisms."
 
 **Section 2: Modality-specific constraints in missense pathogenicity**
 DNA-driven vs protein-driven features. Core sentence:
@@ -214,13 +222,35 @@ Model generalizes well: <0.5% drop from random CV to temporal/gene-heldout.
 
 ---
 
-## Pending Experiments
+## Pending Experiments (prioritized per GPT Pro R2)
+
+### Tier 1: Required before main text
 
 1. **SAE controls (job 9812031)**: FDR enrichment, 5-seed stability, PCA/ICA/NMF baselines, causal intervention, modality occlusion — QUEUED on GPU
-2. **GABA structural mapping**: Map F10750 variants onto cryo-EM structure, confirm TM2 pore position
-3. **Internal Met structural validation**: F2013 AlphaFold analysis
-4. **FDR upgrade**: Apply BH-FDR to all enrichment analyses for paper-grade statistics
-5. **DMS/MAVE validation**: ProteinGym for TP53, BRCA1, PTEN (not GABA — no DMS available)
+2. **F10750 structural mapping**: Map all 33 variants onto cryo-EM structure (PDB 6HUJ or similar), confirm M2 pore position for Cys-loop and pore-helix for KCNB1
+3. **F3118 validation**: Confirm GABRB2 P252T / GABRB3 P253T / GABRG2 P282T are at M2-M3 loop; check literature for gating transduction mechanism
+4. **DNA-driven occlusion** (within SAE controls job):
+   - protein half zero/mean ablation → DNA-driven features should survive
+   - DNA half zero/mean ablation → DNA-driven features should vanish
+   - protein-only vs DNA-only vs joint SAE comparison
+   - modality permutation control
+   - input norm matching check (ESM vs Evo2 projection norms)
+5. **FDR upgrade**: Apply BH-FDR to ALL enrichment analyses (gene, substitution, condition, domain) for paper-grade statistics; do feature-level FDR across all 12,288 features, not just 100 selected
+
+### Tier 2: Required for supplement / secondary claims
+
+6. **F2013 internal Met validation**:
+   - Remove top 5 genes, check if path rate still holds (disease-gene confound control)
+   - Matched control: same gene, same conservation, non-Met hydrophobic subs as comparator
+   - AlphaFold SASA, buriedness, nearest aromatic within 5-6 A, Met-aromatic contact energy
+   - Functional literature check for GLA/GAA/BTK/SDHA internal Met variants
+7. **F10750 seed stability**: Check if Cys-loop pore-Thr feature appears in all 5 SAE seeds
+8. **F5463/F9483/F3888 validation**: Confirm structural positions + independent ClinVar/functional anchors for each
+
+### Tier 3: Nice to have
+
+9. **DMS/MAVE validation**: ProteinGym for TP53, BRCA1, PTEN (not GABA — no DMS available)
+10. **VUS mechanism stratification**: Show same-score VUS have different SAE mechanism profiles
 
 ## File Locations
 
