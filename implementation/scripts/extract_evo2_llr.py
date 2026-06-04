@@ -129,7 +129,7 @@ def main():
     nuc_to_id = {}
     for nuc in "ACGT":
         tok = model.tokenizer.tokenize(nuc)
-        nuc_to_id[nuc] = tok[0] if isinstance(tok, list) else int(tok)
+        nuc_to_id[nuc] = int(tok[0]) if isinstance(tok, (list, np.ndarray)) else int(tok)
     logger.info(f"nucleotide token IDs: {nuc_to_id}")
 
     @torch.no_grad()
@@ -150,7 +150,8 @@ def main():
                 for j, x in enumerate(ids):
                     batch[j, :x.shape[0]] = x
                 batch = batch.to("cuda:0")
-                logits, _ = model(batch, return_embeddings=True, layer_names=[])
+                output, _ = model(batch, return_embeddings=True, layer_names=["blocks.28.mlp.l3"])
+                logits = output[0] if isinstance(output, tuple) else output
                 log_probs = F.log_softmax(logits.float(), dim=-1)
                 for j in range(len(bseqs)):
                     pos = bctrs[j]
