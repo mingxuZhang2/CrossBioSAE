@@ -1,0 +1,344 @@
+feature,concept,confidence,modality,n_active,path_rate,top_gene,top_sub
+901,collagen Gly-X-Y disruption,1.0,cross-modal,106,1.0,COL1A2,G>V
+944,hydrophobicity-switch,1.0,cross-modal,335,1.0,COL2A1,G>V
+1680,proline-introduction (helix breaker),1.0,protein-driven,84,1.0,BTD,A>P
+674,hydrophobicity-switch,1.0,cross-modal,100,0.9,NF1,L>P
+1960,cysteine-gain (novel disulfide/redox),1.0,novel,234,0.87,CTSC,Y>C
+1906,proline-introduction (helix breaker),1.0,cross-modal,123,0.1,ITGA8,Q>P
+429,hydrophobicity-switch,1.0,cross-modal,184,1.0,SCN1A,V>D
+1857,cysteine-gain (novel disulfide/redox),1.0,novel,272,0.96,POLG,Y>C
+1165,hydrophobicity-switch,1.0,cross-modal,135,0.0,NIPAL4,R>G
+1508,hydrophobicity-switch,1.0,novel,192,0.85,ABCA4,A>D
+829,charge-reversal,1.0,dna-driven,308,1.0,LDLR,E>K
+1595,hydrophobicity-switch,1.0,dna-driven,107,1.0,MFN2,R>G
+154,cysteine-loss (disulfide disruption),1.0,dna-driven,180,1.0,FBN1,C>Y
+1251,hydrophobicity-switch,1.0,novel,415,0.73,KRT14,L>Q
+1235,aromatic-loss (pi-stacking disruption),1.0,dna-driven,72,1.0,CLCN5,Y>N
+714,hydrophobicity-switch,1.0,cross-modal,77,1.0,SCN1A,I>N
+554,cysteine-loss (disulfide disruption),1.0,cross-modal,462,1.0,FBN1,C>Y
+373,hydrophobicity-switch,1.0,cross-modal,102,0.65,PDGFRA,D>V
+1812,cysteine-loss (disulfide disruption),0.98,dna-driven,555,1.0,FBN1,C>Y
+1955,cysteine-loss (disulfide disruption),0.96,cross-modal,273,0.89,RET,C>S
+1670,charge-reversal,0.96,cross-modal,231,1.0,TP63,K>E
+1796,cysteine-loss (disulfide disruption),0.96,protein-driven,662,0.77,FBN1,C>Y
+1626,hydrophobicity-switch,0.95,dna-driven,59,1.0,COL3A1,G>V
+916,proline-introduction (helix breaker),0.95,cross-modal,228,0.91,TFAP2A,R>P
+1050,proline-introduction (helix breaker),0.95,dna-driven,80,1.0,SACS,R>P
+76,hydrophobicity-switch,0.95,dna-driven,87,0.95,FBN1,I>N
+1403,hydrophobicity-switch,0.94,dna-driven,100,0.85,TNNT2,R>L
+215,cysteine-loss (disulfide disruption),0.94,cross-modal,60,0.8,FBN1,C>Y
+706,proline-introduction (helix breaker),0.94,cross-modal,59,0.95,CCNO,L>P
+1698,cysteine-gain (novel disulfide/redox),0.94,novel,225,0.86,FKRP,Y>C
+1710,cysteine-loss (disulfide disruption),0.94,dna-driven,102,0.85,LDLR,C>F
+1248,charge-reversal,0.94,protein-driven,108,0.85,APOE,K>E
+666,aromatic-loss (pi-stacking disruption),0.94,cross-modal,117,0.8,BEST1,Y>H
+1184,cysteine-loss (disulfide disruption),0.93,dna-driven,718,0.99,FBN1,C>Y
+1329,hydrophobicity-switch,0.93,cross-modal,140,0.65,F9,L>Q
+367,charge-reversal,0.93,novel,454,1.0,GAA,E>K
+49,hydrophobicity-switch,0.91,cross-modal,1024,0.92,FBN1,L>P
+1387,proline-introduction (helix breaker),0.91,cross-modal,254,0.92,ITGA2B,L>P
+89,hydrophobicity-switch,0.9,cross-modal,183,1.0,DICER1,D>A
+870,cysteine-loss (disulfide disruption),0.9,cross-modal,544,0.93,FBN1,C>Y
+65,cysteine-loss (disulfide disruption),0.9,cross-modal,105,1.0,FBN1,C>F
+285,hydrophobicity-switch,0.89,cross-modal,21,0.85,APRT,L>P
+1258,hydrophobicity-switch,0.88,cross-modal,402,0.82,PAH,I>N
+201,hydrophobicity-switch,0.88,dna-driven,274,0.96,COL2A1,G>V
+2044,hydrophobicity-switch,0.88,cross-modal,449,0.95,GUCY2C,L>P
+361,hydrophobicity-switch,0.87,dna-driven,349,0.97,GFAP,R>L
+1879,hydrophobicity-switch,0.87,novel,275,0.52,ACADM,I>T
+213,hydrophobicity-switch,0.87,cross-modal,76,0.8,FANCA,M>R
+862,hydrophobicity-switch,0.87,dna-driven,347,0.41,STIL,A>D
+1683,cysteine-loss (disulfide disruption),0.87,dna-driven,417,0.98,FBN1,C>Y
+1740,hydrophobicity-switch,0.87,dna-driven,115,0.85,CLCNKB,M>R
+637,hydrophobicity-switch,0.86,cross-modal,224,0.95,PDGFRB,D>V
+75,cysteine-loss (disulfide disruption),0.86,novel,424,0.81,UMOD,C>Y
+480,hydrophobicity-switch,0.86,dna-driven,426,0.71,COL3A1,G>V
+205,hydrophobicity-switch,0.86,novel,79,0.65,APTX,D>A
+1518,hydrophobicity-switch,0.86,cross-modal,149,0.25,MLH1,M>R
+762,hydrophobicity-switch,0.85,novel,89,0.6,NR0B1,L>H
+556,hydrophobicity-switch,0.85,dna-driven,401,0.88,KMT2A,L>P
+1124,cysteine-loss (disulfide disruption),0.84,cross-modal,198,1.0,FBN1,C>F
+1200,charge-reversal,0.84,novel,375,0.86,ASL,D>H
+114,cysteine-loss (disulfide disruption),0.84,cross-modal,113,0.95,PHF6,C>F
+1598,hydrophobicity-switch,0.83,protein-driven,143,0.35,PXDNL,I>T
+1773,hydrophobicity-switch,0.83,novel,174,0.45,TP53,L>H
+827,hydrophobicity-switch,0.83,cross-modal,272,1.0,LMNA,L>P
+1012,aromatic-loss (pi-stacking disruption),0.83,novel,76,0.6,USH2A,Y>C
+1838,hydrophobicity-switch,0.83,dna-driven,661,0.65,TP53,M>K
+1420,hydrophobicity-switch,0.82,novel,383,0.84,FBN1,R>G
+1795,hydrophobicity-switch,0.82,novel,211,0.86,SLC24A4,L>H
+216,hydrophobicity-switch,0.82,dna-driven,20,0.55,SOD1,I>T
+1911,hydrophobicity-switch,0.82,cross-modal,73,0.8,IFT140,L>P
+1198,hydrophobicity-switch,0.82,novel,77,0.9,F8,S>L
+618,cysteine-loss (disulfide disruption),0.81,novel,326,0.84,FBN1,C>Y
+1414,proline-introduction (helix breaker),0.81,dna-driven,94,0.85,CC2D2A,R>P
+1927,hydrophobicity-switch,0.81,dna-driven,96,0.85,SKIC2,L>R
+254,hydrophobicity-switch,0.81,dna-driven,65,0.8,MAPK1,I>N
+559,aromatic-loss (pi-stacking disruption),0.8,novel,195,0.85,FARSB,F>S
+183,hydrophobicity-switch,0.8,cross-modal,59,0.45,TIE1,R>C
+200,aromatic-loss (pi-stacking disruption),0.8,cross-modal,152,1.0,F9,Y>C
+1517,hydrophobicity-switch,0.8,cross-modal,756,0.52,MAT1A,L>P
+232,cysteine-loss (disulfide disruption),0.8,novel,2125,0.74,FBN1,C>Y
+311,hydrophobicity-switch,0.8,cross-modal,317,0.94,SCN1A,V>D
+298,hydrophobicity-switch,0.8,novel,69,0.9,IVD,L>P
+1625,hydrophobicity-switch,0.8,dna-driven,143,0.95,ATP1A2,R>L
+940,cysteine-gain (novel disulfide/redox),0.79,protein-driven,383,0.95,FN1,W>C
+911,hydrophobicity-switch,0.79,novel,516,0.9,CHD2,R>G
+1938,hydrophobicity-switch,0.79,dna-driven,94,0.65,EPB41,L>P
+1266,hydrophobicity-switch,0.79,dna-driven,54,0.95,F8,R>L
+1174,hydrophobicity-switch,0.79,cross-modal,858,0.96,SCN1A,L>P
+1847,hydrophobicity-switch,0.79,cross-modal,282,0.93,NF1,L>P
+1707,aromatic-loss (pi-stacking disruption),0.78,novel,836,0.77,F8,F>S
+1462,hydrophobicity-switch,0.78,cross-modal,72,0.3,SLC5A5,V>G
+428,hydrophobicity-switch,0.78,novel,782,0.68,TP53,L>Q
+1971,hydrophobicity-switch,0.78,novel,538,0.74,NF1,L>P
+1072,glycine-loss (structural flexibility),0.77,dna-driven,385,0.95,COL2A1,G>D
+1219,hydrophobicity-switch,0.77,dna-driven,168,0.75,CALM3,I>R
+468,hydrophobicity-switch,0.76,novel,279,0.74,GLA,I>T
+1658,hydrophobicity-switch,0.76,novel,277,0.78,ATM,I>N
+463,collagen Gly-X-Y disruption,0.75,dna-driven,208,1.0,COL1A1,G>D
+296,proline-introduction (helix breaker),0.75,cross-modal,608,0.92,HBA2,L>P
+422,hydrophobicity-switch,0.75,cross-modal,107,1.0,SCN1A,A>D
+384,cysteine-loss (disulfide disruption),0.75,novel,375,0.78,FBN1,C>S
+1391,hydrophobicity-switch,0.75,cross-modal,115,0.25,LRIG1,L>Q
+348,hydrophobicity-switch,0.75,cross-modal,331,0.82,TUBB,D>V
+1422,hydrophobicity-switch,0.75,dna-driven,209,1.0,CHRNA1,R>L
+220,hydrophobicity-switch,0.74,novel,651,0.54,APRT,L>P
+245,hydrophobicity-switch,0.74,dna-driven,1390,0.67,ITGA2B,L>P
+1135,proline-introduction (helix breaker),0.74,protein-driven,66,1.0,TGFBR1,R>P
+331,hydrophobicity-switch,0.74,novel,539,0.94,KCNQ2,D>A
+1514,aromatic-loss (pi-stacking disruption),0.74,cross-modal,155,0.95,EDA,F>S
+1402,hydrophobicity-switch,0.74,cross-modal,63,0.9,SCN1A,L>S
+1421,hydrophobicity-switch,0.74,dna-driven,1007,0.82,HBB,R>L
+1665,cysteine-loss (disulfide disruption),0.73,novel,86,0.85,RET,C>F
+1809,cysteine-loss (disulfide disruption),0.73,dna-driven,91,0.65,PRSS56,C>R
+1535,aromatic-loss (pi-stacking disruption),0.73,dna-driven,829,0.98,ACTA1,Y>C
+381,hydrophobicity-switch,0.73,dna-driven,92,0.75,GRIN2A,M>R
+149,glycine-loss (structural flexibility),0.73,cross-modal,1928,0.97,COL7A1,G>D
+1431,proline-introduction (helix breaker),0.72,dna-driven,330,0.88,TSC1,L>P
+446,cysteine-gain (novel disulfide/redox),0.71,cross-modal,66,0.85,PPOX,R>C
+757,hydrophobicity-switch,0.71,dna-driven,113,0.85,ATP7A,P>L
+444,hydrophobicity-switch,0.71,novel,221,0.59,LDLR,I>T
+601,hydrophobicity-switch,0.71,novel,316,0.48,KRT74,L>H
+938,hydrophobicity-switch,0.71,dna-driven,653,0.72,FBN1,D>V
+1405,aromatic-loss (pi-stacking disruption),0.71,dna-driven,186,0.85,WAS,F>L
+567,hydrophobicity-switch,0.71,novel,164,0.35,NLRP1,L>H
+644,hydrophobicity-switch,0.71,protein-driven,46,0.75,TTI2,L>P
+1368,cysteine-loss (disulfide disruption),0.71,protein-driven,89,0.85,FBN1,C>W
+915,proline-introduction (helix breaker),0.71,dna-driven,215,0.95,STXBP1,R>P
+1957,aromatic-loss (pi-stacking disruption),0.71,novel,1178,0.68,FGFR2,Y>C
+457,hydrophobicity-switch,0.7,dna-driven,118,0.4,NARS2,C>R
+1392,hydrophobicity-switch,0.7,cross-modal,858,0.76,GCDH,P>L
+1579,cysteine-loss (disulfide disruption),0.7,novel,81,0.5,NFKBIA,C>Y
+1520,hydrophobicity-switch,0.7,dna-driven,483,0.58,SCN1A,L>P
+79,cysteine-loss (disulfide disruption),0.7,novel,198,0.9,FBN1,C>F
+214,hydrophobicity-switch,0.7,cross-modal,251,0.2,OR2W3,I>N
+155,hydrophobicity-switch,0.69,dna-driven,1277,0.8,COL3A1,G>V
+475,hydrophobicity-switch,0.69,cross-modal,181,0.7,SCN1A,V>D
+1458,hydrophobicity-switch,0.69,dna-driven,851,0.87,COL1A2,G>V
+391,hydrophobicity-switch,0.69,novel,866,0.71,CFTR,L>P
+672,hydrophobicity-switch,0.69,novel,385,0.74,ITGA2B,L>P
+1484,charge-reversal,0.69,novel,476,0.91,PROC,D>H
+1848,hydrophobicity-switch,0.69,dna-driven,212,0.71,CFTR,L>P
+301,hydrophobicity-switch,0.69,novel,89,0.8,ATM,C>R
+1531,cysteine-loss (disulfide disruption),0.68,cross-modal,142,1.0,NSD1,C>Y
+1859,hydrophobicity-switch,0.68,novel,221,0.95,MLH1,L>P
+1921,cysteine-loss (disulfide disruption),0.68,dna-driven,101,1.0,FBN1,C>S
+260,hydrophobicity-switch,0.68,novel,470,0.72,NF1,L>R
+1599,proline-introduction (helix breaker),0.68,cross-modal,113,1.0,GJB4,T>P
+1494,proline-introduction (helix breaker),0.68,novel,604,0.65,TFAP2A,R>P
+1311,hydrophobicity-switch,0.68,novel,287,0.64,FBN1,C>R
+228,aromatic-loss (pi-stacking disruption),0.68,cross-modal,1247,0.94,SCN1A,F>S
+1312,hydrophobicity-switch,0.68,novel,643,0.69,SCN1A,M>R
+1394,hydrophobicity-switch,0.68,cross-modal,613,0.97,COL3A1,G>R
+137,proline-introduction (helix breaker),0.68,dna-driven,93,1.0,FBN1,T>P
+27,hydrophobicity-switch,0.67,protein-driven,241,0.33,TTN,V>G
+1231,aromatic-loss (pi-stacking disruption),0.67,cross-modal,84,0.1,SEMA3F,Y>H
+20,hydrophobicity-switch,0.67,cross-modal,219,0.29,CACNA1S,L>H
+98,cysteine-loss (disulfide disruption),0.67,novel,74,1.0,FBN1,C>W
+1020,hydrophobicity-switch,0.67,novel,1184,1.0,CHD2,R>G
+1813,hydrophobicity-switch,0.67,cross-modal,580,0.91,CRB1,H>L
+0,hydrophobicity-switch,0.67,cross-modal,163,0.95,B3GAT3,L>Q
+2034,aromatic-loss (pi-stacking disruption),0.67,novel,1036,0.77,SCN1A,Y>C
+210,hydrophobicity-switch,0.67,novel,1170,0.7,COL3A1,G>V
+1389,cysteine-loss (disulfide disruption),0.67,novel,179,0.9,UMOD,C>Y
+1032,hydrophobicity-switch,0.67,novel,667,0.91,PSEN1,L>P
+300,aromatic-loss (pi-stacking disruption),0.67,cross-modal,647,0.75,OTC,Y>D
+748,hydrophobicity-switch,0.66,novel,992,0.72,COL3A1,G>V
+6,hydrophobicity-switch,0.66,novel,895,0.25,VHL,L>R
+2037,hydrophobicity-switch,0.66,cross-modal,664,0.95,SCN1A,I>S
+1243,hydrophobicity-switch,0.66,cross-modal,1005,0.76,SCN1A,L>P
+610,charge-reversal,0.66,novel,843,0.55,GAA,E>K
+417,hydrophobicity-switch,0.66,novel,627,0.95,SCN1A,L>P
+842,proline-introduction (helix breaker),0.65,dna-driven,120,0.95,RPS24,T>P
+1423,proline-introduction (helix breaker),0.65,cross-modal,144,0.9,NF1,L>P
+847,glycine-loss (structural flexibility),0.65,novel,6737,0.79,COL7A1,G>D
+1319,hydrophobicity-switch,0.65,protein-driven,1525,0.58,ALOX12B,P>L
+1343,charge-reversal,0.65,cross-modal,801,0.41,F2,E>K
+368,hydrophobicity-switch,0.65,novel,2138,0.95,COL1A2,P>L
+776,hydrophobicity-switch,0.65,cross-modal,496,0.29,BMPR2,M>K
+655,hydrophobicity-switch,0.65,dna-driven,60,0.8,OTC,L>P
+1674,charge-reversal,0.65,novel,399,0.67,EDARADD,E>K
+234,hydrophobicity-switch,0.65,novel,96,0.9,NF1,L>P
+1972,hydrophobicity-switch,0.65,cross-modal,976,0.77,CHST3,L>P
+132,cysteine-gain (novel disulfide/redox),0.65,novel,209,0.85,ADGRV1,Y>C
+2028,cysteine-loss (disulfide disruption),0.64,cross-modal,441,0.64,FBN1,C>Y
+927,hydrophobicity-switch,0.64,novel,187,0.45,MEOX1,S>L
+605,hydrophobicity-switch,0.64,novel,58,0.55,SCN8A,R>G
+946,proline-introduction (helix breaker),0.64,novel,49,0.7,ENO3,L>P
+394,hydrophobicity-switch,0.64,dna-driven,344,0.85,SCN2A,L>P
+1374,hydrophobicity-switch,0.64,novel,92,0.4,FAS,S>I
+1331,hydrophobicity-switch,0.64,novel,352,0.63,NSD1,V>D
+701,hydrophobicity-switch,0.64,dna-driven,1587,0.9,COL1A1,G>V
+679,proline-introduction (helix breaker),0.64,cross-modal,405,0.82,CFTR,R>P
+339,hydrophobicity-switch,0.64,dna-driven,186,0.5,FASTKD1,L>P
+813,cysteine-loss (disulfide disruption),0.64,protein-driven,252,0.92,FBN1,C>G
+414,hydrophobicity-switch,0.63,cross-modal,1493,0.82,SCN1A,I>S
+123,proline-introduction (helix breaker),0.63,cross-modal,226,0.91,LMNA,A>P
+660,hydrophobicity-switch,0.63,novel,1162,0.88,SCN1A,I>N
+458,hydrophobicity-switch,0.63,dna-driven,401,0.88,COL3A1,G>V
+710,hydrophobicity-switch,0.63,novel,921,0.87,SLC19A3,L>R
+1468,cysteine-loss (disulfide disruption),0.63,novel,822,0.79,BMPR2,C>R
+486,charge-reversal,0.62,cross-modal,1230,0.9,LMNA,E>K
+160,aromatic-loss (pi-stacking disruption),0.62,novel,1801,0.63,SCN1A,Y>C
+226,glycine-loss (structural flexibility),0.62,cross-modal,1262,0.94,COL1A2,G>S
+589,proline-introduction (helix breaker),0.62,cross-modal,336,1.0,SLC12A3,L>P
+1552,hydrophobicity-switch,0.62,protein-driven,94,0.8,RFT1,I>K
+1286,hydrophobicity-switch,0.62,novel,170,0.8,VHL,S>L
+954,hydrophobicity-switch,0.62,novel,999,0.78,TYMP,L>R
+629,hydrophobicity-switch,0.62,cross-modal,265,0.27,SUMF1,T>I
+15,proline-introduction (helix breaker),0.62,cross-modal,54,0.8,ALOXE3,R>P
+1584,hydrophobicity-switch,0.62,novel,258,0.64,ETHE1,M>R
+1187,cysteine-loss (disulfide disruption),0.62,cross-modal,424,0.9,FBN1,C>W
+990,aromatic-loss (pi-stacking disruption),0.62,novel,285,0.46,MAPT,F>S
+845,hydrophobicity-switch,0.62,dna-driven,62,0.05,CYP2A7,G>E
+1388,hydrophobicity-switch,0.62,protein-driven,1739,0.84,MLH1,R>G
+423,hydrophobicity-switch,0.61,novel,508,0.44,GH1,E>V
+1962,hydrophobicity-switch,0.61,novel,1169,0.63,BRCA2,E>V
+1998,hydrophobicity-switch,0.61,novel,156,0.85,ENG,M>R
+800,hydrophobicity-switch,0.61,cross-modal,185,0.9,GATC,M>R
+299,hydrophobicity-switch,0.61,novel,1066,0.78,MMUT,R>G
+376,hydrophobicity-switch,0.61,novel,1641,0.68,VHL,D>V
+783,hydrophobicity-switch,0.61,novel,381,0.84,ARX,L>Q
+355,hydrophobicity-switch,0.61,novel,585,0.78,NF1,R>G
+1644,charge-reversal,0.6,cross-modal,131,0.05,FOCAD,K>E
+1907,aromatic-loss (pi-stacking disruption),0.6,novel,648,0.39,CASR,F>C
+1856,hydrophobicity-switch,0.6,novel,166,0.6,ATXN1,L>P
+1551,hydrophobicity-switch,0.6,novel,442,0.43,RET,C>G
+1449,hydrophobicity-switch,0.6,dna-driven,59,0.75,OTC,G>V
+1018,hydrophobicity-switch,0.6,dna-driven,47,0.2,FAM90A1,A>E
+456,hydrophobicity-switch,0.6,novel,701,0.91,SCN1A,L>R
+693,hydrophobicity-switch,0.6,novel,196,0.35,NIN,L>P
+572,hydrophobicity-switch,0.6,cross-modal,176,0.25,SDHD,M>L
+482,aromatic-loss (pi-stacking disruption),0.59,novel,585,0.59,VHL,Y>H
+1023,hydrophobicity-switch,0.59,novel,646,0.78,PRF1,L>P
+1541,hydrophobicity-switch,0.59,cross-modal,421,0.9,SCN1A,I>S
+1573,hydrophobicity-switch,0.59,novel,265,0.85,COL2A1,G>R
+1641,cysteine-loss (disulfide disruption),0.59,novel,259,0.8,FBN1,C>S
+73,cysteine-loss (disulfide disruption),0.59,cross-modal,283,0.75,FBN1,C>W
+1134,hydrophobicity-switch,0.59,cross-modal,370,0.49,HGD,G>V
+124,hydrophobicity-switch,0.58,novel,453,0.82,ABCA4,E>V
+1171,hydrophobicity-switch,0.58,novel,1176,0.7,PTEN,I>N
+2009,hydrophobicity-switch,0.58,dna-driven,2201,0.91,COL1A1,G>V
+724,hydrophobicity-switch,0.58,protein-driven,515,0.71,COL4A5,G>V
+785,proline-introduction (helix breaker),0.58,novel,311,0.87,NF1,R>P
+1589,cysteine-loss (disulfide disruption),0.58,novel,305,0.87,FBN1,C>S
+1240,hydrophobicity-switch,0.58,novel,134,0.6,PCDH19,G>V
+1631,hydrophobicity-switch,0.58,novel,212,0.95,STXBP1,G>V
+24,hydrophobicity-switch,0.58,novel,1648,0.68,MLH1,L>P
+2026,hydrophobicity-switch,0.58,novel,833,0.63,FBN1,C>R
+1022,proline-introduction (helix breaker),0.58,dna-driven,259,0.8,STAT1,Q>P
+272,hydrophobicity-switch,0.58,novel,464,0.54,STT3B,L>P
+2046,hydrophobicity-switch,0.57,protein-driven,73,0.6,SACS,R>I
+1807,hydrophobicity-switch,0.57,novel,905,0.63,CDKL5,I>T
+1874,proline-introduction (helix breaker),0.57,cross-modal,289,0.25,ALOX12B,Q>P
+1234,aromatic-loss (pi-stacking disruption),0.57,cross-modal,1360,0.29,MBTPS2,F>S
+1228,proline-introduction (helix breaker),0.57,novel,157,0.5,HTT,Q>P
+1621,hydrophobicity-switch,0.57,novel,780,0.82,SCN1A,P>L
+979,hydrophobicity-switch,0.57,novel,539,0.72,GAA,I>N
+275,hydrophobicity-switch,0.57,novel,810,0.63,CLRN1,L>R
+297,hydrophobicity-switch,0.57,dna-driven,276,0.74,SCN1A,L>P
+1339,hydrophobicity-switch,0.57,novel,1135,0.72,OTC,L>R
+1241,proline-introduction (helix breaker),0.57,novel,252,0.48,ALOX12B,R>P
+1428,proline-introduction (helix breaker),0.57,novel,57,0.35,AXIN2,T>P
+1393,hydrophobicity-switch,0.57,novel,250,0.24,BEST1,P>L
+590,hydrophobicity-switch,0.57,novel,466,0.43,SERPINA7,L>Q
+653,cysteine-gain (novel disulfide/redox),0.57,dna-driven,268,0.23,COL4A1,G>C
+1183,cysteine-loss (disulfide disruption),0.57,dna-driven,841,0.96,FBN1,C>Y
+1128,hydrophobicity-switch,0.57,novel,127,0.55,GUCY2C,L>P
+804,hydrophobicity-switch,0.57,protein-driven,169,0.3,PAH,D>V
+7,cysteine-gain (novel disulfide/redox),0.57,novel,139,0.8,DCX,R>C
+1188,hydrophobicity-switch,0.56,novel,217,0.33,GALNS,V>D
+1816,hydrophobicity-switch,0.56,novel,517,0.73,LHCGR,M>K
+1279,hydrophobicity-switch,0.56,dna-driven,272,1.0,PIK3CA,T>I
+1821,cysteine-loss (disulfide disruption),0.56,novel,292,0.38,RET,C>F
+1130,hydrophobicity-switch,0.56,cross-modal,128,0.35,GJB2,R>L
+925,hydrophobicity-switch,0.56,cross-modal,362,0.19,DYNC2LI1,D>V
+755,cysteine-loss (disulfide disruption),0.56,dna-driven,42,0.7,RET,C>F
+1366,cysteine-loss (disulfide disruption),0.56,cross-modal,98,0.9,FBN1,C>W
+1385,aromatic-loss (pi-stacking disruption),0.56,novel,590,0.37,EDA,F>S
+1005,proline-introduction (helix breaker),0.56,cross-modal,49,1.0,PGK1,T>P
+395,hydrophobicity-switch,0.56,novel,298,0.48,CTU2,C>R
+1060,hydrophobicity-switch,0.56,novel,1694,0.72,MTHFR,L>R
+1324,aromatic-loss (pi-stacking disruption),0.56,cross-modal,207,1.0,SCN1A,F>S
+335,hydrophobicity-switch,0.56,cross-modal,287,0.14,GATA4,E>V
+685,hydrophobicity-switch,0.56,novel,113,0.75,STXBP1,M>R
+69,proline-introduction (helix breaker),0.56,cross-modal,315,0.87,FBN1,T>P
+30,hydrophobicity-switch,0.56,cross-modal,1237,0.79,FBN1,D>V
+58,aromatic-loss (pi-stacking disruption),0.56,novel,316,0.81,HSD3B2,Y>S
+961,charge-reversal,0.55,dna-driven,2086,0.84,PIK3CA,E>K
+1118,proline-introduction (helix breaker),0.55,novel,1305,0.74,OTC,L>P
+61,hydrophobicity-switch,0.55,dna-driven,964,0.86,SCN1A,M>V
+1633,hydrophobicity-switch,0.55,novel,429,0.31,MTOR,R>G
+654,hydrophobicity-switch,0.55,cross-modal,382,0.16,GATA3,Y>F
+3,collagen Gly-X-Y disruption,0.55,cross-modal,591,0.98,COL1A2,G>S
+1742,hydrophobicity-switch,0.55,cross-modal,67,0.15,SDHB,E>A
+221,hydrophobicity-switch,0.55,novel,443,0.48,REC114,L>W
+1411,hydrophobicity-switch,0.55,novel,438,0.67,CYP21A2,D>V
+1491,cysteine-loss (disulfide disruption),0.55,cross-modal,205,0.65,FBN1,C>Y
+347,proline-introduction (helix breaker),0.55,dna-driven,196,0.95,MTM1,H>P
+290,hydrophobicity-switch,0.55,novel,463,0.72,LIMS2,L>P
+670,hydrophobicity-switch,0.55,novel,617,0.52,CLCNKB,R>C
+1681,hydrophobicity-switch,0.55,novel,2154,0.58,GCDH,G>V
+1087,hydrophobicity-switch,0.55,cross-modal,394,0.0,RSPH4A,L>P
+886,hydrophobicity-switch,0.54,novel,1412,0.3,GUCY2D,D>V
+38,hydrophobicity-switch,0.54,protein-driven,6540,0.7,COL1A2,G>R
+1095,hydrophobicity-switch,0.54,protein-driven,946,0.55,RET,S>L
+905,hydrophobicity-switch,0.54,novel,308,0.83,KCND3,L>W
+282,hydrophobicity-switch,0.54,novel,464,0.76,COL1A1,R>G
+1948,proline-introduction (helix breaker),0.54,novel,60,0.7,STAT1,Q>P
+393,collagen Gly-X-Y disruption,0.54,dna-driven,373,1.0,COL1A2,G>C
+1076,hydrophobicity-switch,0.54,novel,459,0.56,ITGB3,D>V
+318,hydrophobicity-switch,0.54,protein-driven,148,0.5,SPR,P>L
+231,cysteine-gain (novel disulfide/redox),0.54,novel,681,0.96,GAA,R>C
+1731,hydrophobicity-switch,0.54,cross-modal,734,0.95,SCN1A,M>R
+1673,charge-reversal,0.54,novel,921,0.88,PTPN11,D>H
+1801,hydrophobicity-switch,0.54,cross-modal,1098,0.19,FBN1,I>T
+32,hydrophobicity-switch,0.54,novel,150,0.65,MAPT,C>S
+1703,hydrophobicity-switch,0.53,dna-driven,84,0.8,DCHS1,I>K
+44,hydrophobicity-switch,0.53,novel,457,0.22,PTEN,D>V
+1729,hydrophobicity-switch,0.53,novel,655,0.72,FBN1,L>P
+255,hydrophobicity-switch,0.53,novel,1630,0.51,FBN1,C>R
+248,hydrophobicity-switch,0.53,dna-driven,135,0.9,SLCO2A1,I>S
+492,cysteine-loss (disulfide disruption),0.53,dna-driven,60,0.8,FBN1,C>S
+522,hydrophobicity-switch,0.53,cross-modal,180,1.0,PRPS1,Q>P
+699,hydrophobicity-switch,0.53,novel,112,0.7,AVPR2,V>G
+330,proline-introduction (helix breaker),0.53,dna-driven,20,0.6,ALG6,S>P
+1038,hydrophobicity-switch,0.53,novel,41,0.9,ETFDH,E>K
+452,hydrophobicity-switch,0.53,dna-driven,31,0.85,ALG12,V>G
+952,aromatic-loss (pi-stacking disruption),0.53,novel,313,0.58,SCN1A,F>L
+1282,hydrophobicity-switch,0.53,dna-driven,132,0.95,MLH1,S>G
+1544,hydrophobicity-switch,0.53,novel,835,0.69,OTC,P>L
+1033,proline-introduction (helix breaker),0.53,cross-modal,529,0.98,OTC,L>P
+607,hydrophobicity-switch,0.52,novel,311,0.97,SDHB,R>G
+893,hydrophobicity-switch,0.52,novel,1298,0.38,MLH1,M>R
+1928,proline-introduction (helix breaker),0.52,dna-driven,343,0.94,CNGA3,S>P
+984,hydrophobicity-switch,0.52,novel,632,0.7,FBN1,L>R
+1917,hydrophobicity-switch,0.52,protein-driven,681,0.76,RS1,G>V
+337,cysteine-gain (novel disulfide/redox),0.52,dna-driven,752,0.85,RAG1,R>C
+1524,hydrophobicity-switch,0.52,cross-modal,978,0.93,GLA,D>V
+281,hydrophobicity-switch,0.51,novel,806,0.51,F8,L>S
+652,aromatic-loss (pi-stacking disruption),0.51,novel,674,0.7,OTC,F>S
+1170,hydrophobicity-switch,0.51,cross-modal,2649,0.75,COL3A1,G>R
+690,collagen Gly-X-Y disruption,0.35,novel,901,0.87,COL7A1,G>D
+138,collagen Gly-X-Y disruption,0.27,cross-modal,249,0.92,COL3A1,G>D
