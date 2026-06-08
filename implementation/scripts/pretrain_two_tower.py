@@ -408,8 +408,23 @@ def phase_a_pretrain(model, all_prot, all_dna, cfg, device, out_dir):
 
 # ── Evaluation: per-assay 5-fold CV ──
 
-class GatedHead(nn.Module):
-    """Gated prediction head trained per fold. Produces score + gate weights."""
+class PredictionHead(nn.Module):
+    """MLP head on concatenated concepts for per-fold CV scoring."""
+    def __init__(self, concept_dim, hidden=128):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(concept_dim, hidden),
+            nn.GELU(),
+            nn.Dropout(0.1),
+            nn.Linear(hidden, 1),
+        )
+
+    def forward(self, x):
+        return self.net(x).squeeze(-1)
+
+
+class GateNetwork(nn.Module):
+    """Standalone gate for modality attribution. Trained globally after Phase A."""
     def __init__(self, n_prot, n_dna, n_cross, n_human, gate_temp=2.0):
         super().__init__()
         self.w_prot = nn.Linear(n_prot, 1, bias=False)
@@ -425,13 +440,11 @@ class GatedHead(nn.Module):
         self.gate_temp = gate_temp
 
     def forward(self, prot_z, dna_z, cross_z, human_feats):
-        # L2-normalize gate inputs to prevent magnitude-driven collapse
         prot_signal = prot_z.norm(dim=1, keepdim=True)
         dna_signal = dna_z.norm(dim=1, keepdim=True)
         cross_signal = cross_z.norm(dim=1, keepdim=True)
         gate_input = torch.cat([prot_signal, dna_signal, cross_signal], dim=1)
         gate_input = gate_input / (gate_input.sum(dim=1, keepdim=True) + 1e-8)
-
         gate_logits = self.gate_net(gate_input)
         gate_weights = F.softmax(gate_logits / self.gate_temp, dim=1)
 
@@ -439,7 +452,6 @@ class GatedHead(nn.Module):
         s_dna = self.w_dna(dna_z).squeeze(-1)
         s_cross = self.w_cross(cross_z).squeeze(-1)
         s_human = self.w_human(human_feats).squeeze(-1)
-
         score = (gate_weights[:, 0] * s_prot +
                  gate_weights[:, 1] * s_dna +
                  gate_weights[:, 2] * s_cross +
@@ -447,9 +459,85 @@ class GatedHead(nn.Module):
         return score, gate_weights
 
 
-def train_gated_head_on_fold(model, prot_tr, dna_tr, hf_tr, y_tr, cfg, device,
-                              entropy_weight=0.05):
-    """Train a GatedHead on one fold with entropy regularization."""
+def train_global_gate(model, assay_data, cfg, device, epochs=200, entropy_weight=0.05):
+    """Train gate network globally on z-scored fitness across all assays."""
+    print("  Training global gate network ...", flush=True)
+    model.eval()
+
+    all_prot_z, all_dna_z, all_cross_z, all_hf, all_y = [], [], [], [], []
+    for ad in assay_data:
+        if len(ad['y']) < 50:
+            continue
+        prot_t = torch.FloatTensor(ad['prot']).to(device)
+        dna_t = torch.FloatTensor(ad['dna']).to(device)
+        with torch.no_grad():
+            pz, dz, _, _ = model.encode_towers(prot_t, dna_t)
+            cz, _, _ = model.encode_cross(pz, dz)
+        # Z-score per assay
+        y = ad['y']
+        y_z = (y - y.mean()) / (y.std() + 1e-8)
+        all_prot_z.append(pz.cpu())
+        all_dna_z.append(dz.cpu())
+        all_cross_z.append(cz.cpu())
+        all_hf.append(torch.FloatTensor(ad['hf']))
+        all_y.append(torch.FloatTensor(y_z))
+
+    prot_z = torch.cat(all_prot_z).to(device)
+    dna_z = torch.cat(all_dna_z).to(device)
+    cross_z = torch.cat(all_cross_z).to(device)
+    hf = torch.cat(all_hf).to(device)
+    y = torch.cat(all_y).to(device)
+
+    gate = GateNetwork(prot_z.shape[1], dna_z.shape[1], cross_z.shape[1], cfg.n_human).to(device)
+    opt = optim.AdamW(gate.parameters(), lr=1e-3, weight_decay=1e-3)
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs)
+
+    ds = TensorDataset(prot_z, dna_z, cross_z, hf, y)
+    loader = DataLoader(ds, batch_size=2048, shuffle=True)
+
+    for ep in range(epochs):
+        gate.train()
+        for pz, dz, cz, hfb, yb in loader:
+            pred, gw = gate(pz, dz, cz, hfb)
+            pred_loss = F.mse_loss(pred, yb)
+            gate_entropy = -(gw * torch.log(gw + 1e-8)).sum(dim=1).mean()
+            loss = pred_loss - entropy_weight * gate_entropy
+            opt.zero_grad()
+            loss.backward()
+            opt.step()
+        scheduler.step()
+        if (ep + 1) % 50 == 0:
+            gate.eval()
+            with torch.no_grad():
+                _, gw_all = gate(prot_z[:5000], dna_z[:5000], cross_z[:5000], hf[:5000])
+                gm = gw_all.mean(dim=0)
+            print("    Epoch %d: loss=%.4f, gate=[P=%.1f%% D=%.1f%% C=%.1f%%]" % (
+                ep + 1, pred_loss.item(), gm[0]*100, gm[1]*100, gm[2]*100), flush=True)
+
+    return gate
+
+
+def get_gate_weights_per_assay(model, gate, assay_data, device):
+    """Get per-assay gate weights from globally trained gate."""
+    model.eval()
+    gate.eval()
+    gate_results = {}
+    for ad in assay_data:
+        if len(ad['y']) < 50:
+            continue
+        prot_t = torch.FloatTensor(ad['prot']).to(device)
+        dna_t = torch.FloatTensor(ad['dna']).to(device)
+        hf_t = torch.FloatTensor(ad['hf']).to(device)
+        with torch.no_grad():
+            pz, dz, _, _ = model.encode_towers(prot_t, dna_t)
+            cz, _, _ = model.encode_cross(pz, dz)
+            _, gw = gate(pz, dz, cz, hf_t)
+        gate_results[ad['name']] = gw.cpu().numpy().mean(axis=0)
+    return gate_results
+
+
+def train_head_on_fold(model, prot_tr, dna_tr, hf_tr, y_tr, cfg, device):
+    """Train MLP prediction head on one fold's concept features."""
     model.eval()
     prot_t = torch.FloatTensor(prot_tr).to(device)
     dna_t = torch.FloatTensor(dna_tr).to(device)
@@ -457,52 +545,50 @@ def train_gated_head_on_fold(model, prot_tr, dna_tr, hf_tr, y_tr, cfg, device,
     y_t = torch.FloatTensor(y_tr).to(device)
 
     with torch.no_grad():
-        prot_z, dna_z, _, _ = model.encode_towers(prot_t, dna_t)
-        cross_z, _, _ = model.encode_cross(prot_z, dna_z)
+        concepts = model.get_concept_features(prot_t, dna_t, hf_t)
 
-    n_prot = prot_z.shape[1]
-    n_dna = dna_z.shape[1]
-    n_cross = cross_z.shape[1]
-    head = GatedHead(n_prot, n_dna, n_cross, cfg.n_human).to(device)
-
+    head = PredictionHead(concepts.shape[1], hidden=128).to(device)
     opt = optim.AdamW(head.parameters(), lr=cfg.phase_b_lr, weight_decay=cfg.phase_b_weight_decay)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(opt, T_max=cfg.phase_b_epochs)
 
-    ds = TensorDataset(prot_z, dna_z, cross_z, hf_t, y_t)
+    ds = TensorDataset(concepts, y_t)
     bs = min(cfg.phase_b_batch, len(y_tr))
     loader = DataLoader(ds, batch_size=bs, shuffle=True)
 
     head.train()
     for ep in range(cfg.phase_b_epochs):
-        for pz, dz, cz, hf, yb in loader:
-            pred, gw = head(pz, dz, cz, hf)
-            pred_loss = F.mse_loss(pred, yb)
-            # Entropy regularization: maximize gate entropy to prevent collapse
-            gate_entropy = -(gw * torch.log(gw + 1e-8)).sum(dim=1).mean()
-            loss = pred_loss - entropy_weight * gate_entropy
+        for xb, yb in loader:
+            pred = head(xb)
+            loss = F.mse_loss(pred, yb)
             opt.zero_grad()
             loss.backward()
             opt.step()
         scheduler.step()
 
-    return head, (prot_z, dna_z, cross_z)
+    return head
 
 
-def predict_with_gated_head(model, head, prot_te, dna_te, hf_te, device):
+def predict_with_head(model, head, prot_te, dna_te, hf_te, device):
     model.eval()
     head.eval()
     prot_t = torch.FloatTensor(prot_te).to(device)
     dna_t = torch.FloatTensor(dna_te).to(device)
     hf_t = torch.FloatTensor(hf_te).to(device)
     with torch.no_grad():
-        prot_z, dna_z, _, _ = model.encode_towers(prot_t, dna_t)
-        cross_z, _, _ = model.encode_cross(prot_z, dna_z)
-        scores, gate_weights = head(prot_z, dna_z, cross_z, hf_t)
-    return scores.cpu().numpy(), gate_weights.cpu().numpy()
+        concepts = model.get_concept_features(prot_t, dna_t, hf_t)
+        scores = head(concepts).cpu().numpy()
+    return scores
 
 
 def evaluate_two_tower_cv(model, assay_data, cfg, device):
-    """Per-assay 5-fold CV with gated prediction head."""
+    """Per-assay 5-fold CV: MLP head for scores, global gate for attribution."""
+    # Step 1: Train global gate for modality attribution
+    print("\n  Step 1: Global gate training", flush=True)
+    gate = train_global_gate(model, assay_data, cfg, device)
+    gate_per_assay = get_gate_weights_per_assay(model, gate, assay_data, device)
+
+    # Step 2: Per-assay CV with MLP head for Spearman
+    print("\n  Step 2: Per-assay 5-fold CV (MLP head)", flush=True)
     results = []
     for i, ad in enumerate(assay_data):
         n = len(ad['y'])
@@ -511,13 +597,12 @@ def evaluate_two_tower_cv(model, assay_data, cfg, device):
 
         kf = KFold(n_splits=5, shuffle=True, random_state=42)
         fold_rhos = []
-        fold_gates = []
         for tr_idx, te_idx in kf.split(ad['prot']):
-            head, _ = train_gated_head_on_fold(
+            head = train_head_on_fold(
                 model,
                 ad['prot'][tr_idx], ad['dna'][tr_idx], ad['hf'][tr_idx], ad['y'][tr_idx],
                 cfg, device)
-            preds, gw = predict_with_gated_head(
+            preds = predict_with_head(
                 model, head,
                 ad['prot'][te_idx], ad['dna'][te_idx], ad['hf'][te_idx], device)
             y_te = ad['y'][te_idx]
@@ -525,15 +610,14 @@ def evaluate_two_tower_cv(model, assay_data, cfg, device):
                 rho = stats.spearmanr(preds, y_te).statistic
                 if not np.isnan(rho):
                     fold_rhos.append(rho)
-                    fold_gates.append(gw.mean(axis=0))
 
         if fold_rhos:
             mean_rho = np.mean(fold_rhos)
-            mean_gate = np.mean(fold_gates, axis=0)
+            gw = gate_per_assay.get(ad['name'], np.array([0.33, 0.33, 0.33]))
             results.append({
                 'assay': ad['name'], 'n': n,
                 'spearman': mean_rho,
-                'gate_prot': mean_gate[0], 'gate_dna': mean_gate[1], 'gate_cross': mean_gate[2],
+                'gate_prot': gw[0], 'gate_dna': gw[1], 'gate_cross': gw[2],
             })
 
         if (i + 1) % 20 == 0:
