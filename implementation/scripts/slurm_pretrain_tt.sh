@@ -16,14 +16,9 @@ conda activate sake
 cd /data/user/mzhang630/data/bioinfo/implementation
 
 python scripts/pretrain_two_tower.py \
-    --phase all \
+    --phase evaluate \
     --sae_dir results/dms_v6 \
     --out_dir results/two_tower_pretrain \
-    --expansion 8 \
-    --tower_k 32 \
-    --cross_k 8 \
-    --epochs 500 \
-    --batch_size 4096 \
-    --lr 1e-3 \
+    --checkpoint results/two_tower_pretrain/pretrained.pt \
     --head_epochs 100 \
     --head_lr 3e-3

@@ -408,23 +408,48 @@ def phase_a_pretrain(model, all_prot, all_dna, cfg, device, out_dir):
 
 # ── Evaluation: per-assay 5-fold CV ──
 
-class PredictionHead(nn.Module):
-    """Lightweight head: concept_dim → score."""
-    def __init__(self, concept_dim, hidden=128):
+class GatedHead(nn.Module):
+    """Gated prediction head trained per fold. Produces score + gate weights."""
+    def __init__(self, n_prot, n_dna, n_cross, n_human, gate_temp=2.0):
         super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(concept_dim, hidden),
+        self.w_prot = nn.Linear(n_prot, 1, bias=False)
+        self.w_dna = nn.Linear(n_dna, 1, bias=False)
+        self.w_cross = nn.Linear(n_cross, 1, bias=False)
+        self.w_human = nn.Linear(n_human, 1, bias=False)
+        self.gate_net = nn.Sequential(
+            nn.Linear(3, 16),
             nn.GELU(),
-            nn.Dropout(0.1),
-            nn.Linear(hidden, 1),
+            nn.Linear(16, 3),
         )
+        self.pred_bias = nn.Parameter(torch.zeros(1))
+        self.gate_temp = gate_temp
 
-    def forward(self, x):
-        return self.net(x).squeeze(-1)
+    def forward(self, prot_z, dna_z, cross_z, human_feats):
+        # L2-normalize gate inputs to prevent magnitude-driven collapse
+        prot_signal = prot_z.norm(dim=1, keepdim=True)
+        dna_signal = dna_z.norm(dim=1, keepdim=True)
+        cross_signal = cross_z.norm(dim=1, keepdim=True)
+        gate_input = torch.cat([prot_signal, dna_signal, cross_signal], dim=1)
+        gate_input = gate_input / (gate_input.sum(dim=1, keepdim=True) + 1e-8)
+
+        gate_logits = self.gate_net(gate_input)
+        gate_weights = F.softmax(gate_logits / self.gate_temp, dim=1)
+
+        s_prot = self.w_prot(prot_z).squeeze(-1)
+        s_dna = self.w_dna(dna_z).squeeze(-1)
+        s_cross = self.w_cross(cross_z).squeeze(-1)
+        s_human = self.w_human(human_feats).squeeze(-1)
+
+        score = (gate_weights[:, 0] * s_prot +
+                 gate_weights[:, 1] * s_dna +
+                 gate_weights[:, 2] * s_cross +
+                 s_human + self.pred_bias)
+        return score, gate_weights
 
 
-def train_head_on_fold(model, prot_tr, dna_tr, hf_tr, y_tr, cfg, device):
-    """Train a prediction head on one fold's training data."""
+def train_gated_head_on_fold(model, prot_tr, dna_tr, hf_tr, y_tr, cfg, device,
+                              entropy_weight=0.05):
+    """Train a GatedHead on one fold with entropy regularization."""
     model.eval()
     prot_t = torch.FloatTensor(prot_tr).to(device)
     dna_t = torch.FloatTensor(dna_tr).to(device)
@@ -432,43 +457,52 @@ def train_head_on_fold(model, prot_tr, dna_tr, hf_tr, y_tr, cfg, device):
     y_t = torch.FloatTensor(y_tr).to(device)
 
     with torch.no_grad():
-        concepts = model.get_concept_features(prot_t, dna_t, hf_t)
+        prot_z, dna_z, _, _ = model.encode_towers(prot_t, dna_t)
+        cross_z, _, _ = model.encode_cross(prot_z, dna_z)
 
-    head = PredictionHead(concepts.shape[1], hidden=128).to(device)
+    n_prot = prot_z.shape[1]
+    n_dna = dna_z.shape[1]
+    n_cross = cross_z.shape[1]
+    head = GatedHead(n_prot, n_dna, n_cross, cfg.n_human).to(device)
+
     opt = optim.AdamW(head.parameters(), lr=cfg.phase_b_lr, weight_decay=cfg.phase_b_weight_decay)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(opt, T_max=cfg.phase_b_epochs)
 
-    ds = TensorDataset(concepts, y_t)
+    ds = TensorDataset(prot_z, dna_z, cross_z, hf_t, y_t)
     bs = min(cfg.phase_b_batch, len(y_tr))
     loader = DataLoader(ds, batch_size=bs, shuffle=True)
 
     head.train()
     for ep in range(cfg.phase_b_epochs):
-        for xb, yb in loader:
-            pred = head(xb)
-            loss = F.mse_loss(pred, yb)
+        for pz, dz, cz, hf, yb in loader:
+            pred, gw = head(pz, dz, cz, hf)
+            pred_loss = F.mse_loss(pred, yb)
+            # Entropy regularization: maximize gate entropy to prevent collapse
+            gate_entropy = -(gw * torch.log(gw + 1e-8)).sum(dim=1).mean()
+            loss = pred_loss - entropy_weight * gate_entropy
             opt.zero_grad()
             loss.backward()
             opt.step()
         scheduler.step()
 
-    return head
+    return head, (prot_z, dna_z, cross_z)
 
 
-def predict_with_head(model, head, prot_te, dna_te, hf_te, device):
+def predict_with_gated_head(model, head, prot_te, dna_te, hf_te, device):
     model.eval()
     head.eval()
     prot_t = torch.FloatTensor(prot_te).to(device)
     dna_t = torch.FloatTensor(dna_te).to(device)
     hf_t = torch.FloatTensor(hf_te).to(device)
     with torch.no_grad():
-        concepts = model.get_concept_features(prot_t, dna_t, hf_t)
-        scores = head(concepts).cpu().numpy()
-    return scores
+        prot_z, dna_z, _, _ = model.encode_towers(prot_t, dna_t)
+        cross_z, _, _ = model.encode_cross(prot_z, dna_z)
+        scores, gate_weights = head(prot_z, dna_z, cross_z, hf_t)
+    return scores.cpu().numpy(), gate_weights.cpu().numpy()
 
 
 def evaluate_two_tower_cv(model, assay_data, cfg, device):
-    """Per-assay 5-fold CV with prediction head."""
+    """Per-assay 5-fold CV with gated prediction head."""
     results = []
     for i, ad in enumerate(assay_data):
         n = len(ad['y'])
@@ -477,12 +511,13 @@ def evaluate_two_tower_cv(model, assay_data, cfg, device):
 
         kf = KFold(n_splits=5, shuffle=True, random_state=42)
         fold_rhos = []
+        fold_gates = []
         for tr_idx, te_idx in kf.split(ad['prot']):
-            head = train_head_on_fold(
+            head, _ = train_gated_head_on_fold(
                 model,
                 ad['prot'][tr_idx], ad['dna'][tr_idx], ad['hf'][tr_idx], ad['y'][tr_idx],
                 cfg, device)
-            preds = predict_with_head(
+            preds, gw = predict_with_gated_head(
                 model, head,
                 ad['prot'][te_idx], ad['dna'][te_idx], ad['hf'][te_idx], device)
             y_te = ad['y'][te_idx]
@@ -490,21 +525,15 @@ def evaluate_two_tower_cv(model, assay_data, cfg, device):
                 rho = stats.spearmanr(preds, y_te).statistic
                 if not np.isnan(rho):
                     fold_rhos.append(rho)
+                    fold_gates.append(gw.mean(axis=0))
 
         if fold_rhos:
             mean_rho = np.mean(fold_rhos)
-            # Also get gate weights for interpretability
-            with torch.no_grad():
-                prot_t = torch.FloatTensor(ad['prot'][:500]).to(device)
-                dna_t = torch.FloatTensor(ad['dna'][:500]).to(device)
-                hf_t = torch.FloatTensor(ad['hf'][:500]).to(device)
-                out = model(prot_t, dna_t, hf_t)
-                gw = out['gate_weights'].cpu().numpy().mean(axis=0)
-
+            mean_gate = np.mean(fold_gates, axis=0)
             results.append({
                 'assay': ad['name'], 'n': n,
                 'spearman': mean_rho,
-                'gate_prot': gw[0], 'gate_dna': gw[1], 'gate_cross': gw[2],
+                'gate_prot': mean_gate[0], 'gate_dna': mean_gate[1], 'gate_cross': mean_gate[2],
             })
 
         if (i + 1) % 20 == 0:
@@ -577,7 +606,7 @@ def evaluate_baselines(assay_data):
                         rhos.append(r)
             row[cname] = np.mean(rhos) if rhos else 0
 
-        # MLP baselines
+        # MLP baselines (3 random seeds, averaged)
         mlp_sets = {
             'prot_mlp': ad['prot'],
             'concat_mlp': np.hstack([ad['prot'], ad['dna']]),
@@ -589,11 +618,16 @@ def evaluate_baselines(assay_data):
                 scaler = StandardScaler()
                 X_tr = scaler.fit_transform(X[tr])
                 X_te = scaler.transform(X[te])
-                m = MLPRegressor(hidden_layer_sizes=(128,), max_iter=200,
-                                 early_stopping=True, validation_fraction=0.1,
-                                 random_state=42, learning_rate_init=1e-3)
-                m.fit(X_tr, ad['y'][tr])
-                yp = m.predict(X_te)
+                seed_preds = []
+                for seed in [42, 123, 456]:
+                    m = MLPRegressor(hidden_layer_sizes=(256, 64), max_iter=500,
+                                     early_stopping=True, validation_fraction=0.15,
+                                     n_iter_no_change=20,
+                                     random_state=seed, learning_rate_init=5e-4,
+                                     alpha=1e-3, batch_size=min(256, len(X_tr)))
+                    m.fit(X_tr, ad['y'][tr])
+                    seed_preds.append(m.predict(X_te))
+                yp = np.mean(seed_preds, axis=0)
                 if np.std(yp) > 1e-8 and np.std(ad['y'][te]) > 1e-8:
                     r = stats.spearmanr(yp, ad['y'][te]).statistic
                     if not np.isnan(r):
