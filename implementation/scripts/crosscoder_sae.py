@@ -197,57 +197,72 @@ def load_clinvar_matched(esm2_dir, evo2_dir, clinvar_csv, clinvar_parquet):
                      cv_par['alt'].astype(str))
     par_key2idx = dict(zip(cv_par['key'], range(len(cv_par))))
 
-    # Load Evo-2 embeddings (indexed by parquet row)
-    evo2_data = {}
+    # Load Evo-2 embeddings into array indexed by parquet row
+    n_par = len(cv_par)
+    evo2_arr = np.zeros((n_par, 4096), dtype=np.float32)
+    evo2_mask = np.zeros(n_par, dtype=bool)
     for f in sorted(glob.glob(os.path.join(evo2_dir, 'clinvar_evo2_emb_shard*.npz'))):
         d = np.load(f, allow_pickle=True)
-        for k in range(len(d['idx'])):
-            evo2_data[int(d['idx'][k])] = d['edelta'][k]
+        idxs = d['idx']
+        valid = idxs < n_par
+        evo2_arr[idxs[valid]] = d['edelta'][valid]
+        evo2_mask[idxs[valid]] = True
+    print("  Evo2: %d / %d parquet rows loaded" % (evo2_mask.sum(), n_par), flush=True)
 
     # Load ESM-2 embeddings
-    esm2_edelta, esm2_idx, esm2_gene, esm2_mutant, esm2_label = [], [], [], [], []
+    esm2_parts = []
     for f in sorted(glob.glob(os.path.join(esm2_dir, 'shard_*.npz'))):
         d = np.load(f, allow_pickle=True)
-        for k in range(len(d['idx'])):
-            esm2_edelta.append(d['esm2_edelta'][k])
-            esm2_idx.append(int(d['idx'][k]))
-            esm2_gene.append(str(d['gene'][k]))
-            esm2_mutant.append(str(d['mutant'][k]))
-            esm2_label.append(int(d['label'][k]))
+        esm2_parts.append({
+            'edelta': d['esm2_edelta'],
+            'idx': d['idx'].astype(int),
+            'gene': d['gene'].astype(str),
+            'mutant': d['mutant'].astype(str),
+            'label': d['label'].astype(int),
+        })
+    esm2_edelta = np.vstack([p['edelta'] for p in esm2_parts])
+    esm2_idx = np.concatenate([p['idx'] for p in esm2_parts])
+    esm2_gene = np.concatenate([p['gene'] for p in esm2_parts])
+    esm2_mutant = np.concatenate([p['mutant'] for p in esm2_parts])
+    esm2_label = np.concatenate([p['label'] for p in esm2_parts])
+    print("  ESM2: %d variants loaded" % len(esm2_idx), flush=True)
 
     # Match: ESM2 csv_idx -> csv key -> parquet key -> parquet idx -> Evo2
-    prot_list, dna_list, labels, genes, mutants = [], [], [], [], []
+    csv_keys = cv_csv['key'].values
+    matched = []
     for i in range(len(esm2_idx)):
-        csv_idx = esm2_idx[i]
-        if csv_idx >= len(cv_csv):
+        ci = esm2_idx[i]
+        if ci >= len(csv_keys):
             continue
-        key = cv_csv.iloc[csv_idx]['key']
+        key = csv_keys[ci]
         if key not in par_key2idx:
             continue
         pidx = par_key2idx[key]
-        if pidx not in evo2_data:
+        if not evo2_mask[pidx]:
             continue
-        prot_list.append(esm2_edelta[i])
-        dna_list.append(evo2_data[pidx])
-        labels.append(esm2_label[i])
-        genes.append(esm2_gene[i])
-        mutants.append(esm2_mutant[i])
+        matched.append((i, pidx))
 
-    if not prot_list:
+    if not matched:
         print("WARNING: No matched ClinVar variants found", flush=True)
         return None, None, None
 
-    prot_arr = np.stack(prot_list).astype(np.float32)
-    dna_arr = np.stack(dna_list).astype(np.float32)
+    esm2_sel = np.array([m[0] for m in matched])
+    evo2_sel = np.array([m[1] for m in matched])
+    prot_arr = esm2_edelta[esm2_sel]
+    dna_arr = evo2_arr[evo2_sel]
+    labels = esm2_label[esm2_sel]
+    genes = esm2_gene[esm2_sel]
+    mutants = esm2_mutant[esm2_sel]
+
     clinvar_data = {
         'prot': prot_arr, 'dna': dna_arr,
-        'label': np.array(labels, dtype=np.int32),
-        'gene': np.array(genes),
-        'mutant': np.array(mutants),
+        'label': labels,
+        'gene': genes,
+        'mutant': mutants,
     }
-    n_path = (clinvar_data['label'] == 1).sum()
-    n_ben = (clinvar_data['label'] == 0).sum()
-    print("Loaded %d matched ClinVar variants (%d pathogenic, %d benign, %d genes)" % (
+    n_path = (labels == 1).sum()
+    n_ben = (labels == 0).sum()
+    print("Matched %d ClinVar variants (%d pathogenic, %d benign, %d genes)" % (
         len(prot_arr), n_path, n_ben, len(set(genes))), flush=True)
     return prot_arr, dna_arr, clinvar_data
 
