@@ -129,7 +129,7 @@ def main():
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--nshards", type=int, default=4)
     ap.add_argument("--batch_size", type=int, default=16)
-    ap.add_argument("--seq_cache", default="data/full/gene_sequences.npz")
+    ap.add_argument("--seq_cache", default="data/full/gene_sequences.json")
     args = ap.parse_args()
 
     os.makedirs(args.out_dir, exist_ok=True)
@@ -165,20 +165,15 @@ def main():
     df_shard = df[df['gene'].isin(shard_genes)].reset_index(drop=True)
     log.info("Shard %d: %d genes, %d variants" % (args.shard, len(shard_genes), len(df_shard)))
 
-    # Fetch protein sequences
+    # Load protein sequences from pre-downloaded cache
+    import json
     if os.path.exists(args.seq_cache):
         log.info("Loading cached sequences from %s" % args.seq_cache)
-        cache = np.load(args.seq_cache, allow_pickle=True)
-        gene_seqs = dict(cache['gene_seqs'].item()) if 'gene_seqs' in cache else {}
-        missing = set(shard_genes) - set(gene_seqs.keys())
-        if missing:
-            log.info("Fetching %d missing gene sequences..." % len(missing))
-            new_seqs = fetch_uniprot_sequences(missing)
-            gene_seqs.update(new_seqs)
-            np.savez(args.seq_cache, gene_seqs=gene_seqs)
+        with open(args.seq_cache) as f:
+            gene_seqs = json.load(f)
     else:
-        gene_seqs = fetch_uniprot_sequences(set(shard_genes))
-        np.savez(args.seq_cache, gene_seqs=gene_seqs)
+        log.error("Sequence cache not found: %s. Run download on login node first." % args.seq_cache)
+        return
 
     log.info("Sequences available for %d / %d shard genes" % (
         len(set(shard_genes) & set(gene_seqs.keys())), len(shard_genes)))
@@ -194,10 +189,14 @@ def main():
     all_edelta, all_gene, all_mutant, all_label, all_idx = [], [], [], [], []
     n_done = 0
 
+    MAX_SEQ_LEN = 2048
+
     for gene in shard_genes:
         if gene not in gene_seqs:
             continue
         seq = gene_seqs[gene]
+        if len(seq) > MAX_SEQ_LEN:
+            continue
         gdf = df_shard[df_shard['gene'] == gene]
 
         mutations = []
@@ -215,6 +214,13 @@ def main():
             edelta = extract_esm2_edelta_batch(
                 seq, mutations, esm_model, batch_converter, device,
                 bs=args.batch_size)
+        except RuntimeError as e:
+            if 'out of memory' in str(e):
+                torch.cuda.empty_cache()
+                log.warning("OOM %s (len=%d), skipping" % (gene, len(seq)))
+            else:
+                log.warning("Failed %s: %s" % (gene, e))
+            continue
         except Exception as e:
             log.warning("Failed %s (len=%d, n=%d): %s" % (gene, len(seq), len(mutations), e))
             continue
