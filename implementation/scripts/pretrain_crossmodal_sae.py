@@ -675,8 +675,8 @@ def main():
     ap.add_argument("--out_dir", default="results/crossmodal_sae")
     ap.add_argument("--checkpoint", default=None)
     # Architecture
-    ap.add_argument("--prot_expansion", type=int, default=8)
-    ap.add_argument("--dna_expansion", type=int, default=4)
+    ap.add_argument("--prot_expansion", type=int, default=4)
+    ap.add_argument("--dna_expansion", type=int, default=2)
     ap.add_argument("--prot_k", type=int, default=32)
     ap.add_argument("--dna_k", type=int, default=32)
     ap.add_argument("--proj_dim", type=int, default=512)
