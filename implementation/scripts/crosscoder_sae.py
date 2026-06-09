@@ -86,27 +86,42 @@ class CrossCoderSAE(nn.Module):
     def __init__(self, cfg: CrossCoderConfig):
         super().__init__()
         self.cfg = cfg
-        d_in = cfg.d_prot + cfg.d_dna
-        self.encoder = nn.Linear(d_in, cfg.n_features)
+        self.encoder_pair = nn.Linear(cfg.d_prot + cfg.d_dna, cfg.n_features)
+        self.encoder_prot = nn.Linear(cfg.d_prot, cfg.n_features)
+        self.encoder_dna = nn.Linear(cfg.d_dna, cfg.n_features)
         self.decoder_prot = nn.Linear(cfg.n_features, cfg.d_prot, bias=False)
         self.decoder_dna = nn.Linear(cfg.n_features, cfg.d_dna, bias=False)
         self.k = cfg.k
 
-    def encode(self, prot, dna):
-        x = torch.cat([prot, dna], dim=1)
-        z = F.relu(self.encoder(x))
+    def _topk(self, logits):
+        z = F.relu(logits)
         if self.k < self.cfg.n_features:
-            topk_vals, topk_idx = torch.topk(z, self.k, dim=1)
+            _, idx = torch.topk(z, self.k, dim=1)
             mask = torch.zeros_like(z)
-            mask.scatter_(1, topk_idx, 1.0)
+            mask.scatter_(1, idx, 1.0)
             z = z * mask
         return z
 
+    def encode(self, prot, dna):
+        return self._topk(self.encoder_pair(torch.cat([prot, dna], dim=1)))
+
+    def encode_prot_only(self, prot):
+        return self._topk(self.encoder_prot(prot))
+
+    def encode_dna_only(self, dna):
+        return self._topk(self.encoder_dna(dna))
+
     def forward(self, prot, dna):
-        z = self.encode(prot, dna)
-        prot_hat = self.decoder_prot(z)
-        dna_hat = self.decoder_dna(z)
-        return prot_hat, dna_hat, z
+        z_pair = self.encode(prot, dna)
+        z_prot = self.encode_prot_only(prot)
+        z_dna = self.encode_dna_only(dna)
+        return {
+            'z_pair': z_pair, 'z_prot': z_prot, 'z_dna': z_dna,
+            'prot_hat_pair': self.decoder_prot(z_pair),
+            'dna_hat_pair': self.decoder_dna(z_pair),
+            'prot_hat_prot': self.decoder_prot(z_prot),
+            'dna_hat_dna': self.decoder_dna(z_dna),
+        }
 
     def normalize_decoder(self):
         with torch.no_grad():
@@ -117,25 +132,51 @@ class CrossCoderSAE(nn.Module):
             self.decoder_prot.weight.data = full[:dp]
             self.decoder_dna.weight.data = full[dp:]
 
-    def get_feature_modality(self):
-        """Return per-feature decoder norms for modality classification."""
-        with torch.no_grad():
-            pn = self.decoder_prot.weight.data.norm(dim=0).cpu().numpy()
-            dn = self.decoder_dna.weight.data.norm(dim=0).cpu().numpy()
-        return pn, dn
+    def classify_features(self, prot_data, dna_data, device, freq_threshold=0.01):
+        """Classify features using activation patterns from all three encode paths."""
+        self.eval()
+        N = len(prot_data)
+        act_pair = np.zeros(self.cfg.n_features)
+        act_prot = np.zeros(self.cfg.n_features)
+        act_dna = np.zeros(self.cfg.n_features)
 
-    def classify_features(self, threshold=0.7):
-        """Classify features as protein-private, dna-private, shared, or mixed."""
-        pn, dn = self.get_feature_modality()
-        total = pn + dn + 1e-8
-        prot_frac = pn / total
-        categories = np.empty(len(pn), dtype='<U12')
-        categories[prot_frac > threshold] = 'prot-private'
-        categories[prot_frac < (1 - threshold)] = 'dna-private'
-        categories[(prot_frac >= (1 - threshold)) & (prot_frac <= threshold)] = 'shared'
-        alive_mask = (pn + dn) > 0.01
-        categories[~alive_mask] = 'dead'
-        return categories, pn, dn
+        bs = 4096
+        for i in range(0, N, bs):
+            pt = torch.FloatTensor(prot_data[i:i+bs]).to(device)
+            dt = torch.FloatTensor(dna_data[i:i+bs]).to(device)
+            with torch.no_grad():
+                zp = self.encode(pt, dt)
+                zpo = self.encode_prot_only(pt)
+                zdo = self.encode_dna_only(dt)
+            act_pair += (zp > 0).float().sum(dim=0).cpu().numpy()
+            act_prot += (zpo > 0).float().sum(dim=0).cpu().numpy()
+            act_dna += (zdo > 0).float().sum(dim=0).cpu().numpy()
+
+        act_pair /= N
+        act_prot /= N
+        act_dna /= N
+
+        # Decoder norms
+        with torch.no_grad():
+            dec_pn = self.decoder_prot.weight.data.norm(dim=0).cpu().numpy()
+            dec_dn = self.decoder_dna.weight.data.norm(dim=0).cpu().numpy()
+
+        alive = act_pair > freq_threshold
+        prot_active = act_prot > freq_threshold
+        dna_active = act_dna > freq_threshold
+
+        categories = np.full(self.cfg.n_features, 'dead', dtype='<U12')
+        categories[alive & prot_active & ~dna_active] = 'prot-private'
+        categories[alive & ~prot_active & dna_active] = 'dna-private'
+        categories[alive & prot_active & dna_active] = 'shared'
+        categories[alive & ~prot_active & ~dna_active] = 'interaction'
+
+        info = {
+            'act_pair': act_pair, 'act_prot': act_prot, 'act_dna': act_dna,
+            'dec_prot_norm': dec_pn, 'dec_dna_norm': dec_dn,
+            'categories': categories,
+        }
+        return categories, info
 
 
 # ── Data ──
@@ -358,9 +399,15 @@ def train_crosscoder(model, prot_data, dna_data, cfg, device):
                 pg['lr'] = lr
 
             bi = idx[start:start + cfg.batch]
-            p_hat, d_hat, z = model(prot_t[bi], dna_t[bi])
-            loss_p = F.mse_loss(p_hat, prot_t[bi])
-            loss_d = F.mse_loss(d_hat, dna_t[bi])
+            out = model(prot_t[bi], dna_t[bi])
+            # Paired path: reconstruct both
+            loss_pair_p = F.mse_loss(out['prot_hat_pair'], prot_t[bi])
+            loss_pair_d = F.mse_loss(out['dna_hat_pair'], dna_t[bi])
+            # Single-modality paths: reconstruct own modality
+            loss_prot_only = F.mse_loss(out['prot_hat_prot'], prot_t[bi])
+            loss_dna_only = F.mse_loss(out['dna_hat_dna'], dna_t[bi])
+            loss_p = loss_pair_p + 0.5 * loss_prot_only
+            loss_d = loss_pair_d + 0.5 * loss_dna_only
             loss = loss_p + loss_d
 
             opt.zero_grad()
@@ -380,20 +427,21 @@ def train_crosscoder(model, prot_data, dna_data, cfg, device):
                 alive = ((z_s > 0).float().mean(dim=0) > 0.01).sum().item()
                 active_per = (z_s > 0).float().sum(dim=1).mean().item()
 
-            cats, pn, dn = model.classify_features()
+            cats, _ = model.classify_features(prot_data[:5000], dna_data[:5000], device)
             n_pp = (cats == 'prot-private').sum()
             n_dp = (cats == 'dna-private').sum()
             n_sh = (cats == 'shared').sum()
+            n_ix = (cats == 'interaction').sum()
             n_dead = (cats == 'dead').sum()
 
             elapsed = (time.time() - t0) / 60
             print("  Ep %d/%d (%.1fmin): prot=%.5f dna=%.5f | "
                   "alive=%d/%d active/sample=%.0f | "
-                  "PP=%d DP=%d SH=%d dead=%d" % (
+                  "PP=%d DP=%d SH=%d IX=%d dead=%d" % (
                       ep + 1, cfg.epochs, elapsed,
                       ep_loss_p / nb, ep_loss_d / nb,
                       int(alive), cfg.n_features, active_per,
-                      n_pp, n_dp, n_sh, n_dead), flush=True)
+                      n_pp, n_dp, n_sh, n_ix, n_dead), flush=True)
 
     print("\nTraining done in %.1f min" % ((time.time() - t0) / 60), flush=True)
 
@@ -458,18 +506,19 @@ def bottleneck_ladder(assay_data, prep, cfg, model, device):
     return {m: np.array(v) for m, v in results.items()}
 
 
-def feature_ablation(assay_data, prep, cfg, model, device):
+def feature_ablation(assay_data, prep, cfg, model, device, prot_pca_all, dna_pca_all):
     """Ablation by feature modality type."""
     print("\n--- Feature Ablation by Modality Type ---", flush=True)
 
-    cats, pn, dn = model.classify_features()
+    cats, info = model.classify_features(prot_pca_all, dna_pca_all, device)
     pp_mask = cats == 'prot-private'
     dp_mask = cats == 'dna-private'
     sh_mask = cats == 'shared'
+    ix_mask = cats == 'interaction'
     alive_mask = cats != 'dead'
 
-    print("  Feature counts: PP=%d DP=%d SH=%d dead=%d alive=%d" % (
-        pp_mask.sum(), dp_mask.sum(), sh_mask.sum(),
+    print("  Feature counts: PP=%d DP=%d SH=%d IX=%d dead=%d alive=%d" % (
+        pp_mask.sum(), dp_mask.sum(), sh_mask.sum(), ix_mask.sum(),
         (cats == 'dead').sum(), alive_mask.sum()), flush=True)
 
     modes = [
@@ -553,18 +602,20 @@ def feature_ablation(assay_data, prep, cfg, model, device):
     return df
 
 
-def evaluate_clinvar(clinvar_data, prep, cfg, model, device):
-    """ClinVar pathogenicity classification (AUROC)."""
+def evaluate_clinvar(clinvar_data, prep, cfg, model, device, prot_pca_all, dna_pca_all):
+    """ClinVar pathogenicity: random 5-fold + gene-held-out CV."""
     from sklearn.linear_model import LogisticRegression
     from sklearn.metrics import roc_auc_score
+    from sklearn.model_selection import GroupKFold
 
-    print("\n--- ClinVar Pathogenicity (AUROC) ---", flush=True)
+    print("\n--- ClinVar Pathogenicity ---", flush=True)
     prot_pca = apply_prep(clinvar_data['prot'], prep['prot_mean'], prep['prot_std'],
                           prep['pca_prot_components'], prep['pca_prot_mean'])
     dna_pca = apply_prep(clinvar_data['dna'], prep['dna_mean'], prep['dna_std'],
                          prep['pca_dna_components'], prep['pca_dna_mean'],
                          prep.get('pca_dna_var') if cfg.whiten_dna else None)
     y = clinvar_data['label']
+    genes = clinvar_data['gene']
 
     model.eval()
     pt = torch.FloatTensor(prot_pca).to(device)
@@ -572,7 +623,7 @@ def evaluate_clinvar(clinvar_data, prep, cfg, model, device):
     with torch.no_grad():
         z = model.encode(pt, dt).cpu().numpy()
 
-    cats, _, _ = model.classify_features()
+    cats, _ = model.classify_features(prot_pca_all, dna_pca_all, device)
     pp_mask = cats == 'prot-private'
     dp_mask = cats == 'dna-private'
     sh_mask = cats == 'shared'
@@ -588,49 +639,52 @@ def evaluate_clinvar(clinvar_data, prep, cfg, model, device):
         'cc_shared': z[:, sh_mask],
     }
 
+    # Protocol 1: Random 5-fold
     kf = KFold(n_splits=5, shuffle=True, random_state=42)
+    print("\nRandom 5-fold AUROC:", flush=True)
     print("%-20s %8s" % ("Features", "AUROC"), flush=True)
     print("-" * 30, flush=True)
-
-    results = {}
+    results_random = {}
     for name, X in feature_sets.items():
         if X.shape[1] == 0:
-            results[name] = 0.0
+            results_random[name] = 0.0
             continue
         aucs = []
         for tr, te in kf.split(X):
             clf = LogisticRegression(max_iter=1000, C=0.1, solver='lbfgs')
             clf.fit(X[tr], y[tr])
             prob = clf.predict_proba(X[te])[:, 1]
-            aucs.append(roc_auc_score(y[te], prob))
-        results[name] = np.mean(aucs)
-        print("%-20s %8.4f" % (name, results[name]), flush=True)
+            if len(set(y[te])) >= 2:
+                aucs.append(roc_auc_score(y[te], prob))
+        results_random[name] = np.mean(aucs) if aucs else 0.0
+        print("%-20s %8.4f" % (name, results_random[name]), flush=True)
 
-    # Per-gene analysis for key genes
-    key_genes = ['BRCA1', 'BRCA2', 'TP53', 'MSH2', 'MLH1', 'SCN1A', 'CFTR', 'LDLR']
-    print("\nPer-gene AUROC (cc_all, genes with >=20 variants):", flush=True)
-    gene_results = []
-    for gene in key_genes:
-        mask = clinvar_data['gene'] == gene
-        if mask.sum() < 20:
-            continue
-        Xg = z[mask][:, alive_mask]
-        yg = y[mask]
-        if len(set(yg)) < 2:
-            continue
-        try:
-            clf = LogisticRegression(max_iter=1000, C=0.1, solver='lbfgs')
-            clf.fit(Xg, yg)
-            prob = clf.predict_proba(Xg)[:, 1]
-            auc = roc_auc_score(yg, prob)
-            gene_results.append({'gene': gene, 'n': int(mask.sum()),
-                                 'n_path': int((yg == 1).sum()),
-                                 'auroc': auc})
-            print("  %-10s n=%4d (path=%d) AUROC=%.4f" % (gene, mask.sum(), (yg == 1).sum(), auc), flush=True)
-        except:
-            pass
+    # Protocol 2: Gene-held-out 5-fold
+    n_unique_genes = len(set(genes))
+    if n_unique_genes >= 5:
+        gkf = GroupKFold(n_splits=min(5, n_unique_genes))
+        print("\nGene-held-out AUROC:", flush=True)
+        print("%-20s %8s" % ("Features", "AUROC"), flush=True)
+        print("-" * 30, flush=True)
+        results_gene = {}
+        for name, X in feature_sets.items():
+            if X.shape[1] == 0:
+                results_gene[name] = 0.0
+                continue
+            aucs = []
+            for tr, te in gkf.split(X, y, groups=genes):
+                if len(set(y[te])) < 2 or len(set(y[tr])) < 2:
+                    continue
+                clf = LogisticRegression(max_iter=1000, C=0.1, solver='lbfgs')
+                clf.fit(X[tr], y[tr])
+                prob = clf.predict_proba(X[te])[:, 1]
+                aucs.append(roc_auc_score(y[te], prob))
+            results_gene[name] = np.mean(aucs) if aucs else 0.0
+            print("%-20s %8.4f" % (name, results_gene[name]), flush=True)
+    else:
+        results_gene = {}
 
-    return results, gene_results
+    return results_random, results_gene
 
 
 # ── Main ──
@@ -723,22 +777,23 @@ def main():
         print("EVALUATION", flush=True)
         print("=" * 70, flush=True)
 
-        # Feature classification
-        cats, pn, dn = model.classify_features()
-        print("\nFeature modality profile:", flush=True)
-        for cat in ['prot-private', 'dna-private', 'shared', 'dead']:
+        # Feature classification (activation-based)
+        cats, feat_info = model.classify_features(prot_pca, dna_pca, device)
+        print("\nFeature modality profile (activation-based):", flush=True)
+        for cat in ['prot-private', 'dna-private', 'shared', 'interaction', 'dead']:
             print("  %-15s %d" % (cat, (cats == cat).sum()), flush=True)
 
         # Bottleneck ladder
         ladder = bottleneck_ladder(assay_data, prep, cfg, model, device)
 
         # Feature ablation (DMS)
-        abl_df = feature_ablation(assay_data, prep, cfg, model, device)
+        abl_df = feature_ablation(assay_data, prep, cfg, model, device, prot_pca, dna_pca)
         abl_df.to_csv(os.path.join(args.out_dir, "ablation.csv"), index=False)
 
         # ClinVar pathogenicity
         if clinvar_data is not None:
-            cv_results, cv_genes = evaluate_clinvar(clinvar_data, prep, cfg, model, device)
+            cv_random, cv_gene_ho = evaluate_clinvar(
+                clinvar_data, prep, cfg, model, device, prot_pca, dna_pca)
 
     print("\nDONE", flush=True)
 
