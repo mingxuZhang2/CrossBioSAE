@@ -176,9 +176,80 @@ def load_raw_embeddings(emb_dir):
 
     all_prot = np.vstack(all_prot)
     all_dna = np.vstack(all_dna)
-    print("Loaded %d assays, %d variants (skipped %d)" % (
+    print("Loaded %d DMS assays, %d variants (skipped %d)" % (
         len(assay_data), len(all_prot), skipped), flush=True)
     return all_prot, all_dna, assay_data
+
+
+def load_clinvar_matched(esm2_dir, evo2_dir, clinvar_csv, clinvar_parquet):
+    """Load ClinVar variants with both ESM-2 and Evo-2 embeddings."""
+    import json as _json
+    cv_csv = pd.read_csv(clinvar_csv)
+    cv_par = pd.read_parquet(clinvar_parquet)
+
+    cv_csv['key'] = (cv_csv['Chromosome'].astype(str) + ':' +
+                     cv_csv['PositionVCF'].astype(str) + ':' +
+                     cv_csv['ReferenceAlleleVCF'].astype(str) + ':' +
+                     cv_csv['AlternateAlleleVCF'].astype(str))
+    cv_par['key'] = (cv_par['chrom'].astype(str) + ':' +
+                     cv_par['pos'].astype(str) + ':' +
+                     cv_par['ref'].astype(str) + ':' +
+                     cv_par['alt'].astype(str))
+    par_key2idx = dict(zip(cv_par['key'], range(len(cv_par))))
+
+    # Load Evo-2 embeddings (indexed by parquet row)
+    evo2_data = {}
+    for f in sorted(glob.glob(os.path.join(evo2_dir, 'clinvar_evo2_emb_shard*.npz'))):
+        d = np.load(f, allow_pickle=True)
+        for k in range(len(d['idx'])):
+            evo2_data[int(d['idx'][k])] = d['edelta'][k]
+
+    # Load ESM-2 embeddings
+    esm2_edelta, esm2_idx, esm2_gene, esm2_mutant, esm2_label = [], [], [], [], []
+    for f in sorted(glob.glob(os.path.join(esm2_dir, 'shard_*.npz'))):
+        d = np.load(f, allow_pickle=True)
+        for k in range(len(d['idx'])):
+            esm2_edelta.append(d['esm2_edelta'][k])
+            esm2_idx.append(int(d['idx'][k]))
+            esm2_gene.append(str(d['gene'][k]))
+            esm2_mutant.append(str(d['mutant'][k]))
+            esm2_label.append(int(d['label'][k]))
+
+    # Match: ESM2 csv_idx -> csv key -> parquet key -> parquet idx -> Evo2
+    prot_list, dna_list, labels, genes, mutants = [], [], [], [], []
+    for i in range(len(esm2_idx)):
+        csv_idx = esm2_idx[i]
+        if csv_idx >= len(cv_csv):
+            continue
+        key = cv_csv.iloc[csv_idx]['key']
+        if key not in par_key2idx:
+            continue
+        pidx = par_key2idx[key]
+        if pidx not in evo2_data:
+            continue
+        prot_list.append(esm2_edelta[i])
+        dna_list.append(evo2_data[pidx])
+        labels.append(esm2_label[i])
+        genes.append(esm2_gene[i])
+        mutants.append(esm2_mutant[i])
+
+    if not prot_list:
+        print("WARNING: No matched ClinVar variants found", flush=True)
+        return None, None, None
+
+    prot_arr = np.stack(prot_list).astype(np.float32)
+    dna_arr = np.stack(dna_list).astype(np.float32)
+    clinvar_data = {
+        'prot': prot_arr, 'dna': dna_arr,
+        'label': np.array(labels, dtype=np.int32),
+        'gene': np.array(genes),
+        'mutant': np.array(mutants),
+    }
+    n_path = (clinvar_data['label'] == 1).sum()
+    n_ben = (clinvar_data['label'] == 0).sum()
+    print("Loaded %d matched ClinVar variants (%d pathogenic, %d benign, %d genes)" % (
+        len(prot_arr), n_path, n_ben, len(set(genes))), flush=True)
+    return prot_arr, dna_arr, clinvar_data
 
 
 def preprocess(all_prot, all_dna, cfg):
@@ -467,6 +538,86 @@ def feature_ablation(assay_data, prep, cfg, model, device):
     return df
 
 
+def evaluate_clinvar(clinvar_data, prep, cfg, model, device):
+    """ClinVar pathogenicity classification (AUROC)."""
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import roc_auc_score
+
+    print("\n--- ClinVar Pathogenicity (AUROC) ---", flush=True)
+    prot_pca = apply_prep(clinvar_data['prot'], prep['prot_mean'], prep['prot_std'],
+                          prep['pca_prot_components'], prep['pca_prot_mean'])
+    dna_pca = apply_prep(clinvar_data['dna'], prep['dna_mean'], prep['dna_std'],
+                         prep['pca_dna_components'], prep['pca_dna_mean'],
+                         prep.get('pca_dna_var') if cfg.whiten_dna else None)
+    y = clinvar_data['label']
+
+    model.eval()
+    pt = torch.FloatTensor(prot_pca).to(device)
+    dt = torch.FloatTensor(dna_pca).to(device)
+    with torch.no_grad():
+        z = model.encode(pt, dt).cpu().numpy()
+
+    cats, _, _ = model.classify_features()
+    pp_mask = cats == 'prot-private'
+    dp_mask = cats == 'dna-private'
+    sh_mask = cats == 'shared'
+    alive_mask = cats != 'dead'
+
+    feature_sets = {
+        'pca_prot': prot_pca,
+        'pca_dna': dna_pca,
+        'pca_concat': np.hstack([prot_pca, dna_pca]),
+        'cc_all': z[:, alive_mask],
+        'cc_prot_priv': z[:, pp_mask],
+        'cc_dna_priv': z[:, dp_mask],
+        'cc_shared': z[:, sh_mask],
+    }
+
+    kf = KFold(n_splits=5, shuffle=True, random_state=42)
+    print("%-20s %8s" % ("Features", "AUROC"), flush=True)
+    print("-" * 30, flush=True)
+
+    results = {}
+    for name, X in feature_sets.items():
+        if X.shape[1] == 0:
+            results[name] = 0.0
+            continue
+        aucs = []
+        for tr, te in kf.split(X):
+            clf = LogisticRegression(max_iter=1000, C=0.1, solver='lbfgs')
+            clf.fit(X[tr], y[tr])
+            prob = clf.predict_proba(X[te])[:, 1]
+            aucs.append(roc_auc_score(y[te], prob))
+        results[name] = np.mean(aucs)
+        print("%-20s %8.4f" % (name, results[name]), flush=True)
+
+    # Per-gene analysis for key genes
+    key_genes = ['BRCA1', 'BRCA2', 'TP53', 'MSH2', 'MLH1', 'SCN1A', 'CFTR', 'LDLR']
+    print("\nPer-gene AUROC (cc_all, genes with >=20 variants):", flush=True)
+    gene_results = []
+    for gene in key_genes:
+        mask = clinvar_data['gene'] == gene
+        if mask.sum() < 20:
+            continue
+        Xg = z[mask][:, alive_mask]
+        yg = y[mask]
+        if len(set(yg)) < 2:
+            continue
+        try:
+            clf = LogisticRegression(max_iter=1000, C=0.1, solver='lbfgs')
+            clf.fit(Xg, yg)
+            prob = clf.predict_proba(Xg)[:, 1]
+            auc = roc_auc_score(yg, prob)
+            gene_results.append({'gene': gene, 'n': int(mask.sum()),
+                                 'n_path': int((yg == 1).sum()),
+                                 'auroc': auc})
+            print("  %-10s n=%4d (path=%d) AUROC=%.4f" % (gene, mask.sum(), (yg == 1).sum(), auc), flush=True)
+        except:
+            pass
+
+    return results, gene_results
+
+
 # ── Main ──
 
 def main():
@@ -475,6 +626,12 @@ def main():
     ap.add_argument("--emb_dir", default="results/dms_embeddings")
     ap.add_argument("--out_dir", default="results/crosscoder_sae")
     ap.add_argument("--checkpoint", default=None)
+    # ClinVar
+    ap.add_argument("--clinvar_esm2", default="results/clinvar_esm2")
+    ap.add_argument("--clinvar_evo2", default="results/variant")
+    ap.add_argument("--clinvar_csv", default="data/full/clinvar_variants.csv")
+    ap.add_argument("--clinvar_parquet", default="data/variant/clinvar.parquet")
+    # Architecture
     ap.add_argument("--d_prot", type=int, default=768)
     ap.add_argument("--d_dna", type=int, default=512)
     ap.add_argument("--n_features", type=int, default=4096)
@@ -496,9 +653,20 @@ def main():
         epochs=args.epochs, batch=args.batch, lr=args.lr,
     )
 
-    # Load data
-    print("Loading from %s ..." % args.emb_dir, flush=True)
+    # Load DMS data
+    print("Loading DMS from %s ..." % args.emb_dir, flush=True)
     all_prot, all_dna, assay_data = load_raw_embeddings(args.emb_dir)
+
+    # Load ClinVar data
+    clinvar_data = None
+    if os.path.exists(args.clinvar_esm2) and os.path.exists(args.clinvar_csv):
+        print("Loading ClinVar ...", flush=True)
+        cv_prot, cv_dna, clinvar_data = load_clinvar_matched(
+            args.clinvar_esm2, args.clinvar_evo2, args.clinvar_csv, args.clinvar_parquet)
+        if cv_prot is not None:
+            all_prot = np.vstack([all_prot, cv_prot])
+            all_dna = np.vstack([all_dna, cv_dna])
+            print("Merged: %d total variants (DMS + ClinVar)" % len(all_prot), flush=True)
 
     # Preprocess
     print("Preprocessing ...", flush=True)
@@ -549,9 +717,13 @@ def main():
         # Bottleneck ladder
         ladder = bottleneck_ladder(assay_data, prep, cfg, model, device)
 
-        # Feature ablation
+        # Feature ablation (DMS)
         abl_df = feature_ablation(assay_data, prep, cfg, model, device)
         abl_df.to_csv(os.path.join(args.out_dir, "ablation.csv"), index=False)
+
+        # ClinVar pathogenicity
+        if clinvar_data is not None:
+            cv_results, cv_genes = evaluate_clinvar(clinvar_data, prep, cfg, model, device)
 
     print("\nDONE", flush=True)
 

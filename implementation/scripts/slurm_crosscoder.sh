@@ -20,6 +20,10 @@ python scripts/crosscoder_sae.py \
     --phase all \
     --emb_dir results/dms_embeddings \
     --out_dir results/crosscoder_sae \
+    --clinvar_esm2 results/clinvar_esm2 \
+    --clinvar_evo2 results/variant \
+    --clinvar_csv data/full/clinvar_variants.csv \
+    --clinvar_parquet data/variant/clinvar.parquet \
     --d_prot 768 \
     --d_dna 512 \
     --n_features 4096 \
