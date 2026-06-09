@@ -26,6 +26,6 @@ python scripts/pretrain_crossmodal_sae.py \
     --lambda_xpred 0.3 \
     --lambda_align 0.03 \
     --prot_k 32 \
-    --dna_k 64 \
+    --dna_k 32 \
     --proj_dim 512 \
     --cross_k 16

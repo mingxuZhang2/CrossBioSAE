@@ -34,10 +34,10 @@ from sklearn.model_selection import KFold
 class CrossModalConfig:
     d_prot: int = 1280
     d_dna: int = 4096
-    prot_expansion: int = 8
-    dna_expansion: int = 4
+    prot_expansion: int = 4
+    dna_expansion: int = 2
     prot_k: int = 32
-    dna_k: int = 64
+    dna_k: int = 32
     proj_dim: int = 512
     cross_expansion: int = 4
     cross_k: int = 16
@@ -240,19 +240,31 @@ def load_raw_embeddings(emb_dir):
     return all_prot, all_dna, assay_data
 
 
-def mean_center(all_prot, all_dna):
-    """Mean-center embeddings to reduce activation outliers (Simon et al. 2026)."""
+def standardize(all_prot, all_dna):
+    """Standardize embeddings: zero mean + unit variance per dimension."""
     prot_mean = all_prot.mean(axis=0)
+    prot_std = all_prot.std(axis=0) + 1e-8
     dna_mean = all_dna.mean(axis=0)
-    all_prot = all_prot - prot_mean
-    all_dna = all_dna - dna_mean
-    print("  Mean-centered: prot norm %.2f→%.2f, dna norm %.2f→%.2f" % (
-        np.linalg.norm(prot_mean), np.linalg.norm(all_prot, axis=1).mean(),
-        np.linalg.norm(dna_mean), np.linalg.norm(all_dna, axis=1).mean()), flush=True)
-    return all_prot, all_dna, prot_mean, dna_mean
+    dna_std = all_dna.std(axis=0) + 1e-8
+    all_prot = (all_prot - prot_mean) / prot_std
+    all_dna = (all_dna - dna_mean) / dna_std
+    print("  Standardized: prot norm %.2f, dna norm %.2f (per-sample mean)" % (
+        np.linalg.norm(all_prot, axis=1).mean(),
+        np.linalg.norm(all_dna, axis=1).mean()), flush=True)
+    return all_prot, all_dna, {'prot_mean': prot_mean, 'prot_std': prot_std,
+                                'dna_mean': dna_mean, 'dna_std': dna_std}
 
 
 # ── Phase A: Joint Cross-Predictive Pretraining ──
+
+def info_nce_loss(prot_c, dna_c, temperature=0.07):
+    """Contrastive alignment: matched pairs close, unmatched pairs far."""
+    prot_c = F.normalize(prot_c, dim=1)
+    dna_c = F.normalize(dna_c, dim=1)
+    logits = prot_c @ dna_c.T / temperature
+    labels = torch.arange(len(prot_c), device=prot_c.device)
+    return (F.cross_entropy(logits, labels) + F.cross_entropy(logits.T, labels)) / 2
+
 
 def get_cosine_lr(step, total_steps, warmup_steps, base_lr):
     if step < warmup_steps:
@@ -321,7 +333,7 @@ def phase_a_pretrain(model, all_prot, all_dna, cfg, device, out_dir):
 
             p_c = model.proj_prot(p_z)
             d_c = model.proj_dna(d_z)
-            L_align = (1 - F.cosine_similarity(p_c, d_c, dim=1)).mean()
+            L_align = info_nce_loss(p_c, d_c)
 
             loss = L_recon + cfg.lambda_xpred * L_xpred + cfg.lambda_align * L_align
 
@@ -353,19 +365,20 @@ def phase_a_pretrain(model, all_prot, all_dna, cfg, device, out_dir):
                 r2_p2d = 1 - F.mse_loss(d_pred_s, dna_t[:s]).item() / dna_t[:s].var().item()
                 p_pred_s = model.xpred_d2p(dz)
                 r2_d2p = 1 - F.mse_loss(p_pred_s, prot_t[:s]).item() / prot_t[:s].var().item()
-                # Alignment cosine
-                pc = model.proj_prot(pz)
-                dc = model.proj_dna(dz)
-                cos = F.cosine_similarity(pc, dc, dim=1).mean().item()
+                # Alignment: retrieval accuracy (top-1)
+                pc = F.normalize(model.proj_prot(pz), dim=1)
+                dc = F.normalize(model.proj_dna(dz), dim=1)
+                sim = pc @ dc.T
+                retrieval_acc = (sim.argmax(dim=1) == torch.arange(s, device=sim.device)).float().mean().item()
 
             elapsed = (time.time() - t0) / 60
             print("  Ep %d/%d (%.1fmin): recon=%.5f xpred=%.5f align=%.4f | "
-                  "alive P=%d/%d D=%d/%d | R2 p→d=%.4f d→p=%.4f | cos=%.4f" % (
+                  "alive P=%d/%d D=%d/%d | R2 p→d=%.4f d→p=%.4f | R@1=%.4f" % (
                       ep + 1, cfg.phase_a_epochs, elapsed,
                       ep_recon / n_batch, ep_xpred / n_batch, ep_align / n_batch,
                       int(alive_p), model.n_prot_features,
                       int(alive_d), model.n_dna_features,
-                      r2_p2d, r2_d2p, cos), flush=True)
+                      r2_p2d, r2_d2p, retrieval_acc), flush=True)
 
     print("\nPhase A done in %.1f min" % ((time.time() - t0) / 60), flush=True)
 
@@ -430,13 +443,12 @@ def phase_a2_cross(model, all_prot, all_dna, cfg, device):
     print("Phase A2 done.", flush=True)
 
 
-def save_checkpoint(model, cfg, prot_mean, dna_mean, out_dir):
+def save_checkpoint(model, cfg, norm_stats, out_dir):
     ckpt_path = os.path.join(out_dir, "pretrained.pt")
     torch.save({
         'state_dict': model.state_dict(),
         'config': asdict(cfg),
-        'prot_mean': prot_mean,
-        'dna_mean': dna_mean,
+        'norm_stats': norm_stats,
     }, ckpt_path)
     print("Saved: %s" % ckpt_path, flush=True)
 
@@ -496,7 +508,11 @@ def train_mlp_head(X_tr, y_tr, input_dim, cfg, device):
     return head
 
 
-def evaluate_ablation(model, assay_data, cfg, device, prot_mean, dna_mean):
+def apply_norm(data, mean, std):
+    return ((data - mean) / std).astype(np.float32)
+
+
+def evaluate_ablation(model, assay_data, cfg, device, norm_stats):
     """Per-assay ablation: Ridge CV on feature subsets for modality attribution."""
     MODES = [
         ('full', ['prot', 'dna', 'cross', 'human']),
@@ -516,9 +532,8 @@ def evaluate_ablation(model, assay_data, cfg, device, prot_mean, dna_mean):
         if n < 50:
             continue
 
-        # Mean-center and encode
-        prot_mc = (ad['prot'] - prot_mean).astype(np.float32)
-        dna_mc = (ad['dna'] - dna_mean).astype(np.float32)
+        prot_mc = apply_norm(ad['prot'], norm_stats['prot_mean'], norm_stats['prot_std'])
+        dna_mc = apply_norm(ad['dna'], norm_stats['dna_mean'], norm_stats['dna_std'])
         model.eval()
         pt = torch.FloatTensor(prot_mc).to(device)
         dt = torch.FloatTensor(dna_mc).to(device)
@@ -564,7 +579,7 @@ def evaluate_ablation(model, assay_data, cfg, device, prot_mean, dna_mean):
     return pd.DataFrame(results)
 
 
-def evaluate_mlp_cv(model, assay_data, cfg, device, prot_mean, dna_mean):
+def evaluate_mlp_cv(model, assay_data, cfg, device, norm_stats):
     """Per-assay 5-fold CV with MLP head on SAE features."""
     print("\n--- Two-Tower MLP CV ---", flush=True)
     results = []
@@ -574,8 +589,8 @@ def evaluate_mlp_cv(model, assay_data, cfg, device, prot_mean, dna_mean):
         if n < 50:
             continue
 
-        prot_mc = (ad['prot'] - prot_mean).astype(np.float32)
-        dna_mc = (ad['dna'] - dna_mean).astype(np.float32)
+        prot_mc = apply_norm(ad['prot'], norm_stats['prot_mean'], norm_stats['prot_std'])
+        dna_mc = apply_norm(ad['dna'], norm_stats['dna_mean'], norm_stats['dna_std'])
         model.eval()
         pt = torch.FloatTensor(prot_mc).to(device)
         dt = torch.FloatTensor(dna_mc).to(device)
@@ -607,7 +622,7 @@ def evaluate_mlp_cv(model, assay_data, cfg, device, prot_mean, dna_mean):
     return pd.DataFrame(results)
 
 
-def evaluate_baselines(assay_data, prot_mean, dna_mean):
+def evaluate_baselines(assay_data, norm_stats):
     """Raw feature baselines."""
     print("\n--- Baselines (Ridge) ---", flush=True)
     results = []
@@ -617,8 +632,8 @@ def evaluate_baselines(assay_data, prot_mean, dna_mean):
         if n < 50:
             continue
 
-        prot_mc = (ad['prot'] - prot_mean).astype(np.float32)
-        dna_mc = (ad['dna'] - dna_mean).astype(np.float32)
+        prot_mc = apply_norm(ad['prot'], norm_stats['prot_mean'], norm_stats['prot_std'])
+        dna_mc = apply_norm(ad['dna'], norm_stats['dna_mean'], norm_stats['dna_std'])
 
         feature_sets = {
             'prot_ridge': prot_mc,
@@ -663,7 +678,7 @@ def main():
     ap.add_argument("--prot_expansion", type=int, default=8)
     ap.add_argument("--dna_expansion", type=int, default=4)
     ap.add_argument("--prot_k", type=int, default=32)
-    ap.add_argument("--dna_k", type=int, default=64)
+    ap.add_argument("--dna_k", type=int, default=32)
     ap.add_argument("--proj_dim", type=int, default=512)
     ap.add_argument("--cross_k", type=int, default=16)
     # Training
@@ -700,14 +715,9 @@ def main():
     print("Loading raw embeddings from %s ..." % args.emb_dir, flush=True)
     all_prot, all_dna, assay_data = load_raw_embeddings(args.emb_dir)
 
-    # Mean-center
-    print("Mean-centering ...", flush=True)
-    all_prot, all_dna, prot_mean, dna_mean = mean_center(all_prot, all_dna)
-
-    # Also mean-center per-assay data
-    for ad in assay_data:
-        ad['prot_raw'] = ad['prot'].copy()
-        ad['dna_raw'] = ad['dna'].copy()
+    # Standardize
+    print("Standardizing ...", flush=True)
+    all_prot, all_dna, norm_stats = standardize(all_prot, all_dna)
 
     # Save config
     with open(os.path.join(args.out_dir, "config.json"), "w") as f:
@@ -725,7 +735,7 @@ def main():
     if args.phase in ("pretrain", "all"):
         phase_a_pretrain(model, all_prot, all_dna, cfg, device, args.out_dir)
         phase_a2_cross(model, all_prot, all_dna, cfg, device)
-        save_checkpoint(model, cfg, prot_mean, dna_mean, args.out_dir)
+        save_checkpoint(model, cfg, norm_stats, args.out_dir)
 
     # Load checkpoint
     if args.phase == "evaluate":
@@ -736,8 +746,7 @@ def main():
             cfg = CrossModalConfig(**state['config'])
             model = CrossModalSAE(cfg).to(device)
         model.load_state_dict(state['state_dict'])
-        prot_mean = state['prot_mean']
-        dna_mean = state['dna_mean']
+        norm_stats = state['norm_stats']
 
     # Evaluate
     if args.phase in ("evaluate", "all"):
@@ -746,17 +755,17 @@ def main():
         print("=" * 70, flush=True)
 
         # Ablation
-        abl = evaluate_ablation(model, assay_data, cfg, device, prot_mean, dna_mean)
+        abl = evaluate_ablation(model, assay_data, cfg, device, norm_stats)
         abl.to_csv(os.path.join(args.out_dir, "ablation.csv"), index=False)
 
         # MLP CV
         if not args.skip_mlp:
-            mlp = evaluate_mlp_cv(model, assay_data, cfg, device, prot_mean, dna_mean)
+            mlp = evaluate_mlp_cv(model, assay_data, cfg, device, norm_stats)
             mlp.to_csv(os.path.join(args.out_dir, "mlp_results.csv"), index=False)
 
         # Baselines
         if not args.skip_baselines:
-            bl = evaluate_baselines(assay_data, prot_mean, dna_mean)
+            bl = evaluate_baselines(assay_data, norm_stats)
             bl.to_csv(os.path.join(args.out_dir, "baselines.csv"), index=False)
 
         # Report
