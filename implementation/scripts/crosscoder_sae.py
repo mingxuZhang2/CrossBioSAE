@@ -83,15 +83,19 @@ def compute_human_features(ref, alt):
 # ── Model ──
 
 class CrossCoderSAE(nn.Module):
+    """Factorized shared-index CrossCoder: Wp·prot + Wd·dna + b."""
+
     def __init__(self, cfg: CrossCoderConfig):
         super().__init__()
         self.cfg = cfg
-        self.encoder_pair = nn.Linear(cfg.d_prot + cfg.d_dna, cfg.n_features)
-        self.encoder_prot = nn.Linear(cfg.d_prot, cfg.n_features)
-        self.encoder_dna = nn.Linear(cfg.d_dna, cfg.n_features)
+        self.Wp = nn.Parameter(torch.empty(cfg.n_features, cfg.d_prot))
+        self.Wd = nn.Parameter(torch.empty(cfg.n_features, cfg.d_dna))
+        self.b = nn.Parameter(torch.zeros(cfg.n_features))
         self.decoder_prot = nn.Linear(cfg.n_features, cfg.d_prot, bias=False)
         self.decoder_dna = nn.Linear(cfg.n_features, cfg.d_dna, bias=False)
         self.k = cfg.k
+        nn.init.kaiming_uniform_(self.Wp, a=5**0.5)
+        nn.init.kaiming_uniform_(self.Wd, a=5**0.5)
 
     def _topk(self, logits):
         z = F.relu(logits)
@@ -103,25 +107,17 @@ class CrossCoderSAE(nn.Module):
         return z
 
     def encode(self, prot, dna):
-        return self._topk(self.encoder_pair(torch.cat([prot, dna], dim=1)))
+        return self._topk(prot @ self.Wp.T + dna @ self.Wd.T + self.b)
 
     def encode_prot_only(self, prot):
-        return self._topk(self.encoder_prot(prot))
+        return self._topk(prot @ self.Wp.T + self.b)
 
     def encode_dna_only(self, dna):
-        return self._topk(self.encoder_dna(dna))
+        return self._topk(dna @ self.Wd.T + self.b)
 
     def forward(self, prot, dna):
-        z_pair = self.encode(prot, dna)
-        z_prot = self.encode_prot_only(prot)
-        z_dna = self.encode_dna_only(dna)
-        return {
-            'z_pair': z_pair, 'z_prot': z_prot, 'z_dna': z_dna,
-            'prot_hat_pair': self.decoder_prot(z_pair),
-            'dna_hat_pair': self.decoder_dna(z_pair),
-            'prot_hat_prot': self.decoder_prot(z_prot),
-            'dna_hat_dna': self.decoder_dna(z_dna),
-        }
+        z = self.encode(prot, dna)
+        return self.decoder_prot(z), self.decoder_dna(z), z
 
     def normalize_decoder(self):
         with torch.no_grad():
@@ -132,13 +128,14 @@ class CrossCoderSAE(nn.Module):
             self.decoder_prot.weight.data = full[:dp]
             self.decoder_dna.weight.data = full[dp:]
 
-    def classify_features(self, prot_data, dna_data, device, freq_threshold=0.01):
-        """Classify features using activation patterns from all three encode paths."""
+    def classify_features(self, prot_data, dna_data, device, min_count=10):
+        """Two-axis classification: trigger-side × decoder-side."""
         self.eval()
         N = len(prot_data)
-        act_pair = np.zeros(self.cfg.n_features)
-        act_prot = np.zeros(self.cfg.n_features)
-        act_dna = np.zeros(self.cfg.n_features)
+        mass_pair = np.zeros(self.cfg.n_features)
+        mass_prot = np.zeros(self.cfg.n_features)
+        mass_dna = np.zeros(self.cfg.n_features)
+        count_pair = np.zeros(self.cfg.n_features)
 
         bs = 4096
         for i in range(0, N, bs):
@@ -148,32 +145,42 @@ class CrossCoderSAE(nn.Module):
                 zp = self.encode(pt, dt)
                 zpo = self.encode_prot_only(pt)
                 zdo = self.encode_dna_only(dt)
-            act_pair += (zp > 0).float().sum(dim=0).cpu().numpy()
-            act_prot += (zpo > 0).float().sum(dim=0).cpu().numpy()
-            act_dna += (zdo > 0).float().sum(dim=0).cpu().numpy()
+            count_pair += (zp > 0).float().sum(dim=0).cpu().numpy()
+            mass_pair += zp.sum(dim=0).cpu().numpy()
+            mass_prot += zpo.sum(dim=0).cpu().numpy()
+            mass_dna += zdo.sum(dim=0).cpu().numpy()
 
-        act_pair /= N
-        act_prot /= N
-        act_dna /= N
+        # Alive by activation count
+        alive = count_pair >= max(min_count, 1e-4 * N)
 
-        # Decoder norms
+        # Trigger-side: what fraction of activation mass comes from protein vs DNA
+        total_single = mass_prot + mass_dna + 1e-8
+        trigger_prot_frac = mass_prot / total_single
+
+        # Decoder-side
         with torch.no_grad():
             dec_pn = self.decoder_prot.weight.data.norm(dim=0).cpu().numpy()
             dec_dn = self.decoder_dna.weight.data.norm(dim=0).cpu().numpy()
+        dec_total = dec_pn + dec_dn + 1e-8
+        decoder_prot_frac = dec_pn / dec_total
 
-        alive = act_pair > freq_threshold
-        prot_active = act_prot > freq_threshold
-        dna_active = act_dna > freq_threshold
+        # Pair-only: active in pair but low mass in both single-modality
+        pair_only = alive & (mass_prot + mass_dna < 0.1 * mass_pair)
 
-        categories = np.full(self.cfg.n_features, 'dead', dtype='<U12')
-        categories[alive & prot_active & ~dna_active] = 'prot-private'
-        categories[alive & ~prot_active & dna_active] = 'dna-private'
-        categories[alive & prot_active & dna_active] = 'shared'
-        categories[alive & ~prot_active & ~dna_active] = 'interaction'
+        # Classification
+        categories = np.full(self.cfg.n_features, 'dead', dtype='<U16')
+        categories[alive & (trigger_prot_frac > 0.7) & (decoder_prot_frac > 0.6)] = 'prot-private'
+        categories[alive & (trigger_prot_frac < 0.3) & (decoder_prot_frac < 0.4)] = 'dna-private'
+        categories[alive & (trigger_prot_frac >= 0.3) & (trigger_prot_frac <= 0.7) &
+                   ~pair_only] = 'shared'
+        categories[pair_only] = 'pair-only'
 
         info = {
-            'act_pair': act_pair, 'act_prot': act_prot, 'act_dna': act_dna,
-            'dec_prot_norm': dec_pn, 'dec_dna_norm': dec_dn,
+            'alive': alive,
+            'count_pair': count_pair,
+            'mass_pair': mass_pair, 'mass_prot': mass_prot, 'mass_dna': mass_dna,
+            'trigger_prot_frac': trigger_prot_frac,
+            'decoder_prot_frac': decoder_prot_frac,
             'categories': categories,
         }
         return categories, info
@@ -399,15 +406,9 @@ def train_crosscoder(model, prot_data, dna_data, cfg, device):
                 pg['lr'] = lr
 
             bi = idx[start:start + cfg.batch]
-            out = model(prot_t[bi], dna_t[bi])
-            # Paired path: reconstruct both
-            loss_pair_p = F.mse_loss(out['prot_hat_pair'], prot_t[bi])
-            loss_pair_d = F.mse_loss(out['dna_hat_pair'], dna_t[bi])
-            # Single-modality paths: reconstruct own modality
-            loss_prot_only = F.mse_loss(out['prot_hat_prot'], prot_t[bi])
-            loss_dna_only = F.mse_loss(out['dna_hat_dna'], dna_t[bi])
-            loss_p = loss_pair_p + 0.5 * loss_prot_only
-            loss_d = loss_pair_d + 0.5 * loss_dna_only
+            p_hat, d_hat, z = model(prot_t[bi], dna_t[bi])
+            loss_p = F.mse_loss(p_hat, prot_t[bi])
+            loss_d = F.mse_loss(d_hat, dna_t[bi])
             loss = loss_p + loss_d
 
             opt.zero_grad()
@@ -431,17 +432,17 @@ def train_crosscoder(model, prot_data, dna_data, cfg, device):
             n_pp = (cats == 'prot-private').sum()
             n_dp = (cats == 'dna-private').sum()
             n_sh = (cats == 'shared').sum()
-            n_ix = (cats == 'interaction').sum()
+            n_po = (cats == 'pair-only').sum()
             n_dead = (cats == 'dead').sum()
 
             elapsed = (time.time() - t0) / 60
             print("  Ep %d/%d (%.1fmin): prot=%.5f dna=%.5f | "
                   "alive=%d/%d active/sample=%.0f | "
-                  "PP=%d DP=%d SH=%d IX=%d dead=%d" % (
+                  "PP=%d DP=%d SH=%d PO=%d dead=%d" % (
                       ep + 1, cfg.epochs, elapsed,
                       ep_loss_p / nb, ep_loss_d / nb,
                       int(alive), cfg.n_features, active_per,
-                      n_pp, n_dp, n_sh, n_ix, n_dead), flush=True)
+                      n_pp, n_dp, n_sh, n_po, n_dead), flush=True)
 
     print("\nTraining done in %.1f min" % ((time.time() - t0) / 60), flush=True)
 
@@ -514,11 +515,11 @@ def feature_ablation(assay_data, prep, cfg, model, device, prot_pca_all, dna_pca
     pp_mask = cats == 'prot-private'
     dp_mask = cats == 'dna-private'
     sh_mask = cats == 'shared'
-    ix_mask = cats == 'interaction'
+    po_mask = cats == 'pair-only'
     alive_mask = cats != 'dead'
 
-    print("  Feature counts: PP=%d DP=%d SH=%d IX=%d dead=%d alive=%d" % (
-        pp_mask.sum(), dp_mask.sum(), sh_mask.sum(), ix_mask.sum(),
+    print("  Feature counts: PP=%d DP=%d SH=%d PO=%d dead=%d alive=%d" % (
+        pp_mask.sum(), dp_mask.sum(), sh_mask.sum(), po_mask.sum(),
         (cats == 'dead').sum(), alive_mask.sum()), flush=True)
 
     modes = [
@@ -780,7 +781,7 @@ def main():
         # Feature classification (activation-based)
         cats, feat_info = model.classify_features(prot_pca, dna_pca, device)
         print("\nFeature modality profile (activation-based):", flush=True)
-        for cat in ['prot-private', 'dna-private', 'shared', 'interaction', 'dead']:
+        for cat in ['prot-private', 'dna-private', 'shared', 'pair-only', 'dead']:
             print("  %-15s %d" % (cat, (cats == cat).sum()), flush=True)
 
         # Bottleneck ladder
