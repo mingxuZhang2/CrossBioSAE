@@ -1,0 +1,142 @@
+{
+  "model": {
+    "architecture": "Factorized SharedIndex CrossCoder (Wp*prot + Wd*dna + b)",
+    "params": 10489856,
+    "n_features": 4096,
+    "k": 32,
+    "d_prot_pca": 768,
+    "d_dna_pca": 512,
+    "pca_prot_var": 0.956,
+    "pca_dna_var": 1.0,
+    "whiten_dna": true
+  },
+  "pretraining": {
+    "n_variants": 250364,
+    "n_dms": 241533,
+    "n_clinvar": 8831,
+    "epochs": 300,
+    "time_min": 1.7,
+    "final_loss_prot": 0.28463,
+    "final_loss_dna": 0.36872
+  },
+  "feature_classification": {
+    "method": "two-axis: trigger-side (activation mass) x decoder-side (decoder norm)",
+    "prot_private": 737,
+    "dna_private": 2781,
+    "shared": 346,
+    "pair_only": 0,
+    "dead": 232,
+    "alive": 3864
+  },
+  "bottleneck_ladder": {
+    "raw_esm_1280": {
+      "mean": 0.5353,
+      "median": 0.5316
+    },
+    "pca_esm_768": {
+      "mean": 0.521,
+      "median": 0.5032
+    },
+    "pca_evo_512": {
+      "mean": 0.2963,
+      "median": 0.2891
+    },
+    "concat_pca_1280": {
+      "mean": 0.5216,
+      "median": 0.5056
+    },
+    "crosscoder_z": {
+      "mean": 0.5247,
+      "median": 0.5409
+    },
+    "cc_z_human": {
+      "mean": 0.5268,
+      "median": 0.5393
+    }
+  },
+  "dms_ablation": {
+    "all": {
+      "mean": 0.5235,
+      "median": 0.5284
+    },
+    "prot_private_only": {
+      "mean": 0.4925,
+      "median": 0.5
+    },
+    "dna_private_only": {
+      "mean": 0.3583,
+      "median": 0.3665
+    },
+    "shared_only": {
+      "mean": 0.3065,
+      "median": 0.295
+    },
+    "importance_PP": {
+      "mean": 0.1557,
+      "median": 0.1417,
+      "positive_assays": 206
+    },
+    "importance_DP": {
+      "mean": 0.0291,
+      "median": 0.0402,
+      "positive_assays": 148
+    },
+    "importance_SH": {
+      "mean": 0.0068,
+      "median": 0.0048,
+      "positive_assays": 175
+    }
+  },
+  "clinvar_auroc": {
+    "random_5fold": {
+      "pca_prot": 0.8515,
+      "pca_dna": 0.8899,
+      "pca_concat": 0.9126,
+      "cc_all": 0.9234,
+      "cc_prot_priv": 0.8996,
+      "cc_dna_priv": 0.8653,
+      "cc_shared": 0.587
+    },
+    "gene_held_out": {
+      "pca_prot": 0.8535,
+      "pca_dna": 0.8918,
+      "pca_concat": 0.9126,
+      "cc_all": 0.9235,
+      "cc_prot_priv": 0.8987,
+      "cc_dna_priv": 0.866,
+      "cc_shared": 0.5783
+    }
+  },
+  "top_assays": {
+    "protein_driven": [
+      {
+        "assay": "MYO3_YEAST_Tsuboyama_2023_2BTT",
+        "imp_PP": 0.384
+      },
+      {
+        "assay": "AMFR_HUMAN_Tsuboyama_2023_4G3O",
+        "imp_PP": 0.384
+      }
+    ],
+    "dna_driven": [
+      {
+        "assay": "HIS7_YEAST_Pokusaeva_2019",
+        "imp_DP": 0.269
+      },
+      {
+        "assay": "BRCA2_HUMAN_Erwood_2022_HEK293T",
+        "imp_DP": 0.247
+      }
+    ],
+    "shared_driven": [
+      {
+        "assay": "BLAT_ECOLX_Deng_2012",
+        "imp_SH": 0.05
+      },
+      {
+        "assay": "BLAT_ECOLX_Jacquier_2013",
+        "imp_SH": 0.04
+      }
+    ]
+  }
+}

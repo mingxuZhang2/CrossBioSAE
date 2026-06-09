@@ -1,0 +1,14 @@
+{
+  "d_prot_raw": 1280,
+  "d_dna_raw": 4096,
+  "d_prot": 768,
+  "d_dna": 512,
+  "whiten_dna": true,
+  "n_features": 4096,
+  "k": 32,
+  "n_human": 9,
+  "epochs": 300,
+  "lr": 0.0005,
+  "batch": 8192,
+  "warmup": 30
+}
