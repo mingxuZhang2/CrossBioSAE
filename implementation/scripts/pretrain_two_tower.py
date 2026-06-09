@@ -581,14 +581,8 @@ def predict_with_head(model, head, prot_te, dna_te, hf_te, device):
 
 
 def evaluate_two_tower_cv(model, assay_data, cfg, device):
-    """Per-assay 5-fold CV: MLP head for scores, global gate for attribution."""
-    # Step 1: Train global gate for modality attribution
-    print("\n  Step 1: Global gate training", flush=True)
-    gate = train_global_gate(model, assay_data, cfg, device)
-    gate_per_assay = get_gate_weights_per_assay(model, gate, assay_data, device)
-
-    # Step 2: Per-assay CV with MLP head for Spearman
-    print("\n  Step 2: Per-assay 5-fold CV (MLP head)", flush=True)
+    """Per-assay 5-fold CV with MLP head on concept features."""
+    print("\n  Per-assay 5-fold CV (MLP head)", flush=True)
     results = []
     for i, ad in enumerate(assay_data):
         n = len(ad['y'])
@@ -612,12 +606,9 @@ def evaluate_two_tower_cv(model, assay_data, cfg, device):
                     fold_rhos.append(rho)
 
         if fold_rhos:
-            mean_rho = np.mean(fold_rhos)
-            gw = gate_per_assay.get(ad['name'], np.array([0.33, 0.33, 0.33]))
             results.append({
                 'assay': ad['name'], 'n': n,
-                'spearman': mean_rho,
-                'gate_prot': gw[0], 'gate_dna': gw[1], 'gate_cross': gw[2],
+                'spearman': np.mean(fold_rhos),
             })
 
         if (i + 1) % 20 == 0:
@@ -655,6 +646,72 @@ def evaluate_two_tower_linear(model, assay_data, cfg, device):
                     rhos.append(r)
         if rhos:
             results.append({'assay': ad['name'], 'n': n, 'tt_ridge': np.mean(rhos)})
+
+    return pd.DataFrame(results)
+
+
+def evaluate_ablation(model, assay_data, device):
+    """Per-assay ablation: Ridge CV on feature subsets for modality attribution."""
+    MODES = [
+        ('full', ['prot', 'dna', 'cross', 'human']),
+        ('prot_only', ['prot', 'human']),
+        ('dna_only', ['dna', 'human']),
+        ('cross_only', ['cross', 'human']),
+        ('no_prot', ['dna', 'cross', 'human']),
+        ('no_dna', ['prot', 'cross', 'human']),
+        ('no_cross', ['prot', 'dna', 'human']),
+    ]
+
+    print("\n--- Ablation: modality attribution (Ridge CV) ---", flush=True)
+    results = []
+
+    for i, ad in enumerate(assay_data):
+        n = len(ad['y'])
+        if n < 50:
+            continue
+
+        model.eval()
+        prot_t = torch.FloatTensor(ad['prot']).to(device)
+        dna_t = torch.FloatTensor(ad['dna']).to(device)
+        with torch.no_grad():
+            pz, dz, _, _ = model.encode_towers(prot_t, dna_t)
+            cz, _, _ = model.encode_cross(pz, dz)
+
+        feats = {
+            'prot': pz.cpu().numpy(),
+            'dna': dz.cpu().numpy(),
+            'cross': cz.cpu().numpy(),
+            'human': ad['hf'],
+        }
+
+        row = {'assay': ad['name'], 'n': n}
+        kf = KFold(n_splits=5, shuffle=True, random_state=42)
+
+        for mode_name, mode_keys in MODES:
+            X = np.hstack([feats[k] for k in mode_keys])
+            rhos = []
+            for tr, te in kf.split(X):
+                m = Ridge(alpha=1.0)
+                m.fit(X[tr], ad['y'][tr])
+                yp = m.predict(X[te])
+                if np.std(yp) > 1e-8 and np.std(ad['y'][te]) > 1e-8:
+                    r = stats.spearmanr(yp, ad['y'][te]).statistic
+                    if not np.isnan(r):
+                        rhos.append(r)
+            row[mode_name] = np.mean(rhos) if rhos else 0
+
+        row['imp_prot'] = row['full'] - row['no_prot']
+        row['imp_dna'] = row['full'] - row['no_dna']
+        row['imp_cross'] = row['full'] - row['no_cross']
+
+        results.append(row)
+
+        if (i + 1) % 50 == 0:
+            df_tmp = pd.DataFrame(results)
+            print("  %d/%d assays ... full=%.4f, imp: P=%.4f D=%.4f C=%.4f" % (
+                i + 1, len(assay_data), df_tmp['full'].mean(),
+                df_tmp['imp_prot'].mean(), df_tmp['imp_dna'].mean(),
+                df_tmp['imp_cross'].mean()), flush=True)
 
     return pd.DataFrame(results)
 
@@ -816,16 +873,22 @@ def main():
         print("\n--- Two-Tower SAE + Ridge (fully interpretable) ---", flush=True)
         tt_ridge = evaluate_two_tower_linear(model, assay_data, cfg, device)
 
+        # Ablation: modality attribution
+        abl_results = evaluate_ablation(model, assay_data, device)
+        abl_results.to_csv(os.path.join(args.out_dir, "ablation_results.csv"), index=False)
+
         # Baselines
         if not args.skip_baselines:
             print("\n--- Baselines (Ridge + MLP) ---", flush=True)
             bl_results = evaluate_baselines(assay_data)
             bl_results.to_csv(os.path.join(args.out_dir, "baseline_results.csv"), index=False)
 
-            # Merge
-            merged = tt_results[['assay', 'spearman', 'gate_prot', 'gate_dna', 'gate_cross']].rename(
-                columns={'spearman': 'tt_mlp'})
+            merged = tt_results[['assay', 'spearman']].rename(columns={'spearman': 'tt_mlp'})
             merged = merged.merge(tt_ridge[['assay', 'tt_ridge']], on='assay', how='left')
+            merged = merged.merge(
+                abl_results[['assay', 'full', 'prot_only', 'dna_only', 'cross_only',
+                             'imp_prot', 'imp_dna', 'imp_cross']],
+                on='assay', how='left')
             merged = merged.merge(
                 bl_results.drop(columns=['n'], errors='ignore'),
                 on='assay', how='inner')
@@ -833,6 +896,10 @@ def main():
         else:
             merged = tt_results[['assay', 'spearman']].rename(columns={'spearman': 'tt_mlp'})
             merged = merged.merge(tt_ridge[['assay', 'tt_ridge']], on='assay', how='left')
+            merged = merged.merge(
+                abl_results[['assay', 'full', 'prot_only', 'dna_only', 'cross_only',
+                             'imp_prot', 'imp_dna', 'imp_cross']],
+                on='assay', how='left')
 
         # Report
         print("\n" + "=" * 70, flush=True)
@@ -864,11 +931,50 @@ def main():
                     print("  TT_MLP vs %-20s: %d/%d (%.0f%%)" % (
                         baseline, wins, len(valid), 100 * wins / max(len(valid), 1)), flush=True)
 
-        # Gate analysis
-        print("\nGate weights (mean):", flush=True)
-        for gc in ['gate_prot', 'gate_dna', 'gate_cross']:
-            if gc in merged.columns:
-                print("  %s: %.1f%%" % (gc, merged[gc].mean() * 100), flush=True)
+        # Ablation analysis
+        print("\n" + "=" * 70, flush=True)
+        print("ABLATION: Modality Attribution (Ridge CV)", flush=True)
+        print("=" * 70, flush=True)
+        abl_cols = ['full', 'prot_only', 'dna_only', 'cross_only']
+        print("%-25s %8s %8s" % ("Mode", "Mean", "Median"), flush=True)
+        print("-" * 45, flush=True)
+        for col in abl_cols:
+            if col in merged.columns:
+                vals = merged[col].dropna()
+                print("%-25s %8.4f %8.4f" % (col, vals.mean(), vals.median()), flush=True)
+
+        print("\nModality importance (full - no_modality):", flush=True)
+        print("%-25s %8s %8s %8s" % ("Stat", "PROT", "DNA", "CROSS"), flush=True)
+        print("-" * 55, flush=True)
+        for stat_name, fn in [("mean", np.mean), ("median", np.median),
+                               ("std", np.std), (">0 count", lambda x: (x > 0).sum())]:
+            vals = []
+            for col in ['imp_prot', 'imp_dna', 'imp_cross']:
+                v = merged[col].dropna().values
+                vals.append(fn(v))
+            if stat_name == ">0 count":
+                print("%-25s %8d %8d %8d" % (stat_name, *vals), flush=True)
+            else:
+                print("%-25s %8.4f %8.4f %8.4f" % (stat_name, *vals), flush=True)
+
+        # Top assays by modality dominance
+        print("\nTop protein-driven assays (by imp_prot):", flush=True)
+        top_prot = merged.nlargest(5, 'imp_prot')[['assay', 'tt_mlp', 'imp_prot', 'imp_dna', 'imp_cross']]
+        for _, r in top_prot.iterrows():
+            print("  %-40s tt=%.3f  P=%+.3f D=%+.3f C=%+.3f" % (
+                r['assay'][:40], r['tt_mlp'], r['imp_prot'], r['imp_dna'], r['imp_cross']), flush=True)
+
+        print("\nTop DNA-driven assays (by imp_dna):", flush=True)
+        top_dna = merged.nlargest(5, 'imp_dna')[['assay', 'tt_mlp', 'imp_prot', 'imp_dna', 'imp_cross']]
+        for _, r in top_dna.iterrows():
+            print("  %-40s tt=%.3f  P=%+.3f D=%+.3f C=%+.3f" % (
+                r['assay'][:40], r['tt_mlp'], r['imp_prot'], r['imp_dna'], r['imp_cross']), flush=True)
+
+        print("\nTop cross-modal assays (by imp_cross):", flush=True)
+        top_cross = merged.nlargest(5, 'imp_cross')[['assay', 'tt_mlp', 'imp_prot', 'imp_dna', 'imp_cross']]
+        for _, r in top_cross.iterrows():
+            print("  %-40s tt=%.3f  P=%+.3f D=%+.3f C=%+.3f" % (
+                r['assay'][:40], r['tt_mlp'], r['imp_prot'], r['imp_dna'], r['imp_cross']), flush=True)
 
     print("\nDONE", flush=True)
 

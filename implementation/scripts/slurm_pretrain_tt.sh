@@ -21,4 +21,5 @@ python scripts/pretrain_two_tower.py \
     --out_dir results/two_tower_pretrain \
     --checkpoint results/two_tower_pretrain/pretrained.pt \
     --head_epochs 100 \
-    --head_lr 3e-3
+    --head_lr 3e-3 \
+    --skip_baselines
