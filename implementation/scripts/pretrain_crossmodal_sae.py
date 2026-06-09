@@ -26,6 +26,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.linear_model import Ridge
 from sklearn.model_selection import KFold
+from sklearn.decomposition import PCA
 
 
 # ── Config ──
@@ -34,11 +35,10 @@ from sklearn.model_selection import KFold
 class CrossModalConfig:
     d_prot: int = 1280
     d_dna: int = 4096
-    prot_expansion: int = 4
-    dna_expansion: int = 2
-    prot_k: int = 32
-    dna_k: int = 32
-    proj_dim: int = 512
+    pca_dim: int = 512
+    expansion: int = 4
+    k: int = 32
+    proj_dim: int = 256
     cross_expansion: int = 4
     cross_k: int = 16
     n_human: int = 9
@@ -125,25 +125,25 @@ class CrossModalSAE(nn.Module):
     def __init__(self, cfg: CrossModalConfig):
         super().__init__()
         self.cfg = cfg
-        n_prot = cfg.d_prot * cfg.prot_expansion
-        n_dna = cfg.d_dna * cfg.dna_expansion
+        d_in = cfg.pca_dim
+        n_feat = d_in * cfg.expansion
         n_cross = cfg.proj_dim * cfg.cross_expansion
 
-        self.sae_prot = TopKSAE(cfg.d_prot, n_prot, cfg.prot_k)
-        self.sae_dna = TopKSAE(cfg.d_dna, n_dna, cfg.dna_k)
+        self.sae_prot = TopKSAE(d_in, n_feat, cfg.k)
+        self.sae_dna = TopKSAE(d_in, n_feat, cfg.k)
 
         self.proj_prot = nn.Sequential(
-            nn.Linear(n_prot, cfg.proj_dim),
+            nn.Linear(n_feat, cfg.proj_dim),
             nn.LayerNorm(cfg.proj_dim),
         )
         self.proj_dna = nn.Sequential(
-            nn.Linear(n_dna, cfg.proj_dim),
+            nn.Linear(n_feat, cfg.proj_dim),
             nn.LayerNorm(cfg.proj_dim),
         )
 
-        # Cross-prediction decoders (scaffolding, discarded after Phase A)
-        self.xpred_p2d = nn.Linear(n_prot, cfg.d_dna, bias=False)
-        self.xpred_d2p = nn.Linear(n_dna, cfg.d_prot, bias=False)
+        # Cross-prediction: predict other modality's PCA embedding
+        self.xpred_p2d = nn.Linear(n_feat, d_in, bias=False)
+        self.xpred_d2p = nn.Linear(n_feat, d_in, bias=False)
 
         self.sae_cross = TopKSAE(cfg.proj_dim, n_cross, cfg.cross_k)
 
@@ -159,30 +159,28 @@ class CrossModalSAE(nn.Module):
         cross_hat, cross_z = self.sae_cross(residual)
         return cross_z, cross_hat, residual, prot_c, dna_c
 
-    def get_all_features(self, prot_in, dna_in, human_feats=None):
+    def get_proj_features(self, prot_in, dna_in, human_feats=None):
+        """Dense projected features for downstream evaluation."""
         with torch.no_grad():
             prot_z, dna_z, _, _ = self.encode_towers(prot_in, dna_in)
-            cross_z, _, _, _, _ = self.encode_cross(prot_z, dna_z)
-        parts = [prot_z, dna_z, cross_z]
+            cross_z, _, _, prot_c, dna_c = self.encode_cross(prot_z, dna_z)
+        parts = [prot_c, dna_c, cross_z]
         if human_feats is not None:
             parts.append(human_feats)
         return torch.cat(parts, dim=1)
 
     @property
-    def n_prot_features(self):
-        return self.cfg.d_prot * self.cfg.prot_expansion
-
-    @property
-    def n_dna_features(self):
-        return self.cfg.d_dna * self.cfg.dna_expansion
+    def n_tower_features(self):
+        return self.cfg.pca_dim * self.cfg.expansion
 
     @property
     def n_cross_features(self):
         return self.cfg.proj_dim * self.cfg.cross_expansion
 
     @property
-    def concept_dim(self):
-        return self.n_prot_features + self.n_dna_features + self.n_cross_features + self.cfg.n_human
+    def proj_concept_dim(self):
+        """Dense projection features for evaluation: proj_prot + proj_dna + cross_z + human."""
+        return self.cfg.proj_dim * 2 + self.n_cross_features + self.cfg.n_human
 
 
 # ── Data ──
@@ -240,19 +238,39 @@ def load_raw_embeddings(emb_dir):
     return all_prot, all_dna, assay_data
 
 
-def standardize(all_prot, all_dna):
-    """Standardize embeddings: zero mean + unit variance per dimension."""
-    prot_mean = all_prot.mean(axis=0)
-    prot_std = all_prot.std(axis=0) + 1e-8
-    dna_mean = all_dna.mean(axis=0)
-    dna_std = all_dna.std(axis=0) + 1e-8
+def preprocess(all_prot, all_dna, pca_dim):
+    """Standardize + PCA to equalize modalities."""
+    # Standardize
+    prot_mean, prot_std = all_prot.mean(0), all_prot.std(0) + 1e-8
+    dna_mean, dna_std = all_dna.mean(0), all_dna.std(0) + 1e-8
     all_prot = (all_prot - prot_mean) / prot_std
     all_dna = (all_dna - dna_mean) / dna_std
-    print("  Standardized: prot norm %.2f, dna norm %.2f (per-sample mean)" % (
+    print("  Standardized: prot norm %.2f, dna norm %.2f" % (
         np.linalg.norm(all_prot, axis=1).mean(),
         np.linalg.norm(all_dna, axis=1).mean()), flush=True)
-    return all_prot, all_dna, {'prot_mean': prot_mean, 'prot_std': prot_std,
-                                'dna_mean': dna_mean, 'dna_std': dna_std}
+
+    # PCA reduce both to same dimension
+    pca_prot = PCA(n_components=pca_dim, random_state=42)
+    pca_dna = PCA(n_components=pca_dim, random_state=42)
+    all_prot_pca = pca_prot.fit_transform(all_prot).astype(np.float32)
+    all_dna_pca = pca_dna.fit_transform(all_dna).astype(np.float32)
+    print("  PCA %d→%d: prot var=%.1f%%, dna var=%.1f%%" % (
+        all_prot.shape[1], pca_dim,
+        pca_prot.explained_variance_ratio_.sum() * 100,
+        pca_dna.explained_variance_ratio_.sum() * 100), flush=True)
+    print("  PCA output: prot norm %.2f, dna norm %.2f" % (
+        np.linalg.norm(all_prot_pca, axis=1).mean(),
+        np.linalg.norm(all_dna_pca, axis=1).mean()), flush=True)
+
+    stats = {
+        'prot_mean': prot_mean, 'prot_std': prot_std,
+        'dna_mean': dna_mean, 'dna_std': dna_std,
+        'pca_prot_components': pca_prot.components_,
+        'pca_prot_mean': pca_prot.mean_,
+        'pca_dna_components': pca_dna.components_,
+        'pca_dna_mean': pca_dna.mean_,
+    }
+    return all_prot_pca, all_dna_pca, stats
 
 
 # ── Phase A: Joint Cross-Predictive Pretraining ──
@@ -277,8 +295,10 @@ def phase_a_pretrain(model, all_prot, all_dna, cfg, device, out_dir):
     """Joint cross-predictive pretraining of both towers."""
     print("=" * 70, flush=True)
     print("PHASE A: Cross-Predictive Pretraining (%d variants)" % len(all_prot), flush=True)
-    print("  SAE_prot: %d→%d (k=%d)" % (cfg.d_prot, cfg.d_prot * cfg.prot_expansion, cfg.prot_k), flush=True)
-    print("  SAE_dna:  %d→%d (k=%d)" % (cfg.d_dna, cfg.d_dna * cfg.dna_expansion, cfg.dna_k), flush=True)
+    d_in = cfg.pca_dim
+    n_feat = d_in * cfg.expansion
+    print("  SAE_prot: %d→%d (k=%d)" % (d_in, n_feat, cfg.k), flush=True)
+    print("  SAE_dna:  %d→%d (k=%d)" % (d_in, n_feat, cfg.k), flush=True)
     print("  Cross:    %d→%d (k=%d), residual-based" % (
         cfg.proj_dim, cfg.proj_dim * cfg.cross_expansion, cfg.cross_k), flush=True)
     print("  lambda_xpred=%.2f, lambda_align=%.3f" % (cfg.lambda_xpred, cfg.lambda_align), flush=True)
@@ -358,6 +378,7 @@ def phase_a_pretrain(model, all_prot, all_dna, cfg, device, out_dir):
                 s = min(5000, N)
                 pz = model.sae_prot.encode(prot_t[:s])
                 dz = model.sae_dna.encode(dna_t[:s])
+                n_feat = model.n_tower_features
                 alive_p = ((pz > 0).float().mean(dim=0) > 0.01).sum().item()
                 alive_d = ((dz > 0).float().mean(dim=0) > 0.01).sum().item()
                 # Cross-prediction R^2
@@ -376,8 +397,8 @@ def phase_a_pretrain(model, all_prot, all_dna, cfg, device, out_dir):
                   "alive P=%d/%d D=%d/%d | R2 p→d=%.4f d→p=%.4f | R@1=%.4f" % (
                       ep + 1, cfg.phase_a_epochs, elapsed,
                       ep_recon / n_batch, ep_xpred / n_batch, ep_align / n_batch,
-                      int(alive_p), model.n_prot_features,
-                      int(alive_d), model.n_dna_features,
+                      int(alive_p), n_feat,
+                      int(alive_d), n_feat,
                       r2_p2d, r2_d2p, retrieval_acc), flush=True)
 
     print("\nPhase A done in %.1f min" % ((time.time() - t0) / 60), flush=True)
@@ -452,20 +473,15 @@ def save_checkpoint(model, cfg, norm_stats, out_dir):
     }, ckpt_path)
     print("Saved: %s" % ckpt_path, flush=True)
 
-    # Report alive features
-    print("\nPretrain summary:", flush=True)
-    device = next(model.parameters()).device
-    with torch.no_grad():
-        dummy_p = torch.zeros(1, cfg.d_prot, device=device)
-        dummy_d = torch.zeros(1, cfg.d_dna, device=device)
-        pz = model.sae_prot.encode(dummy_p)
-        dz = model.sae_dna.encode(dummy_d)
     n_params = sum(p.numel() for p in model.parameters())
+    n_t = model.n_tower_features
+    print("\nPretrain summary:", flush=True)
     print("  Total params: {:,}".format(n_params), flush=True)
-    print("  Features: prot=%d, dna=%d, cross=%d, total=%d" % (
-        model.n_prot_features, model.n_dna_features,
-        model.n_cross_features,
-        model.n_prot_features + model.n_dna_features + model.n_cross_features), flush=True)
+    print("  PCA dim: %d, Tower features: %d each, Cross: %d" % (
+        cfg.pca_dim, n_t, model.n_cross_features), flush=True)
+    print("  Eval feature dim: proj(%d) + proj(%d) + cross(%d) + human(%d) = %d" % (
+        cfg.proj_dim, cfg.proj_dim, model.n_cross_features, cfg.n_human,
+        model.proj_concept_dim), flush=True)
 
 
 # ── Evaluation ──
@@ -508,12 +524,24 @@ def train_mlp_head(X_tr, y_tr, input_dim, cfg, device):
     return head
 
 
-def apply_norm(data, mean, std):
-    return ((data - mean) / std).astype(np.float32)
+def apply_preprocess(data, mean, std, pca_components, pca_mean):
+    """Standardize + PCA transform for evaluation data."""
+    normed = (data - mean) / std
+    pca_out = (normed - pca_mean) @ pca_components.T
+    return pca_out.astype(np.float32)
+
+
+def prep_assay(ad, norm_stats):
+    """Apply standardize + PCA to one assay's data."""
+    prot_pca = apply_preprocess(ad['prot'], norm_stats['prot_mean'], norm_stats['prot_std'],
+                                norm_stats['pca_prot_components'], norm_stats['pca_prot_mean'])
+    dna_pca = apply_preprocess(ad['dna'], norm_stats['dna_mean'], norm_stats['dna_std'],
+                               norm_stats['pca_dna_components'], norm_stats['pca_dna_mean'])
+    return prot_pca, dna_pca
 
 
 def evaluate_ablation(model, assay_data, cfg, device, norm_stats):
-    """Per-assay ablation: Ridge CV on feature subsets for modality attribution."""
+    """Per-assay ablation on projected features for modality attribution."""
     MODES = [
         ('full', ['prot', 'dna', 'cross', 'human']),
         ('prot_only', ['prot', 'human']),
@@ -524,7 +552,7 @@ def evaluate_ablation(model, assay_data, cfg, device, norm_stats):
         ('no_cross', ['prot', 'dna', 'human']),
     ]
 
-    print("\n--- Ablation: modality attribution (Ridge CV) ---", flush=True)
+    print("\n--- Ablation: modality attribution (proj features, Ridge CV) ---", flush=True)
     results = []
 
     for i, ad in enumerate(assay_data):
@@ -532,18 +560,17 @@ def evaluate_ablation(model, assay_data, cfg, device, norm_stats):
         if n < 50:
             continue
 
-        prot_mc = apply_norm(ad['prot'], norm_stats['prot_mean'], norm_stats['prot_std'])
-        dna_mc = apply_norm(ad['dna'], norm_stats['dna_mean'], norm_stats['dna_std'])
+        prot_mc, dna_mc = prep_assay(ad, norm_stats)
         model.eval()
         pt = torch.FloatTensor(prot_mc).to(device)
         dt = torch.FloatTensor(dna_mc).to(device)
         with torch.no_grad():
             pz, dz, _, _ = model.encode_towers(pt, dt)
-            cz, _, _, _, _ = model.encode_cross(pz, dz)
+            cz, _, _, prot_c, dna_c = model.encode_cross(pz, dz)
 
         feats = {
-            'prot': pz.cpu().numpy(),
-            'dna': dz.cpu().numpy(),
+            'prot': prot_c.cpu().numpy(),
+            'dna': dna_c.cpu().numpy(),
             'cross': cz.cpu().numpy(),
             'human': ad['hf'],
         }
@@ -580,8 +607,8 @@ def evaluate_ablation(model, assay_data, cfg, device, norm_stats):
 
 
 def evaluate_mlp_cv(model, assay_data, cfg, device, norm_stats):
-    """Per-assay 5-fold CV with MLP head on SAE features."""
-    print("\n--- Two-Tower MLP CV ---", flush=True)
+    """Per-assay 5-fold CV with MLP head on projected features."""
+    print("\n--- Two-Tower MLP CV (proj features) ---", flush=True)
     results = []
 
     for i, ad in enumerate(assay_data):
@@ -589,15 +616,14 @@ def evaluate_mlp_cv(model, assay_data, cfg, device, norm_stats):
         if n < 50:
             continue
 
-        prot_mc = apply_norm(ad['prot'], norm_stats['prot_mean'], norm_stats['prot_std'])
-        dna_mc = apply_norm(ad['dna'], norm_stats['dna_mean'], norm_stats['dna_std'])
+        prot_mc, dna_mc = prep_assay(ad, norm_stats)
         model.eval()
         pt = torch.FloatTensor(prot_mc).to(device)
         dt = torch.FloatTensor(dna_mc).to(device)
         ht = torch.FloatTensor(ad['hf']).to(device)
 
         with torch.no_grad():
-            concepts = model.get_all_features(pt, dt, ht).cpu().numpy()
+            concepts = model.get_proj_features(pt, dt, ht).cpu().numpy()
 
         kf = KFold(n_splits=5, shuffle=True, random_state=42)
         rhos = []
@@ -623,8 +649,8 @@ def evaluate_mlp_cv(model, assay_data, cfg, device, norm_stats):
 
 
 def evaluate_baselines(assay_data, norm_stats):
-    """Raw feature baselines."""
-    print("\n--- Baselines (Ridge) ---", flush=True)
+    """Raw PCA feature baselines."""
+    print("\n--- Baselines (Ridge on PCA features) ---", flush=True)
     results = []
 
     for i, ad in enumerate(assay_data):
@@ -632,8 +658,7 @@ def evaluate_baselines(assay_data, norm_stats):
         if n < 50:
             continue
 
-        prot_mc = apply_norm(ad['prot'], norm_stats['prot_mean'], norm_stats['prot_std'])
-        dna_mc = apply_norm(ad['dna'], norm_stats['dna_mean'], norm_stats['dna_std'])
+        prot_mc, dna_mc = prep_assay(ad, norm_stats)
 
         feature_sets = {
             'prot_ridge': prot_mc,
@@ -675,11 +700,10 @@ def main():
     ap.add_argument("--out_dir", default="results/crossmodal_sae")
     ap.add_argument("--checkpoint", default=None)
     # Architecture
-    ap.add_argument("--prot_expansion", type=int, default=4)
-    ap.add_argument("--dna_expansion", type=int, default=2)
-    ap.add_argument("--prot_k", type=int, default=32)
-    ap.add_argument("--dna_k", type=int, default=32)
-    ap.add_argument("--proj_dim", type=int, default=512)
+    ap.add_argument("--pca_dim", type=int, default=512)
+    ap.add_argument("--expansion", type=int, default=4)
+    ap.add_argument("--k", type=int, default=32)
+    ap.add_argument("--proj_dim", type=int, default=256)
     ap.add_argument("--cross_k", type=int, default=16)
     # Training
     ap.add_argument("--epochs", type=int, default=300)
@@ -698,10 +722,9 @@ def main():
     print("Device: %s (%d GPUs)" % (device, n_gpu), flush=True)
 
     cfg = CrossModalConfig(
-        prot_expansion=args.prot_expansion,
-        dna_expansion=args.dna_expansion,
-        prot_k=args.prot_k,
-        dna_k=args.dna_k,
+        pca_dim=args.pca_dim,
+        expansion=args.expansion,
+        k=args.k,
         proj_dim=args.proj_dim,
         cross_k=args.cross_k,
         phase_a_epochs=args.epochs,
@@ -715,9 +738,9 @@ def main():
     print("Loading raw embeddings from %s ..." % args.emb_dir, flush=True)
     all_prot, all_dna, assay_data = load_raw_embeddings(args.emb_dir)
 
-    # Standardize
-    print("Standardizing ...", flush=True)
-    all_prot, all_dna, norm_stats = standardize(all_prot, all_dna)
+    # Preprocess: standardize + PCA
+    print("Preprocessing ...", flush=True)
+    all_prot, all_dna, norm_stats = preprocess(all_prot, all_dna, cfg.pca_dim)
 
     # Save config
     with open(os.path.join(args.out_dir, "config.json"), "w") as f:
@@ -727,8 +750,9 @@ def main():
     model = CrossModalSAE(cfg).to(device)
     n_params = sum(p.numel() for p in model.parameters())
     print("Model: {:,} parameters".format(n_params), flush=True)
-    print("  SAE_prot: %d→%d (k=%d)" % (cfg.d_prot, model.n_prot_features, cfg.prot_k), flush=True)
-    print("  SAE_dna:  %d→%d (k=%d)" % (cfg.d_dna, model.n_dna_features, cfg.dna_k), flush=True)
+    print("  PCA: prot %d→%d, dna %d→%d" % (cfg.d_prot, cfg.pca_dim, cfg.d_dna, cfg.pca_dim), flush=True)
+    print("  SAE_prot: %d→%d (k=%d)" % (cfg.pca_dim, model.n_tower_features, cfg.k), flush=True)
+    print("  SAE_dna:  %d→%d (k=%d)" % (cfg.pca_dim, model.n_tower_features, cfg.k), flush=True)
     print("  SAE_cross: %d→%d (k=%d)" % (cfg.proj_dim, model.n_cross_features, cfg.cross_k), flush=True)
 
     # Pretrain
