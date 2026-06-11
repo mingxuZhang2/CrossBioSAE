@@ -710,6 +710,9 @@ def main():
     ap.add_argument("--batch", type=int, default=8192)
     ap.add_argument("--lr", type=float, default=5e-4)
     ap.add_argument("--no_whiten", action="store_true")
+    ap.add_argument("--shuffle_pairs", action="store_true",
+                    help="Control B: randomly permute DNA pairings before training")
+    ap.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
     args = ap.parse_args()
 
     os.makedirs(args.out_dir, exist_ok=True)
@@ -738,6 +741,14 @@ def main():
             all_dna = np.vstack([all_dna, cv_dna])
             print("Merged: %d total variants (DMS + ClinVar)" % len(all_prot), flush=True)
 
+    # Control B: shuffle DNA pairings (break biological correspondence)
+    if args.shuffle_pairs:
+        print("CONTROL B: Shuffling DNA pairings (breaking ESM-Evo correspondence)", flush=True)
+        np.random.seed(args.seed)
+        perm = np.random.permutation(len(all_dna))
+        all_dna = all_dna[perm]
+        print("  Shuffled %d DNA vectors" % len(all_dna), flush=True)
+
     # Preprocess
     print("Preprocessing ...", flush=True)
     prot_pca, dna_pca, prep = preprocess(all_prot, all_dna, cfg)
@@ -758,6 +769,8 @@ def main():
             'state_dict': model.state_dict(),
             'config': asdict(cfg),
             'prep': prep,
+            'shuffle_pairs': args.shuffle_pairs,
+            'seed': args.seed,
         }, os.path.join(args.out_dir, "crosscoder.pt"))
         print("Saved checkpoint.", flush=True)
 

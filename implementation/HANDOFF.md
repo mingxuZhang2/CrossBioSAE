@@ -1,7 +1,44 @@
 # CrossCoder SAE — GPT Pro Handoff
 
-Date: 2026-06-11
-Status: CrossCoder architecture working, interpretability pipeline built, need strategic direction
+Date: 2026-06-11 (updated)
+Status: Analysis pipeline fixed per GPT Pro R3 feedback, ready to run on HPC
+
+## 0. GPT Pro R3 Feedback Response (2026-06-11)
+
+### What GPT Pro said → What we fixed
+
+| GPT Pro Issue | Fix Applied |
+|--------------|-------------|
+| `classify_features()` called on different subsets → inconsistent categories | Canonical categories computed ONCE on ALL DMS data, saved to `feature_categories.npz`, all analyses read same file |
+| ClinVar "OR" is actually risk ratio, not standard OR | Replaced with 2×2 Fisher exact test + Haldane-Anscombe pseudo-count + BH-FDR correction |
+| Gene modality profile biased by DP having 3.8× more features | Now outputs 3 normalizations: raw mass, per-feature-mean, active-feature-normalized |
+| Shuffled-pair control is inference-time only, need train-time control too | Split into Control A (inference-time shuffle) + Control B (retrain on shuffled pairs via `--shuffle_pairs` flag) |
+| Results only printed, not saved as structured output | All analyses save JSON + CSV; `analysis_summary.json` aggregates everything |
+| `sae_interpretability_controls.py` imports v6 modules, not CrossCoder | Noted — that script is NOT used for CrossCoder analyses. `analyze_crosscoder.py` is the correct pipeline |
+
+### GPT Pro's agreed narrative
+
+> **Variant-level paired-modal sparse decomposition: missense variant effects are mostly protein-private, but DNA/genomic features provide weak, distributed, gene-dependent modifiers.**
+
+NOT: "shared biological concepts emerge across protein and DNA language models" (shared features too weak at 8%).
+
+### GPT Pro's priority ordering (agreed)
+
+```
+1. Fix analyze_crosscoder.py stats ← DONE
+2. Run feature atlas + gene modality + ClinVar FDR pathogenicity
+3. Run Control A (inference-time shuffle)
+4. Run Control B (train-on-shuffled-pairs retrain)
+5. Run 3-seed stability
+6. Run DNA whitening ablation + k=64
+7. Then consider 8192 features + full ClinVar
+8. Clean up README / ARCHITECTURE_REVIEW docs
+```
+
+### Files changed
+
+- `scripts/analyze_crosscoder.py` — complete rewrite with all 5 fixes
+- `scripts/crosscoder_sae.py` — added `--shuffle_pairs` and `--seed` flags for Control B
 
 ---
 
