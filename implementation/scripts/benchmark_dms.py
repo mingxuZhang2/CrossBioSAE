@@ -226,6 +226,8 @@ def main():
             continue
 
         dms = pd.read_csv(dms_map[fname])
+        if "mutant" not in dms.columns or len(dms) < 10:
+            continue
         dms = dms[~dms["mutant"].str.contains(":")].reset_index(drop=True)  # singles only
         if len(dms) < 50:
             continue

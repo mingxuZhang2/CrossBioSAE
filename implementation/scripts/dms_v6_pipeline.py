@@ -257,9 +257,8 @@ def main():
     if args.assays:
         assay_ids = args.assays
     else:
-        assay_ids = [row["DMS_id"] for _, row in ref.iterrows()
-                     if "HUMAN" in str(row.get("UniProt_ID", ""))]
-    print(f"\nProcessing {len(assay_ids)} assays ...", flush=True)
+        assay_ids = ref["DMS_id"].tolist()
+    print(f"\nProcessing {len(assay_ids)} assays (full ProteinGym benchmark) ...", flush=True)
 
     # ── Process each assay ──
     results = []

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "e24686e6ee0658295631e17ec6b8da998e97f9c8",
+    "title": "Bio-BLIP: A Multimodal Architecture for Transferable Reasoning in Genomic Variant Interpretation",
+    "authors": "Anvita Gupta, Alejandro Buendia, Anshul B Kundaje et al.",
+    "year": 2026,
+    "venue": "bioRxiv",
+    "citations": 0,
+    "abstract": "Developing scientific hypotheses in biology requires integrating heterogeneous evidence across DNA sequence, gene context, protein function, and prior literature. Existing multimodal AI systems expose biological evidence to reasoning models through textification or by projecting biological embeddings into fine-tuned language models. However, these models are typically highly optimized the specific set of tasks for which they are fine-tuned. Here we present Bio-BLIP, a multimodal Q-former based architecture which leverages biological embeddings and a LLM to generalize to complex reasoning tasks without task-specific fine-tuning. The key to Bio-BLIP is a new neural network architecture that integrates four data modalities – DNA, genes, proteins, and text – through a master Qformer model, which integrates the modality-specific information into a fixed-length prefix for the LLM backbone. Bio-BLIP is pretrained on the task of human genetic variant annotation and achieves a 29.8% increase in generating accurate variant features over frontier LLMs. We evaluate Bio-BLIP zero-shot on downstream genomic tasks of variant prioritization and target gene prediction. Bio-BLIP outperforms two alignment-free genomic language models on regulatory variant prioritization for Mendelian disease. Across the target gene prediction task, Bio-BLIP improves accuracy over LLMs by leveraging learned genomic variant knowledge in difficult cases. Our model produces rich, transparent reasoning traces. In biological domains characterized by multiple scales of data and varied downstream tasks, Bio-BLIP offers a step toward natively multimodal, generalizable reasoning.",
+    "url": "https://www.semanticscholar.org/paper/e24686e6ee0658295631e17ec6b8da998e97f9c8",
+    "pdf": "",
+    "doi": "10.64898/2026.05.12.724740",
+    "arxiv": null,
+    "publication_date": "2026-05-15"
+  },
+  {
+    "id": "41d1954fd1d534ec7aedb8883036a557e2e96744",
+    "title": "Generalizable Drug–Target Interaction Prediction via ESM-2 Representations and Progressive Contrastive Curriculum Learning",
+    "authors": "Qianyan Wu, Jingwei Lv, Zilong Zhang et al.",
+    "year": 2026,
+    "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+    "citations": 0,
+    "abstract": "Predicting drug–target interactions (DTIs) is a fundamental task in computational drug discovery, yet it remains challenging under distribution shifts and limited training data. Existing approaches often suffer from poor generalization, weak cross-modal alignment between molecular and protein representations, and vulnerability to noisy supervision.We propose ESP-DTI, a unified framework designed to enhance generalization by integrating large-scale protein language models with curriculum learning and cross-modal contrastive alignment. Specifically, we leverage ESM-2 to encode context-aware protein representations and adopt a CLIP-style contrastive objective to align drug and protein embeddings in a shared latent space. To further improve learning robustness, we introduce a progressive curriculum sampling strategy that dynamically schedules training instances based on model confidence, enabling a gradual shift from easy to hard examples.Experimental results on four benchmark datasets demonstrate that ESP-DTI consistently outperforms state-of-the-art baselines, achieving a +3.1% improvement in average accuracy. Ablation studies confirm the complementary benefits of each component, validating their collective contribution to robust and generalizable DTI prediction.Our work underscores the effectiveness of combining pretrained protein language models with structured training curricula and cross-modal contrastive learning for reliable DTI prediction under real-world, distribution-shifted conditions.",
+    "url": "https://www.semanticscholar.org/paper/41d1954fd1d534ec7aedb8883036a557e2e96744",
+    "pdf": "",
+    "doi": "10.1609/aaai.v40i2.37100",
+    "arxiv": null,
+    "publication_date": "2026-03-14"
+  },
+  {
+    "id": "8c509bff084d6c81aa072f33c54136776528816f",
+    "title": "Central Dogma Transformer: Towards Mechanism-Oriented AI for Cellular Understanding",
+    "authors": "Nobuyuki Ota",
+    "year": 2026,
+    "venue": "arXiv.org",
+    "citations": 1,
+    "abstract": "Understanding cellular mechanisms requires integrating information across DNA, RNA, and protein - the three molecular systems linked by the Central Dogma of molecular biology. While domain-specific foundation models have achieved success for each modality individually, they remain isolated, limiting our ability to model integrated cellular processes. Here we present the Central Dogma Transformer (CDT), an architecture that integrates pre-trained language models for DNA, RNA, and protein following the directional logic of the Central Dogma. CDT employs directional cross-attention mechanisms - DNA-to-RNA attention models transcriptional regulation, while RNA-to-Protein attention models translational relationships - producing a unified Virtual Cell Embedding that integrates all three modalities. We validate CDT v1 - a proof-of-concept implementation using fixed (non-cell-specific) RNA and protein embeddings - on CRISPRi enhancer perturbation data from K562 cells, achieving a Pearson correlation of 0.503, representing 63% of the theoretical ceiling set by cross-experiment variability (r = 0.797). Attention and gradient analyses provide complementary interpretive windows: in detailed case studies, these approaches highlight largely distinct genomic regions, with gradient analysis identifying a CTCF binding site that Hi-C data showed as physically contacting both enhancer and target gene. These results suggest that AI architectures aligned with biological information flow can achieve both predictive accuracy and mechanistic interpretability.",
+    "url": "https://www.semanticscholar.org/paper/8c509bff084d6c81aa072f33c54136776528816f",
+    "pdf": "",
+    "doi": "10.48550/arXiv.2601.01089",
+    "arxiv": "2601.01089",
+    "publication_date": "2026-01-03"
+  },
+  {
+    "id": "742b189aafbdee48a86456840fbff4c38aa330f6",
+    "title": "SGL-CDP: Spectral Graph Learning for Cancer Driver Prioritization",
+    "authors": "Sa Li, Tianle Ma",
+    "year": 2026,
+    "venue": "IEEE Access",
+    "citations": 0,
+    "abstract": "Identifying cancer driver genes (CDGs) remains a fundamental challenge in cancer genomics, as effective prioritization requires integrating heterogeneous multi-omics signals while modeling the complex topology of gene–gene interaction networks. Existing computational approaches, including many graph neural network (GNN) models, often rely on a single interaction network or employ shallow feature fusion strategies, limiting their ability to capture multiscale molecular dependencies underlying tumorigenesis. Moreover, limited interpretability restricts their translational utility in biomedical research. We propose SGL-CDP (Spectral Graph Learning for Cancer Driver Prioritization), a spectral graph learning framework that jointly models multi-omics features and network topology within a unified architecture. SGL-CDP adopts a two-stage training paradigm. In the pretraining stage, spectral representations are learned independently for each omics modality–including gene expression, DNA methylation, copy number alteration, and somatic mutation–as well as for graph topology, enabling the model to capture modality-specific molecular and structural characteristics. In the fine-tuning stage, these pretrained representations are integrated and jointly optimized using curated cancer driver annotations to improve prioritization accuracy. This design preserves biologically meaningful embeddings, mitigates overfitting, and enhances cross-modality alignment. Across multiple tumor cohorts, SGL-CDP achieves strong predictive performance and reveals biologically coherent pathway-level organization through interpretable cluster–feature associations. The results demonstrate that adaptive spectral graph learning provides an effective and interpretable framework for cancer driver gene prioritization. Data and source code are available at: https://github.com/Ericsaliway0/SGL-CDP.git",
+    "url": "https://www.semanticscholar.org/paper/742b189aafbdee48a86456840fbff4c38aa330f6",
+    "pdf": "",
+    "doi": "10.1109/ACCESS.2026.3675370",
+    "arxiv": null,
+    "publication_date": null
+  },
+  {
+    "id": "d93d170fbf66e4748ec85db315c9df3dc2386c94",
+    "title": "Human whole epigenome modelling for clinical applications with Pleiades",
+    "authors": "Pouya Niki, Christoforos Nalmpantis, J. Ganbat et al.",
+    "year": 2025,
+    "venue": "bioRxiv",
+    "citations": 0,
+    "abstract": null,
+    "url": "https://www.semanticscholar.org/paper/d93d170fbf66e4748ec85db315c9df3dc2386c94",
+    "pdf": "",
+    "doi": "10.1101/2025.07.16.665231",
+    "arxiv": null,
+    "publication_date": "2025-07-21"
+  }
+]

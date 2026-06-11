@@ -1,0 +1,58 @@
+[
+  {
+    "id": "b6a7700dd1f221dd0fa3285d6b9d241c15f8cc1e",
+    "title": "Genome modelling and design across all domains of life with Evo 2",
+    "authors": "G. Brixi, Matthew G. Durrant, Jerome Ku et al.",
+    "year": 2026,
+    "venue": "Nature",
+    "citations": 54,
+    "abstract": "All of life encodes information with DNA. Although tools for genome sequencing, synthesis and editing have transformed biological research, we still lack sufficient understanding of the immense complexity encoded by genomes to predict the effects of many classes of genomic changes or to intelligently compose new biological systems. Artificial intelligence models that learn information from genomic sequences across diverse organisms have increasingly advanced prediction and design capabilities1,2. Here we introduce Evo 2, a biological foundation model trained on 9 trillion DNA base pairs from a highly curated genomic atlas spanning all domains of life to have a 1 million token context window with single-nucleotide resolution. Evo 2 learns to accurately predict the functional impacts of genetic variation—from noncoding pathogenic mutations to clinically significant BRCA1 variants—without task-specific fine-tuning. Mechanistic interpretability analyses reveal that Evo 2 learns representations associated with biological features, including exon–intron boundaries, transcription factor binding sites, protein structural elements and prophage genomic regions. The generative abilities of Evo 2 produce mitochondrial, prokaryotic and eukaryotic sequences at genome scale with greater naturalness and coherence than previous methods. Evo 2 also generates experimentally validated chromatin accessibility patterns when guided by predictive models3,4 and inference-time search. We have made Evo 2 fully open, including model parameters, training code5, inference code and the OpenGenome2 dataset, to accelerate the exploration and design of biological complexity.",
+    "url": "https://www.semanticscholar.org/paper/b6a7700dd1f221dd0fa3285d6b9d241c15f8cc1e",
+    "pdf": "",
+    "doi": "10.1038/s41586-026-10176-5",
+    "arxiv": null,
+    "publication_date": "2026-03-04"
+  },
+  {
+    "id": "97108c8f64e0e600455b862a189f30c19c906d92",
+    "title": "Predictive biophysical neural network modeling of a compendium of in vivo transcription factor DNA binding profiles for Escherichia coli",
+    "authors": "P. Lally, Laura Gómez-Romero, V. Tierrafría et al.",
+    "year": 2025,
+    "venue": "Nature Communications",
+    "citations": 2,
+    "abstract": "The DNA binding of most Escherichia coli Transcription Factors (TFs) has not been comprehensively mapped, and few have models that can quantitatively predict binding affinity. We report the global mapping of in vivo DNA binding for 139 E. coli TFs using ChIP-Seq. We use these data to train BoltzNet, a novel neural network that predicts TF binding energy from DNA sequence. BoltzNet mirrors a quantitative biophysical model and provides directly interpretable predictions genome-wide at nucleotide resolution. We use BoltzNet to quantitatively design novel binding sites, which we validate with biophysical experiments on purified protein. We generate models for 124 TFs that provide insight into global features of TF binding, including clustering of sites, the role of accessory bases, the relevance of weak sites, and the background affinity of the genome. Our paper provides new paradigms for studying TF-DNA binding and for the development of biophysically motivated neural networks. The authors describe BoltzNet, a neural network that learns the energy of transcription factor (TF)-DNA binding from genomic data and can be used to design new binding sites. They report the in vivo mapping and BoltzNet modeling of 139 E. coli TFs.",
+    "url": "https://www.semanticscholar.org/paper/97108c8f64e0e600455b862a189f30c19c906d92",
+    "pdf": "",
+    "doi": "10.1038/s41467-025-58862-8",
+    "arxiv": null,
+    "publication_date": "2025-05-07"
+  },
+  {
+    "id": "c91fcd72def8c15997e0ae3b17e6f065af0c817f",
+    "title": "Generating crossmodal gene expression from cancer histopathology improves multimodal AI predictions",
+    "authors": "Samiran Dey, C. Banerji, Partha Basuchowdhuri et al.",
+    "year": 2025,
+    "venue": "Nature Communications",
+    "citations": 3,
+    "abstract": "Emerging research has highlighted that artificial intelligence-based multimodal fusion of digital pathology and transcriptomic features can improve cancer diagnosis (grading/subtyping) and prognosis (survival risk) prediction. However, such direct fusion is impractical in clinical settings, where histopathology remains the gold standard and transcriptomic tests are rarely requested in public healthcare. We experiment on two publicly available multimodal datasets, The Cancer Genomic Atlas and the Clinical Proteomic Tumor Analysis Consortium, spanning four independent cohorts: glioma-glioblastoma, renal, uterine, and breast, and observe significant performance gains in gradation and risk estimation (p-value < 0.05) when incorporating synthesized transcriptomic data with WSIs. Also, predictions using synthesized features were statistically close to those obtained with real transcriptomic data (p-value > 0.05), consistently across cohorts. Here we show that with our diffusion based crossmodal generative AI model, PathGen, gene expressions synthesized from digital histopathology jointly predict cancer grading and patient survival risk with high accuracy (state-of-the-art performance), certainty (through conformal coverage guarantee) and interpretability (through distributed co-attention maps). PathGen code is available on GitHub at https://github.com/Samiran-Dey/PathGen for open use. Multimodal fusion of digital pathology and transcriptomics can improve cancer diagnosis, but remains impractical in clinical settings. Here, the authors develop a crossmodal generative model, PathGen, to synthesise transcriptomic data from histopathology slides, and show how the combination of these multimodal data improves cancer diagnosis and prognosis prediction.",
+    "url": "https://www.semanticscholar.org/paper/c91fcd72def8c15997e0ae3b17e6f065af0c817f",
+    "pdf": "",
+    "doi": "10.1038/s41467-025-66961-9",
+    "arxiv": "2502.00568",
+    "publication_date": "2025-02-01"
+  },
+  {
+    "id": "78eeef335b22d24a5f01a6ee9f872798c71f8b75",
+    "title": "Histopathology images predict multi-omics aberrations and prognoses in colorectal cancer patients",
+    "authors": "Pei-Chen Tsai, Tsung-Hua Lee, Kun-Chi Kuo et al.",
+    "year": 2023,
+    "venue": "Nature Communications",
+    "citations": 111,
+    "abstract": "Histopathological analysis is an essential tool in diagnosing colorectal cancer, but is limited in predicting prognosis and molecular profiles. Here, the authors designed a machine learning-based platform to predict multi-omics profiles and prognosis from pathology images. Histopathologic assessment is indispensable for diagnosing colorectal cancer (CRC). However, manual evaluation of the diseased tissues under the microscope cannot reliably inform patient prognosis or genomic variations crucial for treatment selections. To address these challenges, we develop the Multi-omics Multi-cohort Assessment (MOMA) platform, an explainable machine learning approach, to systematically identify and interpret the relationship between patients’ histologic patterns, multi-omics, and clinical profiles in three large patient cohorts ( n  = 1888). MOMA successfully predicts the overall survival, disease-free survival (log-rank test P -value<0.05), and copy number alterations of CRC patients. In addition, our approaches identify interpretable pathology patterns predictive of gene expression profiles, microsatellite instability status, and clinically actionable genetic alterations. We show that MOMA models are generalizable to multiple patient populations with different demographic compositions and pathology images collected from distinctive digitization methods. Our machine learning approaches provide clinically actionable predictions that could inform treatments for colorectal cancer patients.",
+    "url": "https://www.semanticscholar.org/paper/78eeef335b22d24a5f01a6ee9f872798c71f8b75",
+    "pdf": "https://www.nature.com/articles/s41467-023-37179-4.pdf",
+    "doi": "10.1038/s41467-023-37179-4",
+    "arxiv": null,
+    "publication_date": "2023-04-13"
+  }
+]

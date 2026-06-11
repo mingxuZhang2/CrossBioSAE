@@ -60,7 +60,7 @@ def load_all(args):
     return prot_z, dna_z, llr_z, label, genes, from_aa, to_aa, n
 
 
-def extract_reps(prot_z, dna_z, llr_z, n, device, pretrain_epochs=30, seed=42):
+def extract_reps(prot_z, dna_z, llr_z, n, device, pretrain_epochs=30, seed=42, batch_size=4096):
     torch.manual_seed(seed); np.random.seed(seed)
     proj = ProjectionLayers().to(device)
     pt_head = PretrainHead().to(device)
@@ -72,8 +72,8 @@ def extract_reps(prot_z, dna_z, llr_z, n, device, pretrain_epochs=30, seed=42):
     for ep in range(pretrain_epochs):
         proj.train(); pt_head.train()
         perm = torch.randperm(n)
-        for b in range(0, n, 4096):
-            idx = perm[b:b+4096].numpy()
+        for b in range(0, n, batch_size):
+            idx = perm[b:b+batch_size].numpy()
             xp = torch.tensor(prot_z[idx], dtype=torch.float32, device=device)
             xd = torch.tensor(dna_z[idx], dtype=torch.float32, device=device)
             yb = yt[idx].to(device)
@@ -84,10 +84,10 @@ def extract_reps(prot_z, dna_z, llr_z, n, device, pretrain_epochs=30, seed=42):
     proj.eval(); del pt_head
     reps = np.zeros((n, 1536), dtype=np.float32)
     with torch.no_grad():
-        for b in range(0, n, 4096):
-            xp = torch.tensor(prot_z[b:b+4096], dtype=torch.float32, device=device)
-            xd = torch.tensor(dna_z[b:b+4096], dtype=torch.float32, device=device)
-            reps[b:b+4096] = proj(xp, xd).cpu().numpy()
+        for b in range(0, n, batch_size):
+            xp = torch.tensor(prot_z[b:b+batch_size], dtype=torch.float32, device=device)
+            xd = torch.tensor(dna_z[b:b+batch_size], dtype=torch.float32, device=device)
+            reps[b:b+batch_size] = proj(xp, xd).cpu().numpy()
     return reps, proj
 
 
@@ -102,16 +102,19 @@ def main():
     ap.add_argument("--expansion", type=int, default=8)
     ap.add_argument("--topk", type=int, default=32)
     ap.add_argument("--sae_epochs", type=int, default=80)
+    ap.add_argument("--batch_size", type=int, default=4096)
+    ap.add_argument("--n_gpus", type=int, default=1)
     args = ap.parse_args()
     os.makedirs(args.out_dir, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    BS = args.batch_size
 
     prot_z, dna_z, llr_z, label, genes, from_aa, to_aa, n = load_all(args)
     labeled = label >= 0
 
     # Extract representations (same as v6 pretrain)
     print("\n[1] Extracting representations ...", flush=True)
-    reps, proj = extract_reps(prot_z, dna_z, llr_z, n, device)
+    reps, proj = extract_reps(prot_z, dna_z, llr_z, n, device, batch_size=BS)
     print(f"  Reps: {reps.shape}", flush=True)
 
     # ═══════════════════════════════════════════════════════════════
@@ -124,13 +127,13 @@ def main():
     # Train one SAE
     n_features = 1536 * args.expansion
     sae = TopKSAE(1536, n_features, k=args.topk).to(device)
-    train_sae(sae, reps, device, epochs=args.sae_epochs)
+    train_sae(sae, reps, device, epochs=args.sae_epochs, batch=BS)
     sae.eval()
     sae_acts = np.zeros((n, n_features), dtype=np.float32)
     with torch.no_grad():
-        for b in range(0, n, 4096):
-            x = torch.tensor(reps[b:b+4096], dtype=torch.float32, device=device)
-            sae_acts[b:b+4096] = sae.encode(x).cpu().numpy()
+        for b in range(0, n, BS):
+            x = torch.tensor(reps[b:b+BS], dtype=torch.float32, device=device)
+            sae_acts[b:b+BS] = sae.encode(x).cpu().numpy()
 
     alive = (sae_acts > 0).any(0)
     alive_idx = np.where(alive)[0]
@@ -208,14 +211,14 @@ def main():
         print(f"  Seed {si} ...", flush=True)
         torch.manual_seed(si * 100)
         sae_s = TopKSAE(1536, n_features, k=args.topk).to(device)
-        train_sae(sae_s, reps, device, epochs=args.sae_epochs)
+        train_sae(sae_s, reps, device, epochs=args.sae_epochs, batch=BS)
         sae_s.eval()
 
         acts_s = np.zeros((n, n_features), dtype=np.float32)
         with torch.no_grad():
-            for b in range(0, n, 4096):
-                x = torch.tensor(reps[b:b+4096], dtype=torch.float32, device=device)
-                acts_s[b:b+4096] = sae_s.encode(x).cpu().numpy()
+            for b in range(0, n, BS):
+                x = torch.tensor(reps[b:b+BS], dtype=torch.float32, device=device)
+                acts_s[b:b+BS] = sae_s.encode(x).cpu().numpy()
 
         alive_s = (acts_s > 0).any(0)
         seed_alive_counts.append(int(alive_s.sum()))
@@ -356,9 +359,9 @@ def main():
     random_sae.eval()
     random_acts = np.zeros((len(sample_idx), n_features), dtype=np.float32)
     with torch.no_grad():
-        for b in range(0, len(sample_idx), 4096):
-            x = torch.tensor(reps_sample[b:b+4096], dtype=torch.float32, device=device)
-            random_acts[b:b+4096] = random_sae.encode(x).cpu().numpy()
+        for b in range(0, len(sample_idx), BS):
+            x = torch.tensor(reps_sample[b:b+BS], dtype=torch.float32, device=device)
+            random_acts[b:b+BS] = random_sae.encode(x).cpu().numpy()
     random_alive = (random_acts > 0).any(0)
     random_acts_alive = random_acts[:, random_alive]
     n_sig_rand, n_total_rand = count_enriched(random_acts_alive, label_sample)
@@ -417,19 +420,20 @@ def main():
     print("[6] MODALITY OCCLUSION")
     print("="*80)
 
-    sample_reps = torch.tensor(reps[:5000], dtype=torch.float32, device=device)
+    n_occ = n  # use all variants for occlusion (H100 can handle it)
+    z_full = np.zeros((n_occ, n_features), dtype=np.float32)
+    z_no_prot = np.zeros((n_occ, n_features), dtype=np.float32)
+    z_no_dna = np.zeros((n_occ, n_features), dtype=np.float32)
     with torch.no_grad():
-        z_full = sae.encode(sample_reps).cpu().numpy()
+        for b in range(0, n_occ, BS):
+            x = torch.tensor(reps[b:b+BS], dtype=torch.float32, device=device)
+            z_full[b:b+BS] = sae.encode(x).cpu().numpy()
 
-        # Zero protein half
-        reps_no_prot = sample_reps.clone()
-        reps_no_prot[:, :768] = 0
-        z_no_prot = sae.encode(reps_no_prot).cpu().numpy()
+            x_no_prot = x.clone(); x_no_prot[:, :768] = 0
+            z_no_prot[b:b+BS] = sae.encode(x_no_prot).cpu().numpy()
 
-        # Zero DNA half
-        reps_no_dna = sample_reps.clone()
-        reps_no_dna[:, 768:] = 0
-        z_no_dna = sae.encode(reps_no_dna).cpu().numpy()
+            x_no_dna = x.clone(); x_no_dna[:, 768:] = 0
+            z_no_dna[b:b+BS] = sae.encode(x_no_dna).cpu().numpy()
 
     # For each feature: how much does it change when protein/DNA is removed?
     W = sae.encoder.weight.detach().cpu().numpy()

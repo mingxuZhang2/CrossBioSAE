@@ -1,0 +1,30 @@
+[
+  {
+    "id": "165bf7f291536904d2f0bd7219c5919a549fe983",
+    "title": "Concept Bottleneck Language Models For protein design",
+    "authors": "A. Ismail, Tuomas P. Oikarinen, Amy Wang et al.",
+    "year": 2024,
+    "venue": "International Conference on Learning Representations",
+    "citations": 22,
+    "abstract": "We introduce Concept Bottleneck Protein Language Models (CB-pLM), a generative masked language model with a layer where each neuron corresponds to an interpretable concept. Our architecture offers three key benefits: i) Control: We can intervene on concept values to precisely control the properties of generated proteins, achieving a 3 times larger change in desired concept values compared to baselines. ii) Interpretability: A linear mapping between concept values and predicted tokens allows transparent analysis of the model's decision-making process. iii) Debugging: This transparency facilitates easy debugging of trained models. Our models achieve pre-training perplexity and downstream task performance comparable to traditional masked protein language models, demonstrating that interpretability does not compromise performance. While adaptable to any language model, we focus on masked protein language models due to their importance in drug discovery and the ability to validate our model's capabilities through real-world experiments and expert knowledge. We scale our CB-pLM from 24 million to 3 billion parameters, making them the largest Concept Bottleneck Models trained and the first capable of generative language modeling.",
+    "url": "https://www.semanticscholar.org/paper/165bf7f291536904d2f0bd7219c5919a549fe983",
+    "pdf": "",
+    "doi": "10.48550/arXiv.2411.06090",
+    "arxiv": "2411.06090",
+    "publication_date": "2024-11-09"
+  },
+  {
+    "id": "3a5317ebc9808c92d7b1a75bddea40af062075c8",
+    "title": "DNA language model GROVER learns sequence context in the human genome",
+    "authors": "Melissa Sanabria, Jonas Hirsch, Pierre M. Joubert et al.",
+    "year": 2024,
+    "venue": "Nature Machine Intelligence",
+    "citations": 104,
+    "abstract": "Deep-learning models that learn a sense of language on DNA have achieved a high level of performance on genome biological tasks. Genome sequences follow rules similar to natural language but are distinct in the absence of a concept of words. We established byte-pair encoding on the human genome and trained a foundation language model called GROVER (Genome Rules Obtained Via Extracted Representations) with the vocabulary selected via a custom task, next-k-mer prediction. The defined dictionary of tokens in the human genome carries best the information content for GROVER. Analysing learned representations, we observed that trained token embeddings primarily encode information related to frequency, sequence content and length. Some tokens are primarily localized in repeats, whereas the majority widely distribute over the genome. GROVER also learns context and lexical ambiguity. Average trained embeddings of genomic regions relate to functional genomics annotation and thus indicate learning of these structures purely from the contextual relationships of tokens. This highlights the extent of information content encoded by the sequence that can be grasped by GROVER. On fine-tuning tasks addressing genome biology with questions of genome element identification and protein–DNA binding, GROVER exceeds other models’ performance. GROVER learns sequence context, a sense for structure and language rules. Extracting this knowledge can be used to compose a grammar book for the code of life. Genomes can be modelled with language approaches by treating nucleotide bases A, C, G and T like text, but there is no natural concept of what the words would be and whether there is even a ‘language’ to be learned this way. Sanabria et al. have developed a language model called GROVER that learns with a ‘vocabulary’ of genome sequences with byte-pair encoding, a method from text compression, and shows good performance on genome biological tasks.",
+    "url": "https://www.semanticscholar.org/paper/3a5317ebc9808c92d7b1a75bddea40af062075c8",
+    "pdf": "https://www.nature.com/articles/s42256-024-00872-0.pdf",
+    "doi": "10.1038/s42256-024-00872-0",
+    "arxiv": null,
+    "publication_date": "2024-07-23"
+  }
+]
