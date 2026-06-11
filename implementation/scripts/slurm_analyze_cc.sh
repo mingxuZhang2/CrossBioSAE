@@ -7,8 +7,11 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
 #SBATCH --mem=48G
-#SBATCH --time=3:00:00
+#SBATCH --time=4:00:00
 #SBATCH --output=results/crosscoder_sae/analysis/slurm_%j.log
+
+# Step 2 of GPT Pro R3 priority list:
+#   Feature atlas + gene modality profiles + ClinVar FDR + Control A shuffle
 
 source /data/user/mzhang630/miniconda3/etc/profile.d/conda.sh
 conda activate sake

@@ -756,6 +756,13 @@ def main():
     with open(os.path.join(args.out_dir, "config.json"), "w") as f:
         json.dump(asdict(cfg), f, indent=2)
 
+    # Seed for reproducibility
+    np.random.seed(args.seed)
+    torch.manual_seed(args.seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(args.seed)
+    print("Random seed: %d" % args.seed, flush=True)
+
     # Model
     model = CrossCoderSAE(cfg).to(device)
     n_params = sum(p.numel() for p in model.parameters())
