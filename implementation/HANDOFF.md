@@ -180,7 +180,7 @@ Trained a new CrossCoder on randomly permuted ESM-Evo pairings (same data, broke
 | **Shared** | **355** | **5** |
 | Dead | 224 | 3 |
 
-**Shared features collapse from 355 → 5 when pairs are shuffled.** This proves cross-modal features require genuine protein-DNA correspondence and are not training artifacts.
+**Shared features collapse from 355 → 5 when pairs are shuffled.** This is strong evidence that shared features depend on genuine paired protein-DNA correspondence, not training artifacts. (Within-gene and same-assay shuffles still needed to rule out finer confounds.)
 
 The shuffled model also shows: PP count increases (737→1199) because cross-modal signal is absent, so features that would have been shared become modality-private. Dead features drop (224→3) because the model doesn't waste capacity trying to align unrelated modalities.
 
@@ -196,7 +196,7 @@ Per-feature 2×2 test: (feature active vs inactive) × (pathogenic vs benign), w
 
 Key insight: SH features (OR=1.42) are MORE pathogenicity-enriched than PP features (OR=1.32). Cross-modal signal is the strongest pathogenicity detector.
 
-DP features being benign-enriched (OR=0.88) makes biological sense: DNA conservation captures purifying selection at synonymous/near-synonymous sites — functional constraint without protein damage.
+DP features being benign-enriched (OR=0.88): DNA-private features may capture nucleotide context, local genomic constraint, or Evo2-specific sequence-context signals not necessarily coupled to protein damage. (Interpreting this as "purifying selection at synonymous sites" requires external annotation — phyloP, codon constraint, MPC — which we haven't yet done.)
 
 ### 4c. Control A — Inference-Time Shuffle
 
@@ -303,7 +303,7 @@ Feature counts are highly stable (PP CV=1%, DP CV=0.3%, SH CV=5.7%). ClinVar enr
 1. **CrossCoder architecture is stable**: 94% alive features, clean PP/DP/SH decomposition
 2. **ClinVar AUROC = 0.924**: CrossCoder sparse features beat PCA concat (0.913) by 1.1%
 3. **Modality decomposition is real**: PP importance +0.156, DP +0.029 — protein dominates but DNA contributes independently in 69% of assays
-4. **Gene-held-out = random**: No gene-level overfitting (0.924 vs 0.923)
+4. **Gene-held-out ≈ random**: Random-fold and gene-held-out supervised heads give similar AUROC (0.924 vs 0.923) on current matched ClinVar, suggesting no obvious head-level gene memorization. A fully inductive protocol and larger balanced ClinVar set remain needed.
 5. **Control B is extremely clean**: Shared features 355 → 5 on shuffled pairs. Cross-modal features are NOT artifacts.
 6. **ClinVar enrichment hierarchy**: SH (OR=1.42) > PP (OR=1.32) > 1 > DP (OR=0.88). Shared features are the STRONGEST pathogenicity signal.
 7. **Seed stability is tight**: Feature counts CV < 6%, ClinVar enrichment consistent across all 4 seeds.

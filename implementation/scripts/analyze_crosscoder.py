@@ -55,23 +55,19 @@ def aa_class(aa):
 
 
 def bh_fdr(pvalues):
-    """Benjamini-Hochberg FDR correction."""
-    n = len(pvalues)
+    """Benjamini-Hochberg FDR correction (standard implementation)."""
+    p = np.asarray(pvalues, dtype=float)
+    n = len(p)
     if n == 0:
         return np.array([])
-    ranked = np.argsort(pvalues)
-    qvalues = np.zeros(n)
-    for i in range(n):
-        qvalues[ranked[i]] = pvalues[ranked[i]] * n / (i + 1)
-    # Enforce monotonicity from the bottom
-    qvalues = np.minimum.accumulate(qvalues[np.argsort(np.argsort(pvalues))[::-1]])[::-1]
-    qvalues = np.clip(qvalues, 0, 1)
-    # Re-sort
-    out = np.zeros(n)
-    inv_rank = np.argsort(np.argsort(pvalues))
-    for i in range(n):
-        out[i] = qvalues[inv_rank[i]]
-    return out
+    order = np.argsort(p)
+    ranked_p = p[order]
+    q_sorted = ranked_p * n / np.arange(1, n + 1)
+    q_sorted = np.minimum.accumulate(q_sorted[::-1])[::-1]
+    q_sorted = np.clip(q_sorted, 0, 1)
+    q = np.empty(n)
+    q[order] = q_sorted
+    return q
 
 
 def load_model_and_data(args):

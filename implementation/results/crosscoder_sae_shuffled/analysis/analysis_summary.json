@@ -1,0 +1,101 @@
+{
+  "feature_categories": {
+    "prot_private": 1199,
+    "dna_private": 2889,
+    "shared": 5,
+    "pair_only": 0,
+    "dead": 3,
+    "total": 4096
+  },
+  "feature_atlas": {
+    "prot-private": {
+      "n_features": 1199,
+      "mean_abs_dms_corr": 0.07959103832758654,
+      "median_abs_dms_corr": 0.06942026156473152,
+      "mean_act_freq": 0.013020625583112058,
+      "median_act_freq": 0.005788028964986151
+    },
+    "dna-private": {
+      "n_features": 2889,
+      "mean_abs_dms_corr": 0.06879393822152637,
+      "median_abs_dms_corr": 0.05477537511127828,
+      "mean_act_freq": 0.0056607039129231585,
+      "median_act_freq": 0.004885460785896751
+    },
+    "shared": {
+      "n_features": 5,
+      "mean_abs_dms_corr": 0.07833487034392098,
+      "median_abs_dms_corr": 0.08029475040557202,
+      "mean_act_freq": 0.003858685976657434,
+      "median_act_freq": 0.00371377824148253
+    }
+  },
+  "gene_modality_profiles": {
+    "n_assays": 214,
+    "n_genes": 177,
+    "raw_mean_prot_frac": 0.5997433269844678,
+    "raw_mean_dna_frac": 0.3999061949342211,
+    "raw_mean_shared_frac": 0.000350476170241793,
+    "pfm_mean_prot_frac": 0.7064543645978354,
+    "pfm_mean_dna_frac": 0.19878263743093108,
+    "pfm_mean_shared_frac": 0.09476299771445858,
+    "afn_mean_prot_frac": 0.6730913044917526,
+    "afn_mean_dna_frac": 0.23442805014333368,
+    "afn_mean_shared_frac": 0.09248064522012622
+  },
+  "clinvar_pathogenicity": {
+    "n_features_tested": 3780,
+    "n_fdr_significant": 3778,
+    "n_path_enriched_fdr05": 1830,
+    "n_ben_enriched_fdr05": 1948,
+    "median_or": 0.9551600714577597,
+    "by_category": {
+      "prot-private": {
+        "n": 1035,
+        "n_fdr05": 1034,
+        "median_or": 1.6089926717177991,
+        "median_log2or": 0.6861577552096091
+      },
+      "dna-private": {
+        "n": 2737,
+        "n_fdr05": 2736,
+        "median_or": 0.8503053720553408,
+        "median_log2or": -0.2339470423064658
+      },
+      "shared": {
+        "n": 5,
+        "n_fdr05": 5,
+        "median_or": 1.2316645807259075,
+        "median_log2or": 0.30060942031148474
+      }
+    }
+  },
+  "control_a_inference_shuffle": {
+    "n_assays": 214,
+    "real_mean": 0.5279537849167159,
+    "real_median": 0.5444669265037455,
+    "shuffled_mean": 0.46579057249283723,
+    "shuffled_median": 0.4761862608349622,
+    "delta_mean": 0.06216321242387858,
+    "delta_median": 0.05836706247658335,
+    "t_statistic": 13.353041151301163,
+    "p_value": 5.9597390424553465e-30,
+    "frac_delta_positive": 0.8691588785046729
+  },
+  "control_b_retrain": {
+    "status": "not_run",
+    "instructions": "Run crosscoder_sae.py --shuffle_pairs on HPC GPU node",
+    "expected_outputs": [
+      "results/crosscoder_sae_shuffled/crosscoder.pt",
+      "results/crosscoder_sae_shuffled/ablation.csv",
+      "results/crosscoder_sae_shuffled/config.json"
+    ],
+    "comparison_metrics": [
+      "PP/DP/SH feature counts",
+      "DMS mean Spearman (full, PP-only, DP-only, SH-only)",
+      "ClinVar AUROC (cc_all, cc_prot_priv, cc_dna_priv, cc_shared)",
+      "Gene modality profile stability (Spearman corr of profiles vs real)",
+      "Feature enrichment FDR counts"
+    ]
+  }
+}
