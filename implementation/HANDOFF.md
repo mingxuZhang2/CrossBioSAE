@@ -1,7 +1,7 @@
 # CrossCoder SAE — GPT Pro Handoff
 
-Date: 2026-06-11 (updated)
-Status: Analysis pipeline fixed per GPT Pro R3 feedback, ready to run on HPC
+Date: 2026-06-11 (updated post-run)
+Status: Analysis pipeline, Control B, and 4-seed stability ALL COMPLETE. Results below.
 
 ## 0. GPT Pro R3 Feedback Response (2026-06-11)
 
@@ -25,11 +25,11 @@ NOT: "shared biological concepts emerge across protein and DNA language models" 
 ### GPT Pro's priority ordering (agreed)
 
 ```
-1. Fix analyze_crosscoder.py stats ← DONE
-2. Run feature atlas + gene modality + ClinVar FDR pathogenicity
-3. Run Control A (inference-time shuffle)
-4. Run Control B (train-on-shuffled-pairs retrain)
-5. Run 3-seed stability
+1. Fix analyze_crosscoder.py stats             ← DONE
+2. Run feature atlas + gene modality + ClinVar  ← DONE (Job 347372)
+3. Run Control A (inference-time shuffle)        ← DONE (included in step 2)
+4. Run Control B (train-on-shuffled-pairs)       ← DONE (Job 347373)
+5. Run seed stability (4 seeds: 42, 0, 1, 2)    ← DONE (Jobs 347374 + 347678)
 6. Run DNA whitening ablation + k=64
 7. Then consider 8192 features + full ClinVar
 8. Clean up README / ARCHITECTURE_REVIEW docs
@@ -74,13 +74,13 @@ Params: 10.5M | Training: 300 epochs, 1.7 min on single GPU
 
 ### Current Results
 
-**Feature distribution:**
+**Feature distribution (seed 42, canonical):**
 | Category | Count | % |
 |----------|-------|---|
 | Protein-private | 737 | 18% |
-| DNA-private | 2781 | 68% |
-| Shared | 346 | 8% |
-| Dead | 232 | 6% |
+| DNA-private | 2780 | 68% |
+| Shared | 355 | 9% |
+| Dead | 224 | 5% |
 
 **DMS fitness prediction (215 assays, per-assay Ridge, Spearman ρ):**
 | Representation | Mean | Median |
@@ -137,11 +137,13 @@ Params: 10.5M | Training: 300 epochs, 1.7 min on single GPU
 **We did**: Extracted ClinVar ESM-2 edelta (`fbf870d`), merged 8.8K ClinVar variants → 250K total pretrain. ClinVar AUROC = 0.924.
 
 ### Not yet addressed:
-- No formal FDR/enrichment statistics on feature typing
-- No seed stability (only 1 SAE seed)
+- ~~No formal FDR/enrichment statistics on feature typing~~ ← DONE (Fisher + BH-FDR)
+- ~~No seed stability (only 1 SAE seed)~~ ← DONE (4 seeds)
 - No PCA/NMF/ICA baseline comparison for decomposition
 - No modality occlusion/causal intervention validation
 - No structural mapping of identified features
+- No DNA whitening ablation (is PCA whitening of Evo2 necessary?)
+- No k=64 or 8192-feature scaling experiments
 
 ---
 
@@ -161,11 +163,95 @@ Per-feature: odds ratio for pathogenic variants among its top activators. Identi
 ### 3d. Shuffled-Pair Control
 Randomly permute ESM-Evo pairings (break the biological correspondence), retrain CrossCoder on shuffled pairs. If shared features disappear and modality decomposition degrades → evidence that the structure is biologically meaningful, not a training artifact.
 
-**Status**: Pipeline code written, not yet run on HPC. Needs GPU.
+**Status**: COMPLETE. All results in `results/crosscoder_sae/analysis/`.
 
 ---
 
-## 4. New/Modified Files Since Last GPT Pro Review
+## 4. Analysis Results (2026-06-11)
+
+### 4a. Control B — Shuffled-Pair Retrain (strongest result)
+
+Trained a new CrossCoder on randomly permuted ESM-Evo pairings (same data, broken biological correspondence).
+
+| | **Real pairs (seed 42)** | **Shuffled pairs** |
+|---|---|---|
+| Protein-private | 737 | 1199 |
+| DNA-private | 2780 | 2889 |
+| **Shared** | **355** | **5** |
+| Dead | 224 | 3 |
+
+**Shared features collapse from 355 → 5 when pairs are shuffled.** This proves cross-modal features require genuine protein-DNA correspondence and are not training artifacts.
+
+The shuffled model also shows: PP count increases (737→1199) because cross-modal signal is absent, so features that would have been shared become modality-private. Dead features drop (224→3) because the model doesn't waste capacity trying to align unrelated modalities.
+
+### 4b. ClinVar Feature Pathogenicity (Fisher exact + BH-FDR)
+
+Per-feature 2×2 test: (feature active vs inactive) × (pathogenic vs benign), with Haldane-Anscombe pseudo-count.
+
+| Category | N features tested | N FDR<0.05 | Median OR | Median log₂OR | Interpretation |
+|---|---|---|---|---|---|
+| **Shared** | 337 | 335 | **1.42** | **+0.51** | **Strongest pathogenic enrichment** |
+| Prot-private | 642 | 642 | 1.32 | +0.41 | Pathogenic enrichment |
+| DNA-private | 2507 | 2501 | 0.88 | -0.18 | **Benign enrichment** |
+
+Key insight: SH features (OR=1.42) are MORE pathogenicity-enriched than PP features (OR=1.32). Cross-modal signal is the strongest pathogenicity detector.
+
+DP features being benign-enriched (OR=0.88) makes biological sense: DNA conservation captures purifying selection at synonymous/near-synonymous sites — functional constraint without protein damage.
+
+### 4c. Control A — Inference-Time Shuffle
+
+Randomly permute ESM-Evo pairings at inference time (same trained model). Compare DMS Spearman.
+
+| | Real pairing | Shuffled pairing |
+|---|---|---|
+| Mean Spearman | 0.525 | 0.454 |
+| Median Spearman | 0.541 | 0.468 |
+| Paired t-test | t=15.06, p=2.1×10⁻³⁵ | |
+| % assays degraded | — | 89.3% |
+
+Real pairing provides significant predictive value over random pairing.
+
+### 4d. Gene Modality Profiles (3 normalizations)
+
+Per-assay activation mass decomposition into PP/DP/SH fractions.
+
+| Normalization | Prot frac | DNA frac | Shared frac |
+|---|---|---|---|
+| Raw mass | 0.583 | 0.393 | 0.024 |
+| Per-feature-mean | 0.785 | 0.148 | 0.067 |
+| Active-feature-normalized | 0.726 | 0.186 | 0.089 |
+
+Raw mass is misleading (DP has 3.8× more features). After normalizing per-feature, protein signal dominates (78.5%) with shared at 6.7%.
+
+### 4e. Seed Stability (4 seeds)
+
+| | **Seed 42** | **Seed 0** | **Seed 1** | **Seed 2** | **Mean±SD** |
+|---|---|---|---|---|---|
+| PP | 737 | 737 | 721 | 736 | 733±7.5 |
+| DP | 2780 | 2769 | 2763 | 2770 | 2771±7.3 |
+| SH | 355 | 352 | 376 | 327 | 353±20.2 |
+| Dead | 224 | 238 | 236 | 263 | 240±16.3 |
+| SH median OR | 1.42 | 1.40 | 1.37 | 1.33 | 1.38±0.04 |
+| PP median OR | 1.32 | 1.23 | 1.17 | 1.26 | 1.25±0.06 |
+| DP median OR | 0.88 | 0.88 | 0.89 | 0.86 | 0.88±0.01 |
+| Ctrl A t-stat | 15.1 | 13.4 | 13.9 | 13.7 | 14.0±0.7 |
+
+Feature counts are highly stable (PP CV=1%, DP CV=0.3%, SH CV=5.7%). ClinVar enrichment patterns are consistent: SH > PP > 1 > DP across all seeds.
+
+### 4f. Result Files
+
+| File | Location |
+|---|---|
+| Main analysis | `results/crosscoder_sae/analysis/analysis_summary.json` |
+| Control B (shuffled) | `results/crosscoder_sae_shuffled/analysis/analysis_summary.json` |
+| Seed stability | `results/crosscoder_seed_stability/seed_{0,1,2}/analysis/analysis_summary.json` |
+| Feature atlas | `results/crosscoder_sae/analysis/feature_atlas.json` (7.2MB, per-feature detail) |
+| ClinVar FDR | `results/crosscoder_sae/analysis/clinvar_feature_pathogenicity_fdr.csv` |
+| Gene profiles | `results/crosscoder_sae/analysis/gene_modality_profiles.csv` |
+
+---
+
+## 5. New/Modified Files Since Last GPT Pro Review (old section, kept for reference)
 
 ### Untracked scripts (need commit)
 
@@ -211,33 +297,41 @@ Randomly permute ESM-Evo pairings (break the biological correspondence), retrain
 
 ---
 
-## 5. Key Observations & Honest Assessment
+## 6. Key Observations & Honest Assessment (updated post-run)
 
 ### What works
 1. **CrossCoder architecture is stable**: 94% alive features, clean PP/DP/SH decomposition
 2. **ClinVar AUROC = 0.924**: CrossCoder sparse features beat PCA concat (0.913) by 1.1%
 3. **Modality decomposition is real**: PP importance +0.156, DP +0.029 — protein dominates but DNA contributes independently in 69% of assays
 4. **Gene-held-out = random**: No gene-level overfitting (0.924 vs 0.923)
+5. **Control B is extremely clean**: Shared features 355 → 5 on shuffled pairs. Cross-modal features are NOT artifacts.
+6. **ClinVar enrichment hierarchy**: SH (OR=1.42) > PP (OR=1.32) > 1 > DP (OR=0.88). Shared features are the STRONGEST pathogenicity signal.
+7. **Seed stability is tight**: Feature counts CV < 6%, ClinVar enrichment consistent across all 4 seeds.
+8. **Control A is significant**: t=15, p=2e-35 — real protein-DNA pairing matters for prediction.
 
 ### What doesn't work / concerns
 1. **DMS performance doesn't exceed raw ESM-2**: CrossCoder z (0.524) < raw ESM (0.535). The SAE is not a better representation for prediction.
-2. **Shared features are weak**: Only 346/4096 (8%), and SH importance = +0.007 (negligible). The "cross-modal" story is thin if shared features don't matter.
-3. **DNA-private features dominate count (68%) but not importance**: 2781 DP features but only +0.029 importance. Most DP features may be noise.
+2. **Shared features are few**: 355/4096 (9%). But they are the most pathogenicity-enriched — so "few but potent" may be the correct framing.
+3. **DNA-private features dominate count (68%) but not importance**: 2780 DP features but only +0.029 importance. Most DP features may be noise or redundant.
 4. **ClinVar sample is small and skewed**: Only 8.8K variants (8068 pathogenic, 763 benign). Extreme class imbalance. Need more ClinVar data.
-5. **No controls run yet**: The interpretability pipeline is built but not executed. No FDR, no seed stability, no shuffled-pair control.
+5. **SH DMS importance is negligible (+0.007)**: Despite SH having the highest ClinVar OR, ablating SH features barely affects DMS prediction. This tension needs explanation.
 
 ---
 
-## 6. Open Questions for GPT Pro
+## 7. Open Questions for GPT Pro (updated with new evidence)
 
-### Q1: Paper narrative — what story can we tell?
+### Q1: Paper narrative — UPDATED with new evidence
 
-The original plan was "cross-modal SAE reveals shared biological concepts between protein and DNA." But shared features are weak (8%, negligible importance). The actual finding is:
-- **Protein features dominate** (PP: 18% of features but +0.156 importance)
-- **DNA features are numerous but individually weak** (DP: 68% but +0.029)
-- **The decomposition itself is the contribution** — we can say per-variant, per-gene "how much of this effect is protein-driven vs DNA-driven"
+Previous concern: "shared features are weak (8%, negligible DMS importance)."
 
-Is this enough for a Nature Communications paper? Or do we need a stronger cross-modal signal?
+New evidence changes the picture:
+- **SH features have the highest ClinVar pathogenicity OR (1.42)** — more than PP (1.32)
+- **Control B proves SH features are real** (355 → 5 on shuffled pairs)
+- **SH are few (9%) but potent** — they capture the intersection of protein damage + DNA non-conservation
+
+**Proposed narrative update**: "Cross-modal sparse decomposition reveals that the most pathogenic variants activate features at the intersection of protein damage and DNA constraint. Though shared features are rare (9%), they are the strongest pathogenicity signal (OR=1.42 vs PP 1.32), and they require genuine cross-modal pairing to emerge (Control B: 355→5 on shuffled pairs)."
+
+**Tension to resolve**: SH features have highest ClinVar OR but negligible DMS ablation importance (+0.007). Possible explanation: DMS measures fitness effect (dominated by protein structure, hence PP), while ClinVar captures clinical pathogenicity (where cross-modal convergence adds independent evidence). These are different signals. Is this explanation convincing?
 
 ### Q2: Why so many DNA-private features?
 
@@ -272,10 +366,14 @@ d) Something else?
 
 ### Q5: Priority next experiments
 
-Given limited GPU time, what should we run first?
-- [ ] Interpretability pipeline (feature atlas + modality profiles + ClinVar pathogenicity)
-- [ ] Shuffled-pair control
-- [ ] Seed stability (5 random seeds)
+Completed:
+- [x] Interpretability pipeline (feature atlas + modality profiles + ClinVar pathogenicity)
+- [x] Shuffled-pair control (Control B)
+- [x] Seed stability (4 seeds: 42, 0, 1, 2)
+
+Remaining (per GPT Pro R3 priority):
+- [ ] DNA whitening ablation (train without Evo2 PCA whitening)
+- [ ] k=64 sweep (double the sparsity budget)
 - [ ] PCA/NMF/ICA baseline comparison
 - [ ] Larger CrossCoder (8192 features)
 - [ ] More ClinVar data (genome-wide extraction)
@@ -303,10 +401,13 @@ Should the CrossCoder paper include v6 as a **baseline** to show that the CrossC
 
 ---
 
-## 7. Suggested Next Steps (our opinion, pending GPT Pro feedback)
+## 8. Suggested Next Steps (pending GPT Pro R4 feedback)
 
-1. **Run interpretability pipeline** on current CrossCoder (ec812d0 code is ready)
-2. **Run shuffled-pair control** to validate modality decomposition is non-trivial
-3. **Compare CrossCoder features with v6 SAE features** — do we recover the same ion channel / RAS concepts?
-4. **Scale to 8192 features** with more ClinVar data
-5. **Write up modality decomposition as the core contribution**, not prediction improvement
+Steps 1-5 from GPT Pro R3 priority list are DONE. Remaining:
+
+1. **DNA whitening ablation**: Train CrossCoder without Evo2 PCA whitening to test if whitening inflates DP count
+2. **k=64 sweep**: Double sparsity budget — does it increase SH count and SH DMS importance?
+3. **Resolve SH tension**: Why do SH features have highest ClinVar OR but negligible DMS importance? Need per-gene analysis of SH activation patterns.
+4. **Scale to 8192 features + full ClinVar**: More capacity + more data to see if SH features grow
+5. **Deep dive on top SH features**: Biological annotation of top-10 SH features — what genes/domains/mechanisms do they capture?
+6. **Start writing**: Results from steps 1-5 (original priority list) may be sufficient for the core paper. GPT Pro should advise on whether scaling experiments are necessary or if current evidence is publication-ready.
