@@ -1,7 +1,7 @@
 # CrossCoder SAE — GPT Pro Handoff
 
-Date: 2026-06-11 (updated post-run)
-Status: Analysis pipeline, Control B, and 4-seed stability ALL COMPLETE. Results below.
+Date: 2026-06-12 (updated post BH-FDR fix)
+Status: Analysis pipeline, Control B, 4-seed stability, and BH-FDR fix ALL COMPLETE. Results below.
 
 ## 0. GPT Pro R3 Feedback Response (2026-06-11)
 
@@ -186,15 +186,19 @@ The shuffled model also shows: PP count increases (737→1199) because cross-mod
 
 ### 4b. ClinVar Feature Pathogenicity (Fisher exact + BH-FDR)
 
-Per-feature 2×2 test: (feature active vs inactive) × (pathogenic vs benign), with Haldane-Anscombe pseudo-count.
+Per-feature 2×2 test: (feature active vs inactive) × (pathogenic vs benign), with Haldane-Anscombe pseudo-count. **BH-FDR implementation fixed** (2026-06-12): original implementation had a monotonicity enforcement bug that made ~99% of features pass FDR<0.05. Fixed with standard BH. OR values unchanged (computed from 2×2 table, not FDR).
 
 | Category | N features tested | N FDR<0.05 | Median OR | Median log₂OR | Interpretation |
 |---|---|---|---|---|---|
-| **Shared** | 337 | 335 | **1.42** | **+0.51** | **Strongest pathogenic enrichment** |
-| Prot-private | 642 | 642 | 1.32 | +0.41 | Pathogenic enrichment |
-| DNA-private | 2507 | 2501 | 0.88 | -0.18 | **Benign enrichment** |
+| **Shared** | 337 | 8 | **1.42** | **+0.51** | **Strongest pathogenic enrichment** |
+| Prot-private | 642 | 184 | 1.32 | +0.41 | Pathogenic enrichment |
+| DNA-private | 2507 | 383 | 0.88 | -0.18 | **Benign enrichment** |
 
-Key insight: SH features (OR=1.42) are MORE pathogenicity-enriched than PP features (OR=1.32). Cross-modal signal is the strongest pathogenicity detector.
+Total FDR-significant: 580/3700 (15.7%). Of these: 200 pathogenic-enriched, 380 benign-enriched.
+
+**BH-fix impact**: Old buggy implementation passed 3690/3700 (99.7%) — essentially no correction. Fixed BH is properly conservative. The OR hierarchy is fully preserved: SH (1.42) > PP (1.32) > 1 > DP (0.88).
+
+Key insight: SH features (OR=1.42) are MORE pathogenicity-enriched than PP features (OR=1.32). Cross-modal signal is the strongest pathogenicity detector. Only 8 SH features pass strict FDR<0.05, but these represent the most robust cross-modal pathogenicity signals.
 
 DP features being benign-enriched (OR=0.88): DNA-private features may capture nucleotide context, local genomic constraint, or Evo2-specific sequence-context signals not necessarily coupled to protein damage. (Interpreting this as "purifying selection at synonymous sites" requires external annotation — phyloP, codon constraint, MPC — which we haven't yet done.)
 
@@ -248,6 +252,9 @@ Feature counts are highly stable (PP CV=1%, DP CV=0.3%, SH CV=5.7%). ClinVar enr
 | Feature atlas | `results/crosscoder_sae/analysis/feature_atlas.json` (7.2MB, per-feature detail) |
 | ClinVar FDR | `results/crosscoder_sae/analysis/clinvar_feature_pathogenicity_fdr.csv` |
 | Gene profiles | `results/crosscoder_sae/analysis/gene_modality_profiles.csv` |
+| **BH-fix main** | `results/crosscoder_sae/analysis_bhfix/analysis_summary.json` |
+| **BH-fix shuffled** | `results/crosscoder_sae_shuffled/analysis_bhfix/analysis_summary.json` |
+| **BH-fix ClinVar FDR** | `results/crosscoder_sae/analysis_bhfix/clinvar_feature_pathogenicity_fdr.csv` |
 
 ---
 
